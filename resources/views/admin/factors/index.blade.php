@@ -32,6 +32,9 @@
                             {{ trans('cruds.factor.fields.description') }}
                         </th>
                         <th>
+                            {{ trans('cruds.type.title') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -50,6 +53,13 @@
                             </td>
                             <td>
                                 {{ $factor->description ?? '' }}
+                            </td>
+                            <td>
+                                <ul>
+                                @foreach($factor->factor_types as $item)
+                                    <li>{{ $item->name }} (<strong>{{ $item->pivot->rate }}</strong>{{' €/min. '}})</li>
+                                @endforeach
+                                </ul>
                             </td>
                             <td>
                                 @can('factor_show')

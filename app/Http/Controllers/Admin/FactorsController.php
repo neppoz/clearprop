@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Factor;
+use App\Type;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyFactorRequest;
 use App\Http\Requests\StoreFactorRequest;
@@ -26,30 +27,51 @@ class FactorsController extends Controller
     {
         abort_if(Gate::denies('factor_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.factors.create');
+        $types = Type::all();
+
+        return view('admin.factors.create', compact('types'));
     }
 
     public function store(StoreFactorRequest $request)
     {
         $factor = Factor::create($request->all());
 
-        return redirect()->route('admin.factors.index');
+        $types = $request->input('types', []);
+        $rates = $request->input('rates', []);
+        for ($type=0; $type < count($types); $type++) {
+            if ($types[$type] != '') {
+                $factor->factor_types()->attach($types[$type], ['rate' => $rates[$type]]);
+            }
+        }
 
+        return redirect()->route('admin.factors.index');
     }
 
     public function edit(Factor $factor)
     {
         abort_if(Gate::denies('factor_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('admin.factors.edit', compact('factor'));
+        $types = Type::all();
+
+        $factor->load(['factor_types']);
+
+        return view('admin.factors.edit', compact('types', 'factor'));
     }
 
     public function update(UpdateFactorRequest $request, Factor $factor)
     {
         $factor->update($request->all());
 
-        return redirect()->route('admin.factors.index');
+        $factor->factor_types()->detach();
+        $types = $request->input('types', []);
+        $rates = $request->input('rates', []);
+        for ($type=0; $type < count($types); $type++) {
+            if ($types[$type] != '') {
+                $factor->factor_types()->attach($types[$type], ['rate' => $rates[$type]]);
+            }
+        }
 
+        return redirect()->route('admin.factors.index');
     }
 
     public function show(Factor $factor)
@@ -68,7 +90,6 @@ class FactorsController extends Controller
         $factor->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyFactorRequest $request)
@@ -76,6 +97,5 @@ class FactorsController extends Controller
         Factor::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
