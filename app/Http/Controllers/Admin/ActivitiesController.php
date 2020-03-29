@@ -130,7 +130,7 @@ class ActivitiesController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $types = Type::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $types = Type::where('active', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.activities.create', compact('users', 'copilots', 'instructors', 'planes', 'types'));
     }
@@ -155,7 +155,7 @@ class ActivitiesController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $types = Type::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $types = Type::where('active', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $activity->load('user', 'copilot', 'instructor', 'plane', 'type', 'created_by');
 

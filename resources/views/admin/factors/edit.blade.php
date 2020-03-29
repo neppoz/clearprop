@@ -26,6 +26,46 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.factor.fields.description_helper') }}</span>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table" id="types_table">
+                        <thead>
+                            <tr>
+                                <th>{{ trans('cruds.type.title_select') }}</th>
+                                <th>{{ trans('cruds.type.title_price') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($factor->factor_types as $factor_type)
+                        <tr id="type{{ $loop->index }}">
+                            <td>
+                                <select name="types[]" class="form-control">
+                                    <option value="">{{ trans('cruds.type.title_select') }}</option>
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->id }}"
+                                            @if ($factor_type->id == $type->id) selected @endif
+                                        >{{ $type->name }} (${{ number_format($type->rate, 2) }})</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" name="rates[]" class="form-control"
+                                        value="{{ $factor_type->pivot->rate }}" />
+                            </td>
+                        </tr>
+                        @endforeach
+                        <tr id="product{{ $factor->factor_types->count() }}"></tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row mt-2">
+                        <div class="col-md-12 text-right">
+                            <button id="add_row" class="btn btn-default pull-left">+ Add row</button>
+                            <button id='delete_row' class="pull-right btn btn-danger">- Delete row</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
@@ -37,4 +77,27 @@
 
 
 
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function(){
+        let row_number = 1;
+        $("#add_row").click(function(e){
+            e.preventDefault();
+                let new_row_number = row_number - 1;
+                $('#type' + row_number).html($('#type' + new_row_number).html()).find('td:first-child');
+                $('#types_table').append('');
+                row_number++;
+            });
+
+        $("#delete_row").click(function(e){
+            e.preventDefault();
+                if(row_number > 1){
+                    $("#type" + (row_number - 1)).html('');
+                    row_number--;
+                }
+        });
+    });
+</script>
 @endsection

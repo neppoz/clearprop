@@ -39,6 +39,18 @@
                             {{ $factor->description }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.type.title') }}
+                        </th>
+                        <td>
+                            <ul>
+                                @foreach($factor->factor_types as $item)
+                                    <li>{{ $item->name }} (<strong>{{ $item->pivot->rate }}</strong>{{' €/min. '}})</li>
+                                @endforeach
+                            </ul>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
