@@ -1,0 +1,38 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Factor extends Model
+{
+    use SoftDeletes;
+
+    public $table = 'factors';
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected $fillable = [
+        'name',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'description',
+    ];
+
+    public function factorUsers()
+    {
+        return $this->hasMany(User::class, 'factor_id', 'id');
+
+    }
+
+    public function factor_types()
+    {
+        return $this->belongsToMany(Type::class)->withPivot(['rate','description']);
+    }
+}
