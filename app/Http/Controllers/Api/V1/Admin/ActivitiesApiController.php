@@ -36,7 +36,8 @@ class ActivitiesApiController extends Controller
     {
         abort_if(Gate::denies('activity_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ActivityResource($activity->load(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by']));
+        return new ActivityResource($activity->load(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
+            ->where('user_id', auth()->user()->id)->get());
 
     }
 
