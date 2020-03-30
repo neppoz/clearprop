@@ -18,7 +18,9 @@ class ActivitiesApiController extends Controller
         abort_if(Gate::denies('activity_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ActivityResource(Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
-            ->where('user_id', auth()->user()->id)->get());
+            ->where('user_id', auth()->user()->id)
+            ->get()
+        );
 
     }
 
@@ -36,8 +38,10 @@ class ActivitiesApiController extends Controller
     {
         abort_if(Gate::denies('activity_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ActivityResource($activity->load(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
-            ->where('user_id', auth()->user()->id)->get());
+        return new ActivityResource(Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
+            ->where('user_id', auth()->user()->id)
+            ->get()
+        );
 
     }
 
