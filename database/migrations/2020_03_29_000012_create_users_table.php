@@ -19,9 +19,9 @@ class CreateUsersTable extends Migration
             $table->date('medical_due')->nullable();
             $table->string('license')->nullable();
             $table->string('lang')->nullable();
+            $table->longText('params')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 }

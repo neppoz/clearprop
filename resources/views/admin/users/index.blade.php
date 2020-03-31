@@ -53,6 +53,9 @@
                             {{ trans('cruds.user.fields.lang') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.params') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <th>
@@ -98,6 +101,9 @@
                             </td>
                             <td>
                                 {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
+                            </td>
+                            <td>
+                                {{ $user->params ?? '' }}
                             </td>
                             <td>
                                 {{ $user->email_verified_at ?? '' }}
