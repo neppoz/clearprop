@@ -103,6 +103,14 @@
                 <span class="help-block">{{ trans('cruds.user.fields.lang_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="params">{{ trans('cruds.user.fields.params') }}</label>
+                <textarea class="form-control {{ $errors->has('params') ? 'is-invalid' : '' }}" name="params" id="params">{{ old('params', $user->params) }}</textarea>
+                @if($errors->has('params'))
+                    <span class="text-danger">{{ $errors->first('params') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.params_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

@@ -91,6 +91,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.params') }}
+                        </th>
+                        <td>
+                            {{ $user->params }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <td>
