@@ -252,6 +252,23 @@ return [
     'activityReport'     => [
         'title'          => 'Monthly Report',
         'title_singular' => 'Monthly Report',
+        'fields'         => [
+            'activityfrom'          => 'Date from',
+            'activityfrom_helper'   => 'Begin report',
+            'activityto'            => 'Date to',
+            'activityto_helper'     => 'End report',
+            'reportname'            => 'Name of the report',
+            'reportname_helper'     => 'Ex.: 2020-02-01_Reportname_Pilotname',
+            'generateReport'        => 'Generate report and send',
+        ],
+        'reports'         => [
+            'activityReportSummary'   => 'Monthly Total',
+            'activityReportByUser'    => 'Totals by Member',
+            'activityByUser'          => 'Member Name',
+            'activityByMinutes'       => 'Minutes Total',
+            'amount'   =>'Total Amount',
+            'totaltime'   =>'Total Hours',
+        ],
     ],
     'expenseManagement'  => [
         'title'          => 'Expense Management',
