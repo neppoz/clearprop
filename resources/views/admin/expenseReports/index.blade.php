@@ -15,6 +15,7 @@
                             </option>
                         @endforeach
                     </select>
+                    <span class="help-block pl-2 text-muted">{{ $fromSelectedDate }}</span>
                 </div>
                 <div class="col-3 form-group">
                     <label class="control-label" for="m">{{ trans('global.month') }}</label>
@@ -25,6 +26,7 @@
                             </option>
                         @endforeach
                     </select>
+                    <span class="help-block pl-2 text-muted">{{ $toSelectedDate }}</span>
                 </div>
                 <div class="col-4">
                     <label class="control-label">&nbsp;</label><br>
