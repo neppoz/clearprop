@@ -15,14 +15,20 @@ class ActivityReportController extends Controller
     {
         abort_if(Gate::denies('activity_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $from = Carbon::parse(sprintf(
+        $fromMonth = Carbon::parse(sprintf(
             '%s-%s-01',
             request()->query('y', Carbon::now()->year),
             request()->query('m', Carbon::now()->month)
         ));
-        $to      = clone $from;
+        $from = Carbon::parse(sprintf(
+            '%s-01-01',
+            request()->query('y', Carbon::now()->year)
+        ));
+        $to      = clone $fromMonth;
         $to->day = $to->daysInMonth;
 
+        $fromSelectedDate = Carbon::parse($from)->format(config('panel.date_format'));
+        $toSelectedDate = Carbon::parse($to)->format(config('panel.date_format'));
 
         $activities = Activity::with(['user'])
             ->whereBetween('event', [$from, $to]);
@@ -51,7 +57,9 @@ class ActivityReportController extends Controller
         return view('admin.activityReports.index', compact(
             'activitiesSummary',
             'activityTotalTime',
-            'activityAmount'
+            'activityAmount',
+            'fromSelectedDate',
+            'toSelectedDate'
         ));
     }
 }

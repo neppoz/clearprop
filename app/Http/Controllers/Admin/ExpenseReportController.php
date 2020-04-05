@@ -11,13 +11,20 @@ class ExpenseReportController extends Controller
 {
     public function index()
     {
-        $from = Carbon::parse(sprintf(
+        $fromMonth = Carbon::parse(sprintf(
             '%s-%s-01',
             request()->query('y', Carbon::now()->year),
             request()->query('m', Carbon::now()->month)
         ));
-        $to      = clone $from;
+        $from = Carbon::parse(sprintf(
+            '%s-01-01',
+            request()->query('y', Carbon::now()->year)
+        ));
+        $to      = clone $fromMonth;
         $to->day = $to->daysInMonth;
+
+        $fromSelectedDate = Carbon::parse($from)->format(config('panel.date_format'));
+        $toSelectedDate = Carbon::parse($to)->format(config('panel.date_format'));
 
         $expenses = Expense::with('expense_category')
             ->whereBetween('entry_date', [$from, $to]);
@@ -68,7 +75,9 @@ class ExpenseReportController extends Controller
             'incomesSummary',
             'expensesTotal',
             'incomesTotal',
-            'profit'
+            'profit',
+            'fromSelectedDate',
+            'toSelectedDate'
         ));
 
     }

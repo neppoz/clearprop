@@ -23,7 +23,6 @@ class UsersReportController extends Controller
 
         $from = Carbon::createFromFormat(config('panel.date_format'), $request->activityfrom)->format('Y-m-d');
         $to = Carbon::createFromFormat(config('panel.date_format'), $request->activityto)->format('Y-m-d');
-        $reportname = $request->reportname;
 
         $usersWithActivities = User::whereHas('userActivities', function ($query) use($from, $to){
             $query->whereBetween('event', [$from, $to]);
@@ -36,7 +35,7 @@ class UsersReportController extends Controller
                 ->get();
             $to_addr = $user_details[0]->email;
             $to_name = $user_details[0]->name;
-            $report_name = $to.'_'.$reportname.'_'.$to_name.'_'.uniqid();
+            $report_name = $to.'_'.$to_name.'_'.uniqid();
             $path = storage_path('tmp/reports');
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
