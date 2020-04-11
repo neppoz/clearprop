@@ -30,34 +30,69 @@ class ActivityReportController extends Controller
         $fromSelectedDate = Carbon::parse($from)->format(config('panel.date_format'));
         $toSelectedDate = Carbon::parse($to)->format(config('panel.date_format'));
 
-        $activities = Activity::with(['user'])
+        $activities = Activity::with(['user', 'type', 'plane'])
             ->whereBetween('event', [$from, $to]);
 
-        $activityAmount = $activities->sum('amount');
-        $activityMinutes = $activities->sum('minutes');
-        $activityTotalTime = intval($activityMinutes / 60) .':'. $activityMinutes%60;
-        $groupedActivities = $activities->whereNotNull('user_id')->orderBy('minutes', 'desc')->get()->groupBy('user_id');
+        $activityTotalMinutes = $activities->sum('minutes');
+        $activityTotalTime = intval($activityTotalMinutes / 60) .':'. $activityTotalMinutes%60;
 
-        $activitiesSummary = [];
+        /* Activity by member */
+        $groupedUserActivities = $activities->whereNotNull('user_id')->orderBy('minutes', 'desc')->get()->groupBy('user_id');
+        $activitiesUserSummary = [];
 
-        foreach ($groupedActivities as $act) {
+        foreach ($groupedUserActivities as $act) {
             foreach ($act as $line) {
-                if (!isset($activitiesSummary[$line->user->name])) {
-                    $activitiesSummary[$line->user->name] = [
+                if (!isset($activitiesUserSummary[$line->user->name])) {
+                    $activitiesUserSummary[$line->user->name] = [
                         'name'   => $line->user->name,
+                        'minutes' => 0
+                    ];
+                }
+
+                $activitiesUserSummary[$line->user->name]['minutes'] += $line->minutes;
+            }
+        }
+
+        /* Activity by type */
+        $groupedTypeActivities = $activities->whereNotNull('type_id')->orderBy('minutes', 'desc')->get()->groupBy('type_id');
+        $activitiesTypeSummary = [];
+
+        foreach ($groupedTypeActivities as $act) {
+            foreach ($act as $line) {
+                if (!isset($activitiesTypeSummary[$line->type->name])) {
+                    $activitiesTypeSummary[$line->type->name] = [
+                        'name'   => $line->type->name,
                         'minutes' => 0,
                     ];
                 }
 
-                $activitiesSummary[$line->user->name]['minutes'] += $line->minutes;
+                $activitiesTypeSummary[$line->type->name]['minutes'] += $line->minutes;
             }
         }
 
+        /* Activity by plane */
+        $groupedPlaneActivities = $activities->whereNotNull('plane_id')->orderBy('minutes', 'desc')->get()->groupBy('plane_id');
+        $activitiesPlaneSummary = [];
+
+        foreach ($groupedPlaneActivities as $act) {
+            foreach ($act as $line) {
+                if (!isset($activitiesPlaneSummary[$line->plane->callsign])) {
+                    $activitiesPlaneSummary[$line->plane->callsign] = [
+                        'callsign'   => $line->plane->callsign,
+                        'minutes' => 0,
+                    ];
+                }
+
+                $activitiesPlaneSummary[$line->plane->callsign]['minutes'] += $line->minutes;
+            }
+        }
 
         return view('admin.activityReports.index', compact(
-            'activitiesSummary',
+            'activitiesUserSummary',
+            'activitiesTypeSummary',
+            'activitiesPlaneSummary',
+            'activityTotalMinutes',
             'activityTotalTime',
-            'activityAmount',
             'fromSelectedDate',
             'toSelectedDate'
         ));
