@@ -88,4 +88,5 @@ class UsersReportController extends Controller
         return back();
 
     }
+
 }

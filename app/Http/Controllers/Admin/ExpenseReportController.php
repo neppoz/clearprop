@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
+use App\Activity;
 use App\Expense;
 use App\Http\Controllers\Controller;
 use App\Income;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseReportController extends Controller
 {
@@ -70,12 +74,50 @@ class ExpenseReportController extends Controller
 
         }
 
+        /* Overdue payment members */
+        $overdueMembers = DB::select(DB::raw("
+            SELECT
+                u.id,
+                u.name,
+                COALESCE(suminc, 0) AS suminc,
+                COALESCE(sumact, 0) AS sumact,
+                COALESCE(suminc, 0) - COALESCE(sumact, 0) AS total
+            FROM
+                clearprop.users u
+                    LEFT JOIN
+                (SELECT
+                    user_id, SUM(amount) AS sumact
+                FROM
+                    clearprop.activities a
+                WHERE
+                    a.event BETWEEN (:activityfrom) AND (:activityto)
+                GROUP BY a.user_id) a ON u.id = a.user_id
+                    LEFT JOIN
+                (SELECT
+                    user_id, SUM(amount) AS suminc
+                FROM
+                    clearprop.incomes i
+                INNER JOIN clearprop.income_categories ic ON i.income_category_id = ic.id
+                WHERE
+                    i.entry_date BETWEEN (:incomefrom) AND (:incometo)
+                        AND ic.deposit = 1
+                GROUP BY i.user_id) i ON u.id = i.user_id
+            ORDER BY total ASC
+        "), array(
+            'activityfrom' => $from,
+            'activityto'   => $to,
+            'incomefrom'   => $from,
+            'incometo'     => $to
+        ));
+
+
         return view('admin.expenseReports.index', compact(
             'expensesSummary',
             'incomesSummary',
             'expensesTotal',
             'incomesTotal',
             'profit',
+            'overdueMembers',
             'fromSelectedDate',
             'toSelectedDate'
         ));

@@ -91,6 +91,34 @@
         </div>
 
     </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>{{ trans('cruds.expenseReport.reports.membername') }}</th>
+                        <th>{{ trans('cruds.expenseReport.reports.sumactivity') }}</th>
+                        <th>{{ trans('cruds.expenseReport.reports.sumincome') }}</th>
+                        <th>{{ trans('cruds.expenseReport.reports.sumtotal') }}</th>
+                    </tr>
+                    @foreach($overdueMembers as $member)
+                        @if($member->total != 0)
+                        <tr>
+                            <td>{{ $member->name }}</td>
+                            <td>{{ number_format($member->sumact, 2) }}</td>
+                            <td>{{ number_format($member->suminc, 2) }}</td>
+                            @if($member->total < 0)
+                                <th class="text-danger">{{ number_format($member->total, 2) }}</th>
+                            @else
+                                <td class="text-success">{{ number_format($member->total, 2) }}</td>
+                            @endif
+                        </tr>
+                        @endif
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 
