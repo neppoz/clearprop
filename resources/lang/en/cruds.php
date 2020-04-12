@@ -373,6 +373,10 @@ return [
             'income'            => 'Income',
             'expense'           => 'Expense',
             'profit'            => 'Profit',
+            'membername'        => 'Member',
+            'sumactivity'       => 'Activities(€)',
+            'sumincome'         => 'Deposits(€)',
+            'sumtotal'         => 'Balance(€)',
         ],
     ],
 ];
