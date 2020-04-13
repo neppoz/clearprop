@@ -3,41 +3,14 @@
 <div class="row">
     <div class="col">
         <h3 class="page-title">{{ trans('cruds.expenseReport.reports.title') }}</h3>
-
-        <form method="get">
-            <div class="row">
-                <div class="col-3 form-group">
-                    <label class="control-label" for="y">{{ trans('global.year') }}</label>
-                    <select name="y" id="y" class="form-control">
-                        @foreach(array_combine(range(date("Y"), 1900), range(date("Y"), 1900)) as $year)
-                            <option value="{{ $year }}" @if($year===old('y', Request::get('y', date('Y')))) selected @endif>
-                                {{ $year }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <span class="help-block pl-2 text-muted">{{ $fromSelectedDate }}</span>
-                </div>
-                <div class="col-3 form-group">
-                    <label class="control-label" for="m">{{ trans('global.month') }}</label>
-                    <select name="m" for="m" class="form-control">
-                        @foreach(cal_info(0)['months'] as $month)
-                            <option value="{{ $month }}" @if($month===old('m', Request::get('m', date('F')))) selected @endif>
-                                {{ $month }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <span class="help-block pl-2 text-muted">{{ $toSelectedDate }}</span>
-                </div>
-                <div class="col-3">
-                    <label class="control-label">&nbsp;</label><br>
-                    <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
-                </div>
-                <div class="col-3">
-                    <label class="control-label">&nbsp;</label><br>
-                    <button class="btn btn-warning float-right" name="pdf" value="true" type="submit">{{ trans('global.pdf') }}</button>
-                </div>
+        <div class="row">
+            <div class="col-3 form-group">
+                <span class="help-block pl-2 text-muted">{{ $fromSelectedDate }}</span>
             </div>
-        </form>
+            <div class="col-3 form-group">
+                <span class="help-block pl-2 text-muted">{{ $toSelectedDate }}</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -129,13 +102,3 @@
 
 @endsection
 
-@section('scripts')
-@parent
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.js"></script>
-<script>
-    $('.date').datepicker({
-        autoclose: true,
-        dateFormat: "{{ config('panel.date_format_js') }}"
-      })
-</script>
-@stop

@@ -10,6 +10,7 @@ use App\Income;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use VerumConsilium\Browsershot\Facades\PDF;
 
 class ExpenseReportController extends Controller
 {
@@ -110,17 +111,25 @@ class ExpenseReportController extends Controller
             'incometo'     => $to
         ));
 
+        $data = compact('expensesSummary',
+                        'incomesSummary',
+                        'expensesTotal',
+                        'incomesTotal',
+                        'profit',
+                        'overdueMembers',
+                        'fromSelectedDate',
+                        'toSelectedDate'
+                    );
 
-        return view('admin.expenseReports.index', compact(
-            'expensesSummary',
-            'incomesSummary',
-            'expensesTotal',
-            'incomesTotal',
-            'profit',
-            'overdueMembers',
-            'fromSelectedDate',
-            'toSelectedDate'
-        ));
+        /* download pdf button */
+        if(request()->query('pdf')) {
+            return PDF::loadView('admin.expenseReports.pdf',$data)
+                ->format('A4')
+                ->showBackground()
+                ->download();
+        }
+
+        return view('admin.expenseReports.index', $data);
 
     }
 
