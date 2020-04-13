@@ -20,6 +20,8 @@
         "nuovo/spreadsheet-reader": "^0.5.11",
         "realrashid/sweet-alert": "^3.1",
         "snowfire/beautymail": "^1.1",
+        "spatie/browsershot": "^3.35",
+        "verumconsilium/laravel-browsershot": "^1.1",
         "yajra/laravel-datatables-oracle": "^9.7"
     },
     "require-dev": {

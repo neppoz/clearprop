@@ -65,7 +65,7 @@
                         <span class="help-block">{{ trans('cruds.activityReport.fields.reportname_helper') }}</span> --}}
 
                         {{-- <label class="control-label col">&nbsp;</label><br> --}}
-                        <button class="btn btn-danger" type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
+                        <button class="btn btn-warning" type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
                     </div>
                 </div>
             </div>
