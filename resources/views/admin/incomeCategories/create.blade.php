@@ -18,10 +18,13 @@
                 <span class="help-block">{{ trans('cruds.incomeCategory.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
-                <div class="form-check {{ $errors->has('deposit') ? 'is-invalid' : '' }}">
-                    <input class="form-check-input" type="checkbox" name="deposit" id="deposit" value="1" required {{ old('deposit', 0) == 1 ? 'checked' : '' }}>
-                    <label class="required form-check-label" for="deposit">{{ trans('cruds.incomeCategory.fields.deposit') }}</label>
-                </div>
+                <label class="required">{{ trans('cruds.incomeCategory.fields.deposit') }}</label>
+                @foreach(App\IncomeCategory::DEPOSIT_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('deposit') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="deposit_{{ $key }}" name="deposit" value="{{ $key }}" {{ old('deposit', '0') === (string) $key ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="deposit_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
                 @if($errors->has('deposit'))
                     <span class="text-danger">{{ $errors->first('deposit') }}</span>
                 @endif

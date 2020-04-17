@@ -49,8 +49,7 @@
                                 {{ $incomeCategory->name ?? '' }}
                             </td>
                             <td>
-                                <span style="display:none">{{ $incomeCategory->deposit ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $incomeCategory->deposit ? 'checked' : '' }}>
+                                {{ App\IncomeCategory::DEPOSIT_RADIO[$incomeCategory->deposit] ?? '' }}
                             </td>
                             <td>
                                 @can('income_category_show')
