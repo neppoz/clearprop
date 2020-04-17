@@ -35,6 +35,18 @@
                 <span class="help-block">{{ trans('cruds.activity.fields.copilot_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
+                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
+                    @foreach($types as $id => $type)
+                        <option value="{{ $id }}" {{ ($activity->type ? $activity->type->id : old('type_id')) == $id ? 'selected' : '' }}>{{ $type }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="instructor_id">{{ trans('cruds.activity.fields.instructor') }}</label>
                 <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id">
                     @foreach($instructors as $id => $instructor)
@@ -59,40 +71,12 @@
                 <span class="help-block">{{ trans('cruds.activity.fields.plane_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
-                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
-                    @foreach($types as $id => $type)
-                        <option value="{{ $id }}" {{ ($activity->type ? $activity->type->id : old('type_id')) == $id ? 'selected' : '' }}>{{ $type }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('type'))
-                    <span class="text-danger">{{ $errors->first('type') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="event">{{ trans('cruds.activity.fields.event') }}</label>
                 <input class="form-control date {{ $errors->has('event') ? 'is-invalid' : '' }}" type="text" name="event" id="event" value="{{ old('event', $activity->event) }}" required>
                 @if($errors->has('event'))
                     <span class="text-danger">{{ $errors->first('event') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.activity.fields.event_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="event_start">{{ trans('cruds.activity.fields.event_start') }}</label>
-                <input class="form-control timepicker {{ $errors->has('event_start') ? 'is-invalid' : '' }}" type="text" name="event_start" id="event_start" value="{{ old('event_start', $activity->event_start) }}">
-                @if($errors->has('event_start'))
-                    <span class="text-danger">{{ $errors->first('event_start') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.event_start_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="event_stop">{{ trans('cruds.activity.fields.event_stop') }}</label>
-                <input class="form-control timepicker {{ $errors->has('event_stop') ? 'is-invalid' : '' }}" type="text" name="event_stop" id="event_stop" value="{{ old('event_stop', $activity->event_stop) }}">
-                @if($errors->has('event_stop'))
-                    <span class="text-danger">{{ $errors->first('event_stop') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.event_stop_helper') }}</span>
             </div>
             <div class="form-group">
                 <div class="form-check {{ $errors->has('engine_warmup') ? 'is-invalid' : '' }}">
@@ -144,6 +128,22 @@
                     <span class="text-danger">{{ $errors->first('arrival') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.activity.fields.arrival_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="event_start">{{ trans('cruds.activity.fields.event_start') }}</label>
+                <input class="form-control timepicker {{ $errors->has('event_start') ? 'is-invalid' : '' }}" type="text" name="event_start" id="event_start" value="{{ old('event_start', $activity->event_start) }}">
+                @if($errors->has('event_start'))
+                    <span class="text-danger">{{ $errors->first('event_start') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.activity.fields.event_start_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="event_stop">{{ trans('cruds.activity.fields.event_stop') }}</label>
+                <input class="form-control timepicker {{ $errors->has('event_stop') ? 'is-invalid' : '' }}" type="text" name="event_stop" id="event_stop" value="{{ old('event_stop', $activity->event_stop) }}">
+                @if($errors->has('event_stop'))
+                    <span class="text-danger">{{ $errors->first('event_stop') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.activity.fields.event_stop_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

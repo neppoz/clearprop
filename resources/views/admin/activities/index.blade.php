@@ -37,13 +37,7 @@
                         {{ trans('cruds.activity.fields.plane') }}
                     </th>
                     <th>
-                        {{ trans('cruds.activity.fields.counter_start') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.counter_stop') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.warmup_minutes') }}
+                        {{ trans('cruds.activity.fields.engine_warmup') }}
                     </th>
                     <th>
                         {{ trans('cruds.activity.fields.minutes') }}
@@ -51,41 +45,6 @@
                     <th>
                         {{ trans('cruds.activity.fields.amount') }}
                     </th>
-                    {{-- <th>
-                        {{ trans('cruds.activity.fields.copilot') }}
-                    </th> --}}
-                    {{-- <th>
-                        {{ trans('cruds.activity.fields.instructor') }}
-                    </th> --}}
-
-                    {{-- <th>
-                        {{ trans('cruds.plane.fields.model') }}
-                    </th> --}}
-
-                    {{-- <th>
-                        {{ trans('cruds.type.fields.active') }}
-                    </th> --}}
-                    {{-- <th>
-                        {{ trans('cruds.activity.fields.event_start') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.event_stop') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.engine_warmup') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.warmup_start') }}
-                    </th> --}}
-                    {{-- <th>
-                        {{ trans('cruds.activity.fields.rate') }}
-                    </th> --}}
-                    {{-- <th>
-                        {{ trans('cruds.activity.fields.departure') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.arrival') }}
-                    </th> --}}
                     <th>
                         &nbsp;
                     </th>
@@ -147,23 +106,9 @@
 { data: 'type_name', name: 'type.name' },
 { data: 'user_name', name: 'user.name' },
 { data: 'plane_callsign', name: 'plane.callsign' },
-{ data: 'counter_start', name: 'counter_start' },
-{ data: 'counter_stop', name: 'counter_stop' },
-{ data: 'warmup_minutes', name: 'warmup_minutes' },
+{ data: 'engine_warmup', name: 'engine_warmup' },
 { data: 'minutes', name: 'minutes' },
 { data: 'amount', name: 'amount' },
-
-// { data: 'copilot_name', name: 'copilot.name' },
-// { data: 'instructor_name', name: 'instructor.name' },
-// { data: 'plane.model', name: 'plane.model' },
-// { data: 'type.active', name: 'type.active' },
-// { data: 'event_start', name: 'event_start' },
-// { data: 'event_stop', name: 'event_stop' },
-// { data: 'engine_warmup', name: 'engine_warmup' },
-// { data: 'warmup_start', name: 'warmup_start' },
-// { data: 'rate', name: 'rate' },
-// { data: 'departure', name: 'departure' },
-// { data: 'arrival', name: 'arrival' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
