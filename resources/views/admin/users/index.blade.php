@@ -32,31 +32,13 @@
                             {{ trans('cruds.user.fields.email') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.lang') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.factor') }}
                         </th>
                         <th>
                             {{ trans('cruds.factor.fields.description') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.instructor') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.license') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.medical_due') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.roles') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.lang') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.params') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
                         </th>
                         <th>
                             &nbsp;
@@ -79,34 +61,13 @@
                                 {{ $user->email ?? '' }}
                             </td>
                             <td>
+                                {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
+                            </td>
+                            <td>
                                 {{ $user->factor->name ?? '' }}
                             </td>
                             <td>
                                 {{ $user->factor->description ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $user->instructor ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $user->instructor ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                {{ $user->license ?? '' }}
-                            </td>
-                            <td>
-                                {{ $user->medical_due ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($user->roles as $key => $item)
-                                    <span class="badge badge-info">{{ $item->title }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
-                            </td>
-                            <td>
-                                {{ $user->params ?? '' }}
-                            </td>
-                            <td>
-                                {{ $user->email_verified_at ?? '' }}
                             </td>
                             <td>
                                 @can('user_show')

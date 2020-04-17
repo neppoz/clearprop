@@ -41,18 +41,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.factor') }}
+                            {{ trans('cruds.user.fields.lang') }}
                         </th>
                         <td>
-                            {{ $user->factor->name ?? '' }}
+                            {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.instructor') }}
+                            {{ trans('cruds.user.fields.factor') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $user->instructor ? 'checked' : '' }}>
+                            {{ $user->factor->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -83,18 +83,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.user.fields.lang') }}
+                            {{ trans('cruds.user.fields.instructor') }}
                         </th>
                         <td>
-                            {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.user.fields.params') }}
-                        </th>
-                        <td>
-                            {{ $user->params }}
+                            <input type="checkbox" disabled="disabled" {{ $user->instructor ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>

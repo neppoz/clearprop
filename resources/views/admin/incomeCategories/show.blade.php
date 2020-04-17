@@ -36,7 +36,7 @@
                             {{ trans('cruds.incomeCategory.fields.deposit') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $incomeCategory->deposit ? 'checked' : '' }}>
+                            {{ App\IncomeCategory::DEPOSIT_RADIO[$incomeCategory->deposit] ?? '' }}
                         </td>
                     </tr>
                 </tbody>

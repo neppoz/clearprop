@@ -2,8 +2,8 @@
 
 return [
     'userManagement'     => [
-        'title'          => 'User management',
-        'title_singular' => 'User management',
+        'title'          => 'Member management',
+        'title_singular' => 'Member management',
     ],
     'permission'         => [
         'title'          => 'Permissions',
@@ -40,8 +40,8 @@ return [
         ],
     ],
     'user'               => [
-        'title'          => 'Users',
-        'title_singular' => 'User',
+        'title'          => 'Members',
+        'title_singular' => 'Member',
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
@@ -276,8 +276,8 @@ return [
         ],
     ],
     'expenseManagement'  => [
-        'title'          => 'Expense Management',
-        'title_singular' => 'Expense Management',
+        'title'          => 'Finance Management',
+        'title_singular' => 'Finance Management',
     ],
     'expenseCategory'    => [
         'title'          => 'Expense Categories',
@@ -309,7 +309,7 @@ return [
             'updated_at_helper' => '',
             'deleted_at'        => 'Deleted At',
             'deleted_at_helper' => '',
-            'deposit'           => 'Deposit',
+            'deposit'           => 'Type',
             'deposit_helper'    => 'Please indicate if it is a fee or a deposit for activities',
         ],
     ],
@@ -362,8 +362,8 @@ return [
         ],
     ],
     'expenseReport'      => [
-        'title'          => 'Expense report',
-        'title_singular' => 'Expense report',
+        'title'          => 'Finance report',
+        'title_singular' => 'Finance report',
         'reports'        => [
             'title'             => 'Reports',
             'title_singular'    => 'Report',

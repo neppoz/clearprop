@@ -17,6 +17,11 @@ class IncomeCategory extends Model
         'deleted_at',
     ];
 
+    const DEPOSIT_RADIO = [
+        '0' => 'Fee',
+        '1' => 'Activity deposit',
+    ];
+
     protected $fillable = [
         'name',
         'deposit',
