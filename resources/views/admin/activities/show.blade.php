@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.activity.fields.type') }}
+                        </th>
+                        <td>
+                            {{ $activity->type->name ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.activity.fields.instructor') }}
                         </th>
                         <td>
@@ -57,34 +65,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.activity.fields.type') }}
-                        </th>
-                        <td>
-                            {{ $activity->type->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.activity.fields.event') }}
                         </th>
                         <td>
                             {{ $activity->event }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.activity.fields.event_start') }}
-                        </th>
-                        <td>
-                            {{ $activity->event_start }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.activity.fields.event_stop') }}
-                        </th>
-                        <td>
-                            {{ $activity->event_stop }}
                         </td>
                     </tr>
                     <tr>
@@ -105,14 +89,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.activity.fields.warmup_minutes') }}
-                        </th>
-                        <td>
-                            {{ $activity->warmup_minutes }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.activity.fields.counter_start') }}
                         </th>
                         <td>
@@ -125,6 +101,46 @@
                         </th>
                         <td>
                             {{ $activity->counter_stop }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.departure') }}
+                        </th>
+                        <td>
+                            {{ $activity->departure }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.arrival') }}
+                        </th>
+                        <td>
+                            {{ $activity->arrival }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.event_start') }}
+                        </th>
+                        <td>
+                            {{ $activity->event_start }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.event_stop') }}
+                        </th>
+                        <td>
+                            {{ $activity->event_stop }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.warmup_minutes') }}
+                        </th>
+                        <td>
+                            {{ $activity->warmup_minutes }}
                         </td>
                     </tr>
                     <tr>
@@ -149,22 +165,6 @@
                         </th>
                         <td>
                             {{ $activity->amount }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.activity.fields.departure') }}
-                        </th>
-                        <td>
-                            {{ $activity->departure }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.activity.fields.arrival') }}
-                        </th>
-                        <td>
-                            {{ $activity->arrival }}
                         </td>
                     </tr>
                 </tbody>
