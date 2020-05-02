@@ -13,6 +13,11 @@ class Activity extends Model
 
     public $table = 'activities';
 
+    const SPLIT_COST_RADIO = [
+        '0' => 'No split',
+        '1' => '50-50',
+    ];
+
     protected $dates = [
         'event',
         'created_at',
@@ -21,75 +26,68 @@ class Activity extends Model
     ];
 
     protected $fillable = [
-        'rate',
-        'event',
-        'amount',
         'user_id',
-        'arrival',
         'type_id',
-        'minutes',
-        'plane_id',
-        'departure',
-        'created_at',
+        'split_cost',
         'copilot_id',
-        'event_stop',
-        'deleted_at',
-        'updated_at',
-        'event_start',
-        'warmup_start',
-        'counter_stop',
-        'counter_start',
         'instructor_id',
+        'plane_id',
+        'event',
         'engine_warmup',
-        'created_by_id',
+        'warmup_start',
+        'counter_start',
+        'counter_stop',
+        'departure',
+        'arrival',
+        'event_start',
+        'event_stop',
         'warmup_minutes',
+        'rate',
+        'minutes',
+        'amount',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'created_by_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-
-    }
-
-    public function copilot()
-    {
-        return $this->belongsTo(User::class, 'copilot_id');
-
-    }
-
-    public function instructor()
-    {
-        return $this->belongsTo(User::class, 'instructor_id');
-
-    }
-
-    public function plane()
-    {
-        return $this->belongsTo(Plane::class, 'plane_id');
-
     }
 
     public function type()
     {
         return $this->belongsTo(Type::class, 'type_id');
+    }
 
+    public function copilot()
+    {
+        return $this->belongsTo(User::class, 'copilot_id');
+    }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
+    }
+
+    public function plane()
+    {
+        return $this->belongsTo(Plane::class, 'plane_id');
     }
 
     public function getEventAttribute($value)
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
-
     }
 
     public function setEventAttribute($value)
     {
         $this->attributes['event'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-
     }
 
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
-
     }
 }

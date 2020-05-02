@@ -195,6 +195,8 @@ return [
             'created_by_helper'     => '',
             'opt1'                  => 'Regular',
             'opt2'                  => 'Instructor',
+            'split_cost'            => 'Split activity',
+            'split_cost_helper'     => 'Split costs with Copilot',
         ],
     ],
     'security'           => [
