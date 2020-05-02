@@ -42,6 +42,19 @@
                 <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required">{{ trans('cruds.activity.fields.split_cost') }}</label>
+                @foreach(App\Activity::SPLIT_COST_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('split_cost') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="split_cost_{{ $key }}" name="split_cost" value="{{ $key }}" {{ old('split_cost', '0') === (string) $key ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="split_cost_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('split_cost'))
+                    <span class="text-danger">{{ $errors->first('split_cost') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.activity.fields.split_cost_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="copilot_id">{{ trans('cruds.activity.fields.copilot') }}</label>
                 <select class="form-control select2 {{ $errors->has('copilot') ? 'is-invalid' : '' }}" name="copilot_id" id="copilot_id" disabled>
                     @foreach($copilots as $id => $copilot)
@@ -174,11 +187,14 @@
                 //OptGroup 1, this are regular flights (no instructor)
                 $('#copilot_id').prop('disabled', false);
                 $('#instructor_id').prop('disabled', true);
+                $('input[name="split_cost"]').removeProp('disabled');
 
             } else if(selected.parent()[0].id == "opt2"){
                 //OptGroup 1, this are instructor flights
                 $('#copilot_id').prop('disabled', true);
                 $('#instructor_id').prop('disabled', false);
+                $('input[name="split_cost"][value="0"]').prop("checked", true);
+                $('input[name="split_cost"]').prop('disabled', 'disabled');
             }
         });
 
