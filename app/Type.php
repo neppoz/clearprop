@@ -27,12 +27,12 @@ class Type extends Model
         'description',
     ];
 
-    public function getCombinedAttribute()
-    {
-        if($this->instructor == true) {
-            return $this->name . '--- with Instructor';
-        }
+    // public function getNameAttribute()
+    // {
+    //     if ($this->instructor == true) {
+    //         return $this->name;
+    //     }
 
-        return $this->name;
-    }
+    //     return $this->name;
+    // }
 }

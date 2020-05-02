@@ -130,9 +130,10 @@ class ActivitiesController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $types = Type::where('active', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $types_opt1 = Type::where(['active' => true, 'instructor' => 0])->pluck('name', 'id');
+        $types_opt2 = Type::where(['active' => true, 'instructor' => 1])->pluck('name', 'id');
 
-        return view('admin.activities.create', compact('users', 'copilots', 'instructors', 'planes', 'types'));
+        return view('admin.activities.create', compact('users', 'copilots', 'instructors', 'planes', 'types_opt1', 'types_opt2'));
     }
 
     public function store(StoreActivityRequest $request)
@@ -140,7 +141,6 @@ class ActivitiesController extends Controller
         $activity = Activity::create($request->all());
 
         return redirect()->route('admin.activities.index');
-
     }
 
     public function edit(Activity $activity)
@@ -167,7 +167,6 @@ class ActivitiesController extends Controller
         $activity->update($request->all());
 
         return redirect()->route('admin.activities.index');
-
     }
 
     public function show(Activity $activity)
@@ -186,7 +185,6 @@ class ActivitiesController extends Controller
         $activity->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyActivityRequest $request)
@@ -194,7 +192,5 @@ class ActivitiesController extends Controller
         Activity::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }

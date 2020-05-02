@@ -193,6 +193,8 @@ return [
             'instructor_helper'     => '',
             'created_by'            => 'Created By',
             'created_by_helper'     => '',
+            'opt1'                  => 'Regular',
+            'opt2'                  => 'Instructor',
         ],
     ],
     'security'           => [

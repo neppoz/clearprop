@@ -22,8 +22,28 @@
                 <span class="help-block">{{ trans('cruds.activity.fields.user_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
+                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
+                    <option selected value="">{{ trans('global.pleaseSelect') }}</option>
+                    <optgroup label={{ trans('cruds.activity.fields.opt1') }} id="opt1">
+                        @foreach($types_opt1 as $id => $type)
+                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
+                        @endforeach
+                    </optgroup>
+                    <optgroup label={{ trans('cruds.activity.fields.opt2') }} id="opt2">
+                        @foreach($types_opt2 as $id => $type)
+                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
+                        @endforeach
+                    </optgroup>
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="copilot_id">{{ trans('cruds.activity.fields.copilot') }}</label>
-                <select class="form-control select2 {{ $errors->has('copilot') ? 'is-invalid' : '' }}" name="copilot_id" id="copilot_id">
+                <select class="form-control select2 {{ $errors->has('copilot') ? 'is-invalid' : '' }}" name="copilot_id" id="copilot_id" disabled>
                     @foreach($copilots as $id => $copilot)
                         <option value="{{ $id }}" {{ old('copilot_id') == $id ? 'selected' : '' }}>{{ $copilot }}</option>
                     @endforeach
@@ -34,20 +54,8 @@
                 <span class="help-block">{{ trans('cruds.activity.fields.copilot_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
-                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
-                    @foreach($types as $id => $type)
-                        <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('type'))
-                    <span class="text-danger">{{ $errors->first('type') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="instructor_id">{{ trans('cruds.activity.fields.instructor') }}</label>
-                <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id">
+                <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id" disabled>
                     @foreach($instructors as $id => $instructor)
                         <option value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
                     @endforeach
@@ -90,7 +98,7 @@
             </div>
             <div class="form-group">
                 <label for="warmup_start">{{ trans('cruds.activity.fields.warmup_start') }}</label>
-                <input class="form-control {{ $errors->has('warmup_start') ? 'is-invalid' : '' }}" type="number" name="warmup_start" id="warmup_start" value="{{ old('warmup_start', '0') }}" step="0.01">
+                <input class="form-control {{ $errors->has('warmup_start') ? 'is-invalid' : '' }}" type="number" name="warmup_start" id="warmup_start" value="{{ old('warmup_start', '0') }}" step="0.01" readonly>
                 @if($errors->has('warmup_start'))
                     <span class="text-danger">{{ $errors->first('warmup_start') }}</span>
                 @endif
@@ -155,4 +163,34 @@
 
 
 
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $("#type_id").change(function(){
+            var selected = $("option:selected", this);
+            if(selected.parent()[0].id == "opt1"){
+                //OptGroup 1, this are regular flights (no instructor)
+                $('#copilot_id').prop('disabled', false);
+                $('#instructor_id').prop('disabled', true);
+
+            } else if(selected.parent()[0].id == "opt2"){
+                //OptGroup 1, this are instructor flights
+                $('#copilot_id').prop('disabled', true);
+                $('#instructor_id').prop('disabled', false);
+            }
+        });
+
+        $("#engine_warmup").change(function(){
+            if($(this).is(":checked")) {
+                //'checked' event code
+                $('#warmup_start').prop('readonly', false);
+                return;
+            }
+            $('#warmup_start').val(0);
+            $('#warmup_start').prop('readonly', true);
+        });
+    });
+</script>
 @endsection
