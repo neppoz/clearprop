@@ -26,13 +26,4 @@ class Type extends Model
         'deleted_at',
         'description',
     ];
-
-    // public function getNameAttribute()
-    // {
-    //     if ($this->instructor == true) {
-    //         return $this->name;
-    //     }
-
-    //     return $this->name;
-    // }
 }

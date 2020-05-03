@@ -125,7 +125,7 @@ class ActivitiesController extends Controller
 
         $activity->load('user', 'copilot', 'instructor', 'plane', 'type', 'created_by');
 
-        return view('admin.activities.edit', compact('users', 'copilots', 'instructors', 'planes', 'types', 'activity'));
+        return view('admin.activities.edit', compact('users', 'types_opt1', 'types_opt2', 'copilots', 'instructors', 'planes', 'activity'));
     }
 
     public function update(UpdateActivityRequest $request, Activity $activity)

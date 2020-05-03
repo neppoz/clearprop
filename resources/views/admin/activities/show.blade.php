@@ -33,20 +33,29 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.activity.fields.copilot') }}
-                        </th>
-                        <td>
-                            {{ $activity->copilot->name ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.activity.fields.type') }}
                         </th>
                         <td>
                             {{ $activity->type->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.split_cost') }}
+                        </th>
+                        <td>
+                            {{ App\User::LANG_SELECT[$activity->split_cost] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.copilot') }}
+                        </th>
+                        <td>
+                            {{ $activity->copilot->name ?? '' }}
+                        </td>
+                    </tr>
+
                     <tr>
                         <th>
                             {{ trans('cruds.activity.fields.instructor') }}
