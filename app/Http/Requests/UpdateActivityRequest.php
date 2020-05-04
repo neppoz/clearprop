@@ -25,8 +25,6 @@ class UpdateActivityRequest extends FormRequest
             'type_id'       => [
                 'required',
                 'integer'],
-            'split_cost'    => [
-                'required'],
             'plane_id'      => [
                 'required',
                 'integer'],

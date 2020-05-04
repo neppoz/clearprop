@@ -44,7 +44,7 @@
                             {{ trans('cruds.activity.fields.split_cost') }}
                         </th>
                         <td>
-                            {{ App\User::LANG_SELECT[$activity->split_cost] ?? '' }}
+                            {{ App\Activity::SPLIT_COST_RADIO[$activity->split_cost] ?? '' }}
                         </td>
                     </tr>
                     <tr>
