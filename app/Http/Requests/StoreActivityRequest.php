@@ -14,7 +14,6 @@ class StoreActivityRequest extends FormRequest
         abort_if(Gate::denies('activity_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -23,26 +22,27 @@ class StoreActivityRequest extends FormRequest
             'user_id'       => [
                 'required',
                 'integer'],
-            'plane_id'      => [
+            'type_id'       => [
                 'required',
                 'integer'],
-            'type_id'       => [
+            'split_cost'    => [
+                'required'],
+            'plane_id'      => [
                 'required',
                 'integer'],
             'event'         => [
                 'required',
                 'date_format:' . config('panel.date_format')],
+            'counter_start' => [
+                'required'],
+            'counter_stop'  => [
+                'required'],
             'event_start'   => [
                 'date_format:' . config('panel.time_format'),
                 'nullable'],
             'event_stop'    => [
                 'date_format:' . config('panel.time_format'),
                 'nullable'],
-            'counter_start' => [
-                'required'],
-            'counter_stop'  => [
-                'required'],
         ];
-
     }
 }

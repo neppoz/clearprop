@@ -32,9 +32,6 @@ class ActivityObserver
                         ])
                         ->pluck('rate');
 
-        /** Set the rate in table */
-        $activity->rate = $rate_to_apply[0];
-
         /** Check if there is engine warmup */
         if ($activity->engine_warmup == true) {
             $warmup_to_apply = round(($activity->counter_start-$activity->warmup_start)*100/5*3);
@@ -43,13 +40,12 @@ class ActivityObserver
 
         /** Calculate the offset between counter values */
         $minutes_to_apply = round(($activity->counter_stop-$activity->counter_start)*100/5*3);
-
         /** Set the minutes in table */
         $activity->minutes = $minutes_to_apply;
-
+        /** Set the rate in table */
+        $activity->rate = $rate_to_apply[0];
         /** Calculate the amount */
         $amount_to_apply = $minutes_to_apply*$rate_to_apply[0];
-
         /** Set the amount in table */
         $activity->amount = $amount_to_apply;
     }
