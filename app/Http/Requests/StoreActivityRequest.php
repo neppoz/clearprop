@@ -26,7 +26,7 @@ class StoreActivityRequest extends FormRequest
                 'required',
                 'integer'],
             'split_cost'    => [
-                'required'],
+                'nullable'],
             'plane_id'      => [
                 'required',
                 'integer'],

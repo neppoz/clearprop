@@ -37,9 +37,6 @@
                         {{ trans('cruds.activity.fields.plane') }}
                     </th>
                     <th>
-                        {{ trans('cruds.activity.fields.engine_warmup') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.activity.fields.minutes') }}
                     </th>
                     <th>
@@ -100,19 +97,22 @@
     aaSorting: [],
     ajax: "{{ route('admin.activities.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'event', name: 'event' },
-{ data: 'type_name', name: 'type.name' },
-{ data: 'user_name', name: 'user.name' },
-{ data: 'plane_callsign', name: 'plane.callsign' },
-{ data: 'engine_warmup', name: 'engine_warmup' },
-{ data: 'minutes', name: 'minutes' },
-{ data: 'amount', name: 'amount' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'event', name: 'event' },
+        { data: 'type_name', name: 'type.name' },
+        { data: 'user_name', name: 'user.name' },
+        { data: 'plane_callsign', name: 'plane.callsign' },
+        { data: 'minutes', name: 'minutes' },
+        { data: 'amount', name: 'amount' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
     pageLength: 100,
+    createdRow: (row, data, dataIndex, cells) => {
+        $(cells[0]).css('background-color', data.split_color)
+        $(cells[5]).css('color', data.warmup_color)
+    }
   };
   $('.datatable-Activity').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){

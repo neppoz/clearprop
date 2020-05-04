@@ -12,7 +12,7 @@
             @csrf
             <div class="form-group">
                 <label class="required" for="user_id">{{ trans('cruds.activity.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required disabled>
                     @foreach($users as $id => $user)
                         <option value="{{ $id }}" {{ ($activity->user ? $activity->user->id : old('user_id')) == $id ? 'selected' : '' }}>{{ $user }}</option>
                     @endforeach
@@ -24,18 +24,10 @@
             </div>
             <div class="form-group">
                 <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
-                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
-                    <option selected value="">{{ trans('global.pleaseSelect') }}</option>
-                    <optgroup label={{ trans('cruds.activity.fields.opt1') }} id="opt1">
-                        @foreach($types_opt1 as $id => $type)
-                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
-                        @endforeach
-                    </optgroup>
-                    <optgroup label={{ trans('cruds.activity.fields.opt2') }} id="opt2">
-                        @foreach($types_opt2 as $id => $type)
-                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
-                        @endforeach
-                    </optgroup>
+                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required disabled>
+                    @foreach($types as $id => $type)
+                        <option value="{{ $id }}" {{ ($activity->type ? $activity->type->id : old('type_id')) == $id ? 'selected' : '' }}>{{ $type }}</option>
+                    @endforeach
                 </select>
                 @if($errors->has('type'))
                     <span class="text-danger">{{ $errors->first('type') }}</span>
@@ -43,21 +35,8 @@
                 <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required">{{ trans('cruds.activity.fields.split_cost') }}</label>
-                @foreach(App\Activity::SPLIT_COST_RADIO as $key => $label)
-                    <div class="form-check {{ $errors->has('split_cost') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="split_cost_{{ $key }}" name="split_cost" value="{{ $key }}" {{ old('split_cost', '0') === (string) $key ? 'checked' : '' }} required>
-                        <label class="form-check-label" for="split_cost_{{ $key }}">{{ $label }}</label>
-                    </div>
-                @endforeach
-                @if($errors->has('split_cost'))
-                    <span class="text-danger">{{ $errors->first('split_cost') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.split_cost_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="copilot_id">{{ trans('cruds.activity.fields.copilot') }}</label>
-                <select class="form-control select2 {{ $errors->has('copilot') ? 'is-invalid' : '' }}" name="copilot_id" id="copilot_id">
+                <select class="form-control select2 {{ $errors->has('copilot') ? 'is-invalid' : '' }}" name="copilot_id" id="copilot_id" disabled>
                     @foreach($copilots as $id => $copilot)
                         <option value="{{ $id }}" {{ ($activity->copilot ? $activity->copilot->id : old('copilot_id')) == $id ? 'selected' : '' }}>{{ $copilot }}</option>
                     @endforeach
@@ -69,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label for="instructor_id">{{ trans('cruds.activity.fields.instructor') }}</label>
-                <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id">
+                <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id" disabled>
                     @foreach($instructors as $id => $instructor)
                         <option value="{{ $id }}" {{ ($activity->instructor ? $activity->instructor->id : old('instructor_id')) == $id ? 'selected' : '' }}>{{ $instructor }}</option>
                     @endforeach
@@ -112,7 +91,7 @@
             </div>
             <div class="form-group">
                 <label for="warmup_start">{{ trans('cruds.activity.fields.warmup_start') }}</label>
-                <input class="form-control {{ $errors->has('warmup_start') ? 'is-invalid' : '' }}" type="number" name="warmup_start" id="warmup_start" value="{{ old('warmup_start', $activity->warmup_start) }}" step="0.01">
+                <input class="form-control {{ $errors->has('warmup_start') ? 'is-invalid' : '' }}" type="number" name="warmup_start" id="warmup_start" value="{{ old('warmup_start', $activity->warmup_start) }}" step="0.01" readonly>
                 @if($errors->has('warmup_start'))
                     <span class="text-danger">{{ $errors->first('warmup_start') }}</span>
                 @endif
@@ -175,6 +154,20 @@
     </div>
 </div>
 
+@endsection
 
-
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $("#engine_warmup").change(function(){
+            if($(this).is(":checked")) {
+                //'checked' event code
+                $('#warmup_start').prop('readonly', false);
+                return;
+            }
+            $('#warmup_start').val(0);
+            $('#warmup_start').prop('readonly', true);
+        });
+    });
+</script>
 @endsection

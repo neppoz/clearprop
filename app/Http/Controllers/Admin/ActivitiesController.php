@@ -30,6 +30,8 @@ class ActivitiesController extends Controller
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
+            $table->addColumn('split_color', '&nbsp;');
+            $table->addColumn('warmup_color', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
                 $viewGate      = 'activity_show';
@@ -60,6 +62,7 @@ class ActivitiesController extends Controller
             $table->editColumn('type.active', function ($row) {
                 return $row->type ? (is_string($row->type) ? $row->type : $row->type->active) : '';
             });
+
             $table->addColumn('plane_callsign', function ($row) {
                 return $row->plane ? $row->plane->callsign : '';
             });
@@ -74,8 +77,17 @@ class ActivitiesController extends Controller
             $table->editColumn('counter_stop', function ($row) {
                 return $row->counter_stop ? $row->counter_stop : "";
             });
+
             $table->editColumn('amount', function ($row) {
                 return $row->amount ? $row->amount : "";
+            });
+
+            $table->editColumn('split_color', function ($row) {
+                return $row->split_cost && ['1' => '#f0ad4e'][$row->split_cost] ? ['1' => '#f0ad4e'][$row->split_cost] : 'none';
+            });
+
+            $table->editColumn('warmup_color', function ($row) {
+                return $row->engine_warmup && ['1' => '#0275d8'][$row->engine_warmup] ? ['1' => '#0275d8'][$row->engine_warmup] : 'none';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'user', 'type', 'plane']);
@@ -169,8 +181,7 @@ class ActivitiesController extends Controller
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $types_opt1 = Type::where(['active' => true, 'instructor' => 0])->pluck('name', 'id');
-        $types_opt2 = Type::where(['active' => true, 'instructor' => 1])->pluck('name', 'id');
+        $types = Type::where('active', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $copilots = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -180,7 +191,7 @@ class ActivitiesController extends Controller
 
         $activity->load('user', 'copilot', 'instructor', 'plane', 'type', 'created_by');
 
-        return view('admin.activities.edit', compact('users', 'types_opt1', 'types_opt2', 'copilots', 'instructors', 'planes', 'activity'));
+        return view('admin.activities.edit', compact('users', 'types', 'copilots', 'instructors', 'planes', 'activity'));
     }
 
     public function update(UpdateActivityRequest $request, Activity $activity)

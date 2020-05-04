@@ -196,7 +196,7 @@ return [
             'opt1'                  => 'Regular',
             'opt2'                  => 'Instructor',
             'split_cost'            => 'Split activity',
-            'split_cost_helper'     => 'Split costs with Copilot',
+            'split_cost_helper'     => 'Copilot must be set when registering',
         ],
     ],
     'security'           => [
