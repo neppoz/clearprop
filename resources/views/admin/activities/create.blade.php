@@ -186,15 +186,25 @@
             if(selected.parent()[0].id == "opt1"){
                 //OptGroup 1, this are regular flights (no instructor)
                 $('#copilot_id').prop('disabled', false);
+                $('#copilot_id').prop('required', false);
                 $('#instructor_id').prop('disabled', true);
-                $('input[name="split_cost"]').removeProp('disabled');
+                $('input[name="split_cost"]').prop('disabled', false);
 
             } else if(selected.parent()[0].id == "opt2"){
                 //OptGroup 1, this are instructor flights
                 $('#copilot_id').prop('disabled', true);
                 $('#instructor_id').prop('disabled', false);
+                $('#instructor_id').prop('required', true);
                 $('input[name="split_cost"][value="0"]').prop("checked", true);
-                $('input[name="split_cost"]').prop('disabled', 'disabled');
+                $('input[name="split_cost"]').prop('disabled', true);
+            }
+        });
+
+        $('input[name="split_cost"]').change(function(){
+            if (this.checked && this.value == '0') {
+                $('#copilot_id').prop('required', false);
+            } else {
+                $('#copilot_id').prop('required', true);
             }
         });
 
