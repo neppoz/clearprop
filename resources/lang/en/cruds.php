@@ -120,6 +120,7 @@ return [
     'type'               => [
         'title'          => 'Activity Types',
         'title_singular' => 'Activity Type',
+        'price'          => 'Price per minute (€)',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
