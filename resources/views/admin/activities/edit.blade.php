@@ -3,6 +3,51 @@
 
 <div class="card">
     <div class="card-header">
+        {{ trans('cruds.activity.title_singular') }} {{ trans('cruds.activity.fields.id') }} {{ $activity->id }}
+    </div>
+
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th>
+                        {{ trans('cruds.activity.fields.user') }}
+                    </th>
+                    <td>
+                        {{ $activity->user->name ?? '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{ trans('cruds.activity.fields.type') }}
+                    </th>
+                    <td>
+                        {{ $activity->type->name ?? '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{ trans('cruds.activity.fields.copilot') }}
+                    </th>
+                    <td>
+                        {{ $activity->copilot->name ?? '' }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        {{ trans('cruds.activity.fields.instructor') }}
+                    </th>
+                    <td>
+                        {{ $activity->instructor->name ?? '' }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
         {{ trans('global.edit') }} {{ trans('cruds.activity.title_singular') }}
     </div>
 
@@ -10,54 +55,6 @@
         <form method="POST" action="{{ route("admin.activities.update", [$activity->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.activity.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required disabled>
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}" {{ ($activity->user ? $activity->user->id : old('user_id')) == $id ? 'selected' : '' }}>{{ $user }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.user_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
-                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required disabled>
-                    @foreach($types as $id => $type)
-                        <option value="{{ $id }}" {{ ($activity->type ? $activity->type->id : old('type_id')) == $id ? 'selected' : '' }}>{{ $type }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('type'))
-                    <span class="text-danger">{{ $errors->first('type') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="copilot_id">{{ trans('cruds.activity.fields.copilot') }}</label>
-                <select class="form-control select2 {{ $errors->has('copilot') ? 'is-invalid' : '' }}" name="copilot_id" id="copilot_id" disabled>
-                    @foreach($copilots as $id => $copilot)
-                        <option value="{{ $id }}" {{ ($activity->copilot ? $activity->copilot->id : old('copilot_id')) == $id ? 'selected' : '' }}>{{ $copilot }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('copilot'))
-                    <span class="text-danger">{{ $errors->first('copilot') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.copilot_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="instructor_id">{{ trans('cruds.activity.fields.instructor') }}</label>
-                <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id" disabled>
-                    @foreach($instructors as $id => $instructor)
-                        <option value="{{ $id }}" {{ ($activity->instructor ? $activity->instructor->id : old('instructor_id')) == $id ? 'selected' : '' }}>{{ $instructor }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('instructor'))
-                    <span class="text-danger">{{ $errors->first('instructor') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.instructor_helper') }}</span>
-            </div>
             <div class="form-group">
                 <label class="required" for="plane_id">{{ trans('cruds.activity.fields.plane') }}</label>
                 <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id" id="plane_id" required>
