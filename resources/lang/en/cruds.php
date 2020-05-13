@@ -120,7 +120,9 @@ return [
     'type'               => [
         'title'          => 'Activity Types',
         'title_singular' => 'Activity Type',
+        'title_select'   => 'Please select activity',
         'price'          => 'Price per minute (€)',
+
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
@@ -147,6 +149,7 @@ return [
     'activity'           => [
         'title'          => 'Activities',
         'title_singular' => 'Activity',
+        'title_noedit'   => 'Information',
         'fields'         => [
             'id'                    => 'ID',
             'id_helper'             => '',
@@ -259,13 +262,13 @@ return [
         'title_singular' => 'Activity Report',
         'title_generate' => 'Member Email',
         'fields'         => [
-            'activityfilter'          => 'Timespan: ',
+            'activityfrom'          => 'from',
             'activityfrom_helper'   => 'Begin report',
-            'activityto'            => 'to',
+            'activityuntil'         => 'until',
             'activityto_helper'     => 'End report',
             'reportname'            => 'Name of the report',
             'reportname_helper'     => 'Ex.: 2020-02-01_Reportname_Pilotname',
-            'generateReport'        => 'Generate report and send',
+            'generateReport'        => 'Send email',
         ],
         'reports'         => [
             'activityReportTotal'     => 'Total',
