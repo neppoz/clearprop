@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Activity;
+use App\Events\ActivitySplitCost;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyActivityRequest;
 use App\Http\Requests\StoreActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
+use App\Listeners\ActivitySplitCostListener;
 use App\Plane;
 use App\Type;
 use App\User;
@@ -123,6 +125,10 @@ class ActivitiesController extends Controller
         }
 
         if ($request->split_cost == true && isset($request->copilot_id)) {
+            // TODO: Event und Listener bereits erstellt, Controller entschlacken
+            // $activity = $request->all();
+            // event(new ActivitySplitCost($activity));
+
             $data_pilot = clone $request;
             $data_copilot = clone $request;
 
