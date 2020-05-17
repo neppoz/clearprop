@@ -31,8 +31,8 @@
                     <table class="table" id="types_table">
                         <thead>
                             <tr>
-                                <th>{{ trans('cruds.type.title_select') }}</th>
-                                <th>{{ trans('cruds.type.title_price') }}</th>
+                                <th>{{ trans('cruds.type.title_singular') }}</th>
+                                <th>{{ trans('cruds.type.price') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,17 +44,16 @@
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}"
                                             @if ($factor_type->id == $type->id) selected @endif
-                                        >{{ $type->name }} (${{ number_format($type->rate, 2) }})</option>
+                                        >{{ $type->name }}</option>
                                     @endforeach
                                 </select>
                             </td>
                             <td>
-                                <input type="number" name="rates[]" class="form-control"
-                                        value="{{ $factor_type->pivot->rate }}" />
+                                <input type="number" name="rates[]" class="form-control" value="{{ $factor_type->pivot->rate }}" min="0" step="0.01"/>
                             </td>
                         </tr>
                         @endforeach
-                        <tr id="product{{ $factor->factor_types->count() }}"></tr>
+                        <tr id="type{{ $factor->factor_types->count() }}"></tr>
                         </tbody>
                     </table>
 

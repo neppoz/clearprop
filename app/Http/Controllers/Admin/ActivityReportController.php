@@ -8,6 +8,7 @@ use Gate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ActivityReportController extends Controller
 {
@@ -87,6 +88,11 @@ class ActivityReportController extends Controller
             }
         }
 
+        session([
+            'fromSelectedDate' => $fromSelectedDate,
+            'toSelectedDate' => $toSelectedDate,
+        ]);
+
         return view('admin.activityReports.index', compact(
             'activitiesUserSummary',
             'activitiesTypeSummary',
@@ -95,6 +101,6 @@ class ActivityReportController extends Controller
             'activityTotalTime',
             'fromSelectedDate',
             'toSelectedDate'
-        ));
+        ))->withSuccess('global.sweetalert_success_sendreport');
     }
 }

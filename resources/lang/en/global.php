@@ -251,4 +251,7 @@ return [
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
     'pdf'                                  => 'Download PDF',
+    'sweetalert_success_sendreport'        => 'Emails with reports generated successfully!',
+    'sweetalert_warning_sendreport'        => '',
+    'sweetalert_error_sendreport'          => 'Something went wrong!',
 ];

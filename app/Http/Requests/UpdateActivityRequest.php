@@ -19,12 +19,12 @@ class UpdateActivityRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'       => [
-                'required',
-                'integer'],
-            'type_id'       => [
-                'required',
-                'integer'],
+            // 'user_id'       => [
+            //     'required',
+            //     'integer'],
+            // 'type_id'       => [
+            //     'required',
+            //     'integer'],
             'plane_id'      => [
                 'required',
                 'integer'],
