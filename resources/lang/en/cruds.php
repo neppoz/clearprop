@@ -120,13 +120,10 @@ return [
     'type'               => [
         'title'          => 'Activity Types',
         'title_singular' => 'Activity Type',
-<<<<<<< HEAD
         'price'          => 'Price per minute (€)',
-=======
         'title_select'   => 'Please select activity',
         'price'          => 'Price per minute (€)',
 
->>>>>>> 200511_fixPack
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
