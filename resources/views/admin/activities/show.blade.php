@@ -176,6 +176,14 @@
                             {{ $activity->amount }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.activity.fields.description') }}
+                        </th>
+                        <td>
+                            {{ $activity->description }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">
