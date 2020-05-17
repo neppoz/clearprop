@@ -34,12 +34,12 @@ class ActivityObserver
 
         /** Check if there is engine warmup */
         if ($activity->engine_warmup == true) {
-            $warmup_to_apply = round(($activity->counter_start-$activity->warmup_start)*100/5*3);
+            $warmup_to_apply = round(($activity->counter_start-$activity->warmup_start)*100/5*3, 2);
             $activity->warmup_minutes = $warmup_to_apply;
         }
 
         /** Calculate the offset between counter values */
-        $minutes_to_apply = round(($activity->counter_stop-$activity->counter_start)*100/5*3);
+        $minutes_to_apply = round(($activity->counter_stop-$activity->counter_start)*100/5*3, 2);
         /** Set the minutes in table */
         $activity->minutes = $minutes_to_apply;
         /** Set the rate in table */
