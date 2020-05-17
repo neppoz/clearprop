@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 <div class="row">
-    <div class="col-8">
+    <div class="col-10">
         <h3 class="page-title">{{ trans('cruds.activityReport.title') }}</h3>
 
         <form method="get">
@@ -35,47 +35,21 @@
             </div>
         </form>
     </div>
-    <div class="col-4">
-        <h3 class="page-title">{{ trans('cruds.activityReport.title_generate') }}</h3>
-
-        <form method="POST" action="{{ route("admin.users.report") }}" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label class="text-muted" for="activityreport">{{ trans('cruds.activityReport.fields.activityfilter') }} {{ $fromSelectedDate }} - {{ $toSelectedDate }}</label>
-                        <input class="form-control date {{ $errors->has('activityfrom') ? 'is-invalid' : '' }}" type="hidden" name="activityfrom" id="activityfrom" value="{{ $fromSelectedDate }}">
-                        {{-- @if($errors->has('activityfrom'))
-                            <span class="text-danger">{{ $errors->first('activityfrom') }}</span>
-                        @endif --}}
-                        {{-- <span class="help-block">{{ trans('cruds.activityReport.fields.activityfrom_helper') }}</span> --}}
-
-                        {{-- <label class="col-2" for="activityto">{{ trans('cruds.activityReport.fields.activityto') }}</label> --}}
-                        <input class="form-control date {{ $errors->has('activityto') ? 'is-invalid' : '' }}" type="hidden" name="activityto" id="activityto" value="{{ $toSelectedDate }}">
-                        {{-- @if($errors->has('activityto'))
-                            <span class="text-danger">{{ $errors->first('activityto') }}</span>
-                        @endif --}}
-                        {{-- <span class="help-block">{{ trans('cruds.activityReport.fields.activityto_helper') }}</span> --}}
-
-                        {{-- <label class="required col" for="reportname">{{ trans('cruds.activityReport.fields.reportname') }}</label>
-                        <input class="form-control col {{ $errors->has('reportname') ? 'is-invalid' : '' }}" type="text" name="reportname" id="reportname" value="{{ old('reportname', '') }}">
-                        @if($errors->has('reportname'))
-                            <span class="text-danger">{{ $errors->first('reportname') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.activityReport.fields.reportname_helper') }}</span> --}}
-
-                        {{-- <label class="control-label col">&nbsp;</label><br> --}}
-                        <button class="btn btn-warning" type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.activityReport.reports.activityReportSummary') }}
+        <form method="POST" action="{{ route("admin.users.report") }}" enctype="multipart/form-data">
+            @csrf
+            <div class="row">
+                <div class="col-6 text-left">
+                    {{ trans('cruds.activityReport.reports.activityReportSummary') }} {{ trans('cruds.activityReport.fields.activityfrom') }} <strong>{{ $fromSelectedDate }}</strong> {{ trans('cruds.activityReport.fields.activityuntil') }} <strong>{{ $toSelectedDate }}</strong>
+                </div>
+                <div class="col-6 text-right">
+                    <button class="btn btn-warning" type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div class="card-body">

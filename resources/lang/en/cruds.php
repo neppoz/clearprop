@@ -120,7 +120,13 @@ return [
     'type'               => [
         'title'          => 'Activity Types',
         'title_singular' => 'Activity Type',
+<<<<<<< HEAD
         'price'          => 'Price per minute (€)',
+=======
+        'title_select'   => 'Please select activity',
+        'price'          => 'Price per minute (€)',
+
+>>>>>>> 200511_fixPack
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
@@ -147,6 +153,7 @@ return [
     'activity'           => [
         'title'          => 'Activities',
         'title_singular' => 'Activity',
+        'title_noedit'   => 'Information',
         'fields'         => [
             'id'                    => 'ID',
             'id_helper'             => '',
@@ -198,6 +205,8 @@ return [
             'opt2'                  => 'Instructor',
             'split_cost'            => 'Split activity',
             'split_cost_helper'     => 'Copilot must be set when registering',
+            'description'           => 'Notes',
+            'description_helper'    => 'Optional notes',
         ],
     ],
     'security'           => [
@@ -259,13 +268,13 @@ return [
         'title_singular' => 'Activity Report',
         'title_generate' => 'Member Email',
         'fields'         => [
-            'activityfilter'          => 'Timespan: ',
+            'activityfrom'          => 'from',
             'activityfrom_helper'   => 'Begin report',
-            'activityto'            => 'to',
+            'activityuntil'         => 'until',
             'activityto_helper'     => 'End report',
             'reportname'            => 'Name of the report',
             'reportname_helper'     => 'Ex.: 2020-02-01_Reportname_Pilotname',
-            'generateReport'        => 'Generate report and send',
+            'generateReport'        => 'Send email',
         ],
         'reports'         => [
             'activityReportTotal'     => 'Total',

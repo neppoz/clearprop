@@ -46,7 +46,7 @@
                         <td>
                             <ul>
                                 @foreach($factor->factor_types as $item)
-                                    <li>{{ $item->name }} (<strong>{{ $item->pivot->rate }}</strong>{{' €/min. '}})</li>
+                                    <li>{{ $item->name }} (<strong>{{ number_format($item->pivot->rate, 2, ".", ",") }}</strong>{{' €/min. '}})</li>
                                 @endforeach
                             </ul>
                         </td>

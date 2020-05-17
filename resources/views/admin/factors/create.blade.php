@@ -30,8 +30,8 @@
                     <table class="table" id="types_table">
                         <thead>
                             <tr>
-                                <th>{{ trans('cruds.type.title_select') }}</th>
-                                <th>{{ trans('cruds.type.title_price') }}</th>
+                                <th>{{ trans('cruds.type.title_singular') }}</th>
+                                <th>{{ trans('cruds.type.price') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,7 +41,7 @@
                                         <option value="">{{ trans('cruds.type.title_select') }}</option>
                                         @foreach ($types as $type)
                                             <option value="{{ $type->id }}">
-                                                {{ $type->name }} (${{ number_format($type->rate, 2) }})
+                                                {{ $type->name }}
                                             </option>
                                         @endforeach
                                     </select>
