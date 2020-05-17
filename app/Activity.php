@@ -49,6 +49,7 @@ class Activity extends Model
         'updated_at',
         'deleted_at',
         'created_by_id',
+        'description',
     ];
 
     public function user()
