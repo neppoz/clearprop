@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TypeTableSeeder::class,
             FactorTypeTableSeeder::class,
             IncomeCategoriesTableSeeder::class,
+            ExpenseCategoriesTableSeeder::class,
             PlaneTableSeeder::class,
         ]);
     }

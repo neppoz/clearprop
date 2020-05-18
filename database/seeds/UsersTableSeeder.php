@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class UsersTableSeeder extends Seeder
 {
@@ -10,11 +11,12 @@ class UsersTableSeeder extends Seeder
         $users = [
             [
                 'id'             => 1,
-                'name'           => 'Admin',
-                'email'          => 'admin@admin.com',
-                'password'       => '$2y$10$C0aSFjmijAvJs43eV8fGOu8BglbJNsbJ4zxPhrdAxUA8sfjv.faLC',
+                'name'           => 'Super Admin',
+                'email'          => 'neppoz.com@gmail.com',
+                'password'       => '$2y$10$XzjqHC9sHvOgxSN9Xk7A7.KSmh/PUZztf/MOqZUgDGT5rB5vYQ/9C',
                 'remember_token' => null,
-                'license'        => '',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
         ];
 
