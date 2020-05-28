@@ -64,6 +64,15 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'storagebox' => [
+            'driver' => 'sftp',
+            'host' => 'u233711.your-storagebox.de',
+            'username' => 'u233711-sub2',
+            'password' => 'GSPaeSxpjZim7iEQ',
+            'root' => '/',
+            'timeout' => 10,
+        ],
+
     ],
 
 ];
