@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Mail\UserEmail;
+use App\Mail\UserReport;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Mail;
 use App\User;
@@ -75,7 +75,7 @@ class UsersReportController extends Controller
                 $pdf->save($path.'/'.$report_name.'.pdf');
 
                 $attachment = $path.'/'.$report_name.'.pdf';
-                Mail::send(new UserEmail($user_details, $attachment));
+                Mail::send(new UserReport($user_details, $attachment));
                 return back()->withToastSuccess(trans('global.sweetalert_success_sendreport'));
             }
         } else {
