@@ -28,8 +28,8 @@
             <div class="form-group">
                 <div class="form-check {{ $errors->has('instructor') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="instructor" value="0">
-                    <input class="form-check-input" type="checkbox" name="instructor" id="instructor" value="1" required {{ old('instructor', 0) == 1 ? 'checked' : '' }}>
-                    <label class="required form-check-label" for="instructor">{{ trans('cruds.type.fields.instructor') }}</label>
+                    <input class="form-check-input" type="checkbox" name="instructor" id="instructor" value="1" {{ old('instructor', 0) == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="instructor">{{ trans('cruds.type.fields.instructor') }}</label>
                 </div>
                 @if($errors->has('instructor'))
                     <span class="text-danger">{{ $errors->first('instructor') }}</span>
