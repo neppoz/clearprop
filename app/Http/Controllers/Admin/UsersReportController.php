@@ -33,14 +33,12 @@ class UsersReportController extends Controller
                 $user_details = User::select('name', 'email')
                     ->where('id', '=', $userid->id)
                     ->get();
-                $to_addr = $user_details[0]->email;
-                $to_name = $user_details[0]->name;
-                $report_name = $to.'_'.$to_name.'_'.uniqid();
+
+                $report_name = $to.'_'.$user_details[0]->name.'_'.uniqid();
                 $path = storage_path('tmp/reports');
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
-
 
                 $activity_lines = Activity::select('event', 'counter_start', 'counter_stop', 'rate', 'minutes', 'amount')
                     ->where('user_id', '=', $userid->id)
@@ -64,7 +62,6 @@ class UsersReportController extends Controller
                 $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
 
                 $pdf = Pdf::loadView('reports.members', compact(
-                    'report_name',
                     'user_details',
                     'activity_lines',
                     'income_lines',
@@ -77,12 +74,8 @@ class UsersReportController extends Controller
 
                 $pdf->save($path.'/'.$report_name.'.pdf');
 
-                $bcc_addr = '';
-                $bcc_name = '';
-                $subject = 'Report: ' . $report_name;
                 $attachment = $path.'/'.$report_name.'.pdf';
-                Mail::send(new UserEmail($subject, $to_addr, $to_name, $bcc_addr, $bcc_name, $attachment));
-
+                Mail::send(new UserEmail($user_details, $attachment));
                 return back()->withToastSuccess(trans('global.sweetalert_success_sendreport'));
             }
         } else {

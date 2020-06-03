@@ -4,15 +4,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $report_name }}</title>
+    <title>{{ trans('panel.site_title') }}</title>
 </head>
 <body>
     <style type="text/css">
         .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
         .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ccc;color:#333;background-color:#fff;}
         .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px;border-color:#ccc;color:#333;background-color:#f0f0f0;}
-        .tg .tg-8ob6{font-family:Arial, Helvetica, sans-serif !important;;border-color:inherit;text-align:right;vertical-align:middle}
-        .tg .tg-l1af{font-family:Arial, Helvetica, sans-serif !important;;border-color:inherit;text-align:left;vertical-align:middle}
+        .tg .tg-8ob6{font-family:Arial, Helvetica, sans-serif !important;border-color:inherit;text-align:right;vertical-align:middle}
+        .tg .tg-l1af{font-family:Arial, Helvetica, sans-serif !important;border-color:inherit;text-align:left;vertical-align:middle}
         .tg .tg-cly1{text-align:left;vertical-align:middle}
         .tg .tg-baqh{text-align:center;vertical-align:top}
         .tg .tg-lqy6{text-align:right;vertical-align:top}
@@ -29,7 +29,7 @@
     <!-- -->
     <table class="tg" width="100%" style="width:100%">
         <tr>
-            <td class="tg-l1af">{{ $report_name }}</td>
+            <td class="tg-l1af"></td>
             <td class="tg-8ob6">{{ $user_details[0]->name }}</td>
         </tr>
     </table>
