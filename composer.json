@@ -26,6 +26,7 @@
         "snowfire/beautymail": "^1.1",
         "spatie/browsershot": "^3.35",
         "spatie/laravel-backup": "^6.10",
+        "spatie/valuestore": "^1.2",
         "verumconsilium/laravel-browsershot": "^1.1",
         "yajra/laravel-datatables-oracle": "^9.7"
     },

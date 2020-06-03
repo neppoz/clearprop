@@ -12,11 +12,7 @@ class UserEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject;
-    public $to_addr;
-    public $to_name;
-    public $bcc_addr;
-    public $bcc_name;
+    public $user_details;
     public $attachment;
 
     /**
@@ -24,13 +20,12 @@ class UserEmail extends Mailable
      *
      * @return void
      */
-    public function __construct($subject, $to_addr, $to_name, $bcc_addr, $bcc_name, $attachment)
+    public function __construct($user_details, $attachment)
     {
-        $this->subject = $subject;
-        $this->to_addr = $to_addr;
-        $this->to_name = $to_name;
-        $this->bcc_addr = $bcc_addr;
-        $this->bcc_name = $bcc_name;
+        $this->user_details = $user_details;
+        $this->subject = app('settings')['email.subject.user.report'];
+        $this->bcc_address = app('settings')['email.bcc_address.user.report'];
+        $this->bcc_name = app('settings')['email.bcc_name.user.report'];
         $this->attachment = $attachment;
     }
 
@@ -43,26 +38,19 @@ class UserEmail extends Mailable
     {
         $beautymail = app()->make(Beautymail::class);
 
-        if($this->bcc_addr=='' || $this->bcc_name =='') {
-
+        if ($this->bcc_address == '' && $this->bcc_name == '') {
             return $this
-                ->from(env('MAIL_FROM_ADDRESS'))
                 ->subject($this->subject)
-                ->to($this->to_addr, $this->to_name)
+                ->to($this->user_details)
                 ->view('emails.report', $beautymail->getData())
                 ->attach($this->attachment);
-
         } else {
-
             return $this
-                ->from(env('MAIL_FROM_ADDRESS'))
                 ->subject($this->subject)
-                ->to($this->to_addr, $this->to_name)
-                ->bcc($this->bcc_addr, $this->bcc_name)
+                ->to($this->user_details)
+                ->bcc($this->bcc_address, $this->bcc_name)
                 ->view('emails.report', $beautymail->getData())
                 ->attach($this->attachment);
-
         }
-
     }
 }
