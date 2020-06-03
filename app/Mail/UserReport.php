@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Snowfire\Beautymail\Beautymail;
 
-class UserEmail extends Mailable
+class UserReport extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -36,20 +35,18 @@ class UserEmail extends Mailable
      */
     public function build()
     {
-        $beautymail = app()->make(Beautymail::class);
-
         if ($this->bcc_address == '' && $this->bcc_name == '') {
             return $this
                 ->subject($this->subject)
                 ->to($this->user_details)
-                ->view('emails.report', $beautymail->getData())
+                ->markdown('emails.users.report')
                 ->attach($this->attachment);
         } else {
             return $this
                 ->subject($this->subject)
                 ->to($this->user_details)
                 ->bcc($this->bcc_address, $this->bcc_name)
-                ->view('emails.report', $beautymail->getData())
+                ->markdown('emails.users.report')
                 ->attach($this->attachment);
         }
     }
