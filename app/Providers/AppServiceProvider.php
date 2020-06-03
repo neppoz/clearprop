@@ -15,7 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('valuestore', function () {
+            return \Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
+        });
+        $values = $this->app->valuestore->all();
+        $this->app->bind('settings', function () use ($values) {
+            return $values;
+        });
     }
 
     /**
