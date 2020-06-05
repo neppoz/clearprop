@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'dashboard'     => [
+        'title' => 'Dashboard',
+        'title_linechart'=> 'Monthly average activities',
+        'title_singular' => 'Member management',
+    ],
     'userManagement'     => [
         'title'          => 'Member management',
         'title_singular' => 'Member management',
