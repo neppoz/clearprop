@@ -56,7 +56,6 @@ class ExpenseReportController extends Controller
 
                 $expensesSummary[$line->expense_category->name]['amount'] += $line->amount;
             }
-
         }
 
         $incomesSummary = [];
@@ -72,7 +71,6 @@ class ExpenseReportController extends Controller
 
                 $incomesSummary[$line->income_category->name]['amount'] += $line->amount;
             }
-
         }
 
         /* Overdue payment members */
@@ -84,12 +82,12 @@ class ExpenseReportController extends Controller
                 COALESCE(sumact, 0) AS sumact,
                 COALESCE(suminc, 0) - COALESCE(sumact, 0) AS total
             FROM
-                clearprop.users u
+                users u
                     LEFT JOIN
                 (SELECT
                     user_id, SUM(amount) AS sumact
                 FROM
-                    clearprop.activities a
+                    activities a
                 WHERE
                     a.event BETWEEN (:activityfrom) AND (:activityto)
                 GROUP BY a.user_id) a ON u.id = a.user_id
@@ -97,8 +95,8 @@ class ExpenseReportController extends Controller
                 (SELECT
                     user_id, SUM(amount) AS suminc
                 FROM
-                    clearprop.incomes i
-                INNER JOIN clearprop.income_categories ic ON i.income_category_id = ic.id
+                    incomes i
+                INNER JOIN income_categories ic ON i.income_category_id = ic.id
                 WHERE
                     i.entry_date BETWEEN (:incomefrom) AND (:incometo)
                         AND ic.deposit = 1
@@ -111,26 +109,25 @@ class ExpenseReportController extends Controller
             'incometo'     => $to
         ));
 
-        $data = compact('expensesSummary',
-                        'incomesSummary',
-                        'expensesTotal',
-                        'incomesTotal',
-                        'profit',
-                        'overdueMembers',
-                        'fromSelectedDate',
-                        'toSelectedDate'
-                    );
+        $data = compact(
+            'expensesSummary',
+            'incomesSummary',
+            'expensesTotal',
+            'incomesTotal',
+            'profit',
+            'overdueMembers',
+            'fromSelectedDate',
+            'toSelectedDate'
+        );
 
         /* download pdf button */
-        if(request()->query('pdf')) {
-            return PDF::loadView('admin.expenseReports.pdf',$data)
+        if (request()->query('pdf')) {
+            return PDF::loadView('admin.expenseReports.pdf', $data)
                 ->format('A4')
                 ->showBackground()
                 ->download();
         }
 
         return view('admin.expenseReports.index', $data);
-
     }
-
 }
