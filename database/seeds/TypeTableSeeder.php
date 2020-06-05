@@ -33,9 +33,9 @@ class TypeTableSeeder extends Seeder
         ]);
         Type::create([
             'id' => '3',
-            'name' => 'Volo locale con istruttore',
+            'name' => 'Volo per il club',
             'active' => '1',
-            'instructor' => '1',
+            'instructor' => '0',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
@@ -49,6 +49,14 @@ class TypeTableSeeder extends Seeder
         ]);
         Type::create([
             'id' => '5',
+            'name' => 'Volo locale con istruttore',
+            'active' => '1',
+            'instructor' => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        Type::create([
+            'id' => '6',
             'name' => 'Volo trasferta con istruttore',
             'active' => '1',
             'instructor' => '1',
