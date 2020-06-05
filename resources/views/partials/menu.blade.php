@@ -21,6 +21,30 @@
                         </p>
                     </a>
                 </li>
+                @can('activity_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.activities.index") }}" class="nav-link {{ request()->is('admin/activities') || request()->is('admin/activities/*') ? 'active' : '' }}">
+                            <i class="fa-fw fas fa-plane-departure">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.activity.title') }}</span>
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('booking_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.bookings.index") }}" class="nav-link {{ request()->is('admin/bookings') || request()->is('admin/bookings/*') ? 'active' : '' }}">
+                            <i class="fa-fw far fa-calendar-alt">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.booking.title') }}</span>
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('activity_management_access')
                     <li class="nav-item has-treeview {{ request()->is('admin/activities*') ? 'menu-open' : '' }} {{ request()->is('admin/bookings*') ? 'menu-open' : '' }} {{ request()->is('admin/activity-reports*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -33,30 +57,6 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            @can('activity_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.activities.index") }}" class="nav-link {{ request()->is('admin/activities') || request()->is('admin/activities/*') ? 'active' : '' }}">
-                                        <i class="fa-fw fas fa-plane-departure">
-
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.activity.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('booking_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.bookings.index") }}" class="nav-link {{ request()->is('admin/bookings') || request()->is('admin/bookings/*') ? 'active' : '' }}">
-                                        <i class="fa-fw far fa-calendar-alt">
-
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.booking.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
                             @can('activity_report_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.activity-reports.index") }}" class="nav-link {{ request()->is('admin/activity-reports') || request()->is('admin/activity-reports/*') ? 'active' : '' }}">
@@ -276,6 +276,7 @@
                         </ul>
                     </li>
                 @endcan
+                @can('booking_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
                         <i class="fas fa-fw fa-calendar">
@@ -286,6 +287,7 @@
                         </p>
                     </a>
                 </li>
+                @endcan
                 <li class="nav-item">
                     <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         <p>

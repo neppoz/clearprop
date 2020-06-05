@@ -108,7 +108,7 @@
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    pageLength: 50,
     createdRow: (row, data, dataIndex, cells) => {
         $(cells[0]).css('background-color', data.split_color)
         $(cells[5]).css('color', data.warmup_color)
