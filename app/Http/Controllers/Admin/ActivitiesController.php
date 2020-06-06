@@ -200,7 +200,7 @@ class ActivitiesController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $activity->load('user', 'copilot', 'instructor', 'plane', 'type', 'created_by');
+        $activity->load('user', 'copilot', 'instructor', 'plane', 'type');
 
         return view('admin.activities.edit', compact('users', 'types', 'copilots', 'instructors', 'planes', 'activity'));
     }
@@ -216,7 +216,7 @@ class ActivitiesController extends Controller
     {
         abort_if(Gate::denies('activity_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $activity->load('user', 'copilot', 'instructor', 'plane', 'type', 'created_by');
+        $activity->load('user', 'copilot', 'instructor', 'plane', 'type');
 
         return view('admin.activities.show', compact('activity'));
     }
