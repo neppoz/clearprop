@@ -5,11 +5,10 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\MultiTenantModelTrait;
 
 class Activity extends Model
 {
-    use SoftDeletes, MultiTenantModelTrait;
+    use SoftDeletes;
 
     public $table = 'activities';
 
@@ -45,11 +44,11 @@ class Activity extends Model
         'rate',
         'minutes',
         'amount',
+        'description',
         'created_at',
         'updated_at',
         'deleted_at',
         'created_by_id',
-        'description',
     ];
 
     public function user()
