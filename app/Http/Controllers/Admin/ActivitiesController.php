@@ -27,13 +27,11 @@ class ActivitiesController extends Controller
         abort_if(Gate::denies('activity_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $isAdmin = auth()->user()->roles->contains(1);
             $query = Activity::with(['user', 'type', 'copilot', 'instructor', 'plane'])
-                /** CAVE filtering own records */
-
-                ->when($isAdmin !=true, function ($query) {
+                ->when(auth()->user()->roles->contains(1) !=true, function ($query) {
                     return $query->where('user_id', auth()->id());
-                })->select(sprintf('%s.*', (new Activity)->table));
+                })
+                ->select(sprintf('%s.*', (new Activity)->table));
 
             $table = Datatables::of($query);
 

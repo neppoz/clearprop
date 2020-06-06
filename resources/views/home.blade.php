@@ -11,7 +11,7 @@
           <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">N/A</span>
+            <span class="info-box-text"></span>
             {{-- <span class="info-box-number">90<small>%</small></span> --}}
           </div>
           <!-- /.info-box-content -->
@@ -23,7 +23,7 @@
           <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">N/A</span>
+            <span class="info-box-text"></span>
             {{-- <span class="info-box-number">90<small>%</small></span> --}}
           </div>
           <!-- /.info-box-content -->
@@ -35,7 +35,7 @@
           <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">N/A</span>
+            <span class="info-box-text"></span>
             {{-- <span class="info-box-number">90<small>%</small></span> --}}
           </div>
           <!-- /.info-box-content -->
@@ -47,7 +47,7 @@
           <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">N/A</span>
+            <span class="info-box-text"></span>
             {{-- <span class="info-box-number">90<small>%</small></span> --}}
           </div>
           <!-- /.info-box-content -->
@@ -68,9 +68,10 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                    <canvas id="areaChart" style="height: 250px; min-height: 250px; display: block; width: 556px;" width="1112" height="500" class="chartjs-render-monitor"></canvas>
-                  </div>
+                    <div class="col-lg-8">
+                        <h1>{{ $chart1->options['chart_title'] }}</h1>
+                        {!! $chart1->renderHtml() !!}
+                    </div>
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -79,19 +80,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">
-                    Dashboard
-                </div>
 
-                <div class="card-body">
-                    @if(session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
             </div>
         </div>
     </div>
@@ -99,5 +88,7 @@
 @endsection
 @section('scripts')
 @parent
+{!! $chart1->renderChartJsLibrary() !!}
+{!! $chart1->renderJs() !!}
 
 @endsection

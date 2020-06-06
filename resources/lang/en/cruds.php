@@ -3,7 +3,8 @@
 return [
     'dashboard'     => [
         'title' => 'Dashboard',
-        'title_linechart'=> 'Monthly average activities',
+        'title_linechart'=> 'Activities',
+        'title_linechart_chart'=> 'Monthly total',
         'title_singular' => 'Member management',
     ],
     'userManagement'     => [
