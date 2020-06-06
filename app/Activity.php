@@ -2,14 +2,13 @@
 
 namespace App;
 
-use App\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Activity extends Model
 {
-    use SoftDeletes, MultiTenantModelTrait;
+    use SoftDeletes;
 
     public $table = 'activities';
 
@@ -45,11 +44,11 @@ class Activity extends Model
         'rate',
         'minutes',
         'amount',
+        'description',
         'created_at',
         'updated_at',
         'deleted_at',
         'created_by_id',
-        'description',
     ];
 
     public function user()
@@ -85,10 +84,5 @@ class Activity extends Model
     public function setEventAttribute($value)
     {
         $this->attributes['event'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
-
-    public function created_by()
-    {
-        return $this->belongsTo(User::class, 'created_by_id');
     }
 }
