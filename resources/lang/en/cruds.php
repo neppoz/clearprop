@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'dashboard'     => [
+        'title' => 'Dashboard',
+        'title_linechart'=> 'Activities',
+        'title_linechart_chart'=> 'Monthly total',
+        'title_singular' => 'Member management',
+    ],
     'userManagement'     => [
         'title'          => 'Member management',
         'title_singular' => 'Member management',
