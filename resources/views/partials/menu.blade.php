@@ -111,7 +111,7 @@
                 @can('expense_management_access')
                     <li class="nav-item has-treeview {{ request()->is('admin/expense-categories*') ? 'menu-open' : '' }} {{ request()->is('admin/income-categories*') ? 'menu-open' : '' }} {{ request()->is('admin/expenses*') ? 'menu-open' : '' }} {{ request()->is('admin/incomes*') ? 'menu-open' : '' }} {{ request()->is('admin/expense-reports*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw fas fa-money-bill">
+                            <i class="fa-fw fas fa-money-bill-alt">
 
                             </i>
                             <p>

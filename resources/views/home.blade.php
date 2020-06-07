@@ -31,7 +31,7 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-danger">
-            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
+            <span class="info-box-icon"><i class="fa-fw fas fa-plane-departure"></i></span>
 
             <div class="info-box-content">
                 <span class="info-box-text">{{trans('cruds.dashboard.activityAmountTotal')}}</span>
@@ -50,7 +50,7 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-warning">
-            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
+            <span class="info-box-icon"><i class="fas fa-fw fa-money-bill-alt"></i></span>
 
             <div class="info-box-content">
                 <span class="info-box-text">{{trans('cruds.dashboard.incomeAmountTotal')}}</span>
@@ -69,7 +69,7 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-dark">
-            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
+            <span class="info-box-icon"><i class="fas fa-fw fa-clock"></i></span>
 
             <div class="info-box-content">
                 <span class="info-box-text">{{trans('cruds.dashboard.activityHoursAndMinutes')}}</span>
