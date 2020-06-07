@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\Statistics;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Carbon\Carbon;
 
@@ -38,9 +39,9 @@ class HomeController
             //'continuous_time' => true,
         ];
 
-        debug($chart_options);
+        $statistics = (new Statistics())->dashboard();
         $chart1 = new LaravelChart($chart_options);
 
-        return view('home', compact('chart1'));
+        return view('home', compact('chart1', 'statistics'));
     }
 }

@@ -44,7 +44,7 @@ class UsersReportController extends Controller
                     ->where('user_id', '=', $userid->id)
                     ->whereBetween('event', [$from, $to])
                     ->get();
-                ;
+
                 $activityAmountTotal = $activity_lines->sum('amount');
                 $activityMinutesTotal = $activity_lines->sum('minutes');
                 $activityHoursAndMinutes = intval($activityMinutesTotal / 60) . ':' . $activityMinutesTotal%60;
