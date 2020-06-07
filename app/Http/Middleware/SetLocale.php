@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use User;
 
 class SetLocale
 {
@@ -13,8 +14,15 @@ class SetLocale
             $language = request('change_language');
         } elseif (session('language')) {
             $language = session('language');
+        } elseif  (!app()->runningInConsole() && auth()->check()) {
+            $language = \Auth::user()->lang;
+            debug($language);
         } elseif (config('panel.primary_language')) {
             $language = config('panel.primary_language');
+        }
+
+        if (!app()->runningInConsole() && auth()->check()) {
+
         }
 
         if (isset($language)) {

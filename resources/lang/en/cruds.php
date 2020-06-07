@@ -129,7 +129,6 @@ return [
         'price'          => 'Price per minute (€)',
         'title_select'   => 'Please select activity',
         'price'          => 'Price per minute (€)',
-
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
@@ -267,8 +266,8 @@ return [
         'title_singular' => 'Activity Management',
     ],
     'activityReport'     => [
-        'title'          => 'Activity Report',
-        'title_singular' => 'Activity Report',
+        'title'          => 'Activity report',
+        'title_singular' => 'Activity report',
         'title_generate' => 'Member Email',
         'fields'         => [
             'activityfrom'          => 'from',

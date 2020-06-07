@@ -45,8 +45,32 @@
                         </a>
                     </li>
                 @endcan
+                @can('user_access')
+                <li class="nav-item">
+                    <a href="{{ route("admin.users.index") }}" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-user">
+
+                        </i>
+                        <p>
+                            <span>{{ trans('cruds.user.title') }}</span>
+                        </p>
+                    </a>
+                </li>
+                @endcan
+                @can('plane_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.planes.index") }}" class="nav-link {{ request()->is('admin/planes') || request()->is('admin/planes/*') ? 'active' : '' }}">
+                            <i class="fa-fw fas fa-plane">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.plane.title') }}</span>
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('activity_management_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/activities*') ? 'menu-open' : '' }} {{ request()->is('admin/bookings*') ? 'menu-open' : '' }} {{ request()->is('admin/activity-reports*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/types*') ? 'menu-open' : '' }} {{ request()->is('admin/activity-reports*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-plane-departure">
 
@@ -57,6 +81,18 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            @can('type_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.types.index") }}" class="nav-link {{ request()->is('admin/types') || request()->is('admin/types/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            <span>{{ trans('cruds.type.title') }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
                             @can('activity_report_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.activity-reports.index") }}" class="nav-link {{ request()->is('admin/activity-reports') || request()->is('admin/activity-reports/*') ? 'active' : '' }}">
@@ -147,8 +183,8 @@
                         </ul>
                     </li>
                 @endcan
-                @can('user_management_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/users*') ? 'menu-open' : '' }} {{ request()->is('admin/factors*') ? 'menu-open' : '' }}">
+                {{-- @can('user_management_access')
+                    <li class="nav-item has-treeview {{ request()->is('admin/factors*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-users-cog">
 
@@ -159,35 +195,12 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            @can('user_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.users.index") }}" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
-                                        <i class="fa-fw fas fa-user">
 
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.user.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('factor_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.factors.index") }}" class="nav-link {{ request()->is('admin/factors') || request()->is('admin/factors/*') ? 'active' : '' }}">
-                                        <i class="fa-fw fas fa-user-check">
-
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.factor.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
                         </ul>
                     </li>
-                @endcan
+                @endcan --}}
                 @can('setting_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/parameters*') ? 'menu-open' : '' }} {{ request()->is('admin/planes*') ? 'menu-open' : '' }} {{ request()->is('admin/types*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/parameters*') ? 'menu-open' : '' }} {{ request()->is('admin/planes*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-cog">
 
@@ -210,45 +223,18 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('plane_access')
+                            @can('factor_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.planes.index") }}" class="nav-link {{ request()->is('admin/planes') || request()->is('admin/planes/*') ? 'active' : '' }}">
-                                        <i class="fa-fw fas fa-plane">
+                                    <a href="{{ route("admin.factors.index") }}" class="nav-link {{ request()->is('admin/factors') || request()->is('admin/factors/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-user-check">
 
                                         </i>
                                         <p>
-                                            <span>{{ trans('cruds.plane.title') }}</span>
+                                            <span>{{ trans('cruds.factor.title') }}</span>
                                         </p>
                                     </a>
                                 </li>
                             @endcan
-                            @can('type_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.types.index") }}" class="nav-link {{ request()->is('admin/types') || request()->is('admin/types/*') ? 'active' : '' }}">
-                                        <i class="fa-fw fas fa-cogs">
-
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.type.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcan
-                @can('security_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }}">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw fas fa-lock">
-
-                            </i>
-                            <p>
-                                <span>{{ trans('cruds.security.title') }}</span>
-                                <i class="right fa fa-fw fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
                             @can('permission_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.permissions.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
@@ -276,6 +262,22 @@
                         </ul>
                     </li>
                 @endcan
+                {{-- @can('security_access')
+                    <li class="nav-item has-treeview {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw fas fa-lock">
+
+                            </i>
+                            <p>
+                                <span>{{ trans('cruds.security.title') }}</span>
+                                <i class="right fa fa-fw fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                        </ul>
+                    </li>
+                @endcan --}}
                 @can('booking_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
