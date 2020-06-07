@@ -10,7 +10,7 @@
         @if($statistics['granTotal'] > $statistics['activityAmountTotal'])
             <div class="info-box bg-success">
         @else
-            <div class="info-box bg-warning">
+            <div class="info-box bg-danger">
         @endif
             <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
 
