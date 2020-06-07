@@ -7,53 +7,86 @@
 </div>
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+        @if($statistics['granTotal'] > $statistics['activityAmountTotal'])
+            <div class="info-box bg-success">
+        @else
+            <div class="info-box bg-warning">
+        @endif
+            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
 
-          <div class="info-box-content">
-            <span class="info-box-text"></span>
-            {{-- <span class="info-box-number">90<small>%</small></span> --}}
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">{{trans('cruds.dashboard.grantotal')}}</span>
+                <span class="info-box-number">{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</span>
 
-          <div class="info-box-content">
-            <span class="info-box-text"></span>
-            {{-- <span class="info-box-number">90<small>%</small></span> --}}
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 70%"></div>
+                </div>
 
-          <div class="info-box-content">
-            <span class="info-box-text"></span>
-            {{-- <span class="info-box-number">90<small>%</small></span> --}}
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-          <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+                <span class="progress-description">
 
-          <div class="info-box-content">
-            <span class="info-box-text"></span>
-            {{-- <span class="info-box-number">90<small>%</small></span> --}}
-          </div>
-          <!-- /.info-box-content -->
+                </span>
+            </div>
+            <!-- /.info-box-content -->
         </div>
-        <!-- /.info-box -->
-      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-danger">
+            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">{{trans('cruds.dashboard.activityAmountTotal')}}</span>
+                <span class="info-box-number">{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</span>
+
+                <div class="progress">
+                    <div class="progress-bar" style="width: 70%"></div>
+                </div>
+
+                <span class="progress-description">
+
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-warning">
+            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">{{trans('cruds.dashboard.incomeAmountTotal')}}</span>
+                <span class="info-box-number">{{  number_format($statistics['incomeAmountTotal'], 2, ',', '.') }} &euro;</span>
+
+                <div class="progress">
+                    <div class="progress-bar" style="width: 70%"></div>
+                </div>
+
+                <span class="progress-description">
+
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box bg-dark">
+            <span class="info-box-icon"><i class="fas fa-fw fa-tachometer-alt"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">{{trans('cruds.dashboard.activityHoursAndMinutes')}}</span>
+                <span class="info-box-number">{{ $statistics['activityHoursAndMinutes'] }}</span>
+
+                <div class="progress">
+                    <div class="progress-bar" style="width: 70%"></div>
+                </div>
+
+                <span class="progress-description">
+
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+    </div>
+
 </div>
 <div class="content">
     <div class="row">

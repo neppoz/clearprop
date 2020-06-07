@@ -16,7 +16,6 @@ class SetLocale
             $language = session('language');
         } elseif  (!app()->runningInConsole() && auth()->check()) {
             $language = \Auth::user()->lang;
-            debug($language);
         } elseif (config('panel.primary_language')) {
             $language = config('panel.primary_language');
         }
