@@ -2,10 +2,14 @@
 
 return [
     'dashboard'     => [
-        'title' => 'Dashboard',
-        'title_linechart'=> 'Activities',
-        'title_linechart_chart'=> 'Monthly total',
-        'title_singular' => 'Member management',
+        'title'                     => 'Dashboard',
+        'title_linechart'           => 'Attività',
+        'title_linechart_chart'     => 'Attività mensile',
+        'title_singular'            => 'Member management',
+        'grantotal'                 => 'Totale',
+        'incomeAmountTotal'         => 'Entrate',
+        'activityAmountTotal'       => 'Attività di volo',
+        'activityHoursAndMinutes'   => 'Minuti volati',
     ],
     'userManagement'     => [
         'title'          => 'Gestione Utenti',

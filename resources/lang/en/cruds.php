@@ -5,7 +5,6 @@ return [
         'title'                     => 'Dashboard',
         'title_linechart'           => 'Activities',
         'title_linechart_chart'     => 'Monthly total',
-        'title_singular'            => 'Member management',
         'grantotal'                 => 'Balance',
         'incomeAmountTotal'         => 'Incomes',
         'activityAmountTotal'       => 'Activites',
