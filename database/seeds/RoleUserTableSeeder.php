@@ -9,5 +9,9 @@ class RoleUserTableSeeder extends Seeder
     {
         User::findOrFail(1)->roles()->sync(1);
 
+        $members = User::where('id', '>', 1)->get();
+        foreach ($members as $member) {
+            $member->roles()->sync(2);
+        }
     }
 }
