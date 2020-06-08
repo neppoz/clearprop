@@ -12,7 +12,7 @@ class HomeController
     {
         $chart_options = [
             'chart_title' => trans('cruds.dashboard.title_linechart_chart'),
-            'chart_height' => '90',
+            // 'chart_height' => '100',
             'chart_type' => 'line',
             'report_type' => 'group_by_date',
             'model' => 'App\Activity',
