@@ -39,11 +39,6 @@ class ActivityObserver
         $activity->rate = $rate_to_apply[0];
         $amount_to_apply = $minutes_to_apply*$rate_to_apply[0];
         $activity->amount = $amount_to_apply;
-
-        $isAdmin = auth()->user()->roles->contains(1);
-        if (!$isAdmin) {
-            $activity->created_by_id = auth()->id();
-        }
     }
 
     /**
