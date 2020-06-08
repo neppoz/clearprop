@@ -7,7 +7,7 @@
 </div>
 <div class="row">
     <div class="col-md-3 col-sm-6 col-xs-12">
-        @if($statistics['granTotal'] > $statistics['activityAmountTotal'])
+        @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
             <div class="info-box bg-success">
         @else
             <div class="info-box bg-danger">
