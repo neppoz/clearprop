@@ -34,6 +34,22 @@
                             <span class="help-block">{{ trans('cruds.user.fields.lang_helper') }}</span>
                         </div>
                         <div class="form-group">
+                            <label class="required" for="license">{{ trans('cruds.user.fields.license') }}</label>
+                            <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text" name="license" id="license" value="{{ old('license', '') }}" required>
+                            @if($errors->has('license'))
+                                <span class="text-danger">{{ $errors->first('license') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.user.fields.license_helper') }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="medical_due">{{ trans('cruds.user.fields.medical_due') }}</label>
+                            <input class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}" type="text" name="medical_due" id="medical_due" value="{{ old('medical_due') }}" required>
+                            @if($errors->has('medical_due'))
+                                <span class="text-danger">{{ $errors->first('medical_due') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
+                        </div>
+                        <div class="form-group">
                             <label class="required" for="taxno">{{ trans('cruds.user.fields.taxno') }}</label>
                             <input class="form-control {{ $errors->has('taxno') ? 'is-invalid' : '' }}" type="text" name="taxno" id="taxno" value="{{ old('taxno', $user->taxno) }}" required>
                             @if($errors->has('taxno'))
