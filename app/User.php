@@ -124,4 +124,9 @@ class User extends Authenticatable
     {
         $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
+
+    public function setTaxnoAttribute($value)
+    {
+        $this->attributes['taxno'] = strtoupper($value);
+    }
 }
