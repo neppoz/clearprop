@@ -12,6 +12,10 @@ class AddRelationshipFieldsToExpensesTable extends Migration
             $table->unsignedInteger('expense_category_id')->nullable();
             $table->foreign('expense_category_id', 'expense_category_fk_1223668')->references('id')->on('expense_categories');
         });
+    }
 
+    public function down()
+    {
+        //
     }
 }

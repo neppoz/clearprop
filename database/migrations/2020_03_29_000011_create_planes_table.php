@@ -18,6 +18,10 @@ class CreatePlanesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    public function down()
+    {
+        Schema::dropIfExists('planes');
     }
 }

@@ -12,6 +12,10 @@ class AddRelationshipFieldsToUsersTable extends Migration
             $table->unsignedInteger('factor_id')->nullable();
             $table->foreign('factor_id', 'factor_fk_1168765')->references('id')->on('factors');
         });
+    }
 
+    public function down()
+    {
+        //
     }
 }
