@@ -14,13 +14,11 @@ class AddFieldsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            Schema::create('users', function (Blueprint $table) {
-                $table->string('taxno')->after('lang')->nullable();
-                $table->string('phone_1')->after('taxno')->nullable();
-                $table->string('phone_2')->after('phone_1')->nullable();
-                $table->string('address')->after('phone_2')->nullable();
-                $table->string('city')->after('address')->nullable();
-            });
+            $table->string('taxno')->after('lang')->nullable();
+            $table->string('phone_1')->after('taxno')->nullable();
+            $table->string('phone_2')->after('phone_1')->nullable();
+            $table->string('address')->after('phone_2')->nullable();
+            $table->string('city')->after('address')->nullable();
         });
     }
 
