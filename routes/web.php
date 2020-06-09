@@ -10,6 +10,13 @@ Route::get('/home', function () {
 });
 
 Auth::routes(['register' => false]);
+
+/** Complete profile after registration */
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('register-step2', 'Auth\RegisterStep2Controller@showForm');
+    Route::post('register-step2', 'Auth\RegisterStep2Controller@postForm')->name('register.step2');
+});
+
 // Admin
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
