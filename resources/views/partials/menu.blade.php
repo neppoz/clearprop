@@ -200,7 +200,7 @@
                     </li>
                 @endcan --}}
                 @can('setting_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/parameters*') ? 'menu-open' : '' }} {{ request()->is('admin/planes*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/parameters*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw fas fa-cog">
 
