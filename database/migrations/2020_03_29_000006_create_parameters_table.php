@@ -16,6 +16,10 @@ class CreateParametersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    public function down()
+    {
+        Schema::dropIfExists('parameters');
     }
 }

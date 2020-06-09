@@ -16,6 +16,10 @@ class CreateIncomesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    public function down()
+    {
+        Schema::dropIfExists('incomes');
     }
 }

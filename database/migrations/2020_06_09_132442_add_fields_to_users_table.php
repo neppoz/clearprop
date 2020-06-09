@@ -22,19 +22,9 @@ class AddFieldsToUsersTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('taxno');
-            $table->dropColumn('phone_1');
-            $table->dropColumn('phone_2');
-            $table->dropColumn('address');
-            $table->dropColumn('city');
-        });
+        //
     }
 }

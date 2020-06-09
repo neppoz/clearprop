@@ -14,6 +14,10 @@ class CreateFactorTypePivotTable extends Migration
             $table->unsignedInteger('type_id');
             $table->foreign('type_id', 'type_id_fk_1169147')->references('id')->on('types')->onDelete('cascade');
         });
+    }
 
+    public function down()
+    {
+        //
     }
 }

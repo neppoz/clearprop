@@ -16,6 +16,10 @@ class AddRelationshipFieldsToBookingsTable extends Migration
             $table->unsignedInteger('created_by_id')->nullable();
             $table->foreign('created_by_id', 'created_by_fk_1223686')->references('id')->on('users');
         });
+    }
 
+    public function down()
+    {
+        //
     }
 }
