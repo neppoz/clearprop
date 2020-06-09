@@ -14,6 +14,15 @@ class CreatePermissionsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('permissions');
     }
 }

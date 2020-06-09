@@ -38,19 +38,24 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
-        'lang',
         'email',
-        'params',
-        'license',
         'password',
+        'lang',
+        'taxno',
+        'phone_1',
+        'phone_2',
+        'address',
+        'city',
         'factor_id',
+        'license',
+        'medical_due',
         'instructor',
+        'params',
+        'remember_token',
+        'email_verified_at',
         'created_at',
         'updated_at',
         'deleted_at',
-        'medical_due',
-        'remember_token',
-        'email_verified_at',
     ];
 
     public function getIsAdminAttribute()
@@ -118,5 +123,10 @@ class User extends Authenticatable
     public function setEmailVerifiedAtAttribute($value)
     {
         $this->attributes['email_verified_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
+    }
+
+    public function setTaxnoAttribute($value)
+    {
+        $this->attributes['taxno'] = strtoupper($value);
     }
 }

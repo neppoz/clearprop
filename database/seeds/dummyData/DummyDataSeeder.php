@@ -29,12 +29,21 @@ class DummyDataSeeder extends Seeder
 
         /** Generate Users */
         foreach (range(1, 50) as $index) {
+            $dt = $faker->dateTimeBetween($startDate = '-12 months', $endDate = '+5 months');
+            $date = $dt->format("d.m.Y");
             DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => bcrypt('secret'),
                 'remember_token' => null,
                 'lang'           => 'IT',
+                'taxno'          => $faker->taxid,
+                'phone_1'        => $faker->phoneNumber,
+                'phone_2'        => $faker->phoneNumber,
+                'address'        => $faker->address,
+                'city'           => $faker->city,
+                'license'        => $faker->numberBetween(5000, 50000),
+                'medical_due'    => $date,
                 'factor_id'      => Factor::all()->random()->id,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
