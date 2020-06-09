@@ -49,6 +49,46 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.user.fields.taxno') }}
+                        </th>
+                        <td>
+                            {{ $user->taxno }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.phone_1') }}
+                        </th>
+                        <td>
+                            {{ $user->phone_1 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.phone_2') }}
+                        </th>
+                        <td>
+                            {{ $user->phone_2 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.address') }}
+                        </th>
+                        <td>
+                            {{ $user->address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.user.fields.city') }}
+                        </th>
+                        <td>
+                            {{ $user->city }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.user.fields.factor') }}
                         </th>
                         <td>
@@ -123,6 +163,11 @@
                 {{ trans('cruds.booking.title') }}
             </a>
         </li>
+        {{-- <li class="nav-item">
+            <a class="nav-link" href="#copilot_activities" role="tab" data-toggle="tab">
+                {{ trans('cruds.activity.title') }}
+            </a>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="#user_incomes" role="tab" data-toggle="tab">
                 {{ trans('cruds.income.title') }}
@@ -136,6 +181,9 @@
         <div class="tab-pane" role="tabpanel" id="user_bookings">
             @includeIf('admin.users.relationships.userBookings', ['bookings' => $user->userBookings])
         </div>
+        {{-- <div class="tab-pane" role="tabpanel" id="copilot_activities">
+            @includeIf('admin.users.relationships.copilotActivities', ['activities' => $user->copilotActivities])
+        </div> --}}
         <div class="tab-pane" role="tabpanel" id="user_incomes">
             @includeIf('admin.users.relationships.userIncomes', ['incomes' => $user->userIncomes])
         </div>

@@ -16,6 +16,10 @@ class CreateBookingsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    public function down()
+    {
+        Schema::dropIfExists('bookings');
     }
 }

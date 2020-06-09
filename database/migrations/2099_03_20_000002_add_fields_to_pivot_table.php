@@ -13,4 +13,9 @@ class AddFieldsToPivotTable extends Migration
             $table->longText('description')->after('rate')->nullable();
         });
     }
+
+    public function down()
+    {
+        //
+    }
 }

@@ -15,6 +15,10 @@ class CreateFactorsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    public function down()
+    {
+        Schema::dropIfExists('factors');
     }
 }

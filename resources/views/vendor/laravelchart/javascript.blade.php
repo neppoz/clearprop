@@ -20,7 +20,7 @@
                     @endforeach
                 ],
                 @if ($options['chart_type'] == 'line')
-                    fill: 'origin',
+                    fill: false,
                     backgroundColor: '#5bc0de',
                     @if (isset($dataset['color']) && $dataset['color'] != '')
                         borderColor: '{{ $dataset['color'] }}',

@@ -14,6 +14,10 @@ class CreateExpenseCategoriesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+    }
 
+    public function down()
+    {
+        Schema::dropIfExists('expense_categories');
     }
 }
