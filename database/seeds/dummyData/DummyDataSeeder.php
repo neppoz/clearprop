@@ -28,7 +28,7 @@ class DummyDataSeeder extends Seeder
         $faker = Faker::create('it_IT');
 
         /** Generate Users */
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 30) as $index) {
             $dt = $faker->dateTimeBetween($startDate = '-12 months', $endDate = '+5 months');
             $date = $dt->format("d.m.Y");
             DB::table('users')->insert([
