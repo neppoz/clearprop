@@ -50,6 +50,12 @@ class DummyDataSeeder extends Seeder
             ]);
         }
 
+        /** Sync roles */
+        $members = User::where('id', '>', 1)->get();
+        foreach ($members as $member) {
+            $member->roles()->sync(User::IS_MEMBER);
+        }
+
         /** Generate billings */
         foreach (range(1, 20) as $index) {
             $user_id = User::where('id', '!=', 1)->get()->random()->id;
