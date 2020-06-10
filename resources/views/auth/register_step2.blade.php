@@ -21,19 +21,6 @@
                         @csrf
 
                         <div class="form-group">
-                            <label class="required">{{ trans('cruds.user.fields.lang') }}</label>
-                            <select class="form-control {{ $errors->has('lang') ? 'is-invalid' : '' }}" name="lang" id="lang" required>
-                                <option value disabled {{ old('lang', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                                @foreach(App\User::LANG_SELECT as $key => $label)
-                                    <option value="{{ $key }}" {{ old('lang', $user->lang) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('lang'))
-                                <span class="text-danger">{{ $errors->first('lang') }}</span>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.lang_helper') }}</span>
-                        </div>
-                        <div class="form-group">
                             <label class="required" for="license">{{ trans('cruds.user.fields.license') }}</label>
                             <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text" name="license" id="license" value="{{ old('license', '') }}" required>
                             @if($errors->has('license'))
