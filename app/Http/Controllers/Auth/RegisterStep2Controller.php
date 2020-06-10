@@ -23,7 +23,6 @@ class RegisterStep2Controller extends Controller
     public function postForm(Request $request)
     {
         auth()->user()->update($request->only([
-            'lang',
             'taxno',
             'phone_1',
             'phone_2',
@@ -32,6 +31,9 @@ class RegisterStep2Controller extends Controller
             'license',
             'medical_due'
         ]));
+
+        User::findOrFail(auth()->user()->id)->roles()->sync(User::IS_MEMBER);
+
         return redirect()->route('admin.home');
     }
 }

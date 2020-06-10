@@ -22,6 +22,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    const IS_ADMIN = 1;
+    const IS_MEMBER = 2;
     const LANG_SELECT = [
         'EN' => 'English',
         'DE' => 'German',
