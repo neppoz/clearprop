@@ -36,24 +36,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach ($factor->factor_types as $factor_type)
-                        <tr id="type{{ $loop->index }}">
-                            <td>
-                                <select name="types[]" class="form-control">
-                                    <option value="">{{ trans('cruds.type.title_select') }}</option>
-                                    @foreach ($types as $type)
-                                        <option value="{{ $type->id }}"
-                                            @if ($factor_type->id == $type->id) selected @endif
-                                        >{{ $type->name }}</option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" name="rates[]" class="form-control" value="{{ $factor_type->pivot->rate }}" min="0" step="0.01"/>
-                            </td>
-                        </tr>
-                        @endforeach
-                        <tr id="type{{ $factor->factor_types->count() }}"></tr>
+                            @foreach (old('types', $factor->types->count() ? $factor->types : ['']) as $factor_type)
+                                <tr id="type{{ $loop->index }}">
+                                    <td>
+                                        <select name="types[]" class="form-control">
+                                            <option value="">{{ trans('cruds.type.title_select') }}</option>
+                                            @foreach ($types as $type)
+                                                <option value="{{ $type->id }}"
+                                                    @if (old('types.' . $loop->parent->index, optional($factor_type)->id) == $type->id) selected @endif
+                                                >{{ $type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="rates[]" class="form-control"
+                                               value="{{ (old('rates.' . $loop->index) ?? optional(optional($factor_type)->pivot)->rate) ?? '1' }}" min="0" step="0.01"/>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr id="type{{ count(old('types', $factor->types->count() ? $factor->types : [''])) }}"></tr>
                         </tbody>
                     </table>
 
@@ -79,24 +80,24 @@
 @endsection
 
 @section('scripts')
-<script>
-    $(document).ready(function(){
-        let row_number = 1;
+    <script>
+      $(document).ready(function(){
+        let row_number = {{ count(old('types', $factor->types->count() ? $factor->types : [''])) }};
         $("#add_row").click(function(e){
-            e.preventDefault();
-                let new_row_number = row_number - 1;
-                $('#type' + row_number).html($('#type' + new_row_number).html()).find('td:first-child');
-                $('#types_table').append('');
-                row_number++;
-            });
-
-        $("#delete_row").click(function(e){
-            e.preventDefault();
-                if(row_number > 1){
-                    $("#type" + (row_number - 1)).html('');
-                    row_number--;
-                }
+          e.preventDefault();
+          let new_row_number = row_number - 1;
+          $('#type' + row_number).html($('#type' + new_row_number).html()).find('td:first-child');
+          $('#types_table').append('<tr id="type' + (row_number + 1) + '"></tr>');
+          row_number++;
         });
-    });
-</script>
+        $("#delete_row").click(function(e){
+          e.preventDefault();
+          if(row_number > 1){
+            $("#type" + (row_number - 1)).html('');
+            row_number--;
+          }
+        });
+      });
+    </script>
 @endsection
+© 2020 GitHub, Inc.
