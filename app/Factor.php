@@ -28,10 +28,14 @@ class Factor extends Model
     public function factorUsers()
     {
         return $this->hasMany(User::class, 'factor_id', 'id');
-
     }
 
     public function factor_types()
+    {
+        return $this->belongsToMany(Type::class)->withPivot(['rate','description']);
+    }
+
+    public function types()
     {
         return $this->belongsToMany(Type::class)->withPivot(['rate','description']);
     }
