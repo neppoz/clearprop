@@ -76,6 +76,17 @@
                             @endif
                             <span class="help-block">{{ trans('cruds.user.fields.city_helper') }}</span>
                         </div>
+                        <div class="form-group">
+                            <div class="form-check {{ $errors->has('privacy_confirmed_at') ? 'is-invalid' : '' }}">
+                                <input type="hidden" name="privacy_confirmed_at" value="0">
+                                <input class="form-check-input" type="checkbox" name="privacy_confirmed_at" id="privacy_confirmed_at" value="{{ now() }}" {{ old('privacy_confirmed_at', 0) == 0 || old('privacy_confirmed_at') === null ? 'checked' : '' }} required>
+                                <label class="form-check-label" for="privacy_confirmed_at">{{ trans('cruds.user.fields.privacy') }}</label>
+                            </div>
+                            @if($errors->has('instructor'))
+                                <span class="text-danger">{{ $errors->first('instructor') }}</span>
+                            @endif
+                            <span class="help-block">{{ trans('cruds.user.fields.instructor_helper') }}</span>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

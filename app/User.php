@@ -36,6 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'deleted_at',
         'medical_due',
         'email_verified_at',
+        'privacy_confirmed_at',
     ];
 
     protected $fillable = [
@@ -55,6 +56,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'params',
         'remember_token',
         'email_verified_at',
+        'privacy_confirmed_at',
         'created_at',
         'updated_at',
         'deleted_at',
