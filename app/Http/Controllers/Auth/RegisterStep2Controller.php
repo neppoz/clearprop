@@ -17,7 +17,7 @@ class RegisterStep2Controller extends Controller
     public function showForm()
     {
         $user = User::findOrFail(auth()->user()->id);
-        if (empty($user->license) or empty($user->medical_due)) {
+        if (empty($user->privacy_confirmed_at)) {
             return view('auth.register_step2', compact('user'));
         } else {
             return redirect()->route('admin.home');
@@ -33,7 +33,8 @@ class RegisterStep2Controller extends Controller
             'address',
             'city',
             'license',
-            'medical_due'
+            'medical_due',
+            'privacy_confirmed_at'
         ]));
 
         User::findOrFail(auth()->user()->id)->roles()->sync(User::IS_MEMBER);

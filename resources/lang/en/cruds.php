@@ -94,6 +94,7 @@ return [
             'address_helper'           => '',
             'city'                     => 'City',
             'city_helper'              => '',
+            'privacy'                  => 'Agree to terms and conditions',
         ],
     ],
     'plane'              => [
