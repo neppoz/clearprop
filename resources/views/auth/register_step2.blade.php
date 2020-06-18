@@ -15,14 +15,14 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Complete Profile') }}</div>
-                @foreach($user as $user)
+                {{-- @foreach($user as $user) --}}
                 <div class="card-body">
                     <form method="POST" action="{{ route('register.step2') }}">
                         @csrf
 
                         <div class="form-group">
                             <label class="required" for="license">{{ trans('cruds.user.fields.license') }}</label>
-                            <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text" name="license" id="license" value="{{ old('license', '') }}" required>
+                            <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text" name="license" id="license" value="{{ old('license', $user->license) }}" required>
                             @if($errors->has('license'))
                                 <span class="text-danger">{{ $errors->first('license') }}</span>
                             @endif
@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label class="required" for="medical_due">{{ trans('cruds.user.fields.medical_due') }}</label>
-                            <input class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}" type="text" name="medical_due" id="medical_due" value="{{ old('medical_due') }}" required>
+                            <input class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}" type="text" name="medical_due" id="medical_due" value="{{ old('medical_due', $user->medical_due) }}" required>
                             @if($errors->has('medical_due'))
                                 <span class="text-danger">{{ $errors->first('medical_due') }}</span>
                             @endif
@@ -53,8 +53,8 @@
                             <span class="help-block">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
                         </div>
                         <div class="form-group">
-                            <label class="required" for="phone_2">{{ trans('cruds.user.fields.phone_2') }}</label>
-                            <input class="form-control {{ $errors->has('phone_2') ? 'is-invalid' : '' }}" type="text" name="phone_2" id="phone_2" value="{{ old('phone_2', $user->phone_2) }}" required>
+                            <label for="phone_2">{{ trans('cruds.user.fields.phone_2') }}</label>
+                            <input class="form-control {{ $errors->has('phone_2') ? 'is-invalid' : '' }}" type="text" name="phone_2" id="phone_2" value="{{ old('phone_2', $user->phone_2) }}">
                             @if($errors->has('phone_2'))
                                 <span class="text-danger">{{ $errors->first('phone_2') }}</span>
                             @endif
@@ -85,7 +85,7 @@
                         </div>
                     </form>
                 </div>
-                @endforeach
+                {{-- @endforeach --}}
             </div>
         </div>
     </div>
