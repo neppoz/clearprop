@@ -16,8 +16,12 @@ class RegisterStep2Controller extends Controller
 
     public function showForm()
     {
-        $user = User::where('id', auth()->user()->id)->get();
-        return view('auth.register_step2', compact('user'));
+        $user = User::findOrFail(auth()->user()->id);
+        if (empty($user->license) or empty($user->medical_due)) {
+            return view('auth.register_step2', compact('user'));
+        } else {
+            return redirect()->route('admin.home');
+        }
     }
 
     public function postForm(Request $request)
