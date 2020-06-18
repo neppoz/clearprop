@@ -2,7 +2,7 @@
 
 return [
     'actions'                              => 'Azioni',
-    'add'                                  => 'Aggiungi nuovo',
+    'add'                                  => 'Aggiungi',
     'allRightsReserved'                    => 'Tutti i diritti riservati.',
     'areYouSure'                           => 'Sei sicuro?',
     'clickHereToVerify'                    => 'Clicca per verificare',

@@ -23,7 +23,7 @@ class SystemCalendarController extends Controller
         $events = [];
 
         foreach ($this->sources as $source) {
-            foreach ($source['model']::all() as $model) {
+            foreach ($source['model']::with(['user', 'plane'])->get() as $model) {
                 $crudFieldValue = $model->getOriginal($source['date_field']);
 
                 if (!$crudFieldValue) {
@@ -31,17 +31,16 @@ class SystemCalendarController extends Controller
                 }
 
                 $events[] = [
-                    'title' => trim($source['prefix'] . " " . $model->{$source['field']}
+                    'title' => trim($source['prefix'] . " " . $model->plane->callsign
+                        . " " . $model->user->name
+                        . " " . $model->{$source['field']}
                         . " " . $source['suffix']),
                     'start' => $crudFieldValue,
                     'url'   => route($source['route'], $model->id),
                 ];
             }
-
         }
 
         return view('admin.calendar.calendar', compact('events'));
-
     }
-
 }
