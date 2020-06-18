@@ -11,10 +11,14 @@ class RolesTableSeeder extends Seeder
             [
                 'id'    => 1,
                 'title' => 'Admin',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
                 'id'    => 2,
                 'title' => 'Member',
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
         ];
 
