@@ -17,7 +17,7 @@ $(document).ready(function () {
   })
 
   $('.datetime').datetimepicker({
-    format: 'DD.MM.YYYY HH:mm:ss',
+    format: 'DD.MM.YYYY HH:mm',
     locale: 'en',
     sideBySide: true,
     icons: {
@@ -29,7 +29,7 @@ $(document).ready(function () {
   })
 
   $('.timepicker').datetimepicker({
-    format: 'HH:mm:ss',
+    format: 'HH:mm',
     icons: {
       up: 'fas fa-chevron-up',
       down: 'fas fa-chevron-down',
