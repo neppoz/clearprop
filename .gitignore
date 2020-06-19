@@ -4,6 +4,8 @@
 /storage/*.key
 /storage/tmp
 /vendor
+/.vscode
+/.idea
 .env
 .env.backup
 .phpunit.result.cache
