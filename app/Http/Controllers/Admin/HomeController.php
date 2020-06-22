@@ -40,8 +40,9 @@ class HomeController
         ];
 
         $statistics = (new Statistics())->dashboard();
-        $chart1 = new LaravelChart($chart_options);
+        // $chart1 = new LaravelChart($chart_options);
 
-        return view('home', compact('chart1', 'statistics'));
+        // return view('home', compact('chart1', 'statistics'));
+        return view('home', compact('statistics'));
     }
 }
