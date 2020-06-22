@@ -102,8 +102,7 @@
                 </div>
                 <div class="card-body">
                     <div class="col-lg-8">
-                        <h1>{{ $chart1->options['chart_title'] }}</h1>
-                        {!! $chart1->renderHtml() !!}
+
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -120,8 +119,6 @@
 </div>
 @endsection
 @section('scripts')
-@parent
-{!! $chart1->renderChartJsLibrary() !!}
-{!! $chart1->renderJs() !!}
+
 
 @endsection
