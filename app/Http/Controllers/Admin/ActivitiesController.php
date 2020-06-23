@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Activity;
-use App\Events\ActivitySplitCost;
+use App\Events\ActivityCostCalculation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyActivityRequest;
 use App\Http\Requests\StoreActivityRequest;
@@ -127,6 +127,7 @@ class ActivitiesController extends Controller
     {
         if ($request->split_cost == false) {
             $activity = Activity::create($request->all());
+            event(new ActivityCostCalculation($activity));
         }
 
         if ($request->split_cost == true && isset($request->copilot_id)) {
@@ -208,6 +209,7 @@ class ActivitiesController extends Controller
     public function update(UpdateActivityRequest $request, Activity $activity)
     {
         $activity->update($request->all());
+        event(new ActivityCostCalculation($activity));
 
         return redirect()->route('admin.activities.index');
     }
