@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\Statistics;
+use App\Services\StatisticsService;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class HomeController
 {
-    public function index()
+    public function index(Request $request)
     {
         $chart_options = [
             'chart_title' => trans('cruds.dashboard.title_linechart_chart'),
@@ -39,10 +40,27 @@ class HomeController
             //'continuous_time' => true,
         ];
 
-        $statistics = (new Statistics())->dashboard();
-        // $chart1 = new LaravelChart($chart_options);
+        $fromMonth = Carbon::parse(sprintf(
+            '%s-%s-01',
+            request()->query('y', Carbon::now()->year),
+            request()->query('m', Carbon::now()->month)
+        ));
+        $from = Carbon::parse(sprintf(
+            '%s-01-01',
+            request()->query('y', Carbon::now()->year)
+        ));
+        $to      = clone $fromMonth;
+        $to->day = $to->daysInMonth;
+       
+        $fromDate = Carbon::parse($from)->format('Y-m-d');
+        $toDate = Carbon::parse($to)->format('Y-m-d');
+        session([
+            'fromDate' => $fromDate,
+            'toDate' => $toDate,
+        ]);
 
-        // return view('home', compact('chart1', 'statistics'));
+        $statistics = (new StatisticsService())->dashboard($request);
+
         return view('home', compact('statistics'));
     }
 }
