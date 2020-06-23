@@ -17,7 +17,7 @@ class RegisterStep2Controller extends Controller
     public function showForm()
     {
         $user = User::findOrFail(auth()->user()->id);
-        if (empty($user->privacy_confirmed_at)) {
+        if (empty($user->privacy_confirmed_at) and $user->roles->contains(User::IS_MEMBER)) {
             return view('auth.register_step2', compact('user'));
         } else {
             return redirect()->route('admin.home');
