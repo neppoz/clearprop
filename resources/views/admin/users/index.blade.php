@@ -38,7 +38,7 @@
                             {{ trans('cruds.user.fields.factor') }}
                         </th>
                         <th>
-                            {{ trans('cruds.factor.fields.description') }}
+                            {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
                             &nbsp;
@@ -67,7 +67,9 @@
                                 {{ $user->factor->name ?? '' }}
                             </td>
                             <td>
-                                {{ $user->factor->description ?? '' }}
+                                @foreach($user->roles as $key => $roles)
+                                    {{ $roles->title }}
+                                @endforeach
                             </td>
                             <td>
                                 @can('user_show')
@@ -148,7 +150,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 })
 
 </script>
