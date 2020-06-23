@@ -27,14 +27,10 @@ class UsersReportController extends Controller
 
             $usersWithActivities = User::whereHas('userActivities', function ($query) use ($from, $to) {
                 $query->whereBetween('event', [$from, $to]);
-            })->get('id');
+            })->get();
 
             foreach ($usersWithActivities as $userid) {
-                $user_details = User::select('name', 'email')
-                    ->where('id', '=', $userid->id)
-                    ->get();
-
-                $report_name = $to.'_'.$user_details[0]->name.'_'.uniqid();
+                $report_name = $to.'_'.$userid->name.'_'.uniqid();
                 $path = storage_path('tmp/reports');
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
@@ -62,7 +58,7 @@ class UsersReportController extends Controller
                 $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
 
                 $pdf = Pdf::loadView('reports.members', compact(
-                    'user_details',
+                    'userid',
                     'activity_lines',
                     'income_lines',
                     'activityMinutesTotal',
@@ -75,7 +71,7 @@ class UsersReportController extends Controller
                 $pdf->save($path.'/'.$report_name.'.pdf');
 
                 $attachment = $path.'/'.$report_name.'.pdf';
-                Mail::send(new UserReport($user_details, $attachment));
+                Mail::send(new UserReport($userid, $attachment));
                 return back()->withToastSuccess(trans('global.sweetalert_success_sendreport'));
             }
         } else {
