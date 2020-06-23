@@ -20,9 +20,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        ActivitySplitCost::class => [
-            ActivitySplitCostListener::class,
-        ]
+        'App\Events\ActivityCostCalculation' => [
+            'App\Listeners\ActivityCostCalculationListener',
+        ],
+        'App\Events\ActivitySplitCostCalculation' => [
+            'App\Listeners\ActivitySplitCostCalculationListener',
+        ],
     ];
 
     /**
