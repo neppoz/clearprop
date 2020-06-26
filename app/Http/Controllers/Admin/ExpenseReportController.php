@@ -42,9 +42,10 @@ class ExpenseReportController extends Controller
             'toSelectedDate' => $toSelectedDate,
         ]);
 
+
         /* download pdf button */
         if (request()->query('pdf')) {
-            return PDF::loadView('admin.expenseReports.pdf', $data)
+            return PDF::loadView('admin.expenseReports.pdf', $statistics)
                 ->format('A4')
                 ->showBackground()
                 ->download();

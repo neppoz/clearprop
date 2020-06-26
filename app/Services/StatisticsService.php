@@ -70,7 +70,7 @@ class StatisticsService
         $activityAmountTotal = $activity_lines->sum('amount');
         $activityMinutesTotal = $activity_lines->sum('minutes');
         $activityHoursAndMinutes = intval($activityMinutesTotal / 60) . 'h : ' . $activityMinutesTotal%60 . 'm';
-        
+
         // Call the function
         $income_lines = $this->getDepositIncomes($request);
 
@@ -242,7 +242,10 @@ class StatisticsService
             'expensesTotal' => $expensesTotal,
             'incomesTotal' => $incomesTotal,
             'profit' => $profit,
-            'overdueMembers' => $overdueMembers
+            'overdueMembers' => $overdueMembers,
+            'fromSelectedDate' => $request->session()->get('fromDate'),
+            'toSelectedDate' => $request->session()->get('toDate')
+
         ];
     }
 }
