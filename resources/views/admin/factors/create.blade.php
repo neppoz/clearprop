@@ -47,7 +47,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" name="rates[]" class="form-control" value="0" />
+                                    <input type="number" name="rates[]" class="form-control" value="0" min="0" step="0.01"/>
                                 </td>
                             </tr>
                             <tr id="type1"></tr>
