@@ -87,7 +87,10 @@ class StatisticsService
      */
     public function getActivityReport(Request $request)
     {
-        // Call the function
+        /** Call the function
+         *  CAVE: when calling the activities, the filter will be enlarged for every call.
+         *  So therefore the order of the sum is crucial
+         * */
         $activities = $this->getActivities($request);
 
         $activityTotalMinutes = $activities->sum('minutes');
@@ -109,6 +112,7 @@ class StatisticsService
                 $activitiesUserSummary[$line->user->name]['minutes'] += $line->minutes;
             }
         }
+
 
         /* Activity by type */
         $groupedTypeActivities = $activities->whereNotNull('type_id')->orderBy('minutes', 'desc')->get()->groupBy('type_id');
@@ -144,12 +148,30 @@ class StatisticsService
             }
         }
 
+        /* Activity by instructor */
+        $groupedInstructorActivities = $activities->whereNotNull('instructor_id')->orderBy('minutes', 'desc')->get()->groupBy('instructor_id');
+        $activitiesInstructorSummary = [];
+
+        foreach ($groupedInstructorActivities as $act) {
+            foreach ($act as $line) {
+                if (!isset($activitiesInstructorSummary[$line->instructor->name])) {
+                    $activitiesInstructorSummary[$line->instructor->name] = [
+                        'name'   => $line->instructor->name,
+                        'minutes' => 0
+                    ];
+                }
+
+                $activitiesInstructorSummary[$line->instructor->name]['minutes'] += $line->minutes;
+            }
+        }
+
         return [
-            'activitiesUserSummary'   =>   $activitiesUserSummary,
-            'activitiesTypeSummary'   =>   $activitiesTypeSummary,
-            'activitiesPlaneSummary'  =>   $activitiesPlaneSummary,
-            'activityTotalMinutes'    =>   $activityTotalMinutes,
-            'activityTotalTime'       =>   $activityTotalTime
+            'activitiesUserSummary'       =>   $activitiesUserSummary,
+            'activitiesInstructorSummary' =>   $activitiesInstructorSummary,
+            'activitiesTypeSummary'       =>   $activitiesTypeSummary,
+            'activitiesPlaneSummary'      =>   $activitiesPlaneSummary,
+            'activityTotalMinutes'        =>   $activityTotalMinutes,
+            'activityTotalTime'           =>   $activityTotalTime
         ];
     }
 
