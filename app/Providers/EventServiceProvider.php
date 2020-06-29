@@ -23,9 +23,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ActivityCostCalculation' => [
             'App\Listeners\ActivityCostCalculationListener',
         ],
-        'App\Events\ActivitySplitCostCalculation' => [
-            'App\Listeners\ActivitySplitCostCalculationListener',
-        ],
     ];
 
     /**
