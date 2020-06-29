@@ -38,6 +38,7 @@ class ActivityCostCalculationListener
             $userid = User::findOrFail($event->activity->user_id);
             $typeid = Type::findOrFail($event->activity->type_id);
             $planeid = Plane::findOrFail($event->activity->plane_id);
+
             $rate_to_apply = DB::table('factor_type')
                 ->select('rate')
                 ->where([
@@ -45,9 +46,9 @@ class ActivityCostCalculationListener
                     ['factor_id', '=', $userid->factor_id],
                 ])
                 ->pluck('rate');
-
+            /** */
             $calculation_formula = $planeid->counter_type/5*3;
-
+            /** */
             if ($event->activity->engine_warmup == true) {
                 $warmup_to_apply = round(($event->activity->counter_start-$event->activity->warmup_start)*$calculation_formula, 2);
                 $event->activity->warmup_minutes = $warmup_to_apply;
@@ -63,7 +64,7 @@ class ActivityCostCalculationListener
             /** */
         } catch (Throwable $exception) {
             report($exception);
-            return back()->withError($exception->getMessage());
+            return back()->withToastError($exception->getMessage());
         }
     }
 }
