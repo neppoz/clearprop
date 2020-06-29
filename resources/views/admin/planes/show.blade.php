@@ -57,6 +57,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.plane.fields.counter_type') }}
+                        </th>
+                        <td>
+                            {{ App\Plane::COUNTER_TYPE_SELECT[$plane->counter_type] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.plane.fields.active') }}
                         </th>
                         <td>

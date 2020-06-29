@@ -43,6 +43,19 @@
                 <span class="help-block">{{ trans('cruds.plane.fields.prodno_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required">{{ trans('cruds.plane.fields.counter_type') }}</label>
+                <select class="form-control {{ $errors->has('counter_type') ? 'is-invalid' : '' }}" name="counter_type" id="counter_type" required>
+                    <option value disabled {{ old('counter_type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Plane::COUNTER_TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('counter_type', $plane->counter_type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('counter_type'))
+                    <span class="text-danger">{{ $errors->first('counter_type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.plane.fields.counter_type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <div class="form-check {{ $errors->has('active') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="active" value="0">
                     <input class="form-check-input" type="checkbox" name="active" id="active" value="1" {{ $plane->active || old('active', 0) === 1 ? 'checked' : '' }}>

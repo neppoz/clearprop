@@ -119,6 +119,8 @@ return [
             'deleted_at_helper' => '',
             'active'            => 'Active',
             'active_helper'     => 'Plane is operational',
+            'counter_type'      => 'Counter type',
+            'counter_type_helper'      => '',
         ],
     ],
     'factor'             => [
