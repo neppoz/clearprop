@@ -17,12 +17,18 @@ class Plane extends Model
         'deleted_at',
     ];
 
+    const COUNTER_TYPE_SELECT = [
+        '100' => '100sec/min',
+        '60'  => '60sec/min',
+    ];
+
     protected $fillable = [
-        'model',
-        'vendor',
-        'prodno',
-        'active',
         'callsign',
+        'vendor',
+        'model',
+        'prodno',
+        'counter_type',
+        'active',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -31,12 +37,10 @@ class Plane extends Model
     public function planeActivities()
     {
         return $this->hasMany(Activity::class, 'plane_id', 'id');
-
     }
 
     public function planeBookings()
     {
         return $this->hasMany(Booking::class, 'plane_id', 'id');
-
     }
 }
