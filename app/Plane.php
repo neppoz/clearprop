@@ -19,7 +19,7 @@ class Plane extends Model
 
     const COUNTER_TYPE_SELECT = [
         '100' => '100sec/min',
-        '60'  => '60sec/min',
+        '060'  => '60sec/min',
     ];
 
     protected $fillable = [
