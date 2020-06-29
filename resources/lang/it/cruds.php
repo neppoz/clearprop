@@ -120,6 +120,8 @@ return [
             'deleted_at_helper' => '',
             'active'            => 'Attivo',
             'active_helper'     => 'Aeroplano è operativo',
+            'counter_type'      => 'Tipo di orametro',
+            'counter_type_helper'      => '',
         ],
     ],
     'factor'             => [

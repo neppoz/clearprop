@@ -88,7 +88,7 @@ return [
             'model'             => 'Model',
             'model_helper'      => '',
             'prodno'            => 'Product No.',
-            'prodno_helper'     => 'Serial or product number',
+            'prodno_helper'     => 'Serien- oder Produktnummer',
             'created_at'        => 'Created at',
             'created_at_helper' => '',
             'updated_at'        => 'Updated at',
@@ -97,6 +97,8 @@ return [
             'deleted_at_helper' => '',
             'active'            => 'Active',
             'active_helper'     => 'Plane is operational',
+            'counter_type'      => 'Art des Zählers',
+            'counter_type_helper'      => '',
         ],
     ],
     'factor'             => [
