@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Activity;
 use App\Events\ActivityCostCalculation;
+use App\Services\SplitCostService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyActivityRequest;
 use App\Http\Requests\StoreActivityRequest;
@@ -131,57 +132,13 @@ class ActivitiesController extends Controller
         }
 
         if ($request->split_cost == true && isset($request->copilot_id)) {
-            // TODO: Event und Listener bereits erstellt, Controller entschlacken
-            // $activity = $request->all();
-            // event(new ActivitySplitCost($activity));
-
-            $data_pilot = clone $request;
-            $data_copilot = clone $request;
-
-            $counter_split_value = ($request->counter_stop-$request->counter_start)/2;
-            $counter_start_p    = $request->counter_start;
-            $counter_stop_p     = $counter_start_p+$counter_split_value;
-            $counter_start_c    = $counter_stop_p;
-            $counter_stop_c     = $counter_start_c+$counter_split_value;
-
-            $data_copilot->merge([
-                'user_id' => $data_pilot->copilot_id,
-                'copilot_id' => $data_pilot->user_id,
-            ]);
-            $data_pilot->merge([
-                'counter_start' => $counter_start_p,
-                'counter_stop' => $counter_stop_p,
-            ]);
-            $data_copilot->merge([
-                'counter_start' => $counter_start_c,
-                'counter_stop' => $counter_stop_c,
-            ]);
-
-            if ($request->engine_warmup == true) {
-                $warmup_split_value = ($request->counter_start-$request->warmup_start)/2;
-                $warmup_start_p     = $request->warmup_start;
-                $counter_start_p    = $request->warmup_start+$warmup_split_value;
-                $counter_stop_p     = $counter_start_p+$counter_split_value;
-                $warmup_start_c     = $counter_stop_p;
-                $counter_start_c    = $counter_stop_p+$warmup_split_value;
-                $counter_stop_c     = $counter_start_c+$counter_split_value;
-
-                $data_pilot->merge([
-                    'warmup_start' => $warmup_start_p,
-                    'counter_start' => $counter_start_p,
-                    'counter_stop' => $counter_stop_p,
-                ]);
-
-                $data_copilot->merge([
-                    'warmup_start' => $warmup_start_c,
-                    'counter_start' => $counter_start_c,
-                    'counter_stop' => $counter_stop_c,
-                ]);
-            };
+            $data = (new SplitCostService())->splitcost($request);
 
             /** Create two records */
-            $activity = Activity::create($data_pilot->all());
-            $activity = Activity::create($data_copilot->all());
+            $activity_pilot = Activity::create($data['data_pilot']->all());
+            event(new ActivityCostCalculation($activity_pilot));
+            $activity_copilot = Activity::create($data['data_copilot']->all());
+            event(new ActivityCostCalculation($activity_copilot));
         }
 
         return redirect()->route('admin.activities.index');
