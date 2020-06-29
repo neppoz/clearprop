@@ -14,17 +14,20 @@ class UpdatePlaneRequest extends FormRequest
         abort_if(Gate::denies('plane_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'callsign' => [
-                'required'],
-            'vendor'   => [
-                'required'],
+            'callsign'     => [
+                'required',
+            ],
+            'vendor'       => [
+                'required',
+            ],
+            'counter_type' => [
+                'required',
+            ],
         ];
-
     }
 }
