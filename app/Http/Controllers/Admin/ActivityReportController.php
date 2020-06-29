@@ -41,7 +41,7 @@ class ActivityReportController extends Controller
 
         /** Invoke Service Class */
         $statistics = (new StatisticsService())->getActivityReport($request);
-        
+
         session([
             'fromSelectedDate' => $fromSelectedDate,
             'toSelectedDate' => $toSelectedDate,
@@ -50,6 +50,7 @@ class ActivityReportController extends Controller
 
         return view('admin.activityReports.index', [
             'activitiesUserSummary' => $statistics['activitiesUserSummary'],
+            'activitiesInstructorSummary' => $statistics['activitiesInstructorSummary'],
             'activitiesTypeSummary' => $statistics['activitiesTypeSummary'],
             'activitiesPlaneSummary' => $statistics['activitiesPlaneSummary'],
             'activityTotalMinutes' => $statistics['activityTotalMinutes'],

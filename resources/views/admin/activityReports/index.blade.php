@@ -64,8 +64,8 @@
                     </tr>
                     <tr>
                         <th class="w-50">{{ trans('cruds.activityReport.reports.activityReportTotal') }}</th>
-                        <th class="w-25">{{ $activityTotalMinutes }}</th>
-                        <th class="w-25">{{ $activityTotalTime }}</th>
+                        <th class="w-25">{{ $activityTotalMinutes ?? '' }}</th>
+                        <th class="w-25">{{ $activityTotalTime ?? '' }}</th>
                     </tr>
                 </table>
             </div>
@@ -74,14 +74,13 @@
             <div class="col">
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th class="w-50">{{ trans('cruds.activityReport.reports.activityReportByType') }}</th>
+                        <th class="w-50">{{ trans('cruds.activityReport.reports.activityReportByPlane') }}</th>
                         <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
                         <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
-
                     </tr>
-                    @foreach($activitiesTypeSummary as $act)
+                    @foreach($activitiesPlaneSummary ?? '' as $act)
                         <tr>
-                            <td class="w-50">{{ $act['name'] }}</td>
+                            <td class="w-50">{{ $act['callsign'] }}</td>
                             <td class="w-25">{{ number_format($act['minutes'], 2) }}</td>
                             <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
                         </tr>
@@ -89,14 +88,41 @@
                 </table>
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th class="w-50">{{ trans('cruds.activityReport.reports.activityReportByPlane') }}</th>
+                        <th class="w-50">{{ trans('cruds.activityReport.reports.activityReportByType') }}</th>
+                        <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
+                        <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
+
+                    </tr>
+                    @foreach($activitiesTypeSummary ?? '' as $act)
+                        <tr>
+                            <td class="w-50">{{ $act['name'] }}</td>
+                            <td class="w-25">{{ number_format($act['minutes'], 2) }}</td>
+                            <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        {{ trans('cruds.activityReport.reports.activityReportByInstructor') }}
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th class="w-50">{{ trans('cruds.activityReport.reports.activityByInstructor') }}</th>
                         <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
                         <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
                     </tr>
-                    @foreach($activitiesPlaneSummary as $act)
+                    @foreach($activitiesInstructorSummary ?? '' as $act)
                         <tr>
-                            <td class="w-50">{{ $act['callsign'] }}</td>
-                            <td class="w-25">{{ number_format($act['minutes'], 2) }}</td>
+                            <td class="w-50">{{ $act['name'] }}</td>
+                            <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
                             <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
                         </tr>
                     @endforeach
@@ -119,7 +145,7 @@
                         <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
                         <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
                     </tr>
-                    @foreach($activitiesUserSummary as $act)
+                    @foreach($activitiesUserSummary ?? '' as $act)
                         <tr>
                             <td class="w-50">{{ $act['name'] }}</td>
                             <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
