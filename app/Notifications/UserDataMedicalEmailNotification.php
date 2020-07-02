@@ -8,9 +8,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 
-class UserDataMedicalEmailNotification extends Notification
+class UserDataMedicalEmailNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    protected $data;
 
     public function __construct($data)
     {
