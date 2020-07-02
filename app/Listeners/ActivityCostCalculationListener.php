@@ -5,12 +5,12 @@ namespace App\Listeners;
 use App\Events\ActivityCostCalculation;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Jobs\UserDataVerificationJob;
+use Throwable;
 
 use App\User;
 use App\Type;
 use App\Plane;
-use Illuminate\Support\Facades\DB;
-use Throwable;
 
 class ActivityCostCalculationListener
 {
@@ -55,6 +55,8 @@ class ActivityCostCalculationListener
             $event->activity->amount = $amount_to_apply;
 
             $event->activity->save();
+            /** Dispatch verification job */
+            UserDataVerificationJob::dispatch($userid);
             /** */
         } catch (Throwable $exception) {
             report($exception);
