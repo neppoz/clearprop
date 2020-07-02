@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Notification;
 use Throwable;
 use Log;
 
-class UserDataVerificationJob //implements ShouldQueue
+class UserDataVerificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -61,7 +61,6 @@ class UserDataVerificationJob //implements ShouldQueue
 
             if ($balance > 0) {
                 $data  = ['name' => $this->user->name, 'balance' => number_format($balance, 2, ',', '.')];
-                $admins = User::wherehas('getIsAdminAttribute')->get();
                 Notification::send($admins, new UserDataBalanceEmailNotification($data));
             }
 
