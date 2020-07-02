@@ -26,4 +26,9 @@ class Type extends Model
         'deleted_at',
         'description',
     ];
+
+    public function factors()
+    {
+        return $this->belongsToMany(Factor::class)->withPivot(['rate','description']);
+    }
 }

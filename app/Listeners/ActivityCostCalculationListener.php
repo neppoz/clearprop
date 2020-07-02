@@ -38,14 +38,8 @@ class ActivityCostCalculationListener
             $userid = User::findOrFail($event->activity->user_id);
             $typeid = Type::findOrFail($event->activity->type_id);
             $planeid = Plane::findOrFail($event->activity->plane_id);
+            $rate_query = $typeid->factors()->findOrFail($userid->factor_id, ['type_id'])->pivot->rate;
 
-            $rate_to_apply = DB::table('factor_type')
-                ->select('rate')
-                ->where([
-                    ['type_id', '=', $typeid->id],
-                    ['factor_id', '=', $userid->factor_id],
-                ])
-                ->pluck('rate');
             /** */
             $calculation_formula = $planeid->counter_type/5*3;
             /** */
@@ -56,8 +50,8 @@ class ActivityCostCalculationListener
             /** Calculate the offset between counter values */
             $minutes_to_apply = round(($event->activity->counter_stop-$event->activity->counter_start)*$calculation_formula, 2);
             $event->activity->minutes = $minutes_to_apply;
-            $event->activity->rate = $rate_to_apply[0];
-            $amount_to_apply = $minutes_to_apply*$rate_to_apply[0];
+            $event->activity->rate = $rate_query;
+            $amount_to_apply = $minutes_to_apply*$rate_query;
             $event->activity->amount = $amount_to_apply;
 
             $event->activity->save();
