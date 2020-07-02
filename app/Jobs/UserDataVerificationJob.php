@@ -3,18 +3,23 @@
 namespace App\Jobs;
 
 use App\User;
-
+use Bugsnag\Report;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
+use App\Notifications\UserDataMedicalEmailNotification;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
+use Throwable;
+
 class UserDataVerificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $user;
+    protected $user;
 
     /**
      * Create a new job instance.
@@ -33,6 +38,17 @@ class UserDataVerificationJob implements ShouldQueue
      */
     public function handle()
     {
-        debug($this->user);
+        try {
+            /** checking user conditions */
+            if ($this->user->medical_due <=  now()) {
+                $data  = ['name' => $this->user->name, 'medical_due' => $this->user->medical_due];
+                Notification::send($this->user, new UserDataMedicalEmailNotification($data));
+            };
+
+            return;
+            /** */
+        } catch (Throwable $exception) {
+            report($exception);
+        }
     }
 }

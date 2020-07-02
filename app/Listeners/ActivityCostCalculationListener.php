@@ -35,13 +35,13 @@ class ActivityCostCalculationListener
         // Access the activity using $event->activity...
 
         try {
-            $userid = User::findOrFail($event->activity->user_id);
-            $typeid = Type::findOrFail($event->activity->type_id);
-            $planeid = Plane::findOrFail($event->activity->plane_id);
-            $rate_query = $typeid->factors()->findOrFail($userid->factor_id, ['type_id'])->pivot->rate;
+            $user = User::findOrFail($event->activity->user_id);
+            $type = Type::findOrFail($event->activity->type_id);
+            $plane = Plane::findOrFail($event->activity->plane_id);
+            $rate_query = $type->factors()->findOrFail($user->factor_id, ['type_id'])->pivot->rate;
 
             /** */
-            $calculation_formula = $planeid->counter_type/5*3;
+            $calculation_formula = $plane->counter_type/5*3;
             /** */
             if ($event->activity->engine_warmup == true) {
                 $warmup_to_apply = round(($event->activity->counter_start-$event->activity->warmup_start)*$calculation_formula, 2);
@@ -56,7 +56,9 @@ class ActivityCostCalculationListener
 
             $event->activity->save();
             /** Dispatch verification job */
-            UserDataVerificationJob::dispatch($userid);
+            UserDataVerificationJob::dispatch($user);
+
+            return;
             /** */
         } catch (Throwable $exception) {
             report($exception);
