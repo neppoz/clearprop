@@ -53,15 +53,22 @@ class UserDataVerificationJob //implements ShouldQueue
                 ->whereBetween('entry_date', [now()->startOfYear(), now()]);
 
             $balance = ($activities->sum('amount')-abs($incomes->sum('amount')));
+
+            /** Recipients */
+            $admins = User::wherehas('roles', function ($q) {
+                $q->where('role_id', User::IS_ADMIN);
+            })->get();
+
             if ($balance > 0) {
                 $data  = ['name' => $this->user->name, 'balance' => number_format($balance, 2, ',', '.')];
-                Notification::send($this->user, new UserDataBalanceEmailNotification($data));
+                $admins = User::wherehas('getIsAdminAttribute')->get();
+                Notification::send($admins, new UserDataBalanceEmailNotification($data));
             }
 
             /** checking user conditions */
             if (!empty($this->user->medical_due) && $this->user->medical_due <=  now()) {
                 $data  = ['name' => $this->user->name, 'medical_due' => $this->user->medical_due];
-                Notification::send($this->user, new UserDataMedicalEmailNotification($data));
+                Notification::send($admins, new UserDataMedicalEmailNotification($data));
             };
 
             return;
