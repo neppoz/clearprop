@@ -14,6 +14,7 @@
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^7.0",
+        "laravel/horizon": "^4.3",
         "laravel/passport": "^8.0",
         "laravel/slack-notification-channel": "^2.0",
         "laravel/tinker": "^2.0",
@@ -23,6 +24,7 @@
         "league/flysystem-sftp": "^1.0",
         "niklasravnsborg/laravel-pdf": "^4.0",
         "nuovo/spreadsheet-reader": "^0.5.11",
+        "predis/predis": "^1.1",
         "realrashid/sweet-alert": "^3.1",
         "snowfire/beautymail": "^1.1",
         "spatie/browsershot": "^3.35",
@@ -76,6 +78,15 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "clear-all": [
+            "@php artisan clear-compiled",
+            "@php artisan cache:clear",
+            "@php artisan route:clear",
+            "@php artisan view:clear",
+            "@php artisan config:clear",
+            "composer dumpautoload -o",
+            "npm run dev"
         ]
     }
 }
