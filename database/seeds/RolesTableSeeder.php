@@ -2,6 +2,7 @@
 
 use App\Role;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class RolesTableSeeder extends Seeder
 {
