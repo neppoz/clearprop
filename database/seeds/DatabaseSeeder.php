@@ -8,12 +8,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            //FactorTableSeeder::class,
-            //TypeTableSeeder::class,
-            //FactorTypeTableSeeder::class,
-            //IncomeCategoriesTableSeeder::class,
-            //ExpenseCategoriesTableSeeder::class,
-            //PlaneTableSeeder::class,
             PermissionsTableSeeder::class,
             RolesTableSeeder::class,
             PermissionRoleTableSeeder::class,
