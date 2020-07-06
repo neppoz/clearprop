@@ -30,7 +30,7 @@ class UserDataReportJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user, $from, $to, $sender)
+    public function __construct(User $user, $from, $to, $sender)
     {
         $this->user = $user;
         $this->from = $from;
@@ -46,14 +46,17 @@ class UserDataReportJob implements ShouldQueue
     public function handle()
     {
         try {
-            $report_name = $this->to.'_'.$this->user->name.'_'.uniqid();
+            $user = $this->user;
+            $sender_email = $this->sender->email;
+
+            $report_name = $this->to.'_'.$user->name.'_'.uniqid();
             $path = storage_path('tmp/reports');
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
 
             $activity_lines = Activity::select('event', 'counter_start', 'counter_stop', 'rate', 'minutes', 'amount')
-                ->where('user_id', '=', $this->user->id)
+                ->where('user_id', '=', $user->id)
                 ->whereBetween('event', [$this->from, $this->to])
                 ->get();
 
@@ -66,7 +69,7 @@ class UserDataReportJob implements ShouldQueue
                 $q->where('deposit', '=', 1);
             })
                 ->whereBetween('entry_date', [$this->from, $this->to])
-                ->where('user_id', '=', $this->user->id)
+                ->where('user_id', '=', $user->id)
                 ->get();
             $incomeAmountTotal = $income_lines->sum('amount');
 
@@ -74,7 +77,7 @@ class UserDataReportJob implements ShouldQueue
             $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
 
             $pdf = Pdf::loadView('reports.members', compact(
-                'userid',
+                'user',
                 'activity_lines',
                 'income_lines',
                 'activityMinutesTotal',
@@ -88,10 +91,10 @@ class UserDataReportJob implements ShouldQueue
 
             $attachment = $path.'/'.$report_name.'.pdf';
 
-            $data  = ['name' => $this->user->name, 'date' => $this->to];
-            Notification::send($this->user, new UserDataReportEmailNotification($data, $attachment, $this->sender));
+            $data  = ['name' => $user->name, 'date' => $this->to];
+            Notification::send($user, new UserDataReportEmailNotification($data, $attachment, $sender_email));
 
-            // Mail::send(new UserReport($this->user, $attachment, $this->sender));
+            return;
         } catch (Throwable $exception) {
             report($exception);
         }
