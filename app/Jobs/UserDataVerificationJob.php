@@ -6,7 +6,6 @@ use App\User;
 use App\Activity;
 use App\Income;
 
-use Bugsnag\Report;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,7 +16,6 @@ use App\Notifications\UserDataMedicalEmailNotification;
 use App\Notifications\UserDataBalanceEmailNotification;
 use Illuminate\Support\Facades\Notification;
 use Throwable;
-use Log;
 
 class UserDataVerificationJob implements ShouldQueue
 {
