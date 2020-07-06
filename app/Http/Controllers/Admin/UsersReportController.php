@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Mail\UserReport;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 use App\User;
-use App\Activity;
-use App\Income;
+use App\Jobs\UserDataReportJob;
 use Gate;
+use Throwable;
 use Carbon\Carbon;
-use niklasravnsborg\LaravelPdf\Facades\Pdf;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class UsersReportController extends Controller
 {
@@ -29,51 +25,17 @@ class UsersReportController extends Controller
                 $query->whereBetween('event', [$from, $to]);
             })->get();
 
-            foreach ($usersWithActivities as $userid) {
-                $report_name = $to.'_'.$userid->name.'_'.uniqid();
-                $path = storage_path('tmp/reports');
-                if (!file_exists($path)) {
-                    mkdir($path, 0777, true);
+            $sender = auth()->user();
+
+            foreach ($usersWithActivities as $user) {
+                try {
+                    UserDataReportJob::dispatch($user, $from, $to, $sender);
+                } catch (Throwable $exception) {
+                    report($exception);
+                    return back()->withToastError($exception->getMessage());
                 }
-
-                $activity_lines = Activity::select('event', 'counter_start', 'counter_stop', 'rate', 'minutes', 'amount')
-                    ->where('user_id', '=', $userid->id)
-                    ->whereBetween('event', [$from, $to])
-                    ->get();
-
-                $activityAmountTotal = $activity_lines->sum('amount');
-                $activityMinutesTotal = $activity_lines->sum('minutes');
-                $activityHoursAndMinutes = intval($activityMinutesTotal / 60) . ':' . $activityMinutesTotal%60;
-
-
-                $income_lines = Income::whereHas('income_category', function ($q) {
-                    $q->where('deposit', '=', 1);
-                })
-                    ->whereBetween('entry_date', [$from, $to])
-                    ->where('user_id', '=', $userid->id)
-                    ->get();
-                $incomeAmountTotal = $income_lines->sum('amount');
-
-
-                $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
-
-                $pdf = Pdf::loadView('reports.members', compact(
-                    'userid',
-                    'activity_lines',
-                    'income_lines',
-                    'activityMinutesTotal',
-                    'activityHoursAndMinutes',
-                    'activityAmountTotal',
-                    'incomeAmountTotal',
-                    'granTotal'
-                ));
-
-                $pdf->save($path.'/'.$report_name.'.pdf');
-
-                $attachment = $path.'/'.$report_name.'.pdf';
-                Mail::send(new UserReport($userid, $attachment));
-                return back()->withToastSuccess(trans('global.sweetalert_success_sendreport'));
             }
+            return back()->withToastSuccess(trans('global.sweetalert_success_sendreport'));
         } else {
             return back()->withToastError(trans('global.sweetalert_error_sendreport'));
         }
