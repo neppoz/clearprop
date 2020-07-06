@@ -40,18 +40,32 @@ class ActivityCostCalculationListener
             $plane = Plane::findOrFail($event->activity->plane_id);
             $rate_query = $type->factors()->findOrFail($user->factor_id, ['type_id'])->pivot->rate;
 
-            /** */
-            $calculation_formula = $plane->counter_type/5*3;
-            /** */
+            /** industrial minutes calculation */
+            if ($plane->counter_type === '100') {
+                $warmup_value = ($event->activity->counter_start) - ($event->activity->warmup_start);
+                $regular_value = ($event->activity->counter_stop) - ($event->activity->counter_start);
+                $warmup_minutes = round($warmup_value * 100/15, 2);
+                $regular_minutes = round($regular_value * 100/15, 2);
+                debug('Warmup minutes: '.$warmup_minutes);
+                debug('Regular minutes: '.$regular_minutes);
+            }
+            /** Rolling hours and minutes with a decimal */
+            if ($plane->counter_type === '060') {
+                $warmup_minutes = ((intval($event->activity->counter_start)*60) + explode('.', number_format($event->activity->counter_start, 2))[1]) - ((intval($event->activity->warmup_start)*60) + explode('.', number_format($event->activity->warmup_start, 2))[1]);
+                $regular_minutes = ((intval($event->activity->counter_stop)*60) + explode('.', number_format($event->activity->counter_stop, 2))[1]) - ((intval($event->activity->counter_start)*60) + explode('.', number_format($event->activity->counter_start, 2))[1]);
+                debug('Warmup minutes: '.$warmup_minutes);
+                debug('Regular minutes: '.$regular_minutes);
+            }
+
             if ($event->activity->engine_warmup == true) {
-                $warmup_to_apply = round(($event->activity->counter_start-$event->activity->warmup_start)*$calculation_formula, 2);
-                $event->activity->warmup_minutes = $warmup_to_apply;
+                $event->activity->warmup_minutes = $warmup_minutes;
             }
             /** Calculate the offset between counter values */
-            $minutes_to_apply = round(($event->activity->counter_stop-$event->activity->counter_start)*$calculation_formula, 2);
-            $event->activity->minutes = $minutes_to_apply;
+            $event->activity->minutes = $regular_minutes;
             $event->activity->rate = $rate_query;
-            $amount_to_apply = $minutes_to_apply*$rate_query;
+            /** TODO: Check flag whenwarmup minutes are to pay */
+            $amount_to_apply = $regular_minutes*$rate_query;
+
             $event->activity->amount = $amount_to_apply;
 
             $event->activity->save();
