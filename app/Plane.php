@@ -18,8 +18,8 @@ class Plane extends Model
     ];
 
     const COUNTER_TYPE_SELECT = [
-        '100' => '100sec/min',
-        '060'  => '60sec/min',
+        '100' => 'Industrial minutes (100/hour)',
+        '060' => 'Hours and minutes (hh,mm)',
     ];
 
     protected $fillable = [

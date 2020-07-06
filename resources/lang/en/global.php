@@ -250,6 +250,8 @@ return [
     'no_alerts'                            => 'No alerts',
     'calendar'                             => 'Calendar',
     'messenger'                            => 'Messenger',
+    'counter_type_option1'                 => 'Industrial minutes (100/hour)',
+    'counter_type_option2'                 => 'Hours/Minutes (hh,mm)',
     'pdf'                                  => 'Download PDF',
     'sweetalert_success_sendreport'        => 'Emails with reports generated successfully!',
     'sweetalert_warning_sendreport'        => '',

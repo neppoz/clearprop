@@ -30,7 +30,7 @@
     <table class="tg" width="100%" style="width:100%">
         <tr>
             <td class="tg-l1af"></td>
-            <td class="tg-8ob6">{{ $userid->name }}</td>
+            <td class="tg-8ob6">{{ $user->name }}</td>
         </tr>
     </table>
     <br>
