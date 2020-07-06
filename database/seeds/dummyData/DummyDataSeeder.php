@@ -25,6 +25,16 @@ class DummyDataSeeder extends Seeder
      */
     public function run()
     {
+        /* Seed the details */
+        $this->call([
+            FactorTableSeeder::class,
+            TypeTableSeeder::class,
+            FactorTypeTableSeeder::class,
+            IncomeCategoriesTableSeeder::class,
+            ExpenseCategoriesTableSeeder::class,
+            PlaneTableSeeder::class,
+        ]);
+
         $faker = Faker::create('it_IT');
 
         /** Generate Users */
