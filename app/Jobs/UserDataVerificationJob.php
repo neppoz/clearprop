@@ -16,6 +16,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Notifications\UserDataMedicalEmailNotification;
 use App\Notifications\UserDataBalanceEmailNotification;
 use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
 use Throwable;
 use Log;
 
@@ -65,7 +66,7 @@ class UserDataVerificationJob implements ShouldQueue
             }
 
             /** checking user conditions */
-            if (!empty($this->user->medical_due) && $this->user->medical_due <=  now()) {
+            if (!empty($this->user->medical_due) && Carbon::createFromFormat(config('panel.date_format'), $this->user->medical_due)->format('Y-m-d') <=  now()) {
                 $data  = ['name' => $this->user->name, 'medical_due' => $this->user->medical_due];
                 Notification::send($admins, new UserDataMedicalEmailNotification($data));
             };
