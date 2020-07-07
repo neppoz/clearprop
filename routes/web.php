@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Users
     Route::post('users/report', 'UsersReportController@index')->name('users.report');
+    Route::post('users/individualReport/{user}', 'UsersReportController@individualReport')->name('users.individualReport');
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
