@@ -163,11 +163,6 @@
                 {{ trans('cruds.booking.title') }}
             </a>
         </li>
-        {{-- <li class="nav-item">
-            <a class="nav-link" href="#copilot_activities" role="tab" data-toggle="tab">
-                {{ trans('cruds.activity.title') }}
-            </a>
-        </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="#user_incomes" role="tab" data-toggle="tab">
                 {{ trans('cruds.income.title') }}
@@ -181,13 +176,26 @@
         <div class="tab-pane" role="tabpanel" id="user_bookings">
             @includeIf('admin.users.relationships.userBookings', ['bookings' => $user->userBookings])
         </div>
-        {{-- <div class="tab-pane" role="tabpanel" id="copilot_activities">
-            @includeIf('admin.users.relationships.copilotActivities', ['activities' => $user->copilotActivities])
-        </div> --}}
         <div class="tab-pane" role="tabpanel" id="user_incomes">
             @includeIf('admin.users.relationships.userIncomes', ['incomes' => $user->userIncomes])
         </div>
     </div>
 </div>
 
+<div class="card">
+    <div class="card-header">
+        {{ trans('cruds.activityReport.title') }}
+    </div>
+
+    <div class="card-body">
+        <form method="POST" action="{{ route("admin.users.individualReport", $user) }}" enctype="multipart/form-data">
+            @csrf
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn btn-warning" type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

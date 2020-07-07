@@ -63,8 +63,8 @@ return [
             'updated_at_helper'        => '',
             'deleted_at'               => 'Deleted at',
             'deleted_at_helper'        => '',
-            'factor'                   => 'Price List',
-            'factor_helper'            => 'Price List assigned to the member',
+            'factor'                   => 'Preisliste',
+            'factor_helper'            => 'Zugewiesene Preisliste',
             'instructor'               => 'Instructor',
             'instructor_helper'        => '',
             'medical_due'              => 'Medical',
@@ -102,8 +102,8 @@ return [
         ],
     ],
     'factor'             => [
-        'title'          => 'Memberships',
-        'title_singular' => 'Membership',
+        'title'          => 'Preislisten',
+        'title_singular' => 'Preisliste',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
