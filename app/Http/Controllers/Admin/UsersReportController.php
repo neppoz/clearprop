@@ -40,4 +40,21 @@ class UsersReportController extends Controller
             return back()->withToastError(trans('global.sweetalert_error_sendreport'));
         }
     }
+
+    public function individualReport($user)
+    {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $user = User::findOrFail($user);
+
+        $sender = auth()->user();
+
+        try {
+            UserDataReportJob::dispatch($user, now()->startOfYear(), now(), $sender);
+            return back()->withToastSuccess(trans('global.sweetalert_success_sendreport'));
+        } catch (Throwable $exception) {
+            report($exception);
+            return back()->withToastError($exception->getMessage());
+        }
+    }
 }

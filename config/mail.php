@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'mailgun'),
+    'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'app.clearprop.aero'),
+    'host' => env('MAIL_HOST', 'mail.your-server.de'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'support@app.clearprop.aero'),
+        'address' => env('MAIL_FROM_ADDRESS', 'support@clearprop.aero'),
         'name' => env('MAIL_FROM_NAME', 'ClearProp Support'),
     ],
 
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('MAIL_USERNAME', 'support@clearprop.aero'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('MAIL_PASSWORD', 'R7n43Lc4DnmE56nB'),
 
     /*
     |--------------------------------------------------------------------------

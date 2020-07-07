@@ -125,8 +125,8 @@ return [
         ],
     ],
     'factor'             => [
-        'title'          => 'Profilo dei soci',
-        'title_singular' => 'Profilo del socio',
+        'title'          => 'Listini prezzi',
+        'title_singular' => 'Listino prezzi',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
