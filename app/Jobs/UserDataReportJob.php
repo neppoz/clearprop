@@ -58,6 +58,7 @@ class UserDataReportJob implements ShouldQueue
             $activity_lines = Activity::select('event', 'counter_start', 'counter_stop', 'rate', 'minutes', 'amount')
                 ->where('user_id', '=', $user->id)
                 ->whereBetween('event', [$this->from, $this->to])
+                ->orderBy('event', 'DESC')
                 ->get();
 
             $activityAmountTotal = $activity_lines->sum('amount');
@@ -70,6 +71,7 @@ class UserDataReportJob implements ShouldQueue
             })
                 ->whereBetween('entry_date', [$this->from, $this->to])
                 ->where('user_id', '=', $user->id)
+                ->orderBy('entry_date', 'DESC')
                 ->get();
             $incomeAmountTotal = $income_lines->sum('amount');
 
