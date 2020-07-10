@@ -3,7 +3,7 @@
 @can('plane_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.planes.create") }}">
+            <a class="btn btn-success" href="{{ route('admin.planes.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.plane.title_singular') }}
             </a>
         </div>
@@ -29,13 +29,13 @@
                             {{ trans('cruds.plane.fields.callsign') }}
                         </th>
                         <th>
-                            {{ trans('cruds.plane.fields.vendor') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.plane.fields.model') }}
                         </th>
                         <th>
-                            {{ trans('cruds.plane.fields.prodno') }}
+                            {{ trans('cruds.plane.fields.counter_type') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.plane.fields.warmup_type') }}
                         </th>
                         <th>
                             {{ trans('cruds.plane.fields.active') }}
@@ -58,13 +58,13 @@
                                 {{ $plane->callsign ?? '' }}
                             </td>
                             <td>
-                                {{ $plane->vendor ?? '' }}
-                            </td>
-                            <td>
                                 {{ $plane->model ?? '' }}
                             </td>
                             <td>
-                                {{ $plane->prodno ?? '' }}
+                                {{ App\Plane::COUNTER_TYPE_SELECT[$plane->counter_type] ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Plane::WARMUP_TYPE_RADIO[$plane->warmup_type] ?? '' }}
                             </td>
                             <td>
                                 <span style="display:none">{{ $plane->active ?? '' }}</span>
@@ -140,14 +140,16 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
+    orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Plane:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
+  let table = $('.datatable-Plane:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
+      $($.fn.dataTable.tables(true)).DataTable()
+          .columns.adjust();
+  });
+
 })
 
 </script>

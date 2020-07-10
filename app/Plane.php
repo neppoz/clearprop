@@ -11,15 +11,19 @@ class Plane extends Model
 
     public $table = 'planes';
 
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    const WARMUP_TYPE_RADIO = [
+        '0' => 'No',
+        '1' => 'Yes',
     ];
 
     const COUNTER_TYPE_SELECT = [
         '100' => 'Industrial minutes (100/hour)',
         '060' => 'Hours and minutes (hh,mm)',
+    ];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $fillable = [
@@ -28,6 +32,7 @@ class Plane extends Model
         'model',
         'prodno',
         'counter_type',
+        'warmup_type',
         'active',
         'created_at',
         'updated_at',

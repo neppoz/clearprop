@@ -99,6 +99,8 @@ return [
             'active_helper'     => 'Plane is operational',
             'counter_type'      => 'Art des Zählers',
             'counter_type_helper'      => '',
+            'warmup_type'         => 'Motorvorwärmung',
+            'warmup_type_helper'  => 'Wählen Sie ob die Motorvorwärmung zu Lasten des Piloten geht',
         ],
     ],
     'factor'             => [

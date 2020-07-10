@@ -122,6 +122,8 @@ return [
             'active_helper'     => 'Aeroplano è operativo',
             'counter_type'      => 'Tipo di orametro',
             'counter_type_helper'      => '',
+            'warmup_type'         => 'Riscaldamento a carico',
+            'warmup_type_helper'  => 'Seleziona se il riscaldamento è a carico del pilota',
         ],
     ],
     'factor'             => [
