@@ -226,7 +226,7 @@ return [
             'opt1'                  => 'Regular',
             'opt2'                  => 'Instructor',
             'split_cost'            => 'Split activity',
-            'split_cost_helper'     => 'Copilot must be set when registering',
+            'split_cost_helper'     => 'Copilot required for splitting costs',
             'description'           => 'Notes',
             'description_helper'    => 'Optional notes',
         ],
