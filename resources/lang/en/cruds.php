@@ -121,6 +121,8 @@ return [
             'active_helper'     => 'Plane is operational',
             'counter_type'      => 'Counter type',
             'counter_type_helper'      => '',
+            'warmup_type'         => 'Warmup cost for pilot',
+            'warmup_type_helper'  => 'Select if the engine warmup has to be charged to the pilot',
         ],
     ],
     'factor'             => [

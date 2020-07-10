@@ -56,6 +56,19 @@
                 <span class="help-block">{{ trans('cruds.plane.fields.counter_type_helper') }}</span>
             </div>
             <div class="form-group">
+                <label>{{ trans('cruds.plane.fields.warmup_type') }}</label>
+                @foreach(App\Plane::WARMUP_TYPE_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('warmup_type') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="warmup_type_{{ $key }}" name="warmup_type" value="{{ $key }}" {{ old('warmup_type', $plane->warmup_type) === (string) $key ? 'checked' : '' }}>
+                        <label class="form-check-label" for="warmup_type_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('warmup_type'))
+                    <span class="text-danger">{{ $errors->first('warmup_type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.plane.fields.warmup_type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <div class="form-check {{ $errors->has('active') ? 'is-invalid' : '' }}">
                     <input type="hidden" name="active" value="0">
                     <input class="form-check-input" type="checkbox" name="active" id="active" value="1" {{ $plane->active || old('active', 0) === 1 ? 'checked' : '' }}>

@@ -65,6 +65,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.plane.fields.warmup_type') }}
+                        </th>
+                        <td>
+                            {{ App\Plane::WARMUP_TYPE_RADIO[$plane->warmup_type] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.plane.fields.active') }}
                         </th>
                         <td>
@@ -87,11 +95,11 @@
         {{ trans('global.relatedData') }}
     </div>
     <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        {{-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link" href="#plane_activities" role="tab" data-toggle="tab">
                 {{ trans('cruds.activity.title') }}
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="#plane_bookings" role="tab" data-toggle="tab">
                 {{ trans('cruds.booking.title') }}
@@ -99,9 +107,9 @@
         </li>
     </ul>
     <div class="tab-content">
-        {{-- <div class="tab-pane" role="tabpanel" id="plane_activities">
+        <div class="tab-pane" role="tabpanel" id="plane_activities">
             @includeIf('admin.planes.relationships.planeActivities', ['activities' => $plane->planeActivities])
-        </div> --}}
+        </div>
         <div class="tab-pane" role="tabpanel" id="plane_bookings">
             @includeIf('admin.planes.relationships.planeBookings', ['bookings' => $plane->planeBookings])
         </div>
