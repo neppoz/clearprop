@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateBookingRequest;
 use App\Plane;
 use App\User;
 use Gate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -57,6 +58,14 @@ class BookingsController extends Controller
                 return $row->plane ? (is_string($row->plane) ? $row->plane : $row->plane->model) : '';
             });
 
+            $table->editColumn('reservation_start', function ($row) {
+                return $row->reservation_start ? with(new Carbon($row->reservation_start))->format('d.m.Y H:m') : '';
+            });
+
+            $table->editColumn('reservation_stop', function ($row) {
+                return $row->reservation_stop ? with(new Carbon($row->reservation_stop))->format('d.m.Y H:m') : '';
+            });
+
             $table->editColumn('description', function ($row) {
                 return $row->description ? $row->description : "";
             });
@@ -85,7 +94,6 @@ class BookingsController extends Controller
         $booking = Booking::create($request->all());
 
         return redirect()->route('admin.bookings.index');
-
     }
 
     public function edit(Booking $booking)
@@ -106,7 +114,6 @@ class BookingsController extends Controller
         $booking->update($request->all());
 
         return redirect()->route('admin.bookings.index');
-
     }
 
     public function show(Booking $booking)
@@ -125,7 +132,6 @@ class BookingsController extends Controller
         $booking->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
@@ -133,7 +139,5 @@ class BookingsController extends Controller
         Booking::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }
