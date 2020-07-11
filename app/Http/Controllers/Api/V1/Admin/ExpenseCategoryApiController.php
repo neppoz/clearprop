@@ -13,14 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ExpenseCategoryApiController extends Controller
 {
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function index()
     {
         abort_if(Gate::denies('expense_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ExpenseCategoryResource(ExpenseCategory::all());
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function store(StoreExpenseCategoryRequest $request)
     {
         $expenseCategory = ExpenseCategory::create($request->all());
@@ -28,17 +33,21 @@ class ExpenseCategoryApiController extends Controller
         return (new ExpenseCategoryResource($expenseCategory))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function show(ExpenseCategory $expenseCategory)
     {
         abort_if(Gate::denies('expense_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ExpenseCategoryResource($expenseCategory);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function update(UpdateExpenseCategoryRequest $request, ExpenseCategory $expenseCategory)
     {
         $expenseCategory->update($request->all());
@@ -46,9 +55,11 @@ class ExpenseCategoryApiController extends Controller
         return (new ExpenseCategoryResource($expenseCategory))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function destroy(ExpenseCategory $expenseCategory)
     {
         abort_if(Gate::denies('expense_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,6 +67,5 @@ class ExpenseCategoryApiController extends Controller
         $expenseCategory->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
