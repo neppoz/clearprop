@@ -11,16 +11,25 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group Reservations
+ *
+ */
 class BookingsApiController extends Controller
 {
+    /**
+     * Get ALL reservations
+     */
     public function index()
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BookingResource(Booking::with(['user', 'plane', 'created_by'])->get());
-
     }
 
+    /**
+     * Create reservations
+     */
     public function store(StoreBookingRequest $request)
     {
         $booking = Booking::create($request->all());
@@ -28,17 +37,21 @@ class BookingsApiController extends Controller
         return (new BookingResource($booking))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
+    /**
+     * Get reservation by ID
+     */
     public function show(Booking $booking)
     {
         abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BookingResource($booking->load(['user', 'plane', 'created_by']));
-
     }
 
+    /**
+     * Update reservations
+     */
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
         $booking->update($request->all());
@@ -46,9 +59,11 @@ class BookingsApiController extends Controller
         return (new BookingResource($booking))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
+    /**
+     * Delete reservation by ID
+     */
     public function destroy(Booking $booking)
     {
         abort_if(Gate::denies('booking_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,6 +71,5 @@ class BookingsApiController extends Controller
         $booking->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
