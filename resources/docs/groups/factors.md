@@ -61,7 +61,7 @@ curl -X POST \
     "http://clearprop.test/api/v1/factors" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"ea"}'
+    -d '{"name":"dolor"}'
 
 ```
 
@@ -76,7 +76,7 @@ let headers = {
 };
 
 let body = {
-    "name": "ea"
+    "name": "dolor"
 }
 
 fetch(url, {

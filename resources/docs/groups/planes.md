@@ -61,7 +61,7 @@ curl -X POST \
     "http://clearprop.test/api/v1/planes" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"callsign":"ipsum","vendor":"in","counter_type":"a"}'
+    -d '{"callsign":"autem","vendor":"sit","counter_type":"sed"}'
 
 ```
 
@@ -76,9 +76,9 @@ let headers = {
 };
 
 let body = {
-    "callsign": "ipsum",
-    "vendor": "in",
-    "counter_type": "a"
+    "callsign": "autem",
+    "vendor": "sit",
+    "counter_type": "sed"
 }
 
 fetch(url, {
@@ -168,7 +168,7 @@ curl -X PUT \
     "http://clearprop.test/api/v1/planes/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"callsign":"sed","vendor":"sunt","counter_type":"autem"}'
+    -d '{"callsign":"iste","vendor":"dolore","counter_type":"repellat"}'
 
 ```
 
@@ -183,9 +183,9 @@ let headers = {
 };
 
 let body = {
-    "callsign": "sed",
-    "vendor": "sunt",
-    "counter_type": "autem"
+    "callsign": "iste",
+    "vendor": "dolore",
+    "counter_type": "repellat"
 }
 
 fetch(url, {

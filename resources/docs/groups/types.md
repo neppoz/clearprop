@@ -61,7 +61,7 @@ curl -X POST \
     "http://clearprop.test/api/v1/types" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"odio","instructor":"eius","active":"ducimus"}'
+    -d '{"name":"odio","instructor":"doloremque","active":"atque"}'
 
 ```
 
@@ -77,8 +77,8 @@ let headers = {
 
 let body = {
     "name": "odio",
-    "instructor": "eius",
-    "active": "ducimus"
+    "instructor": "doloremque",
+    "active": "atque"
 }
 
 fetch(url, {
@@ -168,7 +168,7 @@ curl -X PUT \
     "http://clearprop.test/api/v1/types/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"velit","instructor":"quos","active":"labore"}'
+    -d '{"name":"mollitia","instructor":"blanditiis","active":"ad"}'
 
 ```
 
@@ -183,9 +183,9 @@ let headers = {
 };
 
 let body = {
-    "name": "velit",
-    "instructor": "quos",
-    "active": "labore"
+    "name": "mollitia",
+    "instructor": "blanditiis",
+    "active": "ad"
 }
 
 fetch(url, {

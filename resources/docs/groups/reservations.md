@@ -61,7 +61,7 @@ curl -X POST \
     "http://clearprop.test/api/v1/bookings" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"user_id":12,"plane_id":20,"reservation_start":"11.07.2020 10:48","reservation_stop":"11.07.2020 10:48"}'
+    -d '{"user_id":18,"plane_id":16,"reservation_start":"11.07.2020 11:01","reservation_stop":"11.07.2020 11:01"}'
 
 ```
 
@@ -76,10 +76,10 @@ let headers = {
 };
 
 let body = {
-    "user_id": 12,
-    "plane_id": 20,
-    "reservation_start": "11.07.2020 10:48",
-    "reservation_stop": "11.07.2020 10:48"
+    "user_id": 18,
+    "plane_id": 16,
+    "reservation_start": "11.07.2020 11:01",
+    "reservation_stop": "11.07.2020 11:01"
 }
 
 fetch(url, {
@@ -172,7 +172,7 @@ curl -X PUT \
     "http://clearprop.test/api/v1/bookings/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"user_id":17,"plane_id":3,"reservation_start":"11.07.2020 10:48","reservation_stop":"11.07.2020 10:48"}'
+    -d '{"user_id":8,"plane_id":7,"reservation_start":"11.07.2020 11:01","reservation_stop":"11.07.2020 11:01"}'
 
 ```
 
@@ -187,10 +187,10 @@ let headers = {
 };
 
 let body = {
-    "user_id": 17,
-    "plane_id": 3,
-    "reservation_start": "11.07.2020 10:48",
-    "reservation_stop": "11.07.2020 10:48"
+    "user_id": 8,
+    "plane_id": 7,
+    "reservation_start": "11.07.2020 11:01",
+    "reservation_stop": "11.07.2020 11:01"
 }
 
 fetch(url, {

@@ -61,7 +61,7 @@ curl -X POST \
     "http://clearprop.test/api/v1/users" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"qui","email":"omnis","password":"omnis","factor_id":6,"medical_due":"11.07.2020","roles":[20],"lang":"laborum"}'
+    -d '{"name":"veritatis","email":"quis","password":"natus","factor_id":5,"medical_due":"11.07.2020","roles":[14],"lang":"doloremque"}'
 
 ```
 
@@ -76,15 +76,15 @@ let headers = {
 };
 
 let body = {
-    "name": "qui",
-    "email": "omnis",
-    "password": "omnis",
-    "factor_id": 6,
+    "name": "veritatis",
+    "email": "quis",
+    "password": "natus",
+    "factor_id": 5,
     "medical_due": "11.07.2020",
     "roles": [
-        20
+        14
     ],
-    "lang": "laborum"
+    "lang": "doloremque"
 }
 
 fetch(url, {
@@ -189,7 +189,7 @@ curl -X PUT \
     "http://clearprop.test/api/v1/users/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"commodi","email":"doloribus","factor_id":4,"medical_due":"11.07.2020","roles":[13],"lang":"rerum"}'
+    -d '{"name":"ipsa","email":"consequatur","factor_id":10,"medical_due":"11.07.2020","roles":[19],"lang":"quasi"}'
 
 ```
 
@@ -204,14 +204,14 @@ let headers = {
 };
 
 let body = {
-    "name": "commodi",
-    "email": "doloribus",
-    "factor_id": 4,
+    "name": "ipsa",
+    "email": "consequatur",
+    "factor_id": 10,
     "medical_due": "11.07.2020",
     "roles": [
-        13
+        19
     ],
-    "lang": "rerum"
+    "lang": "quasi"
 }
 
 fetch(url, {

@@ -52,7 +52,7 @@
         <h1>Introduction</h1>
 <p>Welcome to our ClearProp API documentation!</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile), and you can switch the programming language of the examples with the tabs in the top right (or from the nav menu at the top left on mobile).</aside><h1>Authenticating requests</h1>
-<p>This API is not authenticated.</p><h1>Activities</h1>
+<p>Authenticate requests to this API's endpoints by sending an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {your-token}"</code></strong>.</p><h1>Activities</h1>
 <h2>Get ALL activities</h2>
 <blockquote>
 <p>Example request:</p>
@@ -93,7 +93,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/activities" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"user_id":16,"type_id":1,"split_cost":{},"plane_id":11,"event":"11.07.2020","counter_start":"sed","counter_stop":"aut","event_start":"10:48","event_stop":"10:48"}'
+    -d '{"user_id":16,"type_id":10,"split_cost":{},"plane_id":18,"event":"11.07.2020","counter_start":"ex","counter_stop":"aut","event_start":"11:01","event_stop":"11:01"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/activities"
@@ -106,14 +106,14 @@ let headers = {
 
 let body = {
     "user_id": 16,
-    "type_id": 1,
+    "type_id": 10,
     "split_cost": {},
-    "plane_id": 11,
+    "plane_id": 18,
     "event": "11.07.2020",
-    "counter_start": "sed",
+    "counter_start": "ex",
     "counter_stop": "aut",
-    "event_start": "10:48",
-    "event_stop": "10:48"
+    "event_start": "11:01",
+    "event_stop": "11:01"
 }
 
 fetch(url, {
@@ -179,7 +179,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/activities/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"plane_id":9,"event":"11.07.2020","counter_start":"voluptatem","counter_stop":"hic","event_start":"10:48","event_stop":"10:48"}'
+    -d '{"plane_id":19,"event":"11.07.2020","counter_start":"numquam","counter_stop":"fuga","event_start":"11:01","event_stop":"11:01"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/activities/1"
@@ -191,12 +191,12 @@ let headers = {
 };
 
 let body = {
-    "plane_id": 9,
+    "plane_id": 19,
     "event": "11.07.2020",
-    "counter_start": "voluptatem",
-    "counter_stop": "hic",
-    "event_start": "10:48",
-    "event_stop": "10:48"
+    "counter_start": "numquam",
+    "counter_stop": "fuga",
+    "event_start": "11:01",
+    "event_stop": "11:01"
 }
 
 fetch(url, {
@@ -287,7 +287,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/factors" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"ea"}'
+    -d '{"name":"dolor"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/factors"
@@ -299,7 +299,7 @@ let headers = {
 };
 
 let body = {
-    "name": "ea"
+    "name": "dolor"
 }
 
 fetch(url, {
@@ -412,7 +412,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/planes" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"callsign":"ipsum","vendor":"in","counter_type":"a"}'
+    -d '{"callsign":"autem","vendor":"sit","counter_type":"sed"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/planes"
@@ -424,9 +424,9 @@ let headers = {
 };
 
 let body = {
-    "callsign": "ipsum",
-    "vendor": "in",
-    "counter_type": "a"
+    "callsign": "autem",
+    "vendor": "sit",
+    "counter_type": "sed"
 }
 
 fetch(url, {
@@ -483,7 +483,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/planes/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"callsign":"sed","vendor":"sunt","counter_type":"autem"}'
+    -d '{"callsign":"iste","vendor":"dolore","counter_type":"repellat"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/planes/1"
@@ -495,9 +495,9 @@ let headers = {
 };
 
 let body = {
-    "callsign": "sed",
-    "vendor": "sunt",
-    "counter_type": "autem"
+    "callsign": "iste",
+    "vendor": "dolore",
+    "counter_type": "repellat"
 }
 
 fetch(url, {
@@ -582,7 +582,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/bookings" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"user_id":12,"plane_id":20,"reservation_start":"11.07.2020 10:48","reservation_stop":"11.07.2020 10:48"}'
+    -d '{"user_id":18,"plane_id":16,"reservation_start":"11.07.2020 11:01","reservation_stop":"11.07.2020 11:01"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/bookings"
@@ -594,10 +594,10 @@ let headers = {
 };
 
 let body = {
-    "user_id": 12,
-    "plane_id": 20,
-    "reservation_start": "11.07.2020 10:48",
-    "reservation_stop": "11.07.2020 10:48"
+    "user_id": 18,
+    "plane_id": 16,
+    "reservation_start": "11.07.2020 11:01",
+    "reservation_stop": "11.07.2020 11:01"
 }
 
 fetch(url, {
@@ -657,7 +657,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/bookings/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"user_id":17,"plane_id":3,"reservation_start":"11.07.2020 10:48","reservation_stop":"11.07.2020 10:48"}'
+    -d '{"user_id":8,"plane_id":7,"reservation_start":"11.07.2020 11:01","reservation_stop":"11.07.2020 11:01"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/bookings/1"
@@ -669,10 +669,10 @@ let headers = {
 };
 
 let body = {
-    "user_id": 17,
-    "plane_id": 3,
-    "reservation_start": "11.07.2020 10:48",
-    "reservation_stop": "11.07.2020 10:48"
+    "user_id": 8,
+    "plane_id": 7,
+    "reservation_start": "11.07.2020 11:01",
+    "reservation_stop": "11.07.2020 11:01"
 }
 
 fetch(url, {
@@ -760,7 +760,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/types" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"odio","instructor":"eius","active":"ducimus"}'
+    -d '{"name":"odio","instructor":"doloremque","active":"atque"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/types"
@@ -773,8 +773,8 @@ let headers = {
 
 let body = {
     "name": "odio",
-    "instructor": "eius",
-    "active": "ducimus"
+    "instructor": "doloremque",
+    "active": "atque"
 }
 
 fetch(url, {
@@ -831,7 +831,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/types/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"velit","instructor":"quos","active":"labore"}'
+    -d '{"name":"mollitia","instructor":"blanditiis","active":"ad"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/types/1"
@@ -843,9 +843,9 @@ let headers = {
 };
 
 let body = {
-    "name": "velit",
-    "instructor": "quos",
-    "active": "labore"
+    "name": "mollitia",
+    "instructor": "blanditiis",
+    "active": "ad"
 }
 
 fetch(url, {
@@ -930,7 +930,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/users" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"qui","email":"omnis","password":"omnis","factor_id":6,"medical_due":"11.07.2020","roles":[20],"lang":"laborum"}'
+    -d '{"name":"veritatis","email":"quis","password":"natus","factor_id":5,"medical_due":"11.07.2020","roles":[14],"lang":"doloremque"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/users"
@@ -942,15 +942,15 @@ let headers = {
 };
 
 let body = {
-    "name": "qui",
-    "email": "omnis",
-    "password": "omnis",
-    "factor_id": 6,
+    "name": "veritatis",
+    "email": "quis",
+    "password": "natus",
+    "factor_id": 5,
     "medical_due": "11.07.2020",
     "roles": [
-        20
+        14
     ],
-    "lang": "laborum"
+    "lang": "doloremque"
 }
 
 fetch(url, {
@@ -1013,7 +1013,7 @@ fetch(url, {
     "http://clearprop.test/api/v1/users/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"name":"commodi","email":"doloribus","factor_id":4,"medical_due":"11.07.2020","roles":[13],"lang":"rerum"}'
+    -d '{"name":"ipsa","email":"consequatur","factor_id":10,"medical_due":"11.07.2020","roles":[19],"lang":"quasi"}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://clearprop.test/api/v1/users/1"
@@ -1025,14 +1025,14 @@ let headers = {
 };
 
 let body = {
-    "name": "commodi",
-    "email": "doloribus",
-    "factor_id": 4,
+    "name": "ipsa",
+    "email": "consequatur",
+    "factor_id": 10,
     "medical_due": "11.07.2020",
     "roles": [
-        13
+        19
     ],
-    "lang": "rerum"
+    "lang": "quasi"
 }
 
 fetch(url, {
