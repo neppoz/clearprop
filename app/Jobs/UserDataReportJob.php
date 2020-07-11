@@ -63,7 +63,7 @@ class UserDataReportJob implements ShouldQueue
 
             $activityAmountTotal = $activity_lines->sum('amount');
             $activityMinutesTotal = $activity_lines->sum('minutes');
-            $activityHoursAndMinutes = intval($activityMinutesTotal / 60) . ':' . $activityMinutesTotal%60;
+            $activityHoursAndMinutes = sprintf("%02d", intval($activityMinutesTotal / 60)) . ':' . sprintf("%02d", $activityMinutesTotal%60);
 
 
             $income_lines = Income::whereHas('income_category', function ($q) {
