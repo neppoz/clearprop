@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyTypeRequest;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 use App\Type;
+use App\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,6 @@ class TypesController extends Controller
         $type = Type::create($request->all());
 
         return redirect()->route('admin.types.index');
-
     }
 
     public function edit(Type $type)
@@ -49,7 +49,6 @@ class TypesController extends Controller
         $type->update($request->all());
 
         return redirect()->route('admin.types.index');
-
     }
 
     public function show(Type $type)
@@ -66,7 +65,6 @@ class TypesController extends Controller
         $type->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyTypeRequest $request)
@@ -74,6 +72,41 @@ class TypesController extends Controller
         Type::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
 
+    public function getTypeByFactor(Request $request)
+    {
+        if (!$request->user_id) {
+            $html = '<option selected value="">'.trans('global.pleaseSelect').'</option>';
+        } else {
+            $html = '<option selected value="">'.trans('global.pleaseSelect').'</option>';
+            $user = User::findOrFail($request->user_id);
+
+            $types_opt1 = Type::whereHas('factors', function ($q) use ($user) {
+                $q->where('id', '=', $user->factor_id);
+            })->where(['active' => true, 'instructor' => 0])->pluck('name', 'id');
+
+            if (count($types_opt1)) {
+                $html .= '<optgroup label="'.trans('cruds.activity.fields.opt1').'" id="opt1">';
+                foreach ($types_opt1 as $id => $type) {
+                    $html .= '<option value="'.$id.'" >'.$type.'</option>';
+                }
+                $html .= '</optgroup>';
+            }
+
+            $types_opt2 = Type::whereHas('factors', function ($q) use ($user) {
+                $q->where('id', '=', $user->factor_id);
+            })->where(['active' => true, 'instructor' => 1])->pluck('name', 'id');
+
+            if (count($types_opt2)) {
+                $html .= '<optgroup label="'.trans('cruds.activity.fields.opt2').'" id="opt2">';
+                foreach ($types_opt2 as $id => $type) {
+                    $html .= '<option value="'.$id.'" >'.$type.'</option>';
+                }
+                $html .= '</optgroup>';
+            }
+        }
+
+        return response()->json(['html' => $html]);
     }
 }

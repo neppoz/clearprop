@@ -25,16 +25,7 @@
                 <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
                 <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
                     <option selected value="">{{ trans('global.pleaseSelect') }}</option>
-                    <optgroup label={{ trans('cruds.activity.fields.opt1') }} id="opt1">
-                        @foreach($types_opt1 as $id => $type)
-                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
-                        @endforeach
-                    </optgroup>
-                    <optgroup label={{ trans('cruds.activity.fields.opt2') }} id="opt2">
-                        @foreach($types_opt2 as $id => $type)
-                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>
-                        @endforeach
-                    </optgroup>
+                    {{-- The values come from ajax call when selecting the pilot. It depends on the factors --}}
                 </select>
                 @if($errors->has('type'))
                     <span class="text-danger">{{ $errors->first('type') }}</span>
@@ -189,6 +180,16 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
+        $("#user_id").change(function(){
+            $.ajax({
+                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    $('#type_id').html(data.html);
+                }
+            });
+        });
+
         $("#type_id").change(function(){
             var selected = $("option:selected", this);
             if(selected.parent()[0].id == "opt1"){
