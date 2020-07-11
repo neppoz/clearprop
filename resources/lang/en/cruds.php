@@ -144,8 +144,8 @@ return [
         ],
     ],
     'type'               => [
-        'title'          => 'Activity Types',
-        'title_singular' => 'Activity Type',
+        'title'          => 'Activity types',
+        'title_singular' => 'Activity type',
         'price'          => 'Price per minute (€)',
         'title_select'   => 'Please select activity',
         'price'          => 'Price per minute (€)',
