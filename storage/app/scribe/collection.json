@@ -1,0 +1,1033 @@
+{
+    "variables": [],
+    "info": {
+        "name": "clearprop dev API",
+        "_postman_id": "72336db2-9bc6-4057-8aba-374bde91f1c6",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.0.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Activities",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get ALL activities",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/activities",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/activities"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Create activities",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/activities",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/activities"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 16,\n    \"type_id\": 1,\n    \"split_cost\": {},\n    \"plane_id\": 11,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"sed\",\n    \"counter_stop\": \"aut\",\n    \"event_start\": \"10:48\",\n    \"event_stop\": \"10:48\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get activities by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/activities\/:activity",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/activities\/:activity"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Update activities",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/activities\/:activity",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/activities\/:activity"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"plane_id\": 9,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"voluptatem\",\n    \"counter_stop\": \"hic\",\n    \"event_start\": \"10:48\",\n    \"event_stop\": \"10:48\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Delete activities by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/activities\/:activity",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/activities\/:activity"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Factors",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get ALL factors",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/factors",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/factors"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Create factors",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/factors",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/factors"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"ea\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get factor by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/factors\/:factor",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/factors\/:factor"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Delete factor by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/factors\/:factor",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/factors\/:factor"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Planes",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get ALL planes",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/planes",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/planes"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Create planes",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/planes",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/planes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"callsign\": \"ipsum\",\n    \"vendor\": \"in\",\n    \"counter_type\": \"a\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get plane by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/planes\/:plane",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/planes\/:plane"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Update plane",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/planes\/:plane",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/planes\/:plane"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"callsign\": \"sed\",\n    \"vendor\": \"sunt\",\n    \"counter_type\": \"autem\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Delete plane by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/planes\/:plane",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/planes\/:plane"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reservations",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get ALL reservations",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/bookings",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/bookings"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Create reservations",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/bookings",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/bookings"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 12,\n    \"plane_id\": 20,\n    \"reservation_start\": \"11.07.2020 10:48\",\n    \"reservation_stop\": \"11.07.2020 10:48\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get reservation by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/bookings\/:booking",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/bookings\/:booking"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Update reservations",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/bookings\/:booking",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/bookings\/:booking"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 17,\n    \"plane_id\": 3,\n    \"reservation_start\": \"11.07.2020 10:48\",\n    \"reservation_stop\": \"11.07.2020 10:48\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Delete reservation by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/bookings\/:booking",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/bookings\/:booking"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Types",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get ALL types",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/types",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/types"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Create types",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/types",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/types"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"odio\",\n    \"instructor\": \"eius\",\n    \"active\": \"ducimus\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get type by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/types\/:type",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/types\/:type"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Update types",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/types\/:type",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/types\/:type"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"velit\",\n    \"instructor\": \"quos\",\n    \"active\": \"labore\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Delete type by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/types\/:type",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/types\/:type"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get ALL users",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/users",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/users"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Create users",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/users",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/users"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"qui\",\n    \"email\": \"omnis\",\n    \"password\": \"omnis\",\n    \"factor_id\": 6,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        20\n    ],\n    \"lang\": \"laborum\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Get users by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/users\/:user",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/users\/:user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Update users",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/users\/:user",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/users\/:user"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"commodi\",\n    \"email\": \"doloribus\",\n    \"factor_id\": 4,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        13\n    ],\n    \"lang\": \"rerum\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Delete user by ID",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/users\/:user",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/users\/:user"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                }
+            ]
+        }
+    ]
+}
