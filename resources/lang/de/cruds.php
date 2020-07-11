@@ -122,8 +122,8 @@ return [
         ],
     ],
     'type'               => [
-        'title'          => 'Activity Types',
-        'title_singular' => 'Activity Type',
+        'title'          => 'Aktivitätstypen',
+        'title_singular' => 'Aktivitätstyp',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
