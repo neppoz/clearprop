@@ -112,8 +112,7 @@ class ActivitiesController extends Controller
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $types_opt1 = Type::where(['active' => true, 'instructor' => 0])->pluck('name', 'id');
-        $types_opt2 = Type::where(['active' => true, 'instructor' => 1])->pluck('name', 'id');
+        /** $types = We created a dependend dropdown, so types list is loaded by jquery in TypeController */
 
         $copilots = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -121,7 +120,7 @@ class ActivitiesController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.activities.create', compact('users', 'types_opt1', 'types_opt2', 'copilots', 'instructors', 'planes'));
+        return view('admin.activities.create', compact('users', 'copilots', 'instructors', 'planes'));
     }
 
     public function store(StoreActivityRequest $request)
