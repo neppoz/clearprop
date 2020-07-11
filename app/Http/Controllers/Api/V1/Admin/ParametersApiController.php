@@ -13,14 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ParametersApiController extends Controller
 {
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function index()
     {
         abort_if(Gate::denies('parameter_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ParameterResource(Parameter::all());
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function store(StoreParameterRequest $request)
     {
         $parameter = Parameter::create($request->all());
@@ -28,15 +33,16 @@ class ParametersApiController extends Controller
         return (new ParameterResource($parameter))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function show(Parameter $parameter)
     {
         abort_if(Gate::denies('parameter_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ParameterResource($parameter);
-
     }
 
     public function update(UpdateParameterRequest $request, Parameter $parameter)
@@ -46,9 +52,11 @@ class ParametersApiController extends Controller
         return (new ParameterResource($parameter))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function destroy(Parameter $parameter)
     {
         abort_if(Gate::denies('parameter_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,6 +64,5 @@ class ParametersApiController extends Controller
         $parameter->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

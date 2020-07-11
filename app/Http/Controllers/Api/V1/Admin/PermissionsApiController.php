@@ -13,14 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PermissionsApiController extends Controller
 {
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function index()
     {
         abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PermissionResource(Permission::all());
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function store(StorePermissionRequest $request)
     {
         $permission = Permission::create($request->all());
@@ -28,17 +33,21 @@ class PermissionsApiController extends Controller
         return (new PermissionResource($permission))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function show(Permission $permission)
     {
         abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PermissionResource($permission);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function update(UpdatePermissionRequest $request, Permission $permission)
     {
         $permission->update($request->all());
@@ -46,9 +55,11 @@ class PermissionsApiController extends Controller
         return (new PermissionResource($permission))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function destroy(Permission $permission)
     {
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,6 +67,5 @@ class PermissionsApiController extends Controller
         $permission->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

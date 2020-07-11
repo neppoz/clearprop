@@ -13,14 +13,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RolesApiController extends Controller
 {
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function index()
     {
         abort_if(Gate::denies('role_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new RoleResource(Role::with(['permissions'])->get());
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function store(StoreRoleRequest $request)
     {
         $role = Role::create($request->all());
@@ -29,17 +34,21 @@ class RolesApiController extends Controller
         return (new RoleResource($role))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function show(Role $role)
     {
         abort_if(Gate::denies('role_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new RoleResource($role->load(['permissions']));
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function update(UpdateRoleRequest $request, Role $role)
     {
         $role->update($request->all());
@@ -48,9 +57,11 @@ class RolesApiController extends Controller
         return (new RoleResource($role))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
+    /**
+     * @hideFromAPIDocumentation
+     */
     public function destroy(Role $role)
     {
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -58,6 +69,5 @@ class RolesApiController extends Controller
         $role->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
