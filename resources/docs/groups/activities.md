@@ -61,7 +61,7 @@ curl -X POST \
     "http://clearprop.test/api/v1/activities" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"user_id":16,"type_id":1,"split_cost":{},"plane_id":11,"event":"11.07.2020","counter_start":"sed","counter_stop":"aut","event_start":"10:48","event_stop":"10:48"}'
+    -d '{"user_id":16,"type_id":10,"split_cost":{},"plane_id":18,"event":"11.07.2020","counter_start":"ex","counter_stop":"aut","event_start":"11:01","event_stop":"11:01"}'
 
 ```
 
@@ -77,14 +77,14 @@ let headers = {
 
 let body = {
     "user_id": 16,
-    "type_id": 1,
+    "type_id": 10,
     "split_cost": {},
-    "plane_id": 11,
+    "plane_id": 18,
     "event": "11.07.2020",
-    "counter_start": "sed",
+    "counter_start": "ex",
     "counter_stop": "aut",
-    "event_start": "10:48",
-    "event_stop": "10:48"
+    "event_start": "11:01",
+    "event_stop": "11:01"
 }
 
 fetch(url, {
@@ -192,7 +192,7 @@ curl -X PUT \
     "http://clearprop.test/api/v1/activities/1" \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"plane_id":9,"event":"11.07.2020","counter_start":"voluptatem","counter_stop":"hic","event_start":"10:48","event_stop":"10:48"}'
+    -d '{"plane_id":19,"event":"11.07.2020","counter_start":"numquam","counter_stop":"fuga","event_start":"11:01","event_stop":"11:01"}'
 
 ```
 
@@ -207,12 +207,12 @@ let headers = {
 };
 
 let body = {
-    "plane_id": 9,
+    "plane_id": 19,
     "event": "11.07.2020",
-    "counter_start": "voluptatem",
-    "counter_stop": "hic",
-    "event_start": "10:48",
-    "event_stop": "10:48"
+    "counter_start": "numquam",
+    "counter_stop": "fuga",
+    "event_start": "11:01",
+    "event_stop": "11:01"
 }
 
 fetch(url, {

@@ -2,7 +2,7 @@
     "variables": [],
     "info": {
         "name": "clearprop dev API",
-        "_postman_id": "b98559d3-5a3f-4ef1-8611-6e82bbd970b3",
+        "_postman_id": "2af7b081-6ddb-4a67-8871-6cb972fe4951",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.0.0\/collection.json"
     },
@@ -68,7 +68,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 16,\n    \"type_id\": 10,\n    \"split_cost\": {},\n    \"plane_id\": 18,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"ex\",\n    \"counter_stop\": \"aut\",\n    \"event_start\": \"11:01\",\n    \"event_stop\": \"11:01\"\n}",
+                            "raw": "{\n    \"user_id\": 17,\n    \"type_id\": 1,\n    \"split_cost\": {},\n    \"plane_id\": 5,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"ut\",\n    \"counter_stop\": \"mollitia\",\n    \"event_start\": \"11:00\",\n    \"event_stop\": \"11:00\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -136,7 +136,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"plane_id\": 19,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"numquam\",\n    \"counter_stop\": \"fuga\",\n    \"event_start\": \"11:01\",\n    \"event_stop\": \"11:01\"\n}",
+                            "raw": "{\n    \"plane_id\": 9,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"odit\",\n    \"counter_stop\": \"veritatis\",\n    \"event_start\": \"11:00\",\n    \"event_stop\": \"11:00\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -244,7 +244,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"dolor\"\n}",
+                            "raw": "{\n    \"name\": \"ut\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -386,7 +386,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"callsign\": \"autem\",\n    \"vendor\": \"sit\",\n    \"counter_type\": \"sed\"\n}",
+                            "raw": "{\n    \"callsign\": \"quidem\",\n    \"vendor\": \"consequatur\",\n    \"counter_type\": \"enim\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -454,7 +454,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"callsign\": \"iste\",\n    \"vendor\": \"dolore\",\n    \"counter_type\": \"repellat\"\n}",
+                            "raw": "{\n    \"callsign\": \"sit\",\n    \"vendor\": \"dolorem\",\n    \"counter_type\": \"aut\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -562,7 +562,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 18,\n    \"plane_id\": 16,\n    \"reservation_start\": \"11.07.2020 11:01\",\n    \"reservation_stop\": \"11.07.2020 11:01\"\n}",
+                            "raw": "{\n    \"user_id\": 9,\n    \"plane_id\": 18,\n    \"reservation_start\": \"11.07.2020 11:00\",\n    \"reservation_stop\": \"11.07.2020 11:00\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -630,7 +630,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 8,\n    \"plane_id\": 7,\n    \"reservation_start\": \"11.07.2020 11:01\",\n    \"reservation_stop\": \"11.07.2020 11:01\"\n}",
+                            "raw": "{\n    \"user_id\": 10,\n    \"plane_id\": 7,\n    \"reservation_start\": \"11.07.2020 11:00\",\n    \"reservation_stop\": \"11.07.2020 11:00\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -738,7 +738,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"odio\",\n    \"instructor\": \"doloremque\",\n    \"active\": \"atque\"\n}",
+                            "raw": "{\n    \"name\": \"aut\",\n    \"instructor\": \"esse\",\n    \"active\": \"officiis\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -806,7 +806,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"mollitia\",\n    \"instructor\": \"blanditiis\",\n    \"active\": \"ad\"\n}",
+                            "raw": "{\n    \"name\": \"at\",\n    \"instructor\": \"iusto\",\n    \"active\": \"est\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -914,7 +914,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"veritatis\",\n    \"email\": \"quis\",\n    \"password\": \"natus\",\n    \"factor_id\": 5,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        14\n    ],\n    \"lang\": \"doloremque\"\n}",
+                            "raw": "{\n    \"name\": \"atque\",\n    \"email\": \"aut\",\n    \"password\": \"debitis\",\n    \"factor_id\": 1,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        9\n    ],\n    \"lang\": \"voluptatum\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -982,7 +982,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"ipsa\",\n    \"email\": \"consequatur\",\n    \"factor_id\": 10,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        19\n    ],\n    \"lang\": \"quasi\"\n}",
+                            "raw": "{\n    \"name\": \"tenetur\",\n    \"email\": \"accusantium\",\n    \"factor_id\": 1,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        13\n    ],\n    \"lang\": \"mollitia\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
