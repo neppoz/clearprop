@@ -69,7 +69,7 @@ class StatisticsService
 
         $activityAmountTotal = $activity_lines->sum('amount');
         $activityMinutesTotal = $activity_lines->sum('minutes');
-        $activityHoursAndMinutes = intval($activityMinutesTotal / 60) . 'h : ' . $activityMinutesTotal%60 . 'm';
+        $activityHoursAndMinutes = sprintf("%02d", intval($activityMinutesTotal / 60)) . 'h : ' . sprintf("%02d", $activityMinutesTotal%60) . 'm';
 
         // Call the function
         $income_lines = $this->getDepositIncomes($request);
@@ -94,7 +94,7 @@ class StatisticsService
         $activities = $this->getActivities($request);
 
         $activityTotalMinutes = $activities->sum('minutes');
-        $activityTotalTime = intval($activityTotalMinutes / 60) .':'. $activityTotalMinutes%60;
+        $activityTotalTime = sprintf("%02d", intval($activityTotalMinutes / 60)) .':'. sprintf("%02d", $activityTotalMinutes%60);
 
         /* Activity by member */
         $groupedUserActivities = $activities->whereNotNull('user_id')->orderBy('minutes', 'desc')->get()->groupBy('user_id');

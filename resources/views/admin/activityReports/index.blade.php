@@ -82,7 +82,7 @@
                         <tr>
                             <td class="w-50">{{ $act['callsign'] }}</td>
                             <td class="w-25">{{ number_format($act['minutes'], 2) }}</td>
-                            <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
+                            <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -97,7 +97,7 @@
                         <tr>
                             <td class="w-50">{{ $act['name'] }}</td>
                             <td class="w-25">{{ number_format($act['minutes'], 2) }}</td>
-                            <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
+                            <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -123,7 +123,7 @@
                         <tr>
                             <td class="w-50">{{ $act['name'] }}</td>
                             <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
-                            <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
+                            <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -149,7 +149,7 @@
                         <tr>
                             <td class="w-50">{{ $act['name'] }}</td>
                             <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
-                            <td class="w-25">{{ intval($act['minutes']/60).':'. $act['minutes']%60}}</td>
+                            <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
                         </tr>
                     @endforeach
                 </table>
