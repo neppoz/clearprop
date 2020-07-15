@@ -63,7 +63,7 @@
                                     {{ $activity->plane->callsign ?? '' }}
                                 </td>
                                 <td>
-                                    {{ $activity->instructor->name ?? '' }}
+                                    {{ $activity->user->name ?? '' }}
                                 </td>
                                 <td>
                                     {{ $activity->type->name ?? '' }}
