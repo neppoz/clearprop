@@ -176,6 +176,7 @@ return [
         'title'          => 'Activities',
         'title_singular' => 'Activity',
         'title_noedit'   => 'Information',
+        'title_lessons' => 'Lessons',
         'fields'         => [
             'id'                    => 'ID',
             'id_helper'             => '',

@@ -15,7 +15,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-Activity">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-instructorActivity">
                     <thead>
                         <tr>
                             <th width="10">
@@ -31,7 +31,7 @@
                                 {{ trans('cruds.activity.fields.plane') }}
                             </th>
                             <th>
-                                {{ trans('cruds.activity.fields.instructor') }}
+                                {{ trans('cruds.activity.fields.user') }}
                             </th>
                             <th>
                                 {{ trans('cruds.activity.fields.type') }}
@@ -48,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($activities as $key => $activity)
+                        @foreach($instructoractivities as $key => $activity)
                             <tr data-entry-id="{{ $activity->id }}">
                                 <td>
 
@@ -141,10 +141,10 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 2, 'desc' ]],
+    order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-Activity:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-instructorActivity:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
