@@ -41,7 +41,6 @@ class UsersController extends Controller
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
-
     }
 
     public function edit(User $user)
@@ -63,14 +62,13 @@ class UsersController extends Controller
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
-
     }
 
     public function show(User $user)
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('factor', 'roles', 'userActivities', 'userBookings', 'copilotActivities', 'userIncomes');
+        $user->load('factor', 'roles', 'userActivities', 'userBookings', 'instructorActivities', 'userIncomes');
 
         return view('admin.users.show', compact('user'));
     }
@@ -82,7 +80,6 @@ class UsersController extends Controller
         $user->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
@@ -90,6 +87,5 @@ class UsersController extends Controller
         User::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
