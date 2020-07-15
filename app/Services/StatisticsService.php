@@ -248,7 +248,7 @@ class StatisticsService
             INNER JOIN income_categories ic ON i.income_category_id = ic.id
             WHERE
                 i.entry_date BETWEEN (:incomefrom) AND (:incometo)
-                    AND ic.deposit = 1 AND ic.deleted_at is null
+                    AND ic.deposit = 1 AND i.deleted_at is null
             GROUP BY i.user_id) i ON u.id = i.user_id
         ORDER BY total ASC
         "), array(
