@@ -168,6 +168,13 @@
                 {{ trans('cruds.income.title') }}
             </a>
         </li>
+        @if($user->instructor)
+        <li class="nav-item">
+            <a class="nav-link" href="#instructor_activities" role="tab" data-toggle="tab">
+                {{ trans('cruds.activity.title_lessons') }}
+            </a>
+        </li>
+        @endif
     </ul>
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="user_activities">
@@ -179,6 +186,11 @@
         <div class="tab-pane" role="tabpanel" id="user_incomes">
             @includeIf('admin.users.relationships.userIncomes', ['incomes' => $user->userIncomes])
         </div>
+        @if($user->instructor)
+        <div class="tab-pane" role="tabpanel" id="instructor_activities">
+            @includeIf('admin.users.relationships.instructorActivities', ['instructoractivities' => $user->instructorActivities])
+        </div>
+        @endif
     </div>
 </div>
 
