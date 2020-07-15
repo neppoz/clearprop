@@ -2,7 +2,7 @@
     "variables": [],
     "info": {
         "name": "clearprop dev API",
-        "_postman_id": "b98559d3-5a3f-4ef1-8611-6e82bbd970b3",
+        "_postman_id": "4fb0c158-e98a-413b-b7ff-3b843d9abd85",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.0.0\/collection.json"
     },
@@ -68,7 +68,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 16,\n    \"type_id\": 10,\n    \"split_cost\": {},\n    \"plane_id\": 18,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"ex\",\n    \"counter_stop\": \"aut\",\n    \"event_start\": \"11:01\",\n    \"event_stop\": \"11:01\"\n}",
+                            "raw": "{\n    \"user_id\": 14,\n    \"type_id\": 10,\n    \"split_cost\": {},\n    \"plane_id\": 14,\n    \"event\": \"15.07.2020\",\n    \"counter_start\": \"id\",\n    \"counter_stop\": \"laborum\",\n    \"event_start\": \"09:01\",\n    \"event_stop\": \"09:01\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -136,7 +136,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"plane_id\": 19,\n    \"event\": \"11.07.2020\",\n    \"counter_start\": \"numquam\",\n    \"counter_stop\": \"fuga\",\n    \"event_start\": \"11:01\",\n    \"event_stop\": \"11:01\"\n}",
+                            "raw": "{\n    \"plane_id\": 5,\n    \"event\": \"15.07.2020\",\n    \"counter_start\": \"laboriosam\",\n    \"counter_stop\": \"ea\",\n    \"event_start\": \"09:01\",\n    \"event_stop\": \"09:01\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -244,7 +244,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"dolor\"\n}",
+                            "raw": "{\n    \"name\": \"voluptate\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -279,6 +279,40 @@
                         "body": {
                             "mode": "raw",
                             "raw": "[]",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "",
+                        "response": []
+                    }
+                },
+                {
+                    "name": "Update factors",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "clearprop.test",
+                            "path": "api\/v1\/factors\/:factor",
+                            "query": [],
+                            "raw": "http:\/\/clearprop.test\/api\/v1\/factors\/:factor"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"natus\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -386,7 +420,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"callsign\": \"autem\",\n    \"vendor\": \"sit\",\n    \"counter_type\": \"sed\"\n}",
+                            "raw": "{\n    \"callsign\": \"non\",\n    \"vendor\": \"ea\",\n    \"counter_type\": \"enim\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -454,7 +488,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"callsign\": \"iste\",\n    \"vendor\": \"dolore\",\n    \"counter_type\": \"repellat\"\n}",
+                            "raw": "{\n    \"callsign\": \"aut\",\n    \"vendor\": \"ea\",\n    \"counter_type\": \"dolores\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -562,7 +596,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 18,\n    \"plane_id\": 16,\n    \"reservation_start\": \"11.07.2020 11:01\",\n    \"reservation_stop\": \"11.07.2020 11:01\"\n}",
+                            "raw": "{\n    \"user_id\": 4,\n    \"plane_id\": 10,\n    \"reservation_start\": \"15.07.2020 09:01\",\n    \"reservation_stop\": \"15.07.2020 09:01\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -630,7 +664,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 8,\n    \"plane_id\": 7,\n    \"reservation_start\": \"11.07.2020 11:01\",\n    \"reservation_stop\": \"11.07.2020 11:01\"\n}",
+                            "raw": "{\n    \"user_id\": 15,\n    \"plane_id\": 5,\n    \"reservation_start\": \"15.07.2020 09:01\",\n    \"reservation_stop\": \"15.07.2020 09:01\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -738,7 +772,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"odio\",\n    \"instructor\": \"doloremque\",\n    \"active\": \"atque\"\n}",
+                            "raw": "{\n    \"name\": \"dolorum\",\n    \"instructor\": \"expedita\",\n    \"active\": \"nemo\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -806,7 +840,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"mollitia\",\n    \"instructor\": \"blanditiis\",\n    \"active\": \"ad\"\n}",
+                            "raw": "{\n    \"name\": \"aut\",\n    \"instructor\": \"unde\",\n    \"active\": \"exercitationem\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -914,7 +948,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"veritatis\",\n    \"email\": \"quis\",\n    \"password\": \"natus\",\n    \"factor_id\": 5,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        14\n    ],\n    \"lang\": \"doloremque\"\n}",
+                            "raw": "{\n    \"name\": \"eligendi\",\n    \"email\": \"exercitationem\",\n    \"password\": \"accusamus\",\n    \"factor_id\": 5,\n    \"medical_due\": \"15.07.2020\",\n    \"roles\": [\n        17\n    ],\n    \"lang\": \"amet\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -982,7 +1016,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"ipsa\",\n    \"email\": \"consequatur\",\n    \"factor_id\": 10,\n    \"medical_due\": \"11.07.2020\",\n    \"roles\": [\n        19\n    ],\n    \"lang\": \"quasi\"\n}",
+                            "raw": "{\n    \"name\": \"molestiae\",\n    \"email\": \"corrupti\",\n    \"factor_id\": 6,\n    \"medical_due\": \"15.07.2020\",\n    \"roles\": [\n        20\n    ],\n    \"lang\": \"tenetur\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
