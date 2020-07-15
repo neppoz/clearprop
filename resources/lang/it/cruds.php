@@ -175,8 +175,9 @@ return [
     ],
     'activity'           => [
         'title'          => 'Attività',
-        'title_singular' => '',
+        'title_singular' => 'Attività',
         'title_noedit'   => 'Informazione',
+        'title_lessons' => 'Lezioni',
         'fields'         => [
             'id'                    => 'ID',
             'id_helper'             => '',
