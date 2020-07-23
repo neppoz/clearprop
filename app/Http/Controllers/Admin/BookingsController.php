@@ -60,11 +60,11 @@ class BookingsController extends Controller
             });
 
             $table->editColumn('reservation_start', function ($row) {
-                return $row->reservation_start ? with(new Carbon($row->reservation_start))->format('d.m.Y H:m') : '';
+                return $row->reservation_start ? with(new Carbon($row->reservation_start))->format('d.m.Y H:i') : '';
             });
 
             $table->editColumn('reservation_stop', function ($row) {
-                return $row->reservation_stop ? with(new Carbon($row->reservation_stop))->format('d.m.Y H:m') : '';
+                return $row->reservation_stop ? with(new Carbon($row->reservation_stop))->format('d.m.Y H:i') : '';
             });
 
             $table->editColumn('description', function ($row) {
