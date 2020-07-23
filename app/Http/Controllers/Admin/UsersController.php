@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\UserCheckService;
 use App\Factor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyUserRequest;
@@ -89,14 +88,4 @@ class UsersController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
-
-    // public function getUserCheck(Request $request)
-    // {
-    //     $user = User::findOrFail($request->user_id);
-    //     $medicalCheck = (new UserCheckService())->medicalCheck($user);
-    //     $balanceCheck = (new UserCheckService())->balanceCheck($user);
-    //     $activityCheck = (new UserCheckService())->activityCheck($user);
-
-    //     return response()->json([$medicalCheck, $balanceCheck, $activityCheck]);
-    // }
 }
