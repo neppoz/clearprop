@@ -9,18 +9,25 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
             @csrf
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.booking.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.booking.fields.user_helper') }}</span>
-            </div>
+            @if (!auth()->user()->getIsAdminAttribute())
+                <div class="form-group">
+                    <label class="required" for="user_id">{{ trans('cruds.booking.fields.user') }}</label>
+                    <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                        @foreach($users as $id => $user)
+                            <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('user'))
+                        <span class="text-danger">{{ $errors->first('user') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.booking.fields.user_helper') }}</span>
+                </div>
+            @else
+                <div class="form-group">
+                    <label class="text" for="user_id">{{ trans('cruds.booking.fields.user') }} : {{ Auth::user()->name }}</label>
+                    <input type="text" name="user_id" id="user_id" value="{{ Auth::user()->id }}" hidden>
+                </div>
+            @endif
             <div class="form-group">
                 <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
                 <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id" id="plane_id" required>
@@ -73,6 +80,30 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
+        if($("#user_id").val()) { // check if input exists
+            $.ajax({
+                url: "{{ route('admin.users.getUserCheck') }}?user_id=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    // get html feedback
+                    //$('#type_id').html(data.html);
+                    // enable the form elements
+                }
+            });
+        };
+
+        $("#user_id").change(function(){
+            $.ajax({
+                url: "{{ route('admin.users.getUserCheck') }}?user_id=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    // get html feedback
+                    //$('#type_id').html(data.html);
+                    // enable the form elements
+                }
+            });
+        });
+
         $('.datetime_reservation').datetimepicker({
             format: 'DD.MM.YYYY HH:mm',
             locale: 'en',

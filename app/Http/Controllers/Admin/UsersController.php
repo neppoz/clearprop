@@ -88,4 +88,19 @@ class UsersController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function getUserCheck(Request $request)
+    {
+        if (!$request->user_id) {
+            $html = [];
+            debug('fail');
+        } else {
+            $html = [];
+            debug('ok');
+        }
+
+        $user = User::findOrFail($request->user_id);
+        debug($user);
+        return response()->json(['html' => $html]);
+    }
 }
