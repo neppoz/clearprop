@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Plane;
+use App\Services\UserCheckService;
 use App\User;
 use Gate;
 use Carbon\Carbon;
@@ -91,9 +92,22 @@ class BookingsController extends Controller
 
     public function store(StoreBookingRequest $request)
     {
-        $booking = Booking::create($request->all());
+        $user = User::findOrFail($request->user_id);
 
-        return redirect()->route('admin.bookings.index');
+        if ((new UserCheckService())->medicalCheckPassed($user)) {
+            if ((new UserCheckService())->balanceCheckPassed($user)) {
+                if ((new UserCheckService())->activityCheckPassed($user)) {
+                    $booking = Booking::create($request->all());
+                    return redirect()->route('admin.bookings.index');
+                } else {
+                    return back()->withToastError(trans('global.activityCheck'));
+                };
+            } else {
+                return back()->withToastError(trans('global.balanceCheck'));
+            };
+        } else {
+            return back()->withToastError(trans('global.medicalCheck'));
+        };
     }
 
     public function edit(Booking $booking)

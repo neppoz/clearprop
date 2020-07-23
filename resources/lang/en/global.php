@@ -256,4 +256,7 @@ return [
     'sweetalert_success_sendreport'        => 'Emails with reports generated successfully!',
     'sweetalert_warning_sendreport'        => '',
     'sweetalert_error_sendreport'          => 'Something went wrong!',
+    'activityCheck'                        => 'Activity check not passed!',
+    'balanceCheck'                         => 'Balance check not passed!',
+    'medicalCheck'                         => 'Medical check not passed!',
 ];

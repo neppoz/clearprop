@@ -9,7 +9,7 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
             @csrf
-            @if (!auth()->user()->getIsAdminAttribute())
+            @if (auth()->user()->getIsAdminAttribute())
                 <div class="form-group">
                     <label class="required" for="user_id">{{ trans('cruds.booking.fields.user') }}</label>
                     <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
@@ -80,30 +80,6 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
-        if($("#user_id").val()) { // check if input exists
-            $.ajax({
-                url: "{{ route('admin.users.getUserCheck') }}?user_id=" + $(this).val(),
-                method: 'GET',
-                success: function(data) {
-                    // get html feedback
-                    //$('#type_id').html(data.html);
-                    // enable the form elements
-                }
-            });
-        };
-
-        $("#user_id").change(function(){
-            $.ajax({
-                url: "{{ route('admin.users.getUserCheck') }}?user_id=" + $(this).val(),
-                method: 'GET',
-                success: function(data) {
-                    // get html feedback
-                    //$('#type_id').html(data.html);
-                    // enable the form elements
-                }
-            });
-        });
-
         $('.datetime_reservation').datetimepicker({
             format: 'DD.MM.YYYY HH:mm',
             locale: 'en',
