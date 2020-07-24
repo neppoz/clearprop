@@ -23,8 +23,8 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ActivityCostCalculation' => [
             'App\Listeners\ActivityCostCalculationListener',
         ],
-        'App\Events\UserCheckupEvent' => [
-            'App\Listeners\UserCheckupListener',
+        'App\Events\BookingCreatedEvent' => [
+            'App\Listeners\BookingCreatedListener',
         ],
     ];
 
