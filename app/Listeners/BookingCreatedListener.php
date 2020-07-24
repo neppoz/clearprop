@@ -32,7 +32,7 @@ class BookingCreatedListener implements ShouldQueue
     public function handle(BookingCreatedEvent $event)
     {
         try {
-            $users = User::findOrFail($event->booking->user_id);
+            $user = User::findOrFail($event->booking->user_id);
             $plane = Plane::findOrFail($event->booking->plane_id);
 
             /** Recipients */
@@ -40,8 +40,9 @@ class BookingCreatedListener implements ShouldQueue
                 $q->where('role_id', User::IS_ADMIN);
             })->get();
 
-            $data  = ['reservation_start' => $event->booking->reservation_start, 'reservation_stop' => $event->booking->reservation_stop];
-            Notification::send($users, new BookingDataCreateEmailNotification($data));
+            $data  = ['pilot' => $user->name, 'plane' => $plane->callsign, 'reservation_start' => $event->booking->reservation_start, 'reservation_stop' => $event->booking->reservation_stop];
+
+            Notification::send($user, new BookingDataCreateEmailNotification($data));
             Notification::send($admins, new BookingDataCreateEmailNotification($data));
             return;
         } catch (Throwable $exception) {
