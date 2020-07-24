@@ -256,7 +256,7 @@ return [
     'sweetalert_success_sendreport'        => 'Emails with reports generated successfully!',
     'sweetalert_warning_sendreport'        => '',
     'sweetalert_error_sendreport'          => 'Something went wrong!',
-    'activityCheck'                        => 'Activity check not passed!',
-    'balanceCheck'                         => 'Balance check not passed!',
-    'medicalCheck'                         => 'Medical check not passed!',
+    'activityCheck'                        => 'Your are below the safety limits! Sorry, no reservation possible.',
+    'balanceCheck'                         => 'You have exceeded your credit! Sorry, no reservation possible.',
+    'medicalCheck'                         => 'Your medical is not valid! Sorry, no reservation possible.',
 ];

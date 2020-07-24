@@ -24,8 +24,8 @@
                 </div>
             @else
                 <div class="form-group">
-                    <label class="text" for="user_id">{{ trans('cruds.booking.fields.user') }} : {{ Auth::user()->name }}</label>
-                    <input type="text" name="user_id" id="user_id" value="{{ Auth::user()->id }}" hidden>
+                    <label class="text" for="user_id">{{ trans('cruds.booking.fields.user') }} : {{ $user->name }}</label>
+                    <input type="text" name="user_id" id="user_id" value="{{ $user->id }}" hidden>
                 </div>
             @endif
             <div class="form-group">

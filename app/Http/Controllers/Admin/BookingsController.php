@@ -87,27 +87,32 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.bookings.create', compact('users', 'planes'));
+        if (auth()->user()->getIsAdminAttribute()) {
+            return view('admin.bookings.create', compact('users', 'planes'));
+        } else {
+            $user = auth()->user();
+
+            if ((new UserCheckService())->medicalCheckPassed($user)) {
+                if ((new UserCheckService())->balanceCheckPassed($user)) {
+                    if ((new UserCheckService())->activityCheckPassed($user)) {
+                        // TODO: passing planes array from service (certain amount of activities on plane)
+                        return view('admin.bookings.create', compact('user', 'planes'));
+                    } else {
+                        return back()->withToastError(trans('global.activityCheck'));
+                    };
+                } else {
+                    return back()->withToastError(trans('global.balanceCheck'));
+                };
+            } else {
+                return back()->withToastError(trans('global.medicalCheck'));
+            };
+        }
     }
 
     public function store(StoreBookingRequest $request)
     {
-        $user = User::findOrFail($request->user_id);
-
-        if ((new UserCheckService())->medicalCheckPassed($user)) {
-            if ((new UserCheckService())->balanceCheckPassed($user)) {
-                if ((new UserCheckService())->activityCheckPassed($user)) {
-                    $booking = Booking::create($request->all());
-                    return redirect()->route('admin.bookings.index');
-                } else {
-                    return back()->withToastError(trans('global.activityCheck'));
-                };
-            } else {
-                return back()->withToastError(trans('global.balanceCheck'));
-            };
-        } else {
-            return back()->withToastError(trans('global.medicalCheck'));
-        };
+        $booking = Booking::create($request->all());
+        return redirect()->route('admin.bookings.index');
     }
 
     public function edit(Booking $booking)
