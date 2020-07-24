@@ -22,16 +22,10 @@
 
                             </th>
                             <th>
-                                {{ trans('cruds.activity.fields.id') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.activity.fields.event') }}
                             </th>
                             <th>
                                 {{ trans('cruds.activity.fields.plane') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.instructor') }}
                             </th>
                             <th>
                                 {{ trans('cruds.activity.fields.type') }}
@@ -54,16 +48,10 @@
 
                                 </td>
                                 <td>
-                                    {{ $activity->id ?? '' }}
-                                </td>
-                                <td>
                                     {{ $activity->event ?? '' }}
                                 </td>
                                 <td>
                                     {{ $activity->plane->callsign ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $activity->instructor->name ?? '' }}
                                 </td>
                                 <td>
                                     {{ $activity->type->name ?? '' }}
@@ -140,12 +128,30 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 2, 'desc' ]],
-    pageLength: 10,
-  });
-  $('.datatable-Activity:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: false,
+    retrieve: true,
+    aaSorting: [],
+    columns: [
+        { data: 'placeholder', name: 'placeholder' },
+        { type: 'date', data: 'event', name: 'event' },
+        { data: 'plane_callsign', name: 'plane.callsign' },
+        { data: 'type_name', name: 'type.name' },
+        { data: 'minutes', name: 'minutes' },
+        { data: 'amount', name: 'amount' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
+    order: [[ 1, 'desc' ]],
+    pageLength: 25,
+    createdRow: (row, data, dataIndex, cells) => {
+        $(cells[0]).css('background-color', data.split_color)
+        $(cells[5]).css('color', data.warmup_color)
+    }
+  };
+  $('.datatable-Activity:not(.ajaxTable)').DataTable(dtOverrideGlobals);
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });

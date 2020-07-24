@@ -86,7 +86,7 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  let dtOverrideGlobals = {
+let dtOverrideGlobals = {
     buttons: dtButtons,
     processing: true,
     serverSide: true,
@@ -94,14 +94,14 @@
     aaSorting: [],
     ajax: "{{ route('admin.incomes.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'entry_date', name: 'entry_date' },
-{ data: 'user_name', name: 'user.name' },
-{ data: 'income_category_name', name: 'income_category.name' },
-{ data: 'amount', name: 'amount' },
-{ data: 'description', name: 'description' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'entry_date', name: 'entry_date' },
+        { data: 'user_name', name: 'user.name' },
+        { data: 'income_category_name', name: 'income_category.name' },
+        { data: 'amount', name: 'amount' },
+        { data: 'description', name: 'description' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
     pageLength: 100,

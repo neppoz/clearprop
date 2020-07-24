@@ -103,7 +103,6 @@
     <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
@@ -121,11 +120,27 @@
 
   let languages = {
     'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json',
-        'de': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/German.json',
-        'it': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json'
+    'de': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/German.json',
+    'it': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/Italian.json'
   };
 
   $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn' })
+  $.extend(true, $.fn.dataTable.moment = function ( format, locale ) {
+    var types = $.fn.dataTable.ext.type;
+
+    // Add type detection
+    types.detect.unshift( function ( d ) {
+        return moment( d, format, locale, true ).isValid() ?
+            'moment-'+format :
+            null;
+    } );
+
+    // Add sorting method - use an integer for the sorting
+    types.order[ 'moment-'+format+'-pre' ] = function ( d ) {
+        return moment( d, format, locale, true ).unix();
+    };
+  });
+
   $.extend(true, $.fn.dataTable.defaults, {
     language: {
       url: languages['{{ app()->getLocale() }}']
