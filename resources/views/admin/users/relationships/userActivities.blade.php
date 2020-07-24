@@ -142,7 +142,7 @@
 
   $.extend(true, $.fn.dataTable.defaults, {
     order: [[ 2, 'desc' ]],
-    pageLength: 100,
+    pageLength: 10,
   });
   $('.datatable-Activity:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
