@@ -29,7 +29,7 @@ class BookingDataCreateEmailNotification extends Notification implements ShouldQ
     public function getMessage()
     {
         return (new MailMessage)
-            ->subject(config('app.name') . ': Reservation confirmation')
+            ->subject(config('app.name') . ': Reservation created')
             ->greeting('Hi,')
             ->line('we would like to confirm that a reservation from ' . $this->data['reservation_start'] . ' to ' . $this->data['reservation_stop']. ' has been created successfully.')
             ->line('Please log in to see more information.')
