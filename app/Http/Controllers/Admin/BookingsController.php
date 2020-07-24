@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Booking;
+use App\Events\BookingCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
@@ -112,6 +113,8 @@ class BookingsController extends Controller
     public function store(StoreBookingRequest $request)
     {
         $booking = Booking::create($request->all());
+        event(new BookingCreatedEvent($booking));
+
         return redirect()->route('admin.bookings.index');
     }
 
