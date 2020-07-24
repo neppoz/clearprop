@@ -22,19 +22,10 @@
 
                             </th>
                             <th>
-                                {{ trans('cruds.booking.fields.id') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.booking.fields.user') }}
+                                {{ trans('cruds.booking.fields.reservation_start') }}
                             </th>
                             <th>
                                 {{ trans('cruds.booking.fields.plane') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.plane.fields.model') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.booking.fields.reservation_start') }}
                             </th>
                             <th>
                                 {{ trans('cruds.booking.fields.reservation_stop') }}
@@ -54,19 +45,10 @@
 
                                 </td>
                                 <td>
-                                    {{ $booking->id ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $booking->user->name ?? '' }}
+                                    {{ $booking->reservation_start ?? '' }}
                                 </td>
                                 <td>
                                     {{ $booking->plane->callsign ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $booking->plane->model ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $booking->reservation_start ?? '' }}
                                 </td>
                                 <td>
                                     {{ $booking->reservation_stop ?? '' }}
@@ -140,12 +122,25 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 2, 'desc' ]],
-    pageLength: 10,
-  });
-  $('.datatable-Booking:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: false,
+    retrieve: true,
+    aaSorting: [],
+    columns: [
+        { data: 'placeholder', name: 'placeholder' },
+        { type: 'date', data: 'reservation_start', name: 'reservation_start' },
+        { data: 'plane_callsign', name: 'plane.callsign' },
+        { type: 'date', data: 'reservation_stop', name: 'reservation_stop' },
+        { data: 'description', name: 'description' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
+    order: [[ 1, 'desc' ]],
+    pageLength: 25,
+  };
+  $('.datatable-Booking:not(.ajaxTable)').DataTable(dtOverrideGlobals);
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });

@@ -26,7 +26,7 @@
             </li>
             @if($user->instructor)
             <li class="nav-item">
-                <a class="nav-link" href="#instructor_activities" role="tab" data-toggle="tab">
+                <a class="nav-link" href="#instructor_activities" role="tab" data-toggle="pill">
                     {{ trans('cruds.activity.title_lessons') }}
                 </a>
             </li>

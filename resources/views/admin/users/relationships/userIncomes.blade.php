@@ -22,13 +22,7 @@
 
                             </th>
                             <th>
-                                {{ trans('cruds.income.fields.id') }}
-                            </th>
-                            <th>
                                 {{ trans('cruds.income.fields.entry_date') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.income.fields.user') }}
                             </th>
                             <th>
                                 {{ trans('cruds.income.fields.income_category') }}
@@ -51,13 +45,7 @@
 
                                 </td>
                                 <td>
-                                    {{ $income->id ?? '' }}
-                                </td>
-                                <td>
                                     {{ $income->entry_date ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $income->user->name ?? '' }}
                                 </td>
                                 <td>
                                     {{ $income->income_category->name ?? '' }}
@@ -134,12 +122,25 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 2, 'desc' ]],
-    pageLength: 10,
-  });
-  $('.datatable-Income:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: false,
+    retrieve: true,
+    aaSorting: [],
+    columns: [
+        { data: 'placeholder', name: 'placeholder' },
+        { type: 'date', data: 'entry_date', name: 'entry_date' },
+        { data: 'income_category_name', name: 'income_category.name' },
+        { data: 'amount', name: 'amount' },
+        { data: 'description', name: 'description' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
+    order: [[ 1, 'desc' ]],
+    pageLength: 25,
+  };
+  $('.datatable-Income:not(.ajaxTable)').DataTable(dtOverrideGlobals);
+    $('a[data-toggle="pill"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
     });

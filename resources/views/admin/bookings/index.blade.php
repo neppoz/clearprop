@@ -89,7 +89,7 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  let dtOverrideGlobals = {
+let dtOverrideGlobals = {
     buttons: dtButtons,
     processing: true,
     serverSide: true,
@@ -97,18 +97,18 @@
     aaSorting: [],
     ajax: "{{ route('admin.bookings.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
-{ data: 'id', name: 'id' },
-{ data: 'user_name', name: 'user.name' },
-{ data: 'plane_callsign', name: 'plane.callsign' },
-{ data: 'plane.model', name: 'plane.model' },
-{ data: 'reservation_start', name: 'reservation_start' },
-{ data: 'reservation_stop', name: 'reservation_stop' },
-{ data: 'description', name: 'description' },
-{ data: 'actions', name: '{{ trans('global.actions') }}' }
+        { data: 'placeholder', name: 'placeholder' },
+        { data: 'id', name: 'id' },
+        { data: 'user_name', name: 'user.name' },
+        { data: 'plane_callsign', name: 'plane.callsign' },
+        { data: 'plane.model', name: 'plane.model' },
+        { data: 'reservation_start', name: 'reservation_start' },
+        { data: 'reservation_stop', name: 'reservation_stop' },
+        { data: 'description', name: 'description' },
+        { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    pageLength: 50,
   };
   $('.datatable-Booking').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
