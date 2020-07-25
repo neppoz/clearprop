@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'dashboard'     => [
+        'greeting'                  => 'Hallo ',
+        'title'                     => 'Dashboard',
+        'title_linechart'           => 'Aktivitäten',
+        'title_linechart_chart'     => 'Gesamt Monat',
+        'grantotal'                 => 'Konto',
+        'incomeAmountTotal'         => 'Zahlungen',
+        'activityAmountTotal'       => 'Aktivitäten',
+        'activityHoursAndMinutes'   => 'Zeit insgesammt',
+    ],
     'userManagement'     => [
         'title'          => 'Benutzerverwaltung',
         'title_singular' => 'Benutzerverwaltung',

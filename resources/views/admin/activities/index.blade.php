@@ -22,17 +22,16 @@
 
                     </th>
                     <th>
-                        {{ trans('cruds.activity.fields.id') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.activity.fields.event') }}
                     </th>
                     <th>
                         {{ trans('cruds.activity.fields.type') }}
                     </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.user') }}
-                    </th>
+                    @if (auth()->user()->getIsAdminAttribute())
+                        <th>
+                            {{ trans('cruds.activity.fields.user') }}
+                        </th>
+                    @endif
                     <th>
                         {{ trans('cruds.activity.fields.plane') }}
                     </th>
@@ -58,7 +57,9 @@
 @parent
 <script>
     $(function () {
+@if (auth()->user()->getIsAdminAttribute())
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+  let dtDom = 'lBfrtip<"actions">'
 @can('activity_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
@@ -83,13 +84,19 @@
           url: config.url,
           data: { ids: ids, _method: 'DELETE' }})
           .done(function () { location.reload() })
-      }
+        }
     }
   }
   dtButtons.push(deleteButton)
 @endcan
 
+@else
+    let dtButtons = []
+    let dtDom = 'Brtp'
+@endif
+
   let dtOverrideGlobals = {
+    dom: dtDom,
     buttons: dtButtons,
     processing: true,
     serverSide: true,
@@ -98,10 +105,11 @@
     ajax: "{{ route('admin.activities.index') }}",
     columns: [
         { data: 'placeholder', name: 'placeholder' },
-        { data: 'id', name: 'id' },
         { data: 'event', name: 'event' },
         { data: 'type_name', name: 'type.name' },
-        { data: 'user_name', name: 'user.name' },
+        @if (auth()->user()->getIsAdminAttribute())
+            { data: 'user_name', name: 'user.name' },
+        @endif
         { data: 'plane_callsign', name: 'plane.callsign' },
         { data: 'minutes', name: 'minutes' },
         { data: 'amount', name: 'amount' },
