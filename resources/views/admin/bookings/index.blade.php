@@ -18,23 +18,20 @@
         <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Booking">
             <thead>
                 <tr>
+
                     <th width="10">
 
                     </th>
+                    @if (auth()->user()->getIsAdminAttribute())
+                        <th>
+                            {{ trans('cruds.booking.fields.user') }}
+                        </th>
+                    @endif
                     <th>
-                        {{ trans('cruds.booking.fields.id') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.booking.fields.user') }}
+                        {{ trans('cruds.booking.fields.reservation_start') }}
                     </th>
                     <th>
                         {{ trans('cruds.booking.fields.plane') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.plane.fields.model') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.booking.fields.reservation_start') }}
                     </th>
                     <th>
                         {{ trans('cruds.booking.fields.reservation_stop') }}
@@ -58,7 +55,9 @@
 @parent
 <script>
     $(function () {
+@if (auth()->user()->getIsAdminAttribute())
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+  let dtDom = 'lBfrtip<"actions">'
 @can('booking_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
@@ -89,7 +88,13 @@
   dtButtons.push(deleteButton)
 @endcan
 
+@else
+    let dtButtons = []
+    let dtDom = 'Brtp'
+@endif
+
 let dtOverrideGlobals = {
+    dom: dtDom,
     buttons: dtButtons,
     processing: true,
     serverSide: true,
@@ -98,11 +103,11 @@ let dtOverrideGlobals = {
     ajax: "{{ route('admin.bookings.index') }}",
     columns: [
         { data: 'placeholder', name: 'placeholder' },
-        { data: 'id', name: 'id' },
-        { data: 'user_name', name: 'user.name' },
-        { data: 'plane_callsign', name: 'plane.callsign' },
-        { data: 'plane.model', name: 'plane.model' },
+        @if (auth()->user()->getIsAdminAttribute())
+            { data: 'user_name', name: 'user.name' },
+        @endif
         { data: 'reservation_start', name: 'reservation_start' },
+        { data: 'plane_callsign', name: 'plane.callsign' },
         { data: 'reservation_stop', name: 'reservation_stop' },
         { data: 'description', name: 'description' },
         { data: 'actions', name: '{{ trans('global.actions') }}' }

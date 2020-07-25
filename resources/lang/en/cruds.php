@@ -2,6 +2,7 @@
 
 return [
     'dashboard'     => [
+        'greeting'                  => 'Welcome ',
         'title'                     => 'Dashboard',
         'title_linechart'           => 'Activities',
         'title_linechart_chart'     => 'Monthly total',

@@ -100,6 +100,8 @@ class ActivitiesController extends Controller
 
             $table->rawColumns(['actions', 'placeholder', 'user', 'type', 'plane']);
 
+            $table->orderColumn('event', 'event $1')->toJson();
+
             return $table->make(true);
         }
 
