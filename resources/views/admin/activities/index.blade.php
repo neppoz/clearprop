@@ -115,7 +115,7 @@
         { data: 'amount', name: 'amount' },
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    order: [[ 2, 'desc' ]],
+    order: [[ 1, 'desc' ]],
     pageLength: 50,
     createdRow: (row, data, dataIndex, cells) => {
         $(cells[0]).css('background-color', data.split_color)
