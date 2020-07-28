@@ -19,8 +19,11 @@
             <thead>
                 <tr>
 
-                    <th width="10">
-
+                    <th>
+                        <i class="fas fa-eye"></i>
+                    </th>
+                    <th data-priority="1">
+                        {{ trans('cruds.booking.fields.reservation_start') }}
                     </th>
                     @if (auth()->user()->getIsAdminAttribute())
                         <th>
@@ -28,18 +31,15 @@
                         </th>
                     @endif
                     <th>
-                        {{ trans('cruds.booking.fields.reservation_start') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.booking.fields.plane') }}
                     </th>
                     <th>
                         {{ trans('cruds.booking.fields.reservation_stop') }}
                     </th>
-                    <th>
+                    <th class="min-tablet-l">
                         {{ trans('cruds.booking.fields.description') }}
                     </th>
-                    <th>
+                    <th data-priority="2">
                         &nbsp;
                     </th>
                 </tr>
@@ -101,19 +101,42 @@ let dtOverrideGlobals = {
     retrieve: true,
     aaSorting: [],
     ajax: "{{ route('admin.bookings.index') }}",
+    responsive: {
+        details: {
+            renderer: function ( api, rowIdx, columns ) {
+                var data = $.map( columns, function ( col, i ) {
+                    return col.hidden ?
+                        '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+                            '<td class="font-weight-bold">'+col.title+':'+'</td> '+
+                            '<td>'+col.data+'</td>'+
+                        '</tr>' :
+                        '';
+                } ).join('');
+
+                return data ?
+                    $('<table/>').append( data ) :
+                    false;
+            }
+        }
+    },
     columns: [
-        { data: 'placeholder', name: 'placeholder' },
+        {
+            "orderable":      false,
+            'searchable':     false,
+            "data":           null,
+            "defaultContent": '',
+        },
+        { data: 'reservation_start', name: 'reservation_start' },
         @if (auth()->user()->getIsAdminAttribute())
             { data: 'user_name', name: 'user.name' },
         @endif
-        { data: 'reservation_start', name: 'reservation_start' },
         { data: 'plane_callsign', name: 'plane.callsign' },
         { data: 'reservation_stop', name: 'reservation_stop' },
         { data: 'description', name: 'description' },
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],
-    pageLength: 50,
+    pageLength: 25,
   };
   $('.datatable-Booking').DataTable(dtOverrideGlobals);
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
