@@ -85,7 +85,6 @@ class IncomeController extends Controller
         $income = Income::create($request->all());
 
         return redirect()->route('admin.incomes.index');
-
     }
 
     public function edit(Income $income)
@@ -106,7 +105,6 @@ class IncomeController extends Controller
         $income->update($request->all());
 
         return redirect()->route('admin.incomes.index');
-
     }
 
     public function show(Income $income)
@@ -125,7 +123,6 @@ class IncomeController extends Controller
         $income->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyIncomeRequest $request)
@@ -133,7 +130,63 @@ class IncomeController extends Controller
         Income::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 
+    public function getIncomesByUser(Request $request)
+    {
+        abort_if(Gate::denies('income_access', 'user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        if ($request->ajax() and !empty($request->user_id)) {
+            try {
+                $query = Income::with(['user', 'income_category', 'created_by'])
+                    ->where('user_id', $request->user_id)
+                    ->select(sprintf('%s.*', (new Income)->table));
+                $table = Datatables::of($query);
+
+                $table->addColumn('placeholder', '&nbsp;');
+                $table->addColumn('actions', '&nbsp;');
+
+                $table->editColumn('actions', function ($row) {
+                    $viewGate      = 'income_show';
+                    $editGate      = 'income_edit';
+                    $deleteGate    = 'income_delete';
+                    $crudRoutePart = 'incomes';
+
+                    return view('partials.datatablesActions', compact(
+                        'viewGate',
+                        'editGate',
+                        'deleteGate',
+                        'crudRoutePart',
+                        'row'
+                    ));
+                });
+
+                $table->editColumn('id', function ($row) {
+                    return $row->id ? $row->id : "";
+                });
+
+                $table->addColumn('user_name', function ($row) {
+                    return $row->user ? $row->user->name : '';
+                });
+
+                $table->addColumn('income_category_name', function ($row) {
+                    return $row->income_category ? $row->income_category->name : '';
+                });
+
+                $table->editColumn('amount', function ($row) {
+                    return $row->amount ? $row->amount : "";
+                });
+                $table->editColumn('description', function ($row) {
+                    return $row->description ? $row->description : "";
+                });
+
+                $table->rawColumns(['actions', 'placeholder', 'user', 'income_category']);
+
+                return $table->make(true);
+            } catch (\Throwable $exception) {
+                report($exception);
+                return back()->withToastError($exception->getMessage());
+            }
+        }
+    }
 }

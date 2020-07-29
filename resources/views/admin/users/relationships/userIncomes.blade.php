@@ -1,16 +1,16 @@
 <div class="m-3">
-    @can('income_create')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route("admin.incomes.create") }}">
-                    {{ trans('global.add') }} {{ trans('cruds.income.title_singular') }}
-                </a>
-            </div>
-        </div>
-    @endcan
     <div class="card">
         <div class="card-header">
-            {{ trans('cruds.income.title_singular') }} {{ trans('global.list') }}
+            @can('income_create')
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
+                            <i class="fas fa-edit"></i>
+                            {{ trans('global.new') }}
+                        </a>
+                    </div>
+                </div>
+            @endcan
         </div>
 
         <div class="card-body">
@@ -18,10 +18,10 @@
                 <table class=" table table-bordered table-striped table-hover datatable datatable-Income">
                     <thead>
                         <tr>
-                            <th width="10">
-
-                            </th>
                             <th>
+                                <i class="fas fa-eye"></i>
+                            </th>
+                            <th data-priority="1">
                                 {{ trans('cruds.income.fields.entry_date') }}
                             </th>
                             <th>
@@ -33,55 +33,11 @@
                             <th>
                                 {{ trans('cruds.income.fields.description') }}
                             </th>
-                            <th>
+                            <th data-priority="2">
                                 &nbsp;
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach($incomes as $key => $income)
-                            <tr data-entry-id="{{ $income->id }}">
-                                <td>
-
-                                </td>
-                                <td>
-                                    {{ $income->entry_date ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $income->income_category->name ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $income->amount ?? '' }}
-                                </td>
-                                <td>
-                                    {{ $income->description ?? '' }}
-                                </td>
-                                <td>
-                                    @can('income_show')
-                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.incomes.show', $income->id) }}">
-                                            {{ trans('global.view') }}
-                                        </a>
-                                    @endcan
-
-                                    @can('income_edit')
-                                        <a class="btn btn-xs btn-info" href="{{ route('admin.incomes.edit', $income->id) }}">
-                                            {{ trans('global.edit') }}
-                                        </a>
-                                    @endcan
-
-                                    @can('income_delete')
-                                        <form action="{{ route('admin.incomes.destroy', $income->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                        </form>
-                                    @endcan
-
-                                </td>
-
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -91,7 +47,9 @@
 @parent
 <script>
     $(function () {
+@if (auth()->user()->getIsAdminAttribute())
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+  let dtDom = 'lBfrtip<"actions">'
 @can('income_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
@@ -122,12 +80,37 @@
   dtButtons.push(deleteButton)
 @endcan
 
+@else
+    let dtButtons = []
+    let dtDom = 'Brtp'
+@endif
+
 let dtOverrideGlobals = {
+    dom: dtDom,
     buttons: dtButtons,
     processing: true,
-    serverSide: false,
+    serverSide: true,
     retrieve: true,
     aaSorting: [],
+    ajax: "{{ route('admin.incomes.getIncomesByUser', $user_id) }}",
+    responsive: {
+        details: {
+            renderer: function ( api, rowIdx, columns ) {
+                var data = $.map( columns, function ( col, i ) {
+                    return col.hidden ?
+                        '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+                            '<td class="font-weight-bold">'+col.title+':'+'</td> '+
+                            '<td>'+col.data+'</td>'+
+                        '</tr>' :
+                        '';
+                } ).join('');
+
+                return data ?
+                    $('<table/>').append( data ) :
+                    false;
+            }
+        }
+    },
     columns: [
         { data: 'placeholder', name: 'placeholder' },
         { type: 'date', data: 'entry_date', name: 'entry_date' },
@@ -139,7 +122,7 @@ let dtOverrideGlobals = {
     order: [[ 1, 'desc' ]],
     pageLength: 25,
   };
-  $('.datatable-Income:not(.ajaxTable)').DataTable(dtOverrideGlobals);
+  $('.datatable-Income').DataTable(dtOverrideGlobals);
     $('a[data-toggle="pill"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

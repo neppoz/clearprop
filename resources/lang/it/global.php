@@ -250,4 +250,5 @@ return [
     'no_alerts'                            => 'Nessuna notifica No alerts',
     'calendar'                             => 'Calendario',
     'messenger'                            => 'Messenger',
+    'new'                                  => 'Nuovo',
 ];

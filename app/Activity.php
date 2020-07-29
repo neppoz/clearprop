@@ -5,10 +5,11 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\CurrentUserTrait;
 
 class Activity extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CurrentUserTrait;
 
     public $table = 'activities';
 
