@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('content')
-@can('activity_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.activity.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
+<div class="card card-primary card-outline">
     <div class="card-header">
-        {{ trans('cruds.activity.title_singular') }} {{ trans('global.list') }}
+        @can('activity_create')
+            <div class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
+                        <i class="fas fa-edit"></i>
+                        {{ trans('global.new') }}
+                    </a>
+                </div>
+            </div>
+        @endcan
     </div>
 
     <div class="card-body">
@@ -128,7 +128,7 @@
             "data":           null,
             "defaultContent": '',
         },
-        { data: 'event', name: 'event' },
+        { type: 'date', data: 'event', name: 'event' },
         { data: 'type_name', name: 'type.name' },
         @if (auth()->user()->getIsAdminAttribute())
             { data: 'user_name', name: 'user.name' },

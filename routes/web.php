@@ -39,7 +39,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('roles', 'RolesController');
 
     // Users
-    // Route::get('users/getUserCheck', 'UsersController@getUserCheck')->name('users.getUserCheck');
     Route::post('users/report', 'UsersReportController@index')->name('users.report');
     Route::post('users/individualReport/{user}', 'UsersReportController@individualReport')->name('users.individualReport');
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
@@ -59,6 +58,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('types', 'TypesController');
 
     // Activities
+    Route::get('activities/userActivities/{user_id}', 'ActivitiesController@getActivitiesByUser')->name('activities.getActivitiesByUser');
+    Route::get('activities/instructorActivities/{user_id}', 'ActivitiesController@getActivitiesByUserAsInstructor')->name('activities.getActivitiesByUserAsInstructor');
     Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
     Route::resource('activities', 'ActivitiesController');
 
@@ -86,6 +87,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('expenses', 'ExpenseController');
 
     // Incomes
+    Route::get('activities/userIncomes/{user_id}', 'IncomeController@getIncomesByUser')->name('incomes.getIncomesByUser');
     Route::delete('incomes/destroy', 'IncomeController@massDestroy')->name('incomes.massDestroy');
     Route::resource('incomes', 'IncomeController');
 

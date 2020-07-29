@@ -260,4 +260,5 @@ return [
     'balanceCheck'                         => 'You have exceeded your credit! Sorry, no reservation possible.',
     'medicalCheck'                         => 'Your medical is not valid! Sorry, no reservation possible.',
     'general'                              => 'General',
+    'new'                                  => 'New',
 ];
