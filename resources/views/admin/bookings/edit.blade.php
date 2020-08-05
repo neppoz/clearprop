@@ -32,13 +32,29 @@
                         {{ $booking->plane->callsign ?? '' }}
                     </td>
                 </tr>
+                <tr>
+                    <th>
+                        {{ trans('cruds.booking.fields.reservation_start') }}
+                    </th>
+                    <td>
+                        {{ $booking->reservation_start ?? '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        {{ trans('cruds.booking.fields.reservation_stop') }}
+                    </th>
+                    <td>
+                        {{ $booking->reservation_stop ?? '' }}
+                    </td>
+                </tr>
                 @can('booking_delete')
                 <tr>
                     <th>
                         <form action="{{ route('admin.bookings.destroy', [$booking->id]) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="submit" class="btn btn-outline-danger" value="{{ trans('global.delete') }} {{ trans('cruds.booking.title_singular') }}">
+                            <input type="submit" class="btn btn-outline-danger" value="{{ trans('global.delete') }}">
                         </form>
                     </th>
                     <td>
@@ -62,8 +78,10 @@
             <div class="form-group">
                 <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
                 <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
+                <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
+                <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label class="required" for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
                 <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}" type="text" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" required>
                 @if($errors->has('reservation_start'))
@@ -78,7 +96,7 @@
                     <span class="text-danger">{{ $errors->first('reservation_stop') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.booking.fields.reservation_stop_helper') }}</span>
-            </div>
+            </div> --}}
             <div class="form-group">
                 <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
                 <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $booking->description) }}</textarea>
@@ -91,7 +109,7 @@
             <div class="form-group">
                 <button class="btn btn-success" type="submit">
                     <i class="fas fa-edit"></i>
-                    {{ trans('global.update') }} {{ trans('cruds.booking.title_singular') }}
+                    {{ trans('global.update') }}
                 </button>
             </div>
             @endcan
