@@ -80,36 +80,63 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
+
         $('#reservation_start').datetimepicker({
             minDate: moment(),
             format: 'DD.MM.YYYY HH:mm',
-            locale: 'de',
+            locale: '{{ app()->getLocale() }}',
             sideBySide: true,
+            toolbarPlacement: 'top',
+            showTodayButton: true,
+            showClose: true,
+            widgetPositioning: {
+                horizontal: 'auto',
+                vertical: 'top'
+            },
             icons: {
+                // time: 'glyphicon glyphicon-time',
+                // date: 'glyphicon glyphicon-calendar',
                 up: 'fas fa-chevron-up',
                 down: 'fas fa-chevron-down',
                 previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right'
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-dot-circle',
+                // clear: 'glyphicon glyphicon-trash',
+                close: 'fas fa-check-circle'
+
             },
             //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
             enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            stepping: 30,
+            stepping: 15,
         });
 
         $('#reservation_stop').datetimepicker({
             useCurrent: false,
             format: 'DD.MM.YYYY HH:mm',
-            locale: 'de',
+            locale: '{{ app()->getLocale() }}',
             sideBySide: true,
+            toolbarPlacement: 'top',
+            showTodayButton: true,
+            showClose: true,
+            widgetPositioning: {
+                horizontal: 'auto',
+                vertical: 'top'
+            },
             icons: {
+                // time: 'glyphicon glyphicon-time',
+                // date: 'glyphicon glyphicon-calendar',
                 up: 'fas fa-chevron-up',
                 down: 'fas fa-chevron-down',
                 previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right'
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-dot-circle',
+                // clear: 'glyphicon glyphicon-trash',
+                close: 'fas fa-check-circle'
+
             },
             //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
             enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            stepping: 30
+            stepping: 15
         });
 
         $("#reservation_start").on("dp.change",function (e) {

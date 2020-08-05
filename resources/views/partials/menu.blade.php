@@ -278,7 +278,7 @@
                         </ul>
                     </li>
                 @endcan --}}
-                @can('booking_access')
+                {{-- @can('booking_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
                         <i class="fas fa-fw fa-calendar">
@@ -289,7 +289,7 @@
                         </p>
                     </a>
                 </li>
-                @endcan
+                @endcan --}}
                 <li class="nav-item">
                     <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         <p>

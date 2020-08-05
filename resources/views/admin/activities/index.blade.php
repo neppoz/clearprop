@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
                         <i class="fas fa-edit"></i>
-                        {{ trans('global.new') }}
+                        {{ trans('global.new') }} {{ trans('cruds.activity.title_singular') }}
                     </a>
                 </div>
             </div>
