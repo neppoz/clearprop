@@ -133,14 +133,16 @@ class BookingsController extends Controller
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        debug($request->reservation_start);
-        if ((new BookingCheckService())->availabilityCheckPassed($request)) {
-            $booking->update($request->all());
+        $booking->update($request->all());
 
-            return redirect()->route('admin.bookings.index');
-        }
+        return redirect()->route('admin.bookings.index');
+        // if ((new BookingCheckService())->availabilityCheckPassed($request)) {
+        //     $booking->update($request->all());
 
-        return back()->withToastError(trans('global.planeNotAvailable'));
+        //     return redirect()->route('admin.bookings.index');
+        // }
+
+        // return back()->withToastError(trans('global.planeNotAvailable'));
     }
 
     public function show(Booking $booking)
