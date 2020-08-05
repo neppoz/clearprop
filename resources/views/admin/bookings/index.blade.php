@@ -1,149 +1,82 @@
 @extends('layouts.admin')
 @section('content')
-@can('booking_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.bookings.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.booking.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
+
+<div class="card card-primary card-outline">
     <div class="card-header">
-        {{ trans('cruds.booking.title_singular') }} {{ trans('global.list') }}
+        @can('booking_create')
+            <div class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-success" href="{{ route("admin.bookings.create") }}">
+                        <i class="fas fa-edit"></i>
+                        {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
+                    </a>
+                </div>
+            </div>
+        @endcan
+        {{-- {{ trans('global.systemCalendar') }} --}}
     </div>
 
     <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Booking">
-            <thead>
-                <tr>
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/main.min.css' />
 
-                    <th>
-                        <i class="fas fa-eye"></i>
-                    </th>
-                    <th data-priority="1">
-                        {{ trans('cruds.booking.fields.reservation_start') }}
-                    </th>
-                    @if (auth()->user()->getIsAdminAttribute())
-                        <th>
-                            {{ trans('cruds.booking.fields.user') }}
-                        </th>
-                    @endif
-                    <th>
-                        {{ trans('cruds.booking.fields.plane') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.booking.fields.reservation_stop') }}
-                    </th>
-                    <th class="min-tablet-l">
-                        {{ trans('cruds.booking.fields.description') }}
-                    </th>
-                    <th data-priority="2">
-                        &nbsp;
-                    </th>
-                </tr>
-            </thead>
-        </table>
+        <div id='calendar'></div>
     </div>
 </div>
 
 
 
 @endsection
+
 @section('scripts')
 @parent
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/main.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/locales-all.min.js'></script>
+
 <script>
-    $(function () {
-@if (auth()->user()->getIsAdminAttribute())
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-  let dtDom = 'lBfrtip<"actions">'
-@can('booking_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.bookings.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
-          return entry.id
-      });
+    $(document).ready(function () {
+        // page is now ready, initialize the calendar...
+        events={!! json_encode($events) !!};
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+        var calendarEl = document.getElementById('calendar');
 
-        return
-      }
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            height: 'auto', // will activate stickyHeaderDates automatically!
+            navLinks: false, // can click day/week names to navigate views
+            timeZone: 'UTC',
+            slotMinTime: '07:00:00',
+            slotMaxTime: '20:00:00',
+            eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false, timeZoneName: 'short' },
+            locale: '{{ app()->getLocale() }}',
+            themeSystem: 'bootstrap',
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
+            initialView: 'listWeek',
 
-@else
-    let dtButtons = []
-    let dtDom = 'Brtp'
-@endif
+            headerToolbar: {
+                left: 'today',
+                center: 'title',
+                right: 'prev,listMonth,listWeek,next'
+            },
+            views:{
+                listWeek: {
+                    type: 'listWeek',
+                    titleFormat: { day: '2-digit', month: 'short'},
+                    duration: { days: 5 },
+                    buttonText: '{{ trans("cruds.calendar.week")}}'
+                },
+                listMonth: {
+                    type: 'listMonth',
+                    titleFormat: { day: '2-digit', month: 'short'},
+                    buttonText: '{{ trans("cruds.calendar.month")}}'
+                }
+            },
+            weekNumbers: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+            events: events
+        });
 
-let dtOverrideGlobals = {
-    dom: dtDom,
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.bookings.index') }}",
-    responsive: {
-        details: {
-            renderer: function ( api, rowIdx, columns ) {
-                var data = $.map( columns, function ( col, i ) {
-                    return col.hidden ?
-                        '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-                            '<td class="font-weight-bold">'+col.title+':'+'</td> '+
-                            '<td>'+col.data+'</td>'+
-                        '</tr>' :
-                        '';
-                } ).join('');
-
-                return data ?
-                    $('<table/>').append( data ) :
-                    false;
-            }
-        }
-    },
-    columns: [
-        {
-            "orderable":      false,
-            'searchable':     false,
-            "data":           null,
-            "defaultContent": '',
-        },
-        { data: 'reservation_start', name: 'reservation_start' },
-        @if (auth()->user()->getIsAdminAttribute())
-            { data: 'user_name', name: 'user.name' },
-        @endif
-        { data: 'plane_callsign', name: 'plane.callsign' },
-        { data: 'reservation_stop', name: 'reservation_stop' },
-        { data: 'description', name: 'description' },
-        { data: 'actions', name: '{{ trans('global.actions') }}' }
-    ],
-    order: [[ 1, 'desc' ]],
-    pageLength: 25,
-  };
-  $('.datatable-Booking').DataTable(dtOverrideGlobals);
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
+        calendar.render();
+        console.log(events);
     });
-});
-
 </script>
-@endsection
+@stop
