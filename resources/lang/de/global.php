@@ -250,5 +250,6 @@ return [
     'no_alerts'                            => 'Keine Warnungen',
     'calendar'                             => 'Kalender',
     'messenger'                            => 'Messenger',
-    'new'                                  => 'Neu',
+    'new'                                  => 'Neue',
+    'planeNotAvailable'                    => 'Es liegt bereits eine Reservierung in diesem Zeitfenster vor. Bitte wähle einen freien slot',
 ];

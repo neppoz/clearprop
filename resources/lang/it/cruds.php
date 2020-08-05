@@ -51,7 +51,7 @@ return [
         ],
     ],
     'user'               => [
-        'title'          => 'Anagrafica soci',
+        'title'          => 'Soci',
         'title_singular' => 'Socio',
         'fields'         => [
             'id'                       => 'ID',
@@ -337,8 +337,8 @@ return [
         ],
     ],
     'incomeCategory'     => [
-        'title'          => 'Categorie introiti',
-        'title_singular' => 'Categoria Introiti',
+        'title'          => 'Categorie versamenti',
+        'title_singular' => 'Categoria versamenti',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -377,8 +377,8 @@ return [
         ],
     ],
     'income'             => [
-        'title'          => 'Introito',
-        'title_singular' => 'Introito',
+        'title'          => 'Versamenti',
+        'title_singular' => 'Versamento',
         'fields'         => [
             'id'                     => 'ID',
             'id_helper'              => '',
@@ -408,12 +408,18 @@ return [
         'reports'        => [
             'title'             => 'Report',
             'title_singular'    => 'Report',
-            'incomeReport'      => 'Report Introiti',
-            'incomeByCategory'  => 'Introiti per categoria',
+            'incomeReport'      => 'Report versamenti',
+            'incomeByCategory'  => 'versamenti per categoria',
             'expenseByCategory' => 'Spese per categoria',
-            'income'            => 'Introito',
+            'income'            => 'Versamento',
             'expense'           => 'Spesa',
             'profit'            => 'Profitto',
         ],
+    ],
+    'calendar'           => [
+        'fivedays'              => '+5',
+        'tendays'               => '10 Tage',
+        'week'                  => 'Sett.',
+        'month'                 => 'Mese',
     ],
 ];

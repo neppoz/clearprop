@@ -250,5 +250,6 @@ return [
     'no_alerts'                            => 'Nessuna notifica No alerts',
     'calendar'                             => 'Calendario',
     'messenger'                            => 'Messenger',
-    'new'                                  => 'Nuovo',
+    'new'                                  => 'Nuova',
+    'planeNotAvailable'                    => 'Esiste già una prenotazione per queste date. Scegli uno slot libero',
 ];
