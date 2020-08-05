@@ -29,9 +29,9 @@
 
 @section('scripts')
 @parent
-<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/main.min.js'></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.1.0/locales-all.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/moment@5.2.0/main.global.min.js'></script>
 
 <script>
     $(document).ready(function () {
@@ -43,10 +43,10 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             height: 'auto', // will activate stickyHeaderDates automatically!
             navLinks: false, // can click day/week names to navigate views
-            timeZone: 'UTC',
+            //timeZone: 'Europe/Berlin',
             slotMinTime: '07:00:00',
             slotMaxTime: '20:00:00',
-            eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false, timeZoneName: 'short' },
+            eventTimeFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
             locale: '{{ app()->getLocale() }}',
             themeSystem: 'bootstrap',
 
@@ -72,11 +72,10 @@
             },
             weekNumbers: true,
             dayMaxEvents: true, // allow "more" link when too many events
-            events: events
+            events: events,
         });
 
         calendar.render();
-        console.log(events);
     });
 </script>
 @stop
