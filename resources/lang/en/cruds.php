@@ -238,8 +238,8 @@ return [
         'title_singular' => 'Security',
     ],
     'booking'            => [
-        'title'          => 'Bookings',
-        'title_singular' => 'Booking',
+        'title'          => 'Reservations',
+        'title_singular' => 'Reservation',
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
@@ -416,7 +416,13 @@ return [
             'membername'        => 'Member',
             'sumactivity'       => 'Activities(€)',
             'sumincome'         => 'Deposits(€)',
-            'sumtotal'         => 'Balance(€)',
+            'sumtotal'          => 'Balance(€)',
         ],
+    ],
+    'calendar'           => [
+        'fivedays'              => '+5',
+        'tendays'               => '10 days',
+        'week'                  => 'Week',
+        'month'                 => 'Month',
     ],
 ];

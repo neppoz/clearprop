@@ -261,4 +261,5 @@ return [
     'medicalCheck'                         => 'Your medical is not valid! Sorry, no reservation possible.',
     'general'                              => 'General',
     'new'                                  => 'New',
+    'planeNotAvailable'                    => 'Sorry, there is another reservation in place. Please select a free slot',
 ];
