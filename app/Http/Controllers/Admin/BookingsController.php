@@ -10,6 +10,7 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Plane;
 use App\Services\UserCheckService;
+use App\Services\BookingCheckService;
 use App\User;
 use Gate;
 use Carbon\Carbon;
@@ -23,61 +24,55 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if ($request->ajax()) {
-            $query = Booking::with(['user', 'plane', 'created_by'])->select(sprintf('%s.*', (new Booking)->table));
-            $table = Datatables::of($query);
+        $sources = [
+            [
+                'model'      => '\\App\\Booking',
+                'date_field' => 'reservation_start',
+                'end_field'  => 'reservation_stop',
+                'field'      => 'description',
+                'prefix'     => '',
+                'suffix'     => '',
+                'route'      => 'admin.bookings.edit',
+            ],
+        ];
 
-            $table->addColumn('placeholder', '&nbsp;');
-            $table->addColumn('actions', '&nbsp;');
+        $events = [];
 
-            $table->editColumn('actions', function ($row) {
-                $viewGate      = 'booking_show';
-                $editGate      = 'booking_edit';
-                $deleteGate    = 'booking_delete';
-                $crudRoutePart = 'bookings';
+        foreach ($sources as $source) {
+            foreach ($source['model']::with(['user', 'plane'])->orderby($source['date_field'], 'asc')->get() as $model) {
+                $crudFieldValue = $model->getOriginal($source['date_field']);
+                $crudEndFieldValue = $model->getOriginal($source['end_field']);
 
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
-            });
+                if (!$crudFieldValue) {
+                    continue;
+                }
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
-            });
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
-            });
+                $url = [];
+                $textColor = [];
 
-            $table->addColumn('plane_callsign', function ($row) {
-                return $row->plane ? $row->plane->callsign : '';
-            });
+                if (auth()->user()->getIsAdminAttribute()) {
+                    $url = route($source['route'], $model->id);
+                    $textColor = [];
+                }
 
-            $table->editColumn('plane.model', function ($row) {
-                return $row->plane ? (is_string($row->plane) ? $row->plane : $row->plane->model) : '';
-            });
+                if (auth()->user()->id === $model->user_id) {
+                    $url = route($source['route'], $model->id);
+                    $textColor = ['text-primary'];
+                }
 
-            $table->editColumn('reservation_start', function ($row) {
-                return $row->reservation_start ? with(new Carbon($row->reservation_start))->format('d.m.Y H:i') : '';
-            });
-
-            $table->editColumn('reservation_stop', function ($row) {
-                return $row->reservation_stop ? with(new Carbon($row->reservation_stop))->format('d.m.Y H:i') : '';
-            });
-
-            $table->editColumn('description', function ($row) {
-                return $row->description ? $row->description : "";
-            });
-
-            $table->rawColumns(['actions', 'placeholder', 'user', 'plane']);
-
-            return $table->make(true);
+                $events[] = [
+                    'title' => trim($source['prefix'] . " " . $model->plane->callsign
+                        . ": " . $model->user->name
+                        . " " .$model->{$source['field']}
+                        . " " . $source['suffix']),
+                    'start' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudFieldValue)->format('Y-m-d H:i:s'),
+                    'end' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudEndFieldValue)->format('Y-m-d H:i:s'),
+                    'url' => $url,
+                    'classNames' => $textColor,
+                ];
+            }
         }
-
-        return view('admin.bookings.index');
+        return view('admin.bookings.index', compact('events'));
     }
 
     public function create()
@@ -112,10 +107,15 @@ class BookingsController extends Controller
 
     public function store(StoreBookingRequest $request)
     {
-        $booking = Booking::create($request->all());
-        event(new BookingCreatedEvent($booking));
+        if ((new BookingCheckService())->availabilityCheckPassed($request)) {
+            // Book now
+            $booking = Booking::create($request->all());
+            event(new BookingCreatedEvent($booking));
 
-        return redirect()->route('admin.bookings.index');
+            return redirect()->route('admin.bookings.index');
+        }
+
+        return back()->withToastError(trans('global.planeNotAvailable'));
     }
 
     public function edit(Booking $booking)
@@ -127,15 +127,20 @@ class BookingsController extends Controller
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $booking->load('user', 'plane', 'created_by');
-
+        debug('start: ' . $booking->reservation_start . ' stop: '. $booking->reservation_stop);
         return view('admin.bookings.edit', compact('users', 'planes', 'booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        $booking->update($request->all());
+        debug($request->reservation_start);
+        if ((new BookingCheckService())->availabilityCheckPassed($request)) {
+            $booking->update($request->all());
 
-        return redirect()->route('admin.bookings.index');
+            return redirect()->route('admin.bookings.index');
+        }
+
+        return back()->withToastError(trans('global.planeNotAvailable'));
     }
 
     public function show(Booking $booking)
@@ -153,7 +158,7 @@ class BookingsController extends Controller
 
         $booking->delete();
 
-        return back();
+        return redirect()->route('admin.bookings.index');
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
