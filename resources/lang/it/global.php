@@ -10,7 +10,7 @@ return [
     'dashboard'                            => 'Dashboard',
     'delete'                               => 'Elimina',
     'downloadFile'                         => 'Scarica file',
-    'edit'                                 => 'Modifca',
+    'edit'                                 => 'Modifica',
     'emailVerificationSuccess'             => 'Indirizzo email verificato con successo',
     'entries'                              => 'Inserimenti',
     'filterDate'                           => 'Filtra per data',
