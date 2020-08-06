@@ -86,23 +86,26 @@
             format: 'DD.MM.YYYY HH:mm',
             locale: '{{ app()->getLocale() }}',
             sideBySide: true,
-            toolbarPlacement: 'top',
-            showTodayButton: true,
+            toolbarPlacement: 'bottom',
+            showTodayButton: false,
+            showClear: true,
             showClose: true,
+            viewMode: 'days',
+            inline: false,
             widgetPositioning: {
                 horizontal: 'auto',
-                vertical: 'top'
+                vertical: 'bottom'
             },
             icons: {
-                // time: 'glyphicon glyphicon-time',
-                // date: 'glyphicon glyphicon-calendar',
+                time: 'fas fa-clock-o',
+                date: 'fas fa-calendar-alt',
                 up: 'fas fa-chevron-up',
                 down: 'fas fa-chevron-down',
                 previous: 'fas fa-chevron-left',
                 next: 'fas fa-chevron-right',
                 today: 'fas fa-dot-circle',
-                // clear: 'glyphicon glyphicon-trash',
-                close: 'fas fa-check-circle'
+                clear: 'fas fa-trash-alt',
+                close: 'fas fa-check-circle',
 
             },
             //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
@@ -113,26 +116,30 @@
 
         $('#reservation_stop').datetimepicker({
             useCurrent: false,
+            focusOnShow: false,
             format: 'DD.MM.YYYY HH:mm',
             locale: '{{ app()->getLocale() }}',
             sideBySide: true,
-            toolbarPlacement: 'top',
-            showTodayButton: true,
+            toolbarPlacement: 'bottom',
+            showTodayButton: false,
+            showClear: true,
             showClose: true,
+            viewMode: 'days',
+            inline: false,
             widgetPositioning: {
                 horizontal: 'auto',
-                vertical: 'top'
+                vertical: 'bottom'
             },
             icons: {
-                // time: 'glyphicon glyphicon-time',
-                // date: 'glyphicon glyphicon-calendar',
+                time: 'fas fa-clock-o',
+                date: 'fas fa-calendar-alt',
                 up: 'fas fa-chevron-up',
                 down: 'fas fa-chevron-down',
                 previous: 'fas fa-chevron-left',
                 next: 'fas fa-chevron-right',
                 today: 'fas fa-dot-circle',
-                // clear: 'glyphicon glyphicon-trash',
-                close: 'fas fa-check-circle'
+                clear: 'fas fa-trash-alt',
+                close: 'fas fa-check-circle',
 
             },
             //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
