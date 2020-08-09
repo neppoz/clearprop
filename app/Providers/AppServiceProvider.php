@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
+
         $this->app->singleton('valuestore', function () {
             return \Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
         });
@@ -22,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('settings', function () use ($values) {
             return $values;
         });
+
+
+
     }
 
     /**
