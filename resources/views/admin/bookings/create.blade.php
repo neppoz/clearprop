@@ -9,7 +9,7 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
             @csrf
-            @if (auth()->user()->getIsAdminAttribute())
+            @if (auth()->user()->IsAdminRole())
                 <div class="form-group">
                     <label class="required" for="user_id">{{ trans('cruds.booking.fields.user') }}</label>
                     <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
@@ -28,6 +28,17 @@
                     <input type="text" name="user_id" id="user_id" value="{{ $user->id }}" hidden>
                 </div>
             @endif
+            <div class="form-group">
+                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
+                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
+                    <option selected value="">{{ trans('global.pleaseSelect') }}</option>
+                    {{-- The values come from ajax call when selecting the pilot. It depends on the factors --}}
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
+            </div>
             <div class="form-group">
                 <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
                 <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id" id="plane_id" required>
@@ -80,6 +91,26 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
+        $("#user_id").val(function(){
+        // $("#user_id").change(function(){
+            $.ajax({
+                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    $('#type_id').html(data.html);
+                }
+            });
+        });
+
+        $("#user_id").change(function(){
+            $.ajax({
+                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    $('#type_id').html(data.html);
+                }
+            });
+        });
 
         $('#reservation_start').datetimepicker({
             minDate: moment(),

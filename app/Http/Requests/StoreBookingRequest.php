@@ -26,6 +26,9 @@ class StoreBookingRequest extends FormRequest
             'plane_id'          => [
                 'required',
                 'integer'],
+            'type_id'          => [
+                'required',
+                'integer'],
             'reservation_start' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
