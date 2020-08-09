@@ -47,7 +47,7 @@
 @parent
 <script>
     $(function () {
-@if (auth()->user()->getIsAdminAttribute())
+@if (auth()->user()->IsAdminRole())
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
   let dtDom = 'lBfrtip<"actions">'
 @can('activity_delete')

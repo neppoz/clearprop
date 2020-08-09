@@ -23,6 +23,7 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'plane_id',
+        'type_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -40,6 +41,11 @@ class Booking extends Model
     public function plane()
     {
         return $this->belongsTo(Plane::class, 'plane_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class, 'type_id');
     }
 
     public function created_by()
