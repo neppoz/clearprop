@@ -50,7 +50,7 @@ class BookingsController extends Controller
                 $url = [];
                 $textColor = [];
 
-                if (auth()->user()->getIsAdminAttribute()) {
+                if (auth()->user()->IsAdminRole()) {
                     $url = route($source['route'], $model->id);
                     $textColor = [];
                 }
@@ -83,7 +83,7 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if (auth()->user()->getIsAdminAttribute()) {
+        if (auth()->user()->IsAdminRole()) {
             return view('admin.bookings.create', compact('users', 'planes'));
         } else {
             $user = auth()->user();
@@ -127,7 +127,7 @@ class BookingsController extends Controller
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $booking->load('user', 'plane', 'created_by');
-        debug('start: ' . $booking->reservation_start . ' stop: '. $booking->reservation_stop);
+//        debug('start: ' . $booking->reservation_start . ' stop: '. $booking->reservation_stop);
         return view('admin.bookings.edit', compact('users', 'planes', 'booking'));
     }
 
