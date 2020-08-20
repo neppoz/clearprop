@@ -260,6 +260,8 @@ return [
             'user_helper'              => '',
             'plane'                    => 'Aeroplano',
             'plane_helper'             => '',
+            'type'                    => 'Tipo di attività',
+            'type_helper'             => '',
             'created_by'               => 'Creato il',
             'created_by_helper'        => '',
         ],

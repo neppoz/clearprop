@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Booking;
 
-class BookingCreatedEvent
+class BookingDeletedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

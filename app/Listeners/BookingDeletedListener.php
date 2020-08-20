@@ -2,10 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\BookingCreatedEvent;
-use App\Notifications\BookingCreateAdminNotification;
-use App\Notifications\BookingCreateInstructorNotification;
-use App\Notifications\BookingCreateUserNotification;
+use App\Events\BookingDeletedEvent;
+use App\Notifications\BookingDeleteAdminNotification;
+use App\Notifications\BookingDeleteInstructorNotification;
+use App\Notifications\BookingDeleteUserNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
@@ -14,7 +14,7 @@ use App\User;
 use App\Plane;
 use App\Type;
 // TODO: switching back to queue
-class BookingCreatedListener //implements ShouldQueue
+class BookingDeletedListener //implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -29,10 +29,10 @@ class BookingCreatedListener //implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param BookingCreatedEvent $event
+     * @param BookingDeletedEvent $event
      * @return void
      */
-    public function handle(BookingCreatedEvent $event)
+    public function handle(BookingDeletedEvent $event)
     {
         try {
             $user = User::findOrFail($event->booking->user_id);
@@ -44,11 +44,11 @@ class BookingCreatedListener //implements ShouldQueue
             })->get();
             $instructors = User::where('instructor', true)->get();
 
-            Notification::send($user, new BookingCreateUserNotification($event, $user, $type, $plane));
-            Notification::send($admins, new BookingCreateAdminNotification($event, $user, $type, $plane));
+            Notification::send($user, new BookingDeleteUserNotification($event, $user, $type, $plane));
+            Notification::send($admins, new BookingDeleteAdminNotification($event, $user, $type, $plane));
 
             if ($type->instructor == true) {
-                Notification::send($instructors, new BookingCreateInstructorNotification($event, $user, $type, $plane));
+                Notification::send($instructors, new BookingDeleteInstructorNotification($event, $user, $type, $plane));
             }
             return;
 
