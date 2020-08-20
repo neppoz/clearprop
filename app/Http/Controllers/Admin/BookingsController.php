@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Booking;
 use App\Events\BookingCreatedEvent;
+use App\Events\BookingDeletedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
@@ -136,13 +137,6 @@ class BookingsController extends Controller
         $booking->update($request->all());
 
         return redirect()->route('admin.bookings.index');
-        // if ((new BookingCheckService())->availabilityCheckPassed($request)) {
-        //     $booking->update($request->all());
-
-        //     return redirect()->route('admin.bookings.index');
-        // }
-
-        // return back()->withToastError(trans('global.planeNotAvailable'));
     }
 
     public function show(Booking $booking)
@@ -159,6 +153,8 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $booking->delete();
+
+        event(new BookingDeletedEvent($booking));
 
         return redirect()->route('admin.bookings.index');
     }

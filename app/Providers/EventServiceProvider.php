@@ -26,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BookingCreatedEvent' => [
             'App\Listeners\BookingCreatedListener',
         ],
+        'App\Events\BookingDeletedEvent' => [
+            'App\Listeners\BookingDeletedListener',
+        ],
     ];
 
     /**

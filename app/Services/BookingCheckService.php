@@ -17,7 +17,7 @@ class BookingCheckService
                 Carbon::parse($request->reservation_start)->addSeconds(1),
                 Carbon::parse($request->reservation_stop)->subSeconds(1),
             ];
-            debug($times);
+//            debug($times);
             /** This query returns:
              *  0 if plane is not available
              *  1 if plane is available (you can book it)

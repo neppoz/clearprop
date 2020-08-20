@@ -26,6 +26,14 @@
                 </tr>
                 <tr>
                     <th>
+                        {{ trans('cruds.booking.fields.type') }}
+                    </th>
+                    <td>
+                        {{ $booking->type->name ?? '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
                         {{ trans('cruds.booking.fields.plane') }}
                     </th>
                     <td>
@@ -78,6 +86,7 @@
             <div class="form-group">
                 <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
                 <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
+                <input type="hidden" name="type_id" id="type_id" value="{{ old('type_id', $booking->type_id) }}" readonly>
                 <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
                 <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             </div>

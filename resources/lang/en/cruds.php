@@ -259,6 +259,8 @@ return [
             'user_helper'              => '',
             'plane'                    => 'Plane',
             'plane_helper'             => '',
+            'type'                    => 'Activity type',
+            'type_helper'             => '',
             'created_by'               => 'Created By',
             'created_by_helper'        => '',
         ],
