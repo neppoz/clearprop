@@ -13,11 +13,10 @@ class BookingStatusService
     {
         $type = Type::findOrFail($booking->type_id);
         try {
-            if ($type->instructor == true) {
-                $booking->setStatus('pending', 'Instructor');
-            }
             if ($type->instructor == false) {
-                $booking->setStatus('confirmed', 'Regular');
+                // Auto-Confirmation, maybe changed later
+                $booking->status = 1;
+                $booking->save();
             }
             return true;
         } catch (\Throwable $exception) {

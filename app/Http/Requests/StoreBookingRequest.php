@@ -23,10 +23,13 @@ class StoreBookingRequest extends FormRequest
             'user_id'           => [
                 'required',
                 'integer'],
-            'plane_id'          => [
+            'type_id'          => [
                 'required',
                 'integer'],
-            'type_id'          => [
+//            'status'          => [
+//                'required',
+//                'integer'],
+            'plane_id'          => [
                 'required',
                 'integer'],
             'reservation_start' => [

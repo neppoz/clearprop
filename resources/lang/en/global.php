@@ -262,4 +262,5 @@ return [
     'general'                              => 'General',
     'new'                                  => 'New',
     'planeNotAvailable'                    => 'Sorry, there is another reservation in place. Please select a free slot',
+    'confirm'                              => 'Confirm',
 ];

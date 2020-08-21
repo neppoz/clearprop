@@ -100,18 +100,17 @@
         <form method="POST" action="{{ route("admin.bookings.update", $booking->id) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
-                <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
-                <input type="hidden" name="type_id" id="type_id" value="{{ old('type_id', $booking->type_id) }}" readonly>
-                <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
-                <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
-            </div>
+            <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
+            <input type="hidden" name="type_id" id="type_id" value="{{ old('type_id', $booking->type_id) }}" readonly>
+            <input type="hidden" name="status" id="status" value="{{ old('status', $booking->status) }}" readonly>
+            <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
+            <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
+            <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             @can('booking_edit')
-                @if (auth()->user()->IsAdminRole())
+                @if (auth()->user()->IsAdminByRole() && $booking->type->instructor === 1 && $booking->status === 0)
                     <div class="form-group">
-                        <label for="instructor_id">{{ trans('cruds.activity.fields.instructor') }}</label>
-                        <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id">
+                        <label for="instructor_id_select">{{ trans('cruds.activity.fields.instructor') }}</label>
+                        <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id_select">
                             @foreach($instructors as $id => $instructor)
                                 <option value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
                             @endforeach
@@ -121,10 +120,11 @@
                         @endif
                         <span class="help-block">{{ trans('cruds.activity.fields.instructor_helper') }}</span>
                     </div>
-                @else
+                @endif
+                @if (auth()->user()->IsInstructorByFlag() && $booking->type->instructor === 1 && $booking->status === 0)
                     <div class="form-group">
-                        <label class="text" for="instructor_id">{{ trans('cruds.booking.fields.instructor') }} : {{ $booking->instructor->name }}</label>
-                        <input type="text" name="instructor_id" id="instructor_id" value="{{ $booking->instructor->id }}" hidden>
+                        <label class="text" for="instructor_id_input">{{ trans('cruds.booking.fields.instructor') }} : {{ auth()->user()->name }}</label>
+                        <input type="hidden" name="instructor_id" id="instructor_id_input" value="{{ auth()->user()->id }}" readonly>
                     </div>
                 @endif
                 <div class="form-group">
@@ -138,7 +138,7 @@
                 <div class="form-group">
                     <button class="btn btn-success" type="submit">
                         <i class="fas fa-edit"></i>
-                        {{ trans('global.save') }}
+                        {{ trans('global.update') }} {{ strtolower(trans('cruds.booking.title_singular')) }}
                     </button>
                 </div>
             @endcan
@@ -152,6 +152,13 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
+        if($('#instructor_id_input').length) {
+            $('#status').val(1);
+        }
+
+        $("#instructor_id_select").change(function(){
+            $('#status').val(1);
+        });
 
         $('#reservation_start').datetimepicker({
             format: 'DD.MM.YYYY HH:mm',
