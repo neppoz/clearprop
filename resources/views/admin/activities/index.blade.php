@@ -27,7 +27,7 @@
                     <th class="min-tablet-l">
                         {{ trans('cruds.activity.fields.type') }}
                     </th>
-                    @if (auth()->user()->IsAdminRole())
+                    @if (auth()->user()->IsAdminByRole())
                         <th>
                             {{ trans('cruds.activity.fields.user') }}
                         </th>
@@ -57,7 +57,7 @@
 @parent
 <script>
     $(function () {
-@if (auth()->user()->IsAdminRole())
+@if (auth()->user()->IsAdminByRole())
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
   let dtDom = 'lBfrtip<"actions">'
 @can('activity_delete')
@@ -130,7 +130,7 @@
         },
         { type: 'date', data: 'event', name: 'event' },
         { data: 'type_name', name: 'type.name' },
-        @if (auth()->user()->IsAdminRole())
+        @if (auth()->user()->IsAdminByRole())
             { data: 'user_name', name: 'user.name' },
         @endif
         { data: 'plane_callsign', name: 'plane.callsign' },
