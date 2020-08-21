@@ -30,14 +30,15 @@ class Booking extends Model
         'instructor_id',
         'plane_id',
         'type_id',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+        'instructor_id',
         'description',
         'status',
         'created_by_id',
         'reservation_stop',
         'reservation_start',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function user()

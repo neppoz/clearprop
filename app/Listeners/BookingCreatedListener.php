@@ -47,7 +47,7 @@ class BookingCreatedListener //implements ShouldQueue
             Notification::send($user, new BookingCreateUserNotification($event, $user, $type, $plane));
             Notification::send($admins, new BookingCreateAdminNotification($event, $user, $type, $plane));
 
-            if ($type->instructor == true) {
+            if ($type->instructor == true && $event->booking->status === 0) {
                 Notification::send($instructors, new BookingCreateInstructorNotification($event, $user, $type, $plane));
             }
             return;

@@ -9,10 +9,10 @@
     <div class="card-body">
         <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
             @csrf
-            @if (auth()->user()->IsAdminRole())
+            @if (auth()->user()->IsAdminByRole())
                 <div class="form-group">
-                    <label class="required" for="user_id">{{ trans('cruds.booking.fields.user') }}</label>
-                    <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                    <label class="required" for="user_id_select">{{ trans('cruds.booking.fields.user') }}</label>
+                    <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id_select" required>
                         @foreach($users as $id => $user)
                             <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
                         @endforeach
@@ -24,8 +24,8 @@
                 </div>
             @else
                 <div class="form-group">
-                    <label class="text" for="user_id">{{ trans('cruds.booking.fields.user') }} : {{ $user->name }}</label>
-                    <input type="text" name="user_id" id="user_id" value="{{ $user->id }}" hidden>
+                    <label class="text" for="user_id_input">{{ trans('cruds.booking.fields.user') }} : {{ $user->name }}</label>
+                    <input type="hidden" name="user_id" id="user_id_input" value="{{ $user->id }}" readonly>
                 </div>
             @endif
             <div class="form-group">
@@ -39,6 +39,35 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
             </div>
+{{--            @if (auth()->user()->IsAdminByRole())--}}
+{{--                <div class="form-group">--}}
+{{--                    <label for="instructor_id">{{ trans('cruds.booking.fields.instructor') }}</label>--}}
+{{--                    <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id" disabled>--}}
+{{--                        @foreach($instructors as $id => $instructor)--}}
+{{--                            <option value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                    @if($errors->has('instructor'))--}}
+{{--                        <span class="text-danger">{{ $errors->first('instructor') }}</span>--}}
+{{--                    @endif--}}
+{{--                    <span class="help-block">{{ trans('cruds.booking.fields.instructor_helper') }}</span>--}}
+{{--                </div>--}}
+{{--                <div class="form-group">--}}
+{{--                    <label class="required">{{ trans('cruds.booking.fields.status') }}</label>--}}
+{{--                    @foreach(App\Booking::STATUS_RADIO as $key => $label)--}}
+{{--                        <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">--}}
+{{--                            <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', '0') === (string) $key ? 'checked' : '' }} required>--}}
+{{--                            <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>--}}
+{{--                        </div>--}}
+{{--                    @endforeach--}}
+{{--                    @if($errors->has('status'))--}}
+{{--                        <span class="text-danger">{{ $errors->first('status') }}</span>--}}
+{{--                    @endif--}}
+{{--                    <span class="help-block">{{ trans('cruds.booking.fields.status_helper') }}</span>--}}
+{{--                </div>--}}
+{{--            @else--}}
+{{--                <input type="hidden" name="status" id="status" value="{{ old('status', '0')}}" readonly>--}}
+{{--            @endif--}}
             <div class="form-group">
                 <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
                 <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id" id="plane_id" required>
@@ -91,18 +120,18 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
-        $("#user_id").val(function(){
-        // $("#user_id").change(function(){
+        if($('#user_id_input').length){
+            let user =  $("#user_id_input").val();
             $.ajax({
-                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + $(this).val(),
+                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + user,
                 method: 'GET',
                 success: function(data) {
                     $('#type_id').html(data.html);
                 }
             });
-        });
+        }
 
-        $("#user_id").change(function(){
+        $("#user_id_select").change(function(){
             $.ajax({
                 url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + $(this).val(),
                 method: 'GET',

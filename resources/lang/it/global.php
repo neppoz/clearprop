@@ -252,4 +252,5 @@ return [
     'messenger'                            => 'Messenger',
     'new'                                  => 'Nuova',
     'planeNotAvailable'                    => 'Esiste già una prenotazione per queste date. Scegli uno slot libero',
+    'confirm'                              => 'Conferma',
 ];

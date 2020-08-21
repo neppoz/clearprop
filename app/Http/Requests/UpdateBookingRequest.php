@@ -23,6 +23,12 @@ class UpdateBookingRequest extends FormRequest
             'user_id'           => [
                 'required',
                 'integer'],
+            'type_id'          => [
+                'required',
+                'integer'],
+            'status'          => [
+                'required',
+                'integer'],
             'plane_id'          => [
                 'required',
                 'integer'],

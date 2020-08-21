@@ -10,7 +10,7 @@ use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Plane;
-//use App\Services\BookingStatusService;
+use App\Services\BookingStatusService;
 use App\Services\UserCheckService;
 use App\Services\BookingCheckService;
 use App\User;
@@ -31,9 +31,6 @@ class BookingsController extends Controller
                 'model'      => '\\App\\Booking',
                 'date_field' => 'reservation_start',
                 'end_field'  => 'reservation_stop',
-                'field'      => 'description',
-                'prefix'     => '',
-                'suffix'     => '',
                 'route'      => 'admin.bookings.edit',
             ],
         ];
@@ -41,32 +38,44 @@ class BookingsController extends Controller
         $events = [];
 
         foreach ($sources as $source) {
-            foreach ($source['model']::with(['user', 'plane'])->orderby($source['date_field'], 'asc')->get() as $model) {
+            foreach ($source['model']::with(['user', 'plane', 'type', 'instructor'])->orderby($source['date_field'], 'asc')->get() as $model) {
                 $crudFieldValue = $model->getOriginal($source['date_field']);
                 $crudEndFieldValue = $model->getOriginal($source['end_field']);
 
                 if (!$crudFieldValue) {
                     continue;
                 }
-
+                // Define defaults
+                $title = trim($model->plane->callsign
+                    . ": " . $model->user->name
+                    . " - " .$model->type->name
+                    . " [" .$model::STATUS_RADIO[$model->status]. "] " );
                 $url = [];
                 $textColor = [];
 
-                if (auth()->user()->IsAdminRole()) {
+                if (!empty($model->instructor_id)) {
+                    $title = trim($model->plane->callsign
+                        . ": " . $model->user->name
+                        . " - " .$model->type->name
+                        . " [" .$model::STATUS_RADIO[$model->status]
+                        . " - ".$model->instructor->name ."] ");
+                }
+                if (auth()->user()->IsAdminByRole()) {
                     $url = route($source['route'], $model->id);
                     $textColor = [];
                 }
-
                 if (auth()->user()->id === $model->user_id) {
+                    $url = route($source['route'], $model->id);
+                    $textColor = ['text-primary'];
+                }
+                // Complex logic: checking if instructor, type requires instructor, status is open and/or it is assigned to him
+                if ((auth()->user()->IsInstructorByFlag() && $model->type->instructor === 1 && $model->status === 0) OR (auth()->user()->id === $model->instructor_id)) {
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }
 
                 $events[] = [
-                    'title' => trim($source['prefix'] . " " . $model->plane->callsign
-                        . ": " . $model->user->name
-                        . " " .$model->{$source['field']}
-                        . " " . $source['suffix']),
+                    'title' => $title,
                     'start' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudFieldValue)->format('Y-m-d H:i:s'),
                     'end' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudEndFieldValue)->format('Y-m-d H:i:s'),
                     'url' => $url,
@@ -85,8 +94,10 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if (auth()->user()->IsAdminRole()) {
-            return view('admin.bookings.create', compact('users', 'planes'));
+        $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        if (auth()->user()->IsAdminByRole()) {
+            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
         } else {
             $user = auth()->user();
             if ((new UserCheckService())->medicalCheckPassed($user)) {
@@ -108,9 +119,11 @@ class BookingsController extends Controller
     public function store(StoreBookingRequest $request)
     {
         if ((new BookingCheckService())->availabilityCheckPassed($request)) {
-            // Book now
+
             $booking = Booking::create($request->all());
-//            (new BookingStatusService())->createStatus($booking);
+
+            (new BookingStatusService())->createStatus($booking);
+
             event(new BookingCreatedEvent($booking));
 
             return redirect()->route('admin.bookings.index');
