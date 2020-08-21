@@ -31,6 +31,7 @@ class BookingCreatedListener //implements ShouldQueue
      *
      * @param BookingCreatedEvent $event
      * @return void
+     *
      */
     public function handle(BookingCreatedEvent $event)
     {
@@ -38,7 +39,6 @@ class BookingCreatedListener //implements ShouldQueue
             $user = User::findOrFail($event->booking->user_id);
             $plane = Plane::findOrFail($event->booking->plane_id);
             $type = Type::findOrFail($event->booking->type_id);
-            /** Recipients */
             $admins = User::wherehas('roles', function ($q) {
                 $q->where('role_id', User::IS_ADMIN);
             })->get();

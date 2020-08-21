@@ -3,12 +3,20 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="row justify-content-end">
+        <div class="row">
             <div class="col-6">
-                {{ trans('cruds.booking.title_singular') }} {{ trans('cruds.booking.fields.id') }} {{ $booking->id }}
+                {{ trans('cruds.booking.title_singular') }}
             </div>
             <div class="col-6">
-
+                <div class="float-right">
+                    @can('booking_delete')
+                        <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="submit" class="btn btn-outline-danger" value="{{ trans('global.delete') }}">
+                        </form>
+                    @endcan
+                </div>
             </div>
         </div>
     </div>
@@ -56,20 +64,29 @@
                         {{ $booking->reservation_stop ?? '' }}
                     </td>
                 </tr>
-                @can('booking_delete')
                 <tr>
                     <th>
-                        <form action="{{ route('admin.bookings.destroy', [$booking->id]) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="submit" class="btn btn-outline-danger" value="{{ trans('global.delete') }}">
-                        </form>
+                        {{ trans('cruds.booking.fields.status') }}
                     </th>
                     <td>
-
+                        @if(App\Booking::STATUS_RADIO[$booking->status] === 'pending')
+                            <span class="text-primary">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
+                        @endif
+                        @if(App\Booking::STATUS_RADIO[$booking->status] === 'confirmed')
+                            <span class="text-success">{{ App\Booking::STATUS_RADIO[$booking->status]}}</span>
+                        @endif
                     </td>
-                <tr>
-                @endcan
+                </tr>
+                @if(!empty($booking->instructor_id) && App\Booking::STATUS_RADIO[$booking->status] === 'confirmed')
+                    <tr>
+                        <th>
+                            {{ trans('cruds.booking.fields.instructor') }}
+                        </th>
+                        <td>
+                            {{ $booking->instructor->name ?? '' }}
+                        </td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
@@ -80,7 +97,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.bookings.update", [$booking->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.bookings.update", $booking->id) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -90,37 +107,40 @@
                 <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
                 <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             </div>
-            {{-- <div class="form-group">
-                <label class="required" for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
-                <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}" type="text" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" required>
-                @if($errors->has('reservation_start'))
-                    <span class="text-danger">{{ $errors->first('reservation_start') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.booking.fields.reservation_start_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="reservation_stop">{{ trans('cruds.booking.fields.reservation_stop') }}</label>
-                <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}" type="text" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" required>
-                @if($errors->has('reservation_stop'))
-                    <span class="text-danger">{{ $errors->first('reservation_stop') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.booking.fields.reservation_stop_helper') }}</span>
-            </div> --}}
-            <div class="form-group">
-                <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $booking->description) }}</textarea>
-                @if($errors->has('description'))
-                    <span class="text-danger">{{ $errors->first('description') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.booking.fields.description_helper') }}</span>
-            </div>
             @can('booking_edit')
-            <div class="form-group">
-                <button class="btn btn-success" type="submit">
-                    <i class="fas fa-edit"></i>
-                    {{ trans('global.update') }}
-                </button>
-            </div>
+                @if (auth()->user()->IsAdminRole())
+                    <div class="form-group">
+                        <label for="instructor_id">{{ trans('cruds.activity.fields.instructor') }}</label>
+                        <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id">
+                            @foreach($instructors as $id => $instructor)
+                                <option value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('instructor'))
+                            <span class="text-danger">{{ $errors->first('instructor') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.activity.fields.instructor_helper') }}</span>
+                    </div>
+                @else
+                    <div class="form-group">
+                        <label class="text" for="instructor_id">{{ trans('cruds.booking.fields.instructor') }} : {{ $booking->instructor->name }}</label>
+                        <input type="text" name="instructor_id" id="instructor_id" value="{{ $booking->instructor->id }}" hidden>
+                    </div>
+                @endif
+                <div class="form-group">
+                    <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
+                    <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $booking->description) }}</textarea>
+                    @if($errors->has('description'))
+                        <span class="text-danger">{{ $errors->first('description') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.booking.fields.description_helper') }}</span>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">
+                        <i class="fas fa-edit"></i>
+                        {{ trans('global.save') }}
+                    </button>
+                </div>
             @endcan
         </form>
     </div>
