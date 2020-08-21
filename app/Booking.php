@@ -12,6 +12,11 @@ class Booking extends Model
 
     public $table = 'bookings';
 
+    const STATUS_RADIO = [
+        '0' => 'pending',
+        '1' => 'confirmed',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -22,12 +27,14 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id',
+        'instructor_id',
         'plane_id',
         'type_id',
         'created_at',
         'updated_at',
         'deleted_at',
         'description',
+        'status',
         'created_by_id',
         'reservation_stop',
         'reservation_start',
@@ -46,6 +53,11 @@ class Booking extends Model
     public function type()
     {
         return $this->belongsTo(Type::class, 'type_id');
+    }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'instructor_id');
     }
 
     public function created_by()

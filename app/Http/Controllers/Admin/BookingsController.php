@@ -10,6 +10,7 @@ use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Plane;
+//use App\Services\BookingStatusService;
 use App\Services\UserCheckService;
 use App\Services\BookingCheckService;
 use App\User;
@@ -88,21 +89,19 @@ class BookingsController extends Controller
             return view('admin.bookings.create', compact('users', 'planes'));
         } else {
             $user = auth()->user();
-
             if ((new UserCheckService())->medicalCheckPassed($user)) {
                 if ((new UserCheckService())->balanceCheckPassed($user)) {
                     if ((new UserCheckService())->activityCheckPassed($user)) {
-                        // TODO: passing planes array from service (certain amount of activities on plane)
                         return view('admin.bookings.create', compact('user', 'planes'));
                     } else {
                         return back()->withToastError(trans('global.activityCheck'));
-                    };
+                    }
                 } else {
                     return back()->withToastError(trans('global.balanceCheck'));
-                };
+                }
             } else {
                 return back()->withToastError(trans('global.medicalCheck'));
-            };
+            }
         }
     }
 
@@ -111,6 +110,7 @@ class BookingsController extends Controller
         if ((new BookingCheckService())->availabilityCheckPassed($request)) {
             // Book now
             $booking = Booking::create($request->all());
+//            (new BookingStatusService())->createStatus($booking);
             event(new BookingCreatedEvent($booking));
 
             return redirect()->route('admin.bookings.index');
@@ -127,9 +127,11 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
         $booking->load('user', 'plane', 'created_by');
-//        debug('start: ' . $booking->reservation_start . ' stop: '. $booking->reservation_stop);
-        return view('admin.bookings.edit', compact('users', 'planes', 'booking'));
+
+        return view('admin.bookings.edit', compact('users', 'planes', 'booking', 'instructors'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
