@@ -265,7 +265,7 @@ return [
             'status'                    => 'Status',
             'status_helper'             => '',
             'instructor'                    => 'Istruttore',
-            'instructor_helper'             => '',
+            'instructor_helper'             => 'Se selezioni un istruttore al salvataggio lo status verrà cambiato in confermato',
             'created_by'               => 'Creato il',
             'created_by_helper'        => '',
         ],

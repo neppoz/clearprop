@@ -264,7 +264,7 @@ return [
             'status'                    => 'Status',
             'status_helper'             => '',
             'instructor'                    => 'Instructor',
-            'instructor_helper'             => '',
+            'instructor_helper'             => 'If you select an instructor the status will automatically change to confirmed',
             'created_by'               => 'Created By',
             'created_by_helper'        => '',
         ],
