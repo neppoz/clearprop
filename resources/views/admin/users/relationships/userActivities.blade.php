@@ -12,7 +12,6 @@
             </div>
         @endcan
         </div>
-
         <div class="card-body">
             <div class="table-responsive">
                 <table class=" table table-bordered table-striped table-hover datatable datatable-Activity">
@@ -29,6 +28,12 @@
                             </th>
                             <th>
                                 {{ trans('cruds.activity.fields.plane') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.activity.fields.counter_start') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.activity.fields.counter_stop') }}
                             </th>
                             <th>
                                 {{ trans('cruds.activity.fields.minutes') }}
@@ -124,11 +129,13 @@ let dtOverrideGlobals = {
         { type: 'date', data: 'event', name: 'event' },
         { data: 'type_name', name: 'type.name' },
         { data: 'plane_callsign', name: 'plane.callsign' },
+        { data: 'counter_start', name: 'counter_start' },
+        { data: 'counter_stop', name: 'counter_stop' },
         { data: 'minutes', name: 'minutes' },
         { data: 'amount', name: 'amount' },
         { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
-    order: [[ 1, 'desc' ]],
+    order: [[ 1, 'desc' ], [ 4, 'desc' ], [ 5, 'desc' ]],
     pageLength: 25,
     createdRow: (row, data, dataIndex, cells) => {
         $(cells[0]).css('background-color', data.split_color)
