@@ -102,7 +102,6 @@
             @csrf
             <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
             <input type="hidden" name="type_id" id="type_id" value="{{ old('type_id', $booking->type_id) }}" readonly>
-            <input type="hidden" name="status" id="status" value="{{ old('status', $booking->status) }}" readonly>
             <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
             <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
             <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
@@ -118,7 +117,7 @@
                         @if($errors->has('instructor'))
                             <span class="text-danger">{{ $errors->first('instructor') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.activity.fields.instructor_helper') }}</span>
+                        <span class="help-block">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
                     </div>
                 @endif
                 @if (auth()->user()->IsInstructorByFlag() && $booking->type->instructor === 1 && $booking->status === 0)
@@ -127,6 +126,10 @@
                         <input type="hidden" name="instructor_id" id="instructor_id_input" value="{{ auth()->user()->id }}" readonly>
                     </div>
                 @endif
+                    <div class="form-group">
+                        <label class="text" for="status">{{ trans('global.update') }} {{ trans('cruds.booking.fields.status') }} : {{ App\Booking::STATUS_RADIO['1'] }}</label>
+                        <input type="hidden" name="status" id="status" value="1" readonly>
+                    </div>
                 <div class="form-group">
                     <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
                     <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $booking->description) }}</textarea>
