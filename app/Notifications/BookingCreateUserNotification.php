@@ -16,15 +16,17 @@ class BookingCreateUserNotification extends Notification
     protected $user;
     protected $plane;
     protected $type;
+    protected $user_url;
 
 
-    public function __construct($event, $user, $type, $plane)
+    public function __construct($event, $user, $type, $plane, $user_url)
     {
         //$this->data = $data;
         $this->event = $event;
         $this->user = $user;
         $this->type = $type;
         $this->plane = $plane;
+        $this->url = $user_url;
     }
 
     public function via($notifiable)
@@ -55,7 +57,7 @@ class BookingCreateUserNotification extends Notification
             ->line(new HtmlString('Status: ' . '<strong>' . \App\Booking::STATUS_RADIO[$this->event->booking->status] . '</strong>' . '<br>'))
             ->line('')
             ->line('Please log in to see more information.')
-            ->action('Edit reservation', config('app.url') . '/admin/bookings/'. $this->event->booking->id .'/edit')
+            ->action('Edit reservation', $this->url)
             ->line('')
             ->line('Happy landings,')
             ->line(config('app.name') . ' Team')

@@ -16,15 +16,17 @@ class BookingCreateInstructorNotification extends Notification
     protected $user;
     protected $plane;
     protected $type;
+    protected $instructor_url;
 
 
-    public function __construct($event, $user, $type, $plane)
+    public function __construct($event, $user, $type, $plane, $instructor_url)
     {
         //$this->data = $data;
         $this->event = $event;
         $this->user = $user;
         $this->type = $type;
         $this->plane = $plane;
+        $this->url = $instructor_url;
     }
 
     public function via($notifiable)
@@ -54,7 +56,7 @@ class BookingCreateInstructorNotification extends Notification
             ->line('')
             ->line(new HtmlString('Status: ' . '<strong>' . \App\Booking::STATUS_RADIO[$this->event->booking->status] . '</strong>' . '<br>'))
             ->line(new HtmlString('<strong>Please log in to confirm the invitation.</strong>'))
-            ->action('Edit reservation', config('app.url') . '/admin/bookings/'. $this->event->booking->id .'/edit')
+            ->action('Edit reservation', $this->url)
             ->line('')
             ->line('Happy landings,')
             ->line(config('app.name') . ' Team')
