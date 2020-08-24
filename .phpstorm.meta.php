@@ -5,7 +5,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2020-08-09 14:40:55.
+    * Generated on 2020-08-24 09:25:07.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -188,6 +188,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -386,6 +387,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -584,6 +586,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -782,6 +785,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -980,6 +984,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -1178,6 +1183,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -1376,6 +1382,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,
@@ -1574,6 +1581,7 @@ namespace PHPSTORM_META {
         'migration.repository' => \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
         'migrator' => \Illuminate\Database\Migrations\Migrator::class,
         'mpdf.wrapper' => \niklasravnsborg\LaravelPdf\PdfWrapper::class,
+        'passwordless-login' => \Grosv\LaravelPasswordlessLogin\PasswordlessLoginManager::class,
         'queue' => \Illuminate\Queue\QueueManager::class,
         'queue.connection' => \Laravel\Horizon\RedisQueue::class,
         'queue.failer' => \Illuminate\Queue\Failed\DatabaseFailedJobProvider::class,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80c05bce2cd2b94e49f7ec5e3f3e1001",
+    "content-hash": "8435898d13d9839a1b1f156621aafd73",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1165,6 +1165,51 @@
                 "laravel"
             ],
             "time": "2020-05-31T07:30:16+00:00"
+        },
+        {
+            "name": "grosv/laravel-passwordless-login",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grosv/laravel-passwordless-login.git",
+                "reference": "93a3e6320db211a0618c7547341f097d714b10fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grosv/laravel-passwordless-login/zipball/93a3e6320db211a0618c7547341f097d714b10fd",
+                "reference": "93a3e6320db211a0618c7547341f097d714b10fd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0|^7.0",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": "Grosv\\LaravelPasswordlessLogin\\LaravelPasswordlessLoginProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Grosv\\LaravelPasswordlessLogin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ed Grosvenor",
+                    "email": "ed.grosvenor@wickedviral.com"
+                }
+            ],
+            "description": "Passwordless login using temporary signed URL",
+            "time": "2020-04-23T19:38:16+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
