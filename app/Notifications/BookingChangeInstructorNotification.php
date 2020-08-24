@@ -17,9 +17,10 @@ class BookingChangeInstructorNotification extends Notification
     protected $plane;
     protected $type;
     protected $instructor;
+    protected $instructor_url;
 
 
-    public function __construct($event, $user, $type, $plane, $instructor)
+    public function __construct($event, $user, $type, $plane, $instructor, $instructor_url)
     {
         //$this->data = $data;
         $this->event = $event;
@@ -27,6 +28,7 @@ class BookingChangeInstructorNotification extends Notification
         $this->type = $type;
         $this->plane = $plane;
         $this->instructor = $instructor;
+        $this->url = $instructor_url;
     }
 
     public function via($notifiable)
@@ -58,7 +60,7 @@ class BookingChangeInstructorNotification extends Notification
             ->line(new HtmlString('Instructor: ' . '<strong>' . $this->instructor->name . '</strong>' . '<br>'))
             ->line('')
             ->line('Please log in to see more information.')
-            ->action('Show reservation', config('app.url') . '/admin/bookings/'. $this->event->booking->id .'/edit')
+            ->action('Show reservation', $this->url)
             ->line('')
             ->line('Happy landings,')
             ->line(config('app.name') . ' Team')

@@ -13,8 +13,9 @@ use Throwable;
 use App\User;
 use App\Plane;
 use App\Type;
-// TODO: switching back to queue
-class BookingDeletedListener //implements ShouldQueue
+use Grosv\LaravelPasswordlessLogin\LoginUrl;
+
+class BookingDeletedListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -35,20 +36,39 @@ class BookingDeletedListener //implements ShouldQueue
     public function handle(BookingDeletedEvent $event)
     {
         try {
-            $user = User::findOrFail($event->booking->user_id);
+//            $redirect_url = '/admin/bookings/'. $event->booking->id .'/edit';
             $plane = Plane::findOrFail($event->booking->plane_id);
             $type = Type::findOrFail($event->booking->type_id);
-            /** Recipients */
+
+            $user = User::findOrFail($event->booking->user_id);
+//            $generator_user = new LoginUrl($user);
+//            $generator_user->setRedirectUrl($redirect_url);
+//            $user_url = $generator_user->generate();
+//            $user_url = $redirect_url;
+            Notification::send($user, new BookingDeleteUserNotification($event, $user, $type, $plane));
+
+            // For admins
             $admins = User::wherehas('roles', function ($q) {
                 $q->where('role_id', User::IS_ADMIN);
             })->get();
-            $instructors = User::where('instructor', true)->get();
+            foreach ($admins as $admin) {
+//                $generator_admin = new LoginUrl($admin);
+//                $generator_admin->setRedirectUrl($redirect_url);
+//                $admin_url = $generator_admin->generate();
+//                $admin_url = $redirect_url;
+                Notification::send($admin, new BookingDeleteAdminNotification($event, $user, $type, $plane));
+            }
 
-            Notification::send($user, new BookingDeleteUserNotification($event, $user, $type, $plane));
-            Notification::send($admins, new BookingDeleteAdminNotification($event, $user, $type, $plane));
-
+            //For instructors
             if ($type->instructor == true) {
-                Notification::send($instructors, new BookingDeleteInstructorNotification($event, $user, $type, $plane));
+                $instructors = User::where('instructor', true)->get();
+                foreach ($instructors as $instructor) {
+//                    $generator_instructor = new LoginUrl($instructor);
+//                    $generator_instructor->setRedirectUrl($redirect_url);
+//                    $instructor_url = $generator_instructor->generate();
+//                    $instructor_url = $redirect_url;
+                    Notification::send($instructor, new BookingDeleteInstructorNotification($event, $user, $type, $plane));
+                }
             }
             return;
 
