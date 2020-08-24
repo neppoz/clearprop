@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Booking;
+use App\Events\BookingChangedEvent;
 use App\Events\BookingCreatedEvent;
 use App\Events\BookingDeletedEvent;
 use App\Http\Controllers\Controller;
@@ -150,6 +151,10 @@ class BookingsController extends Controller
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
         $booking->update($request->all());
+
+        if ($booking->wasChanged('status')) { // Verify if status has changed
+            event(new BookingChangedEvent($booking));
+        }
 
         return redirect()->route('admin.bookings.index');
     }

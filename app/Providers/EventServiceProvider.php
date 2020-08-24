@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\ActivitySplitCost;
-use App\Listeners\ActivitySplitCostListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -28,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\BookingDeletedEvent' => [
             'App\Listeners\BookingDeletedListener',
+        ],
+        'App\Events\BookingChangedEvent' => [
+            'App\Listeners\BookingChangedListener',
         ],
     ];
 
