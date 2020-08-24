@@ -60,6 +60,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Activities
     Route::get('activities/userActivities/{user_id}', 'ActivitiesController@getActivitiesByUser')->name('activities.getActivitiesByUser');
     Route::get('activities/instructorActivities/{user_id}', 'ActivitiesController@getActivitiesByUserAsInstructor')->name('activities.getActivitiesByUserAsInstructor');
+    Route::get('activities/planeActivities/{plane_id}', 'ActivitiesController@getActivitiesByPlane')->name('activities.getActivitiesByPlane');
     Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
     Route::resource('activities', 'ActivitiesController');
 

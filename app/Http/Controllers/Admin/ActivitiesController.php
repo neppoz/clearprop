@@ -274,6 +274,7 @@ class ActivitiesController extends Controller
                 return back()->withToastError($exception->getMessage());
             }
         }
+        return false;
     }
 
     public function getActivitiesByUserAsInstructor(Request $request)
@@ -360,5 +361,82 @@ class ActivitiesController extends Controller
                 return back()->withToastError($exception->getMessage());
             }
         }
+        return false;
+    }
+    public function getActivitiesByPlane(Request $request)
+    {
+        abort_if(Gate::denies('activity_access', 'plane_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        if ($request->ajax() and !empty($request->plane_id)) {
+            try {
+                $query = Activity::with(['user', 'plane'])
+                    ->where('plane_id', $request->plane_id)
+                    ->select(sprintf('%s.*', (new Activity)->table));
+
+                $table = Datatables::of($query);
+
+                $table->addColumn('placeholder', '&nbsp;');
+                $table->addColumn('actions', '&nbsp;');
+                $table->addColumn('split_color', '&nbsp;');
+                $table->addColumn('warmup_color', '&nbsp;');
+
+                $table->editColumn('actions', function ($row) {
+                    $viewGate      = 'activity_show';
+                    $editGate      = 'activity_edit';
+                    $deleteGate    = 'activity_delete';
+                    $crudRoutePart = 'activities';
+
+                    return view('partials.datatablesActions', compact(
+                        'viewGate',
+                        'editGate',
+                        'deleteGate',
+                        'crudRoutePart',
+                        'row'
+                    ));
+                });
+
+                $table->editColumn('id', function ($row) {
+                    return $row->id ? $row->id : "";
+                });
+
+                $table->addColumn('user_name', function ($row) {
+                    return $row->user ? $row->user->name : '';
+                });
+
+                $table->editColumn('counter_start', function ($row) {
+                    return $row->counter_start ? $row->counter_start : "";
+                });
+
+                $table->editColumn('counter_stop', function ($row) {
+                    return $row->counter_stop ? $row->counter_stop : "";
+                });
+
+                $table->editColumn('amount', function ($row) {
+                    return $row->amount ? $row->amount : "";
+                });
+
+                $table->editColumn('minutes', function ($row) {
+                    return $row->minutes ? $row->minutes : "";
+                });
+
+                $table->editColumn('split_color', function ($row) {
+                    return $row->split_cost && ['1' => '#f0ad4e'][$row->split_cost] ? ['1' => '#f0ad4e'][$row->split_cost] : 'none';
+                });
+
+                $table->editColumn('warmup_color', function ($row) {
+                    return $row->engine_warmup && ['1' => '#0275d8'][$row->engine_warmup] ? ['1' => '#0275d8'][$row->engine_warmup] : 'none';
+                });
+
+                $table->rawColumns(['actions', 'placeholder', 'user', 'type', 'plane']);
+
+                $table->orderColumn('event', 'event $1')->toJson();
+
+                return $table->make(true);
+            } catch (\Throwable $exception) {
+                report($exception);
+                return back()->withToastError($exception->getMessage());
+            }
+        }
+        return false;
     }
 }

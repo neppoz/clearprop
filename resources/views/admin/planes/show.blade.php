@@ -1,20 +1,26 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.plane.title') }}
-    </div>
-
-    <div class="card-body">
-        <div class="form-group">
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.planes.index') }}">
-                    {{ trans('global.back_to_list') }}
+<div class="card card-primary card-outline card-outline-tabs">
+    <div class="card-header p-0 border-bottom-0">
+        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+            <li class="nav-item">
+                <a class="nav-link active show" href="#plane" role="tab" aria-controls="plane" data-toggle="pill" aria-selected="true">
+                    {{ trans('global.general') }}
                 </a>
-            </div>
-            <table class="table table-bordered table-striped">
-                <tbody>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#plane_activities" role="tab" aria-controls="plane_activities" data-toggle="pill" aria-selected="false">
+                    {{ trans('cruds.activity.title') }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel" id="plane" aria-labelledby="plane">
+                <table class="table table-bordered table-striped">
+                    <tbody>
                     <tr>
                         <th>
                             {{ trans('cruds.plane.fields.id') }}
@@ -81,39 +87,11 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.planes.index') }}">
-                    {{ trans('global.back_to_list') }}
-                </a>
-            </div>
+        </div>
+        <div class="tab-pane" role="tabpanel" id="plane_activities" aria-labelledby="plane_activities">
+            @includeIf('admin.planes.relationships.planeActivities', ['plane_id' => $plane->id])
         </div>
     </div>
 </div>
-
-{{--<div class="card">--}}
-{{--    <div class="card-header">--}}
-{{--        {{ trans('global.relatedData') }}--}}
-{{--    </div>--}}
-{{--    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">--}}
-{{--        <li class="nav-item">--}}
-{{--            <a class="nav-link" href="#plane_activities" role="tab" data-toggle="tab">--}}
-{{--                {{ trans('cruds.activity.title') }}--}}
-{{--            </a>--}}
-{{--        </li>--}}
-{{--        <li class="nav-item">--}}
-{{--            <a class="nav-link" href="#plane_bookings" role="tab" data-toggle="tab">--}}
-{{--                {{ trans('cruds.booking.title') }}--}}
-{{--            </a>--}}
-{{--        </li>--}}
-{{--    </ul>--}}
-{{--    <div class="tab-content">--}}
-{{--        <div class="tab-pane" role="tabpanel" id="plane_activities">--}}
-{{--            @includeIf('admin.planes.relationships.planeActivities', ['activities' => $plane->planeActivities])--}}
-{{--        </div>--}}
-{{--        <div class="tab-pane" role="tabpanel" id="plane_bookings">--}}
-{{--            @includeIf('admin.planes.relationships.planeBookings', ['bookings' => $plane->planeBookings])--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
 
 @endsection
