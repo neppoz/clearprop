@@ -53,10 +53,13 @@ class UserCheckService
                 ->orderBy('event', 'DESC')
                 ->first('event');
 
-            $expDate = Carbon::now()->subDays(Parameter::where('slug', 'check.activities.limit.days')->value('value'));
-            if (Carbon::createFromFormat(config('panel.date_format'), $activities->event)->format('Y-m-d') <= $expDate) {
-                return false;
+            if ($activities->count()) {
+                $expDate = Carbon::now()->subDays(Parameter::where('slug', 'check.activities.limit.days')->value('value'));
+                if (Carbon::createFromFormat(config('panel.date_format'), $activities->event)->format('Y-m-d') <= $expDate) {
+                    return false;
+                }
             }
+            return true;
         }
         return true;
     }
