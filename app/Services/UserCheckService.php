@@ -59,6 +59,7 @@ class UserCheckService
                     return false;
                 }
             }
+            return true;
         }
         return true;
     }
