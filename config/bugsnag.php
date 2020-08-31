@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'app_type' => env('BUGSNAG_APP_TYPE', 'clearprop'),
+    'app_type' => env('BUGSNAG_APP_TYPE', 'clearprop_backend'),
 
     /*
     |--------------------------------------------------------------------------
@@ -200,7 +200,7 @@ return [
     |
     */
 
-    'release_stage' => env('BUGSNAG_RELEASE_STAGE'),
+    'release_stage' => env('BUGSNAG_RELEASE_STAGE', 'local'),
 
     /*
     |--------------------------------------------------------------------------
