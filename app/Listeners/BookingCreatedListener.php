@@ -6,6 +6,7 @@ use App\Events\BookingCreatedEvent;
 use App\Notifications\BookingCreateAdminNotification;
 use App\Notifications\BookingCreateInstructorNotification;
 use App\Notifications\BookingCreateUserNotification;
+use http\Env\Url;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
@@ -37,7 +38,7 @@ class BookingCreatedListener implements ShouldQueue
     public function handle(BookingCreatedEvent $event)
     {
         try {
-            $redirect_url = '/admin/bookings/'. $event->booking->id .'/edit';
+            $redirect_url = url('/admin/bookings/'. $event->booking->id .'/edit');
             $plane = Plane::findOrFail($event->booking->plane_id);
             $type = Type::findOrFail($event->booking->type_id);
 

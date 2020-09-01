@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8435898d13d9839a1b1f156621aafd73",
+    "content-hash": "9f26928830f9cea81b8da9b22a5af5b2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7809,16 +7809,16 @@
         },
         {
             "name": "knuckleswtf/scribe",
-            "version": "1.2.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knuckleswtf/scribe.git",
-                "reference": "5de8a5d05c0288fe83a6cb16fcb28e2d171722ce"
+                "reference": "f6f01ac9bd44e83bc1bc335cce441d678e7d7ff0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/5de8a5d05c0288fe83a6cb16fcb28e2d171722ce",
-                "reference": "5de8a5d05c0288fe83a6cb16fcb28e2d171722ce",
+                "url": "https://api.github.com/repos/knuckleswtf/scribe/zipball/f6f01ac9bd44e83bc1bc335cce441d678e7d7ff0",
+                "reference": "f6f01ac9bd44e83bc1bc335cce441d678e7d7ff0",
                 "shasum": ""
             },
             "require": {
@@ -7835,7 +7835,8 @@
                 "php": ">=7.2.5",
                 "ramsey/uuid": "^3.8|^4.0",
                 "shalvah/clara": "^2.6",
-                "symfony/var-exporter": "^4.0|^5.0"
+                "symfony/var-exporter": "^4.0|^5.0",
+                "symfony/yaml": "^4.0|^5.0"
             },
             "replace": {
                 "mpociot/laravel-apidoc-generator": "*"
@@ -7883,7 +7884,7 @@
                 "documentation",
                 "laravel"
             ],
-            "time": "2020-07-05T14:38:54+00:00"
+            "time": "2020-08-24T17:36:10+00:00"
         },
         {
             "name": "maximebf/debugbar",
