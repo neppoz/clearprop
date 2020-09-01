@@ -8,7 +8,13 @@ class PlaneResource extends JsonResource
 {
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+          'callsign' => $this->callsign,
+          'vendor' => $this->vendor,
+          'model' => $this->model,
+          'active' => $this->active,
+        ];
+//        return parent::toArray($request);
 
     }
 }

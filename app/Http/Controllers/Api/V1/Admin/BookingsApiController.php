@@ -24,7 +24,9 @@ class BookingsApiController extends Controller
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new BookingResource(Booking::with(['user', 'plane', 'created_by'])->get());
+        $bookings = Booking::with(['user', 'plane', 'created_by'])->get();
+
+        return BookingResource::collection($bookings);
     }
 
     /**

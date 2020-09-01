@@ -38,7 +38,7 @@ return [
         /*
          * Middleware to attach to the docs endpoint (if `add_routes` is true).
          */
-        'middleware' => ['auth:api'],
+        'middleware' => ['auth'],
     ],
 
     /*
@@ -79,7 +79,7 @@ return [
      * Text to place in the "Introduction" section. Markdown and HTML are supported.
      */
     'intro_text' => <<<INTRO
-Welcome to our ClearProp API documentation!
+Welcome to our API documentation!
 
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile), and you can switch the programming language of the examples with the tabs in the top right (or from the nav menu at the top left on mobile).</aside>
 INTRO
@@ -94,8 +94,9 @@ INTRO
      *
      */
     'example_languages' => [
-        'bash',
+//        'bash',
         'javascript',
+        'php',
     ],
 
     /*
@@ -110,17 +111,16 @@ INTRO
      */
     'title' => null,
 
+    'description' => '',
+
     /*
      * Generate a Postman collection in addition to HTML docs.
      * For 'static' docs, the collection will be generated to public/docs/collection.json.
      * For 'laravel' docs, it will be generated to storage/app/scribe/collection.json.
-     * Setting `laravel.autoload` to true (above) will add routes for both the HTML and the Postman collection.
+     * Setting `laravel.add_routes` to true (above) will also add a route for the collection.
      */
     'postman' => [
-        /*
-         * Specify whether the Postman collection should be generated.
-         */
-        'enabled' => true,
+        'enabled' => false,
 
         /*
          * The base URL to be used in the Postman collection.
@@ -138,6 +138,30 @@ INTRO
          * https://schema.getpostman.com/json/collection/v2.0.0/docs/index.html
          */
         'auth' => null,
+
+        /*
+         * Manually override some generated content in the spec. Dot notation is supported.
+         */
+        'overrides' => [
+            // 'info.version' => '2.0.0',
+        ],
+    ],
+
+    /*
+     * Generate an OpenAPI spec file in addition to docs webpage.
+     * For 'static' docs, the collection will be generated to public/docs/openapi.yaml.
+     * For 'laravel' docs, it will be generated to storage/app/scribe/openapi.yaml.
+     * Setting `laravel.add_routes` to true (above) will also add a route for the spec.
+     */
+    'openapi' => [
+        'enabled' => false,
+
+        /*
+         * Manually override some generated content in the spec. Dot notation is supported.
+         */
+        'overrides' => [
+            // 'info.version' => '2.0.0',
+        ],
     ],
 
     /*
@@ -182,7 +206,7 @@ INTRO
                 /*
                  * Match only routes whose paths match this pattern (use * as a wildcard to match any characters). Example: 'users/*'.
                  */
-                'prefixes' => ['api/*'],
+                'prefixes' => ['*'],
 
                 /*
                  * (Dingo router only) Match only routes registered under this version.
@@ -331,4 +355,12 @@ INTRO
      *
      */
     'routeMatcher' => \Knuckles\Scribe\Matching\RouteMatcher::class,
+
+    /**
+     * [Advanced usage] If one of your app's database drivers does not support transactions,
+     * docs generation (instantiating Eloquent models and making response calls) will likely fail.
+     * To avoid that, you can add the driver class name here.
+     * Be warned: that means all database changes will persist.
+     */
+    'continue_without_database_transactions' => [],
 ];
