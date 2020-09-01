@@ -37,7 +37,7 @@ class BookingChangedListener implements ShouldQueue
     public function handle(BookingChangedEvent $event)
     {
         try {
-            $redirect_url = '/admin/bookings/'. $event->booking->id .'/edit';
+            $redirect_url = url('/admin/bookings/'. $event->booking->id .'/edit');
             $plane = Plane::findOrFail($event->booking->plane_id);
             $type = Type::findOrFail($event->booking->type_id);
             $instructor = User::findOrFail($event->booking->instructor_id);
