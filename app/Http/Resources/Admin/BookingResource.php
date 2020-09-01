@@ -8,7 +8,17 @@ class BookingResource extends JsonResource
 {
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'reservation_start' => $this->reservation_start,
+            'reservation_stop' => $this->reservation_stop,
+            'description' => $this->description,
+            'status' => $this->status,
+            'user' => new UserResource($this->user),
+            'plane' => new PlaneResource($this->plane),
+            'type' => new TypeResource($this->type),
+        ];
+//        return parent::toArray($request);
 
     }
 }

@@ -2,7 +2,7 @@
     "variables": [],
     "info": {
         "name": "clearprop dev API",
-        "_postman_id": "4fb0c158-e98a-413b-b7ff-3b843d9abd85",
+        "_postman_id": "a445f056-26aa-4f70-aaf1-175ddb7a3755",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.0.0\/collection.json"
     },
@@ -68,7 +68,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 14,\n    \"type_id\": 10,\n    \"split_cost\": {},\n    \"plane_id\": 14,\n    \"event\": \"15.07.2020\",\n    \"counter_start\": \"id\",\n    \"counter_stop\": \"laborum\",\n    \"event_start\": \"09:01\",\n    \"event_stop\": \"09:01\"\n}",
+                            "raw": "{\n    \"user_id\": 18,\n    \"type_id\": 12,\n    \"split_cost\": {},\n    \"plane_id\": 8,\n    \"event\": \"27.08.2020\",\n    \"counter_start\": \"sunt\",\n    \"counter_stop\": \"est\",\n    \"event_start\": \"14:50\",\n    \"event_stop\": \"14:50\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -136,7 +136,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"plane_id\": 5,\n    \"event\": \"15.07.2020\",\n    \"counter_start\": \"laboriosam\",\n    \"counter_stop\": \"ea\",\n    \"event_start\": \"09:01\",\n    \"event_stop\": \"09:01\"\n}",
+                            "raw": "{\n    \"plane_id\": 6,\n    \"event\": \"27.08.2020\",\n    \"counter_start\": \"voluptatum\",\n    \"counter_stop\": \"quos\",\n    \"event_start\": \"14:50\",\n    \"event_stop\": \"14:50\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -244,7 +244,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"voluptate\"\n}",
+                            "raw": "{\n    \"name\": \"ut\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -312,7 +312,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"natus\"\n}",
+                            "raw": "{\n    \"name\": \"omnis\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -420,7 +420,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"callsign\": \"non\",\n    \"vendor\": \"ea\",\n    \"counter_type\": \"enim\"\n}",
+                            "raw": "{\n    \"callsign\": \"est\",\n    \"vendor\": \"iste\",\n    \"counter_type\": \"earum\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -488,7 +488,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"callsign\": \"aut\",\n    \"vendor\": \"ea\",\n    \"counter_type\": \"dolores\"\n}",
+                            "raw": "{\n    \"callsign\": \"iusto\",\n    \"vendor\": \"error\",\n    \"counter_type\": \"ea\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -596,7 +596,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 4,\n    \"plane_id\": 10,\n    \"reservation_start\": \"15.07.2020 09:01\",\n    \"reservation_stop\": \"15.07.2020 09:01\"\n}",
+                            "raw": "{\n    \"user_id\": 12,\n    \"type_id\": 11,\n    \"plane_id\": 7,\n    \"reservation_start\": \"27.08.2020 14:50\",\n    \"reservation_stop\": \"27.08.2020 14:50\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -664,7 +664,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user_id\": 15,\n    \"plane_id\": 5,\n    \"reservation_start\": \"15.07.2020 09:01\",\n    \"reservation_stop\": \"15.07.2020 09:01\"\n}",
+                            "raw": "{\n    \"user_id\": 15,\n    \"type_id\": 1,\n    \"status\": 3,\n    \"plane_id\": 11,\n    \"reservation_start\": \"27.08.2020 14:50\",\n    \"reservation_stop\": \"27.08.2020 14:50\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -772,7 +772,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"dolorum\",\n    \"instructor\": \"expedita\",\n    \"active\": \"nemo\"\n}",
+                            "raw": "{\n    \"name\": \"enim\",\n    \"instructor\": \"qui\",\n    \"active\": \"dolores\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -840,7 +840,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"aut\",\n    \"instructor\": \"unde\",\n    \"active\": \"exercitationem\"\n}",
+                            "raw": "{\n    \"name\": \"omnis\",\n    \"instructor\": \"aliquid\",\n    \"active\": \"assumenda\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -948,7 +948,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"eligendi\",\n    \"email\": \"exercitationem\",\n    \"password\": \"accusamus\",\n    \"factor_id\": 5,\n    \"medical_due\": \"15.07.2020\",\n    \"roles\": [\n        17\n    ],\n    \"lang\": \"amet\"\n}",
+                            "raw": "{\n    \"name\": \"magnam\",\n    \"email\": \"quis\",\n    \"password\": \"qui\",\n    \"factor_id\": 4,\n    \"medical_due\": \"27.08.2020\",\n    \"roles\": [\n        6\n    ],\n    \"lang\": \"laudantium\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1016,7 +1016,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"name\": \"molestiae\",\n    \"email\": \"corrupti\",\n    \"factor_id\": 6,\n    \"medical_due\": \"15.07.2020\",\n    \"roles\": [\n        20\n    ],\n    \"lang\": \"tenetur\"\n}",
+                            "raw": "{\n    \"name\": \"error\",\n    \"email\": \"sunt\",\n    \"factor_id\": 6,\n    \"medical_due\": \"27.08.2020\",\n    \"roles\": [\n        12\n    ],\n    \"lang\": \"et\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"

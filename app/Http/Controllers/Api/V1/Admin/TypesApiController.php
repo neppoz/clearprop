@@ -24,7 +24,9 @@ class TypesApiController extends Controller
     {
         abort_if(Gate::denies('type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TypeResource(Type::where('active', 1)->get());
+        $types = Type::where('active', 1)->get();
+
+        return TypeResource::collection($types);
     }
 
     /**

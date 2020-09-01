@@ -24,7 +24,10 @@ class PlanesApiController extends Controller
     {
         abort_if(Gate::denies('plane_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new PlaneResource(Plane::all());
+        $planes = Plane::all();
+
+        return PlaneResource::collection($planes);
+//        return new PlaneResource(Plane::all());
     }
 
     /**

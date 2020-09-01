@@ -24,11 +24,14 @@ class ActivitiesApiController extends Controller
     {
         abort_if(Gate::denies('activity_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ActivityResource(
-            Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
-            ->where('user_id', auth()->user()->id)
-            ->get()
-        );
+        $activities = Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])->get();
+
+        return ActivityResource::collection($activities);
+
+//        return new ActivityResource(
+//            Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
+//            ->get()
+//        );
     }
 
     /**
