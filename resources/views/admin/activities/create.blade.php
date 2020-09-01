@@ -83,11 +83,18 @@
             </div>
             <div class="form-group">
                 <label class="required" for="event">{{ trans('cruds.activity.fields.event') }}</label>
-                <input class="form-control date {{ $errors->has('event') ? 'is-invalid' : '' }}" type="text" name="event" id="event" value="{{ old('event') }}" required>
-                @if($errors->has('event'))
-                    <span class="text-danger">{{ $errors->first('event') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.event_helper') }}</span>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input class="form-control date {{ $errors->has('event') ? 'is-invalid' : '' }}" type="text" name="event" id="event" value="{{ old('event') }}" required>
+                    @if($errors->has('event'))
+                        <span class="text-danger">{{ $errors->first('event') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.activity.fields.event_helper') }}</span>
+                </div>
             </div>
             <div class="form-group">
                 <div class="form-check {{ $errors->has('engine_warmup') ? 'is-invalid' : '' }}">
@@ -142,19 +149,33 @@
             </div>
             <div class="form-group">
                 <label for="event_start">{{ trans('cruds.activity.fields.event_start') }}</label>
-                <input class="form-control timepicker {{ $errors->has('event_start') ? 'is-invalid' : '' }}" type="text" name="event_start" id="event_start" value="{{ old('event_start') }}">
-                @if($errors->has('event_start'))
-                    <span class="text-danger">{{ $errors->first('event_start') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.event_start_helper') }}</span>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-clock"></i>
+                      </span>
+                    </div>
+                    <input class="form-control timepicker {{ $errors->has('event_start') ? 'is-invalid' : '' }}" type="text" name="event_start" id="event_start" value="{{ old('event_start') }}">
+                    @if($errors->has('event_start'))
+                        <span class="text-danger">{{ $errors->first('event_start') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.activity.fields.event_start_helper') }}</span>
+                </div>
             </div>
             <div class="form-group">
                 <label for="event_stop">{{ trans('cruds.activity.fields.event_stop') }}</label>
-                <input class="form-control timepicker {{ $errors->has('event_stop') ? 'is-invalid' : '' }}" type="text" name="event_stop" id="event_stop" value="{{ old('event_stop') }}">
-                @if($errors->has('event_stop'))
-                    <span class="text-danger">{{ $errors->first('event_stop') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.event_stop_helper') }}</span>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-clock"></i>
+                      </span>
+                    </div>
+                    <input class="form-control timepicker {{ $errors->has('event_stop') ? 'is-invalid' : '' }}" type="text" name="event_stop" id="event_stop" value="{{ old('event_stop') }}">
+                    @if($errors->has('event_stop'))
+                        <span class="text-danger">{{ $errors->first('event_stop') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.activity.fields.event_stop_helper') }}</span>
+                </div>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.activity.fields.description') }}</label>

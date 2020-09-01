@@ -82,18 +82,32 @@
             </div>
             <div class="form-group">
                 <label class="required" for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
-                <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}" type="text" name="reservation_start" id="reservation_start" value="{{ old('reservation_start') }}" required>
-                @if($errors->has('reservation_start'))
-                    <span class="text-danger">{{ $errors->first('reservation_start') }}</span>
-                @endif
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}" type="text" name="reservation_start" id="reservation_start" value="{{ old('reservation_start') }}" required>
+                    @if($errors->has('reservation_start'))
+                        <span class="text-danger">{{ $errors->first('reservation_start') }}</span>
+                    @endif
+                </div>
                 <span class="help-block">{{ trans('cruds.booking.fields.reservation_start_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="reservation_stop">{{ trans('cruds.booking.fields.reservation_stop') }}</label>
-                <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}" type="text" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop') }}" required>
-                @if($errors->has('reservation_stop'))
-                    <span class="text-danger">{{ $errors->first('reservation_stop') }}</span>
-                @endif
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
+                    </div>
+                    <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}" type="text" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop') }}" required>
+                    @if($errors->has('reservation_stop'))
+                        <span class="text-danger">{{ $errors->first('reservation_stop') }}</span>
+                    @endif
+                </div>
                 <span class="help-block">{{ trans('cruds.booking.fields.reservation_stop_helper') }}</span>
             </div>
             <div class="form-group">
