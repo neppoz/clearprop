@@ -81,6 +81,18 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            @can('activity_report_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.activity-reports.index") }}" class="nav-link {{ request()->is('admin/activity-reports') || request()->is('admin/activity-reports/*') ? 'active' : '' }}">
+                                        <i class="fa-fw fas fa-chart-area">
+
+                                        </i>
+                                        <p>
+                                            <span>{{ trans('cruds.activityReport.title') }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
                             @can('type_access')
                                 <li class="nav-item">
                                     <a href="{{ route("admin.types.index") }}" class="nav-link {{ request()->is('admin/types') || request()->is('admin/types/*') ? 'active' : '' }}">
@@ -101,18 +113,6 @@
                                         </i>
                                         <p>
                                             <span>{{ trans('cruds.factor.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('activity_report_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.activity-reports.index") }}" class="nav-link {{ request()->is('admin/activity-reports') || request()->is('admin/activity-reports/*') ? 'active' : '' }}">
-                                        <i class="fa-fw fas fa-chart-area">
-
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.activityReport.title') }}</span>
                                         </p>
                                     </a>
                                 </li>
