@@ -21,15 +21,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ActivityCostCalculation' => [
             'App\Listeners\ActivityCostCalculationListener',
         ],
-        'App\Events\BookingCreatedEvent' => [
-            'App\Listeners\BookingCreatedListener',
-        ],
-        'App\Events\BookingDeletedEvent' => [
-            'App\Listeners\BookingDeletedListener',
-        ],
-        'App\Events\BookingChangedEvent' => [
-            'App\Listeners\BookingChangedListener',
-        ],
+//        'App\Events\BookingEvent' => [
+//            'App\Listeners\BookingListener',
+//        ],
+//        'App\Events\BookingCreatedEvent' => [
+//            'App\Listeners\BookingCreatedListener',
+//        ],
+//        'App\Events\BookingDeletedEvent' => [
+//            'App\Listeners\BookingDeletedListener',
+//        ],
+//        'App\Events\BookingChangedEvent' => [
+//            'App\Listeners\BookingChangedListener',
+//        ],
     ];
 
     /**
