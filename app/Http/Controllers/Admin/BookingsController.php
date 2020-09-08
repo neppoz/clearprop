@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Booking;
-use App\Events\BookingChangedEvent;
-use App\Events\BookingCreatedEvent;
-use App\Events\BookingDeletedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
@@ -125,7 +122,7 @@ class BookingsController extends Controller
 
             (new BookingStatusService())->createStatus($booking);
 
-            event(new BookingCreatedEvent($booking));
+//            event(new BookingEvent($booking));
 
             return redirect()->route('admin.bookings.index');
         }
@@ -153,7 +150,7 @@ class BookingsController extends Controller
         $booking->update($request->all());
 
         if ($booking->wasChanged('status')) { // Verify if status has changed
-            event(new BookingChangedEvent($booking));
+            (new BookingStatusService())->updateStatus($booking);
         }
 
         return redirect()->route('admin.bookings.index');
@@ -174,7 +171,7 @@ class BookingsController extends Controller
 
         $booking->delete();
 
-        event(new BookingDeletedEvent($booking));
+//        event(new BookingDeletedEvent($booking));
 
         return redirect()->route('admin.bookings.index');
     }
