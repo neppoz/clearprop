@@ -18,7 +18,6 @@ class BookingResource extends JsonResource
             'plane' => new PlaneResource($this->plane),
             'type' => new TypeResource($this->type),
         ];
-//        return parent::toArray($request);
 
     }
 }
