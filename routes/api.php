@@ -1,6 +1,10 @@
 <?php
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/currentUser', function (Request $request) {
+        return Auth::user();
+    });
+
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
 
