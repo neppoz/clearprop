@@ -12,6 +12,7 @@ use App\Factor;
 use App\Income;
 use App\IncomeCategory;
 use App\ExpenseCategory;
+use App\Booking;
 
 use Faker\Factory as Faker;
 
@@ -36,6 +37,55 @@ class DummyDataSeeder extends Seeder
         ]);
 
         $faker = Faker::create('it_IT');
+        $dt = $faker->dateTimeBetween($startDate = '-12 months', $endDate = '+5 months');
+        $date = $dt->format("d.m.Y");
+
+        $users = [
+            [
+                'id'             => 2,
+                'name'           => 'Demo Admin',
+                'email'          => 'demo.admin@clearprop.aero',
+                'password'       => Hash::make('demo.admin'),
+                'remember_token' => null,
+                'medical_due'    => $date,
+                'license'        => $faker->numberBetween(5000, 50000),
+                'lang'           => 'EN',
+                'instructor'     => 0,
+                'factor_id'      => null,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'id'             => 3,
+                'name'           => 'Demo Instructor',
+                'email'          => 'demo.instructor@clearprop.aero',
+                'password'       => Hash::make('demo.instructor'),
+                'remember_token' => null,
+                'medical_due'    => $date,
+                'license'        => $faker->numberBetween(5000, 50000),
+                'lang'           => 'EN',
+                'instructor'     => 1,
+                'factor_id'      => null,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+            [
+                'id'             => 4,
+                'name'           => 'Demo User',
+                'email'          => 'demo.user@clearprop.aero',
+                'password'       => Hash::make('demo.user'),
+                'remember_token' => null,
+                'medical_due'    => $date,
+                'license'        => $faker->numberBetween(5000, 50000),
+                'lang'           => 'IT',
+                'instructor'     => 0,
+                'factor_id'      => null,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ],
+        ];
+
+        User::insert($users);
 
         /** Generate Users */
         foreach (range(1, 30) as $index) {
@@ -59,9 +109,10 @@ class DummyDataSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
         }
-
-        /** Sync roles */
-        $members = User::where('id', '>', 1)->get();
+        /** Sync roles*/
+        User::findOrFail(2)->roles()->sync(User::IS_ADMIN);
+        User::findOrFail(3)->roles()->sync(User::IS_MANAGER);
+        $members = User::where('id', '>', 3)->get();
         foreach ($members as $member) {
             $member->roles()->sync(User::IS_MEMBER);
         }
@@ -113,6 +164,29 @@ class DummyDataSeeder extends Seeder
                 'user_id' => $user_id,
                 'plane_id' => Plane::all()->random()->id,
                 'type_id' => Type::whereIN('id', [1, 2, 3])->get()->random()->id,
+                'created_by_id' => $user_id,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        /** Generate reservations */
+        foreach (range(1, 500) as $index) {
+            $user_id = User::where('id', '!=', 1)->get()->random()->id;
+            $instructor_id = User::where('instructor', '=', 1)->get()->random()->id;
+            $dt_start = $faker->dateTimeBetween($startDate = '-6 months', $endDate = '+ 5 months');
+            $dt_start_clone = clone $dt_start;
+            $dt_stop = $faker->dateTimeBetween($dt_start, $dt_start_clone->modify('+2 hours'));
+            $reservation_start = Carbon::parse($dt_start)->format(config('panel.date_format') . ' ' .config('panel.time_format'));
+            $reservation_stop = Carbon::parse($dt_stop)->format(config('panel.date_format') . ' ' .config('panel.time_format'));
+            Booking::create([
+                'reservation_start' => $reservation_start,
+                'reservation_stop' => $reservation_stop,
+                'description' => $faker->sentence(6, true),
+                'status' => rand(0,1),
+                'user_id' => $user_id,
+                'instructor_id' => $instructor_id,
+                'plane_id' => Plane::all()->random()->id,
                 'created_by_id' => $user_id,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
