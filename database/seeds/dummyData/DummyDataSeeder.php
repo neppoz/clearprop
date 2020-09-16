@@ -79,7 +79,7 @@ class DummyDataSeeder extends Seeder
                 'license'        => $faker->numberBetween(5000, 50000),
                 'lang'           => 'IT',
                 'instructor'     => 0,
-                'factor_id'      => null,
+                'factor_id'      => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
