@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Reservations
- *
+ * @authenticated
  */
 class BookingsApiController extends Controller
 {
@@ -22,7 +22,7 @@ class BookingsApiController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $bookings = Booking::with(['user', 'plane', 'created_by'])->get();
 
@@ -46,7 +46,7 @@ class BookingsApiController extends Controller
      */
     public function show(Booking $booking)
     {
-        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BookingResource($booking->load(['user', 'plane', 'created_by']));
     }
@@ -68,7 +68,7 @@ class BookingsApiController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        abort_if(Gate::denies('booking_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('booking_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $booking->delete();
 

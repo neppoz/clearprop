@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Planes
- *
+ * @authenticated
  */
 class PlanesApiController extends Controller
 {
@@ -22,12 +22,11 @@ class PlanesApiController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('plane_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('plane_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $planes = Plane::all();
 
         return PlaneResource::collection($planes);
-//        return new PlaneResource(Plane::all());
     }
 
     /**
@@ -47,7 +46,7 @@ class PlanesApiController extends Controller
      */
     public function show(Plane $plane)
     {
-        abort_if(Gate::denies('plane_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('plane_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PlaneResource($plane);
     }
@@ -69,7 +68,7 @@ class PlanesApiController extends Controller
      */
     public function destroy(Plane $plane)
     {
-        abort_if(Gate::denies('plane_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('plane_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $plane->delete();
 
