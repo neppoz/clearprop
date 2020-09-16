@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Types
- *
+ * @authenticated
  */
 class TypesApiController extends Controller
 {
@@ -22,7 +22,7 @@ class TypesApiController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $types = Type::where('active', 1)->get();
 
@@ -46,7 +46,7 @@ class TypesApiController extends Controller
      */
     public function show(Type $type)
     {
-        abort_if(Gate::denies('type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TypeResource($type);
     }
@@ -68,7 +68,7 @@ class TypesApiController extends Controller
      */
     public function destroy(Type $type)
     {
-        abort_if(Gate::denies('type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $type->delete();
 

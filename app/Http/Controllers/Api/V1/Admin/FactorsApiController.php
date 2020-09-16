@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Factors
- *
+ * @authenticated
  */
 class FactorsApiController extends Controller
 {
@@ -23,7 +23,7 @@ class FactorsApiController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('factor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('factor_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new FactorResource(Factor::all());
     }
@@ -45,7 +45,7 @@ class FactorsApiController extends Controller
      */
     public function show(Factor $factor)
     {
-        abort_if(Gate::denies('factor_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('factor_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new FactorResource($factor);
     }
@@ -67,7 +67,7 @@ class FactorsApiController extends Controller
      */
     public function destroy(Factor $factor)
     {
-        abort_if(Gate::denies('factor_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('factor_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $factor->delete();
 
