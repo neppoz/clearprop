@@ -13,6 +13,7 @@ use App\Income;
 use App\IncomeCategory;
 use App\ExpenseCategory;
 use App\Booking;
+use App\Events\ActivityCostCalculation;
 
 use Faker\Factory as Faker;
 
@@ -119,7 +120,7 @@ class DummyDataSeeder extends Seeder
 
         /** Generate billings */
         foreach (range(1, 20) as $index) {
-            $user_id = User::where('id', '!=', 1)->get()->random()->id;
+            $user_id = User::where('id', '>', 3)->get()->random()->id;
             $dt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now');
             $date = $dt->format("d.m.Y");
             Income::create([
@@ -133,7 +134,7 @@ class DummyDataSeeder extends Seeder
             ]);
         }
         foreach (range(1, 50) as $index) {
-            $user_id = User::where('id', '!=', 1)->get()->random()->id;
+            $user_id = User::where('id', '>', 3)->get()->random()->id;
             $dt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now');
             $date = $dt->format("d.m.Y");
             Income::create([
@@ -151,10 +152,10 @@ class DummyDataSeeder extends Seeder
         foreach (range(1, 500) as $index) {
             $counter_start = $faker->randomFloat(2, 1, 999);
             $counter_stop = $counter_start+$faker->randomFloat(2, 1, 3);
-            $user_id = User::where('id', '!=', 1)->get()->random()->id;
+            $user_id = User::where('id', '>', 3)->get()->random()->id;
             $dt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now');
             $date = $dt->format("d.m.Y");
-            Activity::create([
+            $activity = Activity::create([
                 'counter_start' => $counter_start,
                 'counter_stop' => $counter_stop,
                 'departure' => $faker->city,
@@ -168,11 +169,12 @@ class DummyDataSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
+            event(new ActivityCostCalculation($activity));
         }
 
         /** Generate reservations */
         foreach (range(1, 500) as $index) {
-            $user_id = User::where('id', '!=', 1)->get()->random()->id;
+            $user_id = User::where('id', '>', 3)->get()->random()->id;
             $instructor_id = User::where('instructor', '=', 1)->get()->random()->id;
             $dt_start = $faker->dateTimeBetween($startDate = '-6 months', $endDate = '+ 5 months');
             $dt_start_clone = clone $dt_start;
