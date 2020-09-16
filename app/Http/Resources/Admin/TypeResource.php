@@ -13,7 +13,6 @@ class TypeResource extends JsonResource
             'instructor' => $this->instructor,
             'active' => $this->active,
         ];
-//        return parent::toArray($request);
 
     }
 }

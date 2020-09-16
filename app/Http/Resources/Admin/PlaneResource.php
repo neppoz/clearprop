@@ -14,7 +14,6 @@ class PlaneResource extends JsonResource
           'model' => $this->model,
           'active' => $this->active,
         ];
-//        return parent::toArray($request);
 
     }
 }
