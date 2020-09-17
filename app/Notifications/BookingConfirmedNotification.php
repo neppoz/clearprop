@@ -16,7 +16,6 @@ class BookingConfirmedNotification extends Notification implements ShouldQueue
     protected $user;
     protected $instructor;
     protected $plane;
-    protected $type;
 
     public function __construct($booking)
     {
@@ -24,7 +23,6 @@ class BookingConfirmedNotification extends Notification implements ShouldQueue
         $this->user = $booking->user;
         $this->instructor = $booking->instructor;
         $this->plane = $booking->plane;
-        $this->type = $booking->type;
     }
 
     public function via($notifiable)
@@ -43,7 +41,6 @@ class BookingConfirmedNotification extends Notification implements ShouldQueue
             ->line(new HtmlString('<hr>'))
             ->line(new HtmlString('Pilot: ' . '<strong>' . $this->user->name . '</strong>' . '<br>'))
             ->line(new HtmlString('Plane: ' . '<strong>' . $this->plane->callsign . '</strong>' . '<br>'))
-            ->line(new HtmlString('Activity: ' . '<strong>' . $this->type->name . '</strong>' . '<br>'))
             ->line(new HtmlString('Reservation from: ' . '<strong>' . $this->booking->reservation_start . '</strong>' . '<br>'))
             ->line(new HtmlString('Reservation to: ' . '<strong>' . $this->booking->reservation_stop . '</strong>' . '<br><br>'))
             ->line('')
