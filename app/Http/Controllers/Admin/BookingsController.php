@@ -36,7 +36,7 @@ class BookingsController extends Controller
         $events = [];
 
         foreach ($sources as $source) {
-            foreach ($source['model']::with(['user', 'plane', 'type', 'instructor'])->orderby($source['date_field'], 'asc')->get() as $model) {
+            foreach ($source['model']::with(['user', 'plane', 'instructor'])->orderby($source['date_field'], 'asc')->get() as $model) {
                 $crudFieldValue = $model->getOriginal($source['date_field']);
                 $crudEndFieldValue = $model->getOriginal($source['end_field']);
 
@@ -46,15 +46,13 @@ class BookingsController extends Controller
                 // Define defaults
                 $title = trim($model->plane->callsign
                     . ": " . $model->user->name
-                    . " - " .$model->type->name
-                    . " [" .$model::STATUS_RADIO[$model->status]. "] " );
+                    . " [" . $model::STATUS_RADIO[$model->status] . "] ");
                 $url = [];
                 $textColor = [];
 
                 if (!empty($model->instructor_id)) {
                     $title = trim($model->plane->callsign
                         . ": " . $model->user->name
-                        . " - " .$model->type->name
                         . " [" .$model::STATUS_RADIO[$model->status]
                         . " - ".$model->instructor->name ."] ");
                 }
@@ -67,7 +65,7 @@ class BookingsController extends Controller
                     $textColor = ['text-primary'];
                 }
                 // Complex logic: checking if instructor, type requires instructor, status is open and/or it is assigned to him
-                if ((auth()->user()->IsInstructorByFlag() && $model->type->instructor === 1 && $model->status === 0) OR (auth()->user()->id === $model->instructor_id)) {
+                if ((auth()->user()->IsInstructorByFlag() && $model->type === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }
@@ -121,8 +119,6 @@ class BookingsController extends Controller
             $booking = Booking::create($request->all());
 
             (new BookingStatusService())->createStatus($booking);
-
-//            event(new BookingEvent($booking));
 
             return redirect()->route('admin.bookings.index');
         }

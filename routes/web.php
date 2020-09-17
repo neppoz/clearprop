@@ -53,7 +53,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('factors', 'FactorsController');
 
     // Types
-    Route::get('types/getTypeByFactor', 'TypesController@getTypeByFactor')->name('types.getTypeByFactor');
     Route::delete('types/destroy', 'TypesController@massDestroy')->name('types.massDestroy');
     Route::resource('types', 'TypesController');
 
@@ -95,6 +94,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Expense Reports
     Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
     Route::resource('expense-reports', 'ExpenseReportController');
+
+    // Ratings
+    Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
