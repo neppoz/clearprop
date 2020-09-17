@@ -56,7 +56,7 @@ class PlanesController extends Controller
     {
         abort_if(Gate::denies('plane_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $plane->load('planeActivities', 'planeBookings');
+        $plane->load('planeActivities', 'planeBookings', 'planeUsers');
 
         return view('admin.planes.show', compact('plane'));
     }

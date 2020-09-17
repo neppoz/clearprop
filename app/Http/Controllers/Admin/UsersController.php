@@ -30,14 +30,17 @@ class UsersController extends Controller
 
         $factors = Factor::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $planes = Plane::all()->pluck('callsign', 'id');
+
         $roles = Role::all()->pluck('title', 'id');
 
-        return view('admin.users.create', compact('factors', 'roles'));
+        return view('admin.users.create', compact('factors', 'planes', 'roles'));
     }
 
     public function store(StoreUserRequest $request)
     {
         $user = User::create($request->all());
+        $user->planes()->sync($request->input('planes', []));
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
@@ -49,16 +52,19 @@ class UsersController extends Controller
 
         $factors = Factor::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $planes = Plane::all()->pluck('callsign', 'id');
+
         $roles = Role::all()->pluck('title', 'id');
 
-        $user->load('factor', 'roles');
+        $user->load('factor', 'planes', 'roles');
 
-        return view('admin.users.edit', compact('factors', 'roles', 'user'));
+        return view('admin.users.edit', compact('factors', 'planes', 'roles', 'user'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->all());
+        $user->planes()->sync($request->input('planes', []));
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
@@ -68,7 +74,7 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->load('factor', 'roles', 'userActivities', 'userBookings', 'instructorActivities', 'userIncomes');
+        $user->load('factor', 'planes', 'roles', 'userActivities', 'userBookings', 'instructorActivities', 'userIncomes');
 
         return view('admin.users.show', compact('user'));
     }
