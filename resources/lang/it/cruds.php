@@ -97,6 +97,8 @@ return [
             'city'                     => 'Città',
             'city_helper'              => '',
             'privacy'                  => 'Acconsento il trattamento dei miei dati personali',
+            'plane'                    => 'Ratings',
+            'plane_helper'             => '',
         ],
     ],
     'plane'              => [

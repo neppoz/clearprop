@@ -38,6 +38,9 @@
                             {{ trans('cruds.user.fields.factor') }}
                         </th>
                         <th>
+                            {{ trans('cruds.user.fields.plane') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
@@ -65,6 +68,11 @@
                             </td>
                             <td>
                                 {{ $user->factor->name ?? '' }}
+                            </td>
+                            <td>
+                                @foreach($user->planes as $key => $item)
+                                    <span class="badge badge-info">{{ $item->callsign }}</span>
+                                @endforeach
                             </td>
                             <td>
                                 @foreach($user->roles as $key => $roles)
