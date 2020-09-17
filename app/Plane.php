@@ -48,4 +48,9 @@ class Plane extends Model
     {
         return $this->hasMany(Booking::class, 'plane_id', 'id');
     }
+
+    public function planeUsers()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
