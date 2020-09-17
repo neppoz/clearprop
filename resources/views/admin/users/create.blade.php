@@ -99,6 +99,22 @@
                 <span class="help-block">{{ trans('cruds.user.fields.factor_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="planes">{{ trans('cruds.user.fields.plane') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('planes') ? 'is-invalid' : '' }}" name="planes[]" id="planes" multiple>
+                    @foreach($planes as $id => $plane)
+                        <option value="{{ $id }}" {{ in_array($id, old('planes', [])) ? 'selected' : '' }}>{{ $plane }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('planes'))
+                    <span class="text-danger">{{ $errors->first('planes') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.plane_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="license">{{ trans('cruds.user.fields.license') }}</label>
                 <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text" name="license" id="license" value="{{ old('license', '') }}">
                 @if($errors->has('license'))

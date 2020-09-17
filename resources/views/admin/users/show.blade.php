@@ -125,6 +125,16 @@
                         </tr>
                         <tr>
                             <th>
+                                {{ trans('cruds.user.fields.plane') }}
+                            </th>
+                            <td>
+                                @foreach($user->planes as $key => $plane)
+                                    <span class="label label-info">{{ $plane->callsign }}</span>
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
                                 {{ trans('cruds.user.fields.license') }}
                             </th>
                             <td>

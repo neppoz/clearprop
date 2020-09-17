@@ -108,6 +108,22 @@
                 <span class="help-block">{{ trans('cruds.user.fields.license_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="planes">{{ trans('cruds.user.fields.plane') }}</label>
+                <div style="padding-bottom: 4px">
+                    <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
+                    <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('planes') ? 'is-invalid' : '' }}" name="planes[]" id="planes" multiple>
+                    @foreach($planes as $id => $plane)
+                        <option value="{{ $id }}" {{ (in_array($id, old('planes', [])) || $user->planes->contains($id)) ? 'selected' : '' }}>{{ $plane }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('planes'))
+                    <span class="text-danger">{{ $errors->first('planes') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.plane_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="medical_due">{{ trans('cruds.user.fields.medical_due') }}</label>
                 <input class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}" type="text" name="medical_due" id="medical_due" value="{{ old('medical_due', $user->medical_due) }}">
                 @if($errors->has('medical_due'))

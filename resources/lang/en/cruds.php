@@ -96,6 +96,8 @@ return [
             'city'                     => 'City',
             'city_helper'              => '',
             'privacy'                  => 'Agree to terms and conditions',
+            'plane'                    => 'Ratings',
+            'plane_helper'             => '',
         ],
     ],
     'plane'              => [
