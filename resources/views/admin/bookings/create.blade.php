@@ -24,53 +24,15 @@
                 </div>
             @else
                 <div class="form-group">
-                    <label class="text" for="user_id_input">{{ trans('cruds.booking.fields.user') }} : {{ $user->name }}</label>
+                    <label class="text" for="user_id_input">{{ trans('cruds.booking.fields.user') }}
+                        : {{ $user->name }}</label>
                     <input type="hidden" name="user_id" id="user_id_input" value="{{ $user->id }}" readonly>
                 </div>
             @endif
             <div class="form-group">
-                <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>
-                <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>
-                    <option selected value="">{{ trans('global.pleaseSelect') }}</option>
-                    {{-- The values come from ajax call when selecting the pilot. It depends on the factors --}}
-                </select>
-                @if($errors->has('type'))
-                    <span class="text-danger">{{ $errors->first('type') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>
-            </div>
-{{--            @if (auth()->user()->IsAdminByRole())--}}
-{{--                <div class="form-group">--}}
-{{--                    <label for="instructor_id">{{ trans('cruds.booking.fields.instructor') }}</label>--}}
-{{--                    <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id" disabled>--}}
-{{--                        @foreach($instructors as $id => $instructor)--}}
-{{--                            <option value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                    @if($errors->has('instructor'))--}}
-{{--                        <span class="text-danger">{{ $errors->first('instructor') }}</span>--}}
-{{--                    @endif--}}
-{{--                    <span class="help-block">{{ trans('cruds.booking.fields.instructor_helper') }}</span>--}}
-{{--                </div>--}}
-{{--                <div class="form-group">--}}
-{{--                    <label class="required">{{ trans('cruds.booking.fields.status') }}</label>--}}
-{{--                    @foreach(App\Booking::STATUS_RADIO as $key => $label)--}}
-{{--                        <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">--}}
-{{--                            <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}" {{ old('status', '0') === (string) $key ? 'checked' : '' }} required>--}}
-{{--                            <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>--}}
-{{--                        </div>--}}
-{{--                    @endforeach--}}
-{{--                    @if($errors->has('status'))--}}
-{{--                        <span class="text-danger">{{ $errors->first('status') }}</span>--}}
-{{--                    @endif--}}
-{{--                    <span class="help-block">{{ trans('cruds.booking.fields.status_helper') }}</span>--}}
-{{--                </div>--}}
-{{--            @else--}}
-{{--                <input type="hidden" name="status" id="status" value="{{ old('status', '0')}}" readonly>--}}
-{{--            @endif--}}
-            <div class="form-group">
                 <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
-                <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id" id="plane_id" required>
+                <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id"
+                        id="plane_id" required>
                     @foreach($planes as $id => $plane)
                         <option value="{{ $id }}" {{ old('plane_id') == $id ? 'selected' : '' }}>{{ $plane }}</option>
                     @endforeach
@@ -81,14 +43,31 @@
                 <span class="help-block">{{ trans('cruds.booking.fields.plane_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
+                <label class="required">{{ trans('cruds.booking.fields.type') }}</label>
+                @foreach(App\BOOKING::TYPE_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('type') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="type_id_{{ $key }}" name="type_id"
+                               value="{{ $key }}" {{ old('type_id', '1') === (string) $key ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="type_id_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{!! trans('cruds.booking.fields.type_helper') !!}</span>
+            </div>
+            <div class="form-group">
+                <label class="required"
+                       for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="fas fa-calendar-alt"></i>
                       </span>
                     </div>
-                    <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}" type="text" name="reservation_start" id="reservation_start" value="{{ old('reservation_start') }}" required>
+                    <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}" type="text"
+                           name="reservation_start" id="reservation_start" value="{{ old('reservation_start') }}"
+                           required>
                     @if($errors->has('reservation_start'))
                         <span class="text-danger">{{ $errors->first('reservation_start') }}</span>
                     @endif
@@ -96,7 +75,8 @@
                 <span class="help-block">{{ trans('cruds.booking.fields.reservation_start_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="reservation_stop">{{ trans('cruds.booking.fields.reservation_stop') }}</label>
+                <label class="required"
+                       for="reservation_stop">{{ trans('cruds.booking.fields.reservation_stop') }}</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
@@ -132,48 +112,71 @@
 @endsection
 
 @section('scripts')
-<script>
-    $(document).ready(function () {
-        if($('#user_id_input').length){
-            let user =  $("#user_id_input").val();
-            $.ajax({
-                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + user,
-                method: 'GET',
-                success: function(data) {
-                    $('#type_id').html(data.html);
+    <script>
+        $(document).ready(function () {
+            let user;
+            let plane;
+
+            if ($('#user_id_input').length) {
+                user = $("#user_id_input").val();
+            }
+
+            $("#user_id_select").change(function () {
+                user = $(this).val();
+                plane = $("#plane_id").val();
+                if ($(plane)) {
+                    $.ajax({
+                        url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
+                        method: 'GET',
+                        success: function (data) {
+                            if (data.rating === true) {
+                                $('input[name="type_id"][value="0"]').prop("disabled", false);
+                            } else {
+                                $('input[name="type_id"][value="1"]').prop("checked", true);
+                                $('input[name="type_id"][value="0"]').prop("disabled", true);
+                            }
+                        }
+                    });
                 }
             });
-        }
 
-        $("#user_id_select").change(function(){
-            $.ajax({
-                url: "{{ route('admin.types.getTypeByFactor') }}?user_id=" + $(this).val(),
-                method: 'GET',
-                success: function(data) {
-                    $('#type_id').html(data.html);
+            $("#plane_id").change(function () {
+                plane = $(this).val();
+                if ($(user)) {
+                    $.ajax({
+                        url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
+                        method: 'GET',
+                        success: function (data) {
+                            if (data.rating === true) {
+                                $('input[name="type_id"][value="0"]').prop("disabled", false);
+                            } else {
+                                $('input[name="type_id"][value="1"]').prop("checked", true);
+                                $('input[name="type_id"][value="0"]').prop("disabled", true);
+                            }
+                        }
+                    });
                 }
             });
-        });
 
-        $('#reservation_start').datetimepicker({
-            minDate: moment(),
-            format: 'DD.MM.YYYY HH:mm',
-            locale: '{{ app()->getLocale() }}',
-            sideBySide: true,
-            toolbarPlacement: 'bottom',
-            showTodayButton: false,
-            showClear: true,
-            showClose: true,
-            viewMode: 'days',
-            inline: false,
-            widgetPositioning: {
-                horizontal: 'auto',
-                vertical: 'bottom'
-            },
-            icons: {
-                time: 'fas fa-clock-o',
-                date: 'fas fa-calendar-alt',
-                up: 'fas fa-chevron-up',
+            $('#reservation_start').datetimepicker({
+                minDate: moment(),
+                format: 'DD.MM.YYYY HH:mm',
+                locale: '{{ app()->getLocale() }}',
+                sideBySide: true,
+                toolbarPlacement: 'bottom',
+                showTodayButton: false,
+                showClear: true,
+                showClose: true,
+                viewMode: 'days',
+                inline: false,
+                widgetPositioning: {
+                    horizontal: 'auto',
+                    vertical: 'bottom'
+                },
+                icons: {
+                    time: 'fas fa-clock-o',
+                    date: 'fas fa-calendar-alt',
+                    up: 'fas fa-chevron-up',
                 down: 'fas fa-chevron-down',
                 previous: 'fas fa-chevron-left',
                 next: 'fas fa-chevron-right',
