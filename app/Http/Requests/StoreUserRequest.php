@@ -20,26 +20,66 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'        => [
-                'required'],
-            'email'       => [
-                'required'],
-            'password'    => [
-                'required'],
-            'factor_id'   => [
+            'name' => [
+                'string',
                 'required',
-                'integer'],
+            ],
+            'email' => [
+                'required',
+            ],
+            'password' => [
+                'required',
+            ],
+            'lang' => [
+                'required',
+            ],
+            'taxno' => [
+                'string',
+                'nullable',
+            ],
+            'phone_1' => [
+                'string',
+                'nullable',
+            ],
+            'phone_2' => [
+                'string',
+                'nullable',
+            ],
+            'address' => [
+                'string',
+                'nullable',
+            ],
+            'city' => [
+                'string',
+                'nullable',
+            ],
+            'factor_id' => [
+                'required',
+                'integer',
+            ],
+            'planes.*' => [
+                'integer',
+            ],
+            'planes' => [
+                'array',
+            ],
+            'license' => [
+                'string',
+                'nullable',
+            ],
             'medical_due' => [
                 'date_format:' . config('panel.date_format'),
-                'nullable'],
-            'roles.*'     => [
-                'integer'],
-            'roles'       => [
+                'nullable',
+            ],
+            'roles.*' => [
+                'integer',
+            ],
+            'roles' => [
                 'required',
-                'array'],
-            'lang'        => [
-                'required'],
+                'array',
+            ],
         ];
+
 
     }
 }
