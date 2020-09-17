@@ -16,6 +16,10 @@ class Booking extends Model
         '0' => 'pending',
         '1' => 'confirmed',
     ];
+    const TYPE_RADIO = [
+        '0' => 'no',
+        '1' => 'yes',
+    ];
 
     protected $dates = [
         'created_at',
