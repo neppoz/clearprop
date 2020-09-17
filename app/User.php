@@ -144,4 +144,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->attributes['taxno'] = strtoupper($value);
     }
+
+    public function planes()
+    {
+        return $this->belongsToMany(Plane::class);
+    }
 }
