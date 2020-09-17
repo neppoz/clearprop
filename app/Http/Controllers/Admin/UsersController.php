@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Factor;
+use App\Plane;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
