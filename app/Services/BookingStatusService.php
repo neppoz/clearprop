@@ -11,9 +11,9 @@ class BookingStatusService
 {
     public function createStatus($booking)
     {
-        $booking->load('user', 'instructor', 'plane', 'type', 'created_by');
+        $booking->load('user', 'instructor', 'plane', 'created_by');
         try {
-            if ($booking->type->instructor == true) {
+            if ($booking->type_id == true) {
                 // set status to pending
                 $booking->status = 0;
                 $booking->save();
@@ -36,7 +36,7 @@ class BookingStatusService
 
     public function updateStatus($booking)
     {
-        $booking->load('user', 'instructor', 'plane', 'type', 'created_by');
+        $booking->load('user', 'instructor', 'plane', 'created_by');
         if ($booking->status == 1) {
             $this->sendNotificationsConfirmed($booking);
         }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Booking;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +25,6 @@ class StoreBookingRequest extends FormRequest
             'type_id'          => [
                 'required',
                 'integer'],
-//            'status'          => [
-//                'required',
-//                'integer'],
             'plane_id'          => [
                 'required',
                 'integer'],
