@@ -53,6 +53,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('factors', 'FactorsController');
 
     // Types
+    Route::get('types/getTypeByFactor', 'TypesController@getTypeByFactor')->name('types.getTypeByFactor');
     Route::delete('types/destroy', 'TypesController@massDestroy')->name('types.massDestroy');
     Route::resource('types', 'TypesController');
 
