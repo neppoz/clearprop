@@ -3,10 +3,12 @@
     <div class="login-box">
         <div class="login-logo">
             <div class="login-logo">
-                <img src="{{ asset('/images/ClearProp_textdown.svg') }} />
-            <a href="{{ route('admin.home') }}">
 
-                {{--                {{ trans('panel.site_title') }}--}}
+
+                <a href="{{ route('admin.home') }}">
+                    <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" width="150"
+                         height="auto"/>
+                    {{--                                {{ trans('panel.site_title') }}--}}
                 </a>
             </div>
         </div>
