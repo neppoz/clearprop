@@ -16,7 +16,10 @@ class UserCheckService
     public function medicalCheckPassed(User $user)
     {
         if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
-            if (!empty($user->medical_due) && Carbon::createFromFormat(config('panel.date_format'), $user->medical_due)->format('Y-m-d') <=  now()) {
+            if (empty($user->medical_due)) {
+                return false;
+            }
+            if (!empty($user->medical_due) && Carbon::createFromFormat(config('panel.date_format'), $user->medical_due)->format('Y-m-d') <= now()) {
                 return false;
             }
         }
