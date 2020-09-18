@@ -12,7 +12,8 @@
             @if (auth()->user()->IsAdminByRole())
                 <div class="form-group">
                     <label class="required" for="user_id_select">{{ trans('cruds.booking.fields.user') }}</label>
-                    <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id_select" required>
+                    <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id"
+                            id="user_id_select" required>
                         @foreach($users as $id => $user)
                             <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
                         @endforeach
@@ -20,7 +21,7 @@
                     @if($errors->has('user'))
                         <span class="text-danger">{{ $errors->first('user') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.booking.fields.user_helper') }}</span>
+                    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.user_helper') }}</span>
                 </div>
             @else
                 <div class="form-group">
@@ -40,7 +41,7 @@
                 @if($errors->has('plane'))
                     <span class="text-danger">{{ $errors->first('plane') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.booking.fields.plane_helper') }}</span>
+                <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.plane_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.booking.fields.type') }}</label>
@@ -54,7 +55,22 @@
                 @if($errors->has('type'))
                     <span class="text-danger">{{ $errors->first('type') }}</span>
                 @endif
-                <span class="help-block">{!! trans('cruds.booking.fields.type_helper') !!}</span>
+                <span class="help-block text-secondary small">{!! trans('cruds.booking.fields.type_helper') !!}</span>
+            </div>
+            <div class="form-group">
+                <div class="alert alert-warning alert-dismissible" id="warning-medical" style="display: none">
+                    <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
+                    {!! trans('global.medicalCheck_for_admin') !!}
+                </div>
+                <div class="alert alert-warning alert-dismissible" id="warning-activity" style="display: none">
+                    <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
+                    {!! trans('global.activityCheck_for_admin') !!}
+                </div>
+                <div class="alert alert-info alert-dismissible" id="info-balance" style="display: none">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
+                    {{ trans('global.balanceCheck_for_admin') }}
+                </div>
             </div>
             <div class="form-group">
                 <label class="required"
@@ -72,7 +88,8 @@
                         <span class="text-danger">{{ $errors->first('reservation_start') }}</span>
                     @endif
                 </div>
-                <span class="help-block">{{ trans('cruds.booking.fields.reservation_start_helper') }}</span>
+                <span
+                    class="help-block text-secondary small">{{ trans('cruds.booking.fields.reservation_start_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required"
@@ -83,23 +100,27 @@
                         <i class="fas fa-calendar-alt"></i>
                       </span>
                     </div>
-                    <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}" type="text" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop') }}" required>
+                    <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}" type="text"
+                           name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop') }}" required>
                     @if($errors->has('reservation_stop'))
                         <span class="text-danger">{{ $errors->first('reservation_stop') }}</span>
                     @endif
                 </div>
-                <span class="help-block">{{ trans('cruds.booking.fields.reservation_stop_helper') }}</span>
+                <span
+                    class="help-block text-secondary small">{{ trans('cruds.booking.fields.reservation_stop_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description') }}</textarea>
+                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description"
+                          id="description">{{ old('description') }}</textarea>
                 @if($errors->has('description'))
                     <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.booking.fields.description_helper') }}</span>
+                <span
+                    class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
             </div>
             <div class="form-group">
-                <button class="btn btn-danger" type="submit">
+                <button class="btn btn-primary" type="submit">
                     {{ trans('global.save') }}
                 </button>
             </div>
@@ -112,10 +133,49 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.1.0/dist/sweetalert2.all.min.js"></script>
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+    </script>
     <script>
         $(document).ready(function () {
             let user;
             let plane;
+
+            function formChecks(data) {
+                if (data.medicalCheckPassed === false) {
+                    $("#warning-medical").show();
+                    $('input[name="type_id"][value="1"]').prop("checked", true);
+                    $('input[name="type_id"][value="0"]').prop("disabled", true);
+                }
+
+                if ((data.ratingCheckPassed === true) && (data.medicalCheckPassed === true)) {
+                    $('input[name="type_id"][value="0"]').prop("disabled", false);
+                    $('input[name="type_id"][value="0"]').prop("checked", true);
+                } else {
+                    $('input[name="type_id"][value="1"]').prop("checked", true);
+                    $('input[name="type_id"][value="0"]').prop("disabled", true);
+                }
+
+                if ((data.balanceCheckPassed === false)) {
+                    $("#info-balance").show();
+                }
+
+                if ((data.activityCheckPassed === false)) {
+                    $("#warning-activity").show();
+                }
+            }
+
 
             if ($('#user_id_input').length) {
                 user = $("#user_id_input").val();
@@ -124,17 +184,13 @@
             $("#user_id_select").change(function () {
                 user = $(this).val();
                 plane = $("#plane_id").val();
+                $("#warning-medical").hide();
                 if ($(plane)) {
                     $.ajax({
                         url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
                         method: 'GET',
                         success: function (data) {
-                            if (data.rating === true) {
-                                $('input[name="type_id"][value="0"]').prop("disabled", false);
-                            } else {
-                                $('input[name="type_id"][value="1"]').prop("checked", true);
-                                $('input[name="type_id"][value="0"]').prop("disabled", true);
-                            }
+                            formChecks(data);
                         }
                     });
                 }
@@ -147,12 +203,7 @@
                         url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
                         method: 'GET',
                         success: function (data) {
-                            if (data.rating === true) {
-                                $('input[name="type_id"][value="0"]').prop("disabled", false);
-                            } else {
-                                $('input[name="type_id"][value="1"]').prop("checked", true);
-                                $('input[name="type_id"][value="0"]').prop("disabled", true);
-                            }
+                            formChecks(data);
                         }
                     });
                 }
