@@ -92,24 +92,26 @@ class BookingsController extends Controller
 
         $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if (auth()->user()->IsAdminByRole()) {
-            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
-        } else {
-            $user = auth()->user();
-            if ((new UserCheckService())->medicalCheckPassed($user)) {
-                if ((new UserCheckService())->balanceCheckPassed($user)) {
-                    if ((new UserCheckService())->activityCheckPassed($user)) {
-                        return view('admin.bookings.create', compact('user', 'planes'));
-                    } else {
-                        return back()->withToastError(trans('global.activityCheck'));
-                    }
-                } else {
-                    return back()->withToastError(trans('global.balanceCheck'));
-                }
-            } else {
-                return back()->withToastError(trans('global.medicalCheck'));
-            }
-        }
+        return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
+
+//        if (auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole()) {
+//            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
+//        } else {
+//            $user = auth()->user();
+//            if ((new UserCheckService())->medicalCheckPassed($user)) {
+//                if ((new UserCheckService())->balanceCheckPassed($user)) {
+//                    if ((new UserCheckService())->activityCheckPassed($user)) {
+//                        return view('admin.bookings.create', compact('user', 'planes'));
+//                    } else {
+//                        return back()->withToastError(trans('global.activityCheck'));
+//                    }
+//                } else {
+//                    return back()->withToastError(trans('global.balanceCheck'));
+//                }
+//            } else {
+//                return back()->withToastError(trans('global.medicalCheck'));
+//            }
+//        }
     }
 
     public function store(StoreBookingRequest $request)

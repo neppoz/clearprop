@@ -140,6 +140,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->roles()->where('id', 1)->exists();
     }
 
+    public function IsManagerByRole()
+    {
+        return $this->roles()->where('id', 3)->exists();
+    }
+
     public function IsInstructorByFlag()
     {
         return $this->attributes['instructor'] === 1;
