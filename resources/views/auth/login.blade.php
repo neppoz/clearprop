@@ -1,20 +1,22 @@
 @extends('layouts.app')
 @section('content')
-<div class="login-box">
-    <div class="login-logo">
+    <div class="login-box">
         <div class="login-logo">
+            <div class="login-logo">
+                <img src="{{ asset('/images/ClearProp_textdown.svg') }} />
             <a href="{{ route('admin.home') }}">
-                {{ trans('panel.site_title') }}
-            </a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">
-                {{ trans('global.login') }}
-            </p>
 
-            @if(session()->has('message'))
+                {{--                {{ trans('panel.site_title') }}--}}
+                </a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">
+                    {{ trans('global.login') }}
+                </p>
+
+                @if(session()->has('message'))
                 <p class="alert alert-info">
                     {{ session()->get('message') }}
                 </p>
