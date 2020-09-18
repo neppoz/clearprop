@@ -7,7 +7,9 @@ use App\Http\Requests\MassDestroyTypeRequest;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
 use App\Type;
+use App\User;
 use Gate;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TypesController extends Controller

@@ -44,14 +44,17 @@ namespace App{
  * @property \Illuminate\Support\Carbon $reservation_start
  * @property \Illuminate\Support\Carbon $reservation_stop
  * @property string|null $description
+ * @property int $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property int $user_id
+ * @property int|null $instructor_id
  * @property int $type_id
  * @property int $plane_id
  * @property int|null $created_by_id
  * @property-read \App\User|null $created_by
+ * @property-read \App\User|null $instructor
  * @property-read \App\Plane $plane
  * @property-read \App\Type $type
  * @property-read \App\User $user
@@ -64,9 +67,11 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereInstructorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking wherePlaneId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereReservationStart($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereReservationStop($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereUserId($value)
@@ -119,7 +124,6 @@ namespace App{
  * @property string|null $prodno
  * @property string $counter_type
  * @property int|null $warmup_type
- * @property int|null $warump_type
  * @property int|null $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -128,6 +132,8 @@ namespace App{
  * @property-read int|null $plane_activities_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $planeBookings
  * @property-read int|null $plane_bookings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $planeUsers
+ * @property-read int|null $plane_users_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Plane newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Plane newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\Plane onlyTrashed()
@@ -143,7 +149,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Plane whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Plane whereVendor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Plane whereWarmupType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Plane whereWarumpType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Plane withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Plane withoutTrashed()
  */
@@ -182,6 +187,8 @@ namespace App{
  * @property-read int|null $instructor_activities_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Plane[] $planes
+ * @property-read int|null $planes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Role[] $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
