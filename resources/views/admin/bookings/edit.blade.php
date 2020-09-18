@@ -37,17 +37,8 @@
                         {{ trans('cruds.booking.fields.type') }}
                     </th>
                     <td>
-                        <span class="text-primary">{{ App\Booking::TYPE_RADIO[$booking->type_id] }}</span>
-                        {{--                        {{ $booking->type->name ?? '' }}--}}
+                        <span class="text-primary">{{ App\Booking::TYPE_RADIO[$booking->type_id] ?? '' }}</span>
                     </td>
-                    {{--                    <td>--}}
-                    {{--                        @if(App\Booking::TYPE_RADIO[$booking->status] === 'pending')--}}
-                    {{--                            <span class="text-primary">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>--}}
-                    {{--                        @endif--}}
-                    {{--                        @if(App\Booking::STATUS_RADIO[$booking->status] === 'confirmed')--}}
-                    {{--                            <span class="text-success">{{ App\Booking::STATUS_RADIO[$booking->status]}}</span>--}}
-                    {{--                        @endif--}}
-                    {{--                    </td>--}}
                 </tr>
                 <tr>
                     <th>
