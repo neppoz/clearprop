@@ -261,7 +261,7 @@ return [
             'plane' => 'Plane',
             'plane_helper' => '',
             'type' => 'Do you need an instructor?',
-            'type_helper' => '',
+            'type_helper' => 'Notam: If rating is not set by Admin, solo is not available.',
             'status' => 'Status',
             'status_helper' => '',
             'instructor' => 'Instructor',

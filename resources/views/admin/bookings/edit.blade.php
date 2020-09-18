@@ -102,41 +102,54 @@
             @csrf
             <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
             <input type="hidden" name="type_id" id="type_id" value="{{ old('type_id', $booking->type_id) }}" readonly>
-            <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
-            <input type="hidden" name="reservation_start" id="reservation_start" value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
-            <input type="hidden" name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
+            <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}"
+                   readonly>
+            <input type="hidden" name="reservation_start" id="reservation_start"
+                   value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
+            <input type="hidden" name="reservation_stop" id="reservation_stop"
+                   value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             @can('booking_edit')
-                @if (auth()->user()->IsAdminByRole() && $booking->type_id === 1 && $booking->status === 0)
+                @if ((auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole())&& $booking->type_id === 1 && $booking->status === 0)
                     <div class="form-group">
                         <label for="instructor_id_select">{{ trans('cruds.activity.fields.instructor') }}</label>
-                        <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}" name="instructor_id" id="instructor_id_select">
+                        <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}"
+                                name="instructor_id" id="instructor_id_select">
                             @foreach($instructors as $id => $instructor)
-                                <option value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
+                                <option
+                                    value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('instructor'))
                             <span class="text-danger">{{ $errors->first('instructor') }}</span>
                         @endif
-                        <span class="help-block">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
+                        <span
+                            class="help-block text-secondary small">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
                     </div>
                 @endif
                 @if (auth()->user()->IsInstructorByFlag() && $booking->type_id === 1 && $booking->status === 0)
                     <div class="form-group">
-                        <label class="text" for="instructor_id_input">{{ trans('cruds.booking.fields.instructor') }} : {{ auth()->user()->name }}</label>
-                        <input type="hidden" name="instructor_id" id="instructor_id_input" value="{{ auth()->user()->id }}" readonly>
+                        <label class="text" for="instructor_id_input">{{ trans('cruds.booking.fields.instructor') }}
+                            : {{ auth()->user()->name }}</label>
+                        <input type="hidden" name="instructor_id" id="instructor_id_input"
+                               value="{{ auth()->user()->id }}" readonly>
                     </div>
                 @endif
-                    <div class="form-group">
-                        <label class="text" for="status">{{ trans('global.update') }} {{ trans('cruds.booking.fields.status') }} : {{ App\Booking::STATUS_RADIO['1'] }}</label>
-                        <input type="hidden" name="status" id="status" value="1" readonly>
-                    </div>
+                <div class="form-group">
+                    <label class="text"
+                           for="status">{{ trans('global.update') }} {{ trans('cruds.booking.fields.status') }}
+                        : {{ App\Booking::STATUS_RADIO['1'] }}</label>
+                    <input type="hidden" name="status" id="status" value="1" readonly>
+                </div>
                 <div class="form-group">
                     <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
-                    <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description', $booking->description) }}</textarea>
+                    <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
+                              name="description"
+                              id="description">{{ old('description', $booking->description) }}</textarea>
                     @if($errors->has('description'))
                         <span class="text-danger">{{ $errors->first('description') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.booking.fields.description_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-success" type="submit">
