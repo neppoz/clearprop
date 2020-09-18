@@ -6,6 +6,48 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Booking
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon $reservation_start
+ * @property \Illuminate\Support\Carbon $reservation_stop
+ * @property string|null $description
+ * @property int $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property int $user_id
+ * @property int|null $instructor_id
+ * @property int $type_id
+ * @property int $plane_id
+ * @property int|null $created_by_id
+ * @property-read \App\User|null $created_by
+ * @property-read \App\User|null $instructor
+ * @property-read \App\Plane $plane
+ * @property-read \App\Type $type
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Booking onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereCreatedById($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereInstructorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking wherePlaneId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereReservationStart($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereReservationStop($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Booking withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Booking withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Booking extends Model
 {
     use SoftDeletes;
