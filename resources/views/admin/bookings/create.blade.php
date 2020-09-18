@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.booking.fields.type') }}</label>
-                @foreach(App\BOOKING::TYPE_RADIO as $key => $label)
+                @foreach(App\Booking::TYPE_RADIO as $key => $label)
                     <div class="form-check {{ $errors->has('type') ? 'is-invalid' : '' }}">
                         <input class="form-check-input" type="radio" id="type_id_{{ $key }}" name="type_id"
                                value="{{ $key }}" {{ old('type_id', '1') === (string) $key ? 'checked' : '' }} required>
