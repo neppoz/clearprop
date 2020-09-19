@@ -135,6 +135,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'deleted_at',
     ];
 
+    public function getIsAdminAttribute()
+    {
+        return $this->roles()->where('id', 1)->exists();
+    }
+
+    public function getIsManagerAttribute()
+    {
+        return $this->roles()->where('id', 3)->exists();
+    }
+
     public function IsAdminByRole()
     {
         return $this->roles()->where('id', 1)->exists();
