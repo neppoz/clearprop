@@ -109,7 +109,7 @@
             <input type="hidden" name="reservation_stop" id="reservation_stop"
                    value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             @can('booking_edit')
-                @if ((auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole())&& $booking->type_id === 1 && $booking->status === 0)
+                @if ((auth()->user()->is_admin OR auth()->user()->is_manager) && $booking->type_id === 1 && $booking->status === 0)
                     <div class="form-group">
                         <label for="instructor_id_select">{{ trans('cruds.activity.fields.instructor') }}</label>
                         <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}"

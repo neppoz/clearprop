@@ -53,10 +53,10 @@ class BookingsController extends Controller
                 if (!empty($model->instructor_id)) {
                     $title = trim($model->plane->callsign
                         . ": " . $model->user->name
-                        . " [" .$model::STATUS_RADIO[$model->status]
-                        . " - ".$model->instructor->name ."] ");
+                        . " [" . $model::STATUS_RADIO[$model->status]
+                        . " - " . $model->instructor->name . "] ");
                 }
-                if (auth()->user()->IsAdminByRole()) {
+                if (auth()->user()->is_admin or auth()->user()->is_manager) {
                     $url = route($source['route'], $model->id);
                     $textColor = [];
                 }
