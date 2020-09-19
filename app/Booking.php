@@ -58,9 +58,13 @@ class Booking extends Model
         '0' => 'pending',
         '1' => 'confirmed',
     ];
-    const TYPE_RADIO = [
+    const INSTRUCTOR_NEEDED_RADIO = [
         '0' => 'no',
         '1' => 'yes',
+    ];
+    const TYPE_SELECT = [
+        '0' => 'personal',
+        '1' => 'slot',
     ];
 
     protected $dates = [
@@ -72,19 +76,20 @@ class Booking extends Model
     ];
 
     protected $fillable = [
-        'user_id',
-        'instructor_id',
-        'plane_id',
-        'type_id',
-        'instructor_id',
-        'description',
-        'status',
-        'created_by_id',
-        'reservation_stop',
         'reservation_start',
+        'reservation_stop',
+        'description',
+        'type',
+        'instructor_needed',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
+        'user_id',
+        'type_id',
+        'instructor_id',
+        'plane_id',
+        'created_by_id',
     ];
 
     public function user()
