@@ -64,8 +64,8 @@ class BookingsController extends Controller
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }
-                // Complex logic: checking if instructor, type requires instructor, status is open and/or it is assigned to him
-                if ((auth()->user()->IsInstructorByFlag() && $model->type === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
+                // Complex logic: checking if instructor, requires instructor, status is open and/or it is assigned to him
+                if ((auth()->user()->IsInstructorByFlag() && $model->instructor_needed === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }
