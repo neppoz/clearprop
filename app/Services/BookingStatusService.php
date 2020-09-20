@@ -13,7 +13,7 @@ class BookingStatusService
     {
         $booking->load('user', 'instructor', 'plane', 'created_by');
         try {
-            if ($booking->type_id == true) {
+            if ($booking->instructor_needed == true) {
                 // set status to pending
                 $booking->status = 0;
                 $booking->save();
