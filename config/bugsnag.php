@@ -200,7 +200,7 @@ return [
     |
     */
 
-    'release_stage' => env('BUGSNAG_RELEASE_STAGE', 'local'),
+    'release_stage' => env('BUGSNAG_RELEASE_STAGE'),
 
     /*
     |--------------------------------------------------------------------------
