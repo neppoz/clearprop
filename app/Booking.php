@@ -47,6 +47,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Booking withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Booking withoutTrashed()
  * @mixin \Eloquent
+ * @property int $modus
+ * @property int $instructor_needed
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereInstructorNeeded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereModus($value)
  */
 class Booking extends Model
 {
@@ -58,9 +62,13 @@ class Booking extends Model
         '0' => 'pending',
         '1' => 'confirmed',
     ];
-    const TYPE_RADIO = [
+    const INSTRUCTOR_NEEDED_RADIO = [
         '0' => 'no',
         '1' => 'yes',
+    ];
+    const MODUS_SELECT = [
+        '0' => 'individual pilot reservation',
+        '1' => 'predefined slot',
     ];
 
     protected $dates = [
@@ -72,19 +80,20 @@ class Booking extends Model
     ];
 
     protected $fillable = [
-        'user_id',
-        'instructor_id',
-        'plane_id',
-        'type_id',
-        'instructor_id',
-        'description',
-        'status',
-        'created_by_id',
-        'reservation_stop',
         'reservation_start',
+        'reservation_stop',
+        'description',
+        'modus',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
+        'user_id',
+        'type_id',
+        'instructor_id',
+        'instructor_needed',
+        'plane_id',
+        'created_by_id',
     ];
 
     public function user()

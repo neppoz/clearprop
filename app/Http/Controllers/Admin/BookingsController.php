@@ -11,6 +11,7 @@ use App\Plane;
 use App\Services\BookingStatusService;
 use App\Services\UserCheckService;
 use App\Services\BookingCheckService;
+use App\Type;
 use App\User;
 use Gate;
 use Carbon\Carbon;
@@ -64,8 +65,8 @@ class BookingsController extends Controller
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }
-                // Complex logic: checking if instructor, type requires instructor, status is open and/or it is assigned to him
-                if ((auth()->user()->IsInstructorByFlag() && $model->type === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
+                // Complex logic: checking if instructor, requires instructor, status is open and/or it is assigned to him
+                if ((auth()->user()->IsInstructorByFlag() && $model->instructor_needed === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }
@@ -88,11 +89,13 @@ class BookingsController extends Controller
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        $types = Type::where('active', '=', true)->pluck('name', 'id');
+
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
+        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors'));
 
 //        if (auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole()) {
 //            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));

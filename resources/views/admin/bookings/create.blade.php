@@ -1,71 +1,111 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('global.create') }} {{ trans('cruds.booking.title_singular') }}
-    </div>
+    <div class="card">
+        <div class="card-header">
+            {{ trans('global.create') }} {{ trans('cruds.booking.title_singular') }}
+        </div>
 
-    <div class="card-body">
-        <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
-            @csrf
-            @if (auth()->user()->IsAdminByRole())
+        <div class="card-body">
+            <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
+                @csrf
+                @if (auth()->user()->is_admin)
+                    {{--                TODO comment out when ready with user frontend--}}
+
+                    {{--                <div class="form-group">--}}
+                    {{--                    <label class="required" for="modus">{{ trans('cruds.booking.fields.modus') }}</label>--}}
+                    {{--                    <select class="form-control required select2 {{ $errors->has('modus') ? 'is-invalid' : '' }}" name="modus" id="modus" required>--}}
+                    {{--                        <option value {{ old('modus', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>--}}
+                    {{--                        @foreach(App\Booking::MODUS_SELECT as $key => $label)--}}
+                    {{--                            <option value="{{ $key }}" {{ old('modus', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>--}}
+                    {{--                        @endforeach--}}
+                    {{--                    </select>--}}
+                    {{--                    @if($errors->has('modus'))--}}
+                    {{--                        <div class="invalid-feedback">--}}
+                    {{--                            {{ $errors->first('modus') }}--}}
+                    {{--                        </div>--}}
+                    {{--                    @endif--}}
+                    {{--                    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.modus_helper') }}</span>--}}
+                    {{--                </div>--}}
+                    {{--                <div class="form-group">--}}
+                    {{--                    <label class="required" for="type_id">{{ trans('cruds.activity.fields.type') }}</label>--}}
+                    {{--                    <select class="form-control select2 {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type_id" id="type_id" required>--}}
+                    {{--                        @foreach($types as $id => $type)--}}
+                    {{--                            <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected' : '' }}>{{ $type }}</option>--}}
+                    {{--                        @endforeach--}}
+                    {{--                    </select>--}}
+                    {{--                    @if($errors->has('type'))--}}
+                    {{--                        <span class="text-danger">{{ $errors->first('type') }}</span>--}}
+                    {{--                    @endif--}}
+                    {{--                    <span class="help-block">{{ trans('cruds.activity.fields.type_helper') }}</span>--}}
+                    {{--                </div>--}}
+
+                    <div class="form-group">
+                        <label class="required" for="user_id_select">{{ trans('cruds.booking.fields.user') }}</label>
+                        <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}"
+                                name="user_id"
+                                id="user_id_select" required>
+                            @foreach($users as $id => $user)
+                                <option
+                                    value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('user'))
+                            <span class="text-danger">{{ $errors->first('user') }}</span>
+                        @endif
+                        <span
+                            class="help-block text-secondary small">{{ trans('cruds.booking.fields.user_helper') }}</span>
+                    </div>
+
+                @else
+                    <div class="form-group">
+                        <label class="text" for="user_id_input">{{ trans('cruds.booking.fields.user') }}
+                            : {{ auth()->user()->name }}</label>
+                        <input type="hidden" name="user_id" id="user_id_input" value="{{ auth()->user()->id }}"
+                               readonly>
+                    </div>
+                @endif
                 <div class="form-group">
-                    <label class="required" for="user_id_select">{{ trans('cruds.booking.fields.user') }}</label>
-                    <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id"
-                            id="user_id_select" required>
-                        @foreach($users as $id => $user)
-                            <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
+                    <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
+                    <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id"
+                            id="plane_id" required>
+                        @foreach($planes as $id => $plane)
+                            <option
+                                value="{{ $id }}" {{ old('plane_id') == $id ? 'selected' : '' }}>{{ $plane }}</option>
                         @endforeach
                     </select>
-                    @if($errors->has('user'))
-                        <span class="text-danger">{{ $errors->first('user') }}</span>
+                    @if($errors->has('plane'))
+                        <span class="text-danger">{{ $errors->first('plane') }}</span>
                     @endif
-                    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.user_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.booking.fields.plane_helper') }}</span>
                 </div>
-            @else
                 <div class="form-group">
-                    <label class="text" for="user_id_input">{{ trans('cruds.booking.fields.user') }}
-                        : {{ $user->name }}</label>
-                    <input type="hidden" name="user_id" id="user_id_input" value="{{ $user->id }}" readonly>
-                </div>
-            @endif
-            <div class="form-group">
-                <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
-                <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id"
-                        id="plane_id" required>
-                    @foreach($planes as $id => $plane)
-                        <option value="{{ $id }}" {{ old('plane_id') == $id ? 'selected' : '' }}>{{ $plane }}</option>
+                    <label class="required">{{ trans('cruds.booking.fields.instructor_needed') }}</label>
+                    @foreach(App\Booking::INSTRUCTOR_NEEDED_RADIO as $key => $label)
+                        <div class="form-check {{ $errors->has('instructor_needed') ? 'is-invalid' : '' }}">
+                            <input class="form-check-input" type="radio" id="instructor_needed_{{ $key }}"
+                                   name="instructor_needed"
+                                   value="{{ $key }}"
+                                   {{ old('instructor_needed', '1') === (string) $key ? 'checked' : '' }} required>
+                            <label class="form-check-label" for="instructor_needed_{{ $key }}">{{ $label }}</label>
+                        </div>
                     @endforeach
-                </select>
-                @if($errors->has('plane'))
-                    <span class="text-danger">{{ $errors->first('plane') }}</span>
-                @endif
-                <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.plane_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.booking.fields.type') }}</label>
-                @foreach(App\Booking::TYPE_RADIO as $key => $label)
-                    <div class="form-check {{ $errors->has('type') ? 'is-invalid' : '' }}">
-                        <input class="form-check-input" type="radio" id="type_id_{{ $key }}" name="type_id"
-                               value="{{ $key }}" {{ old('type_id', '1') === (string) $key ? 'checked' : '' }} required>
-                        <label class="form-check-label" for="type_id_{{ $key }}">{{ $label }}</label>
+                    @if($errors->has('instructor_needed'))
+                        <span class="text-danger">{{ $errors->first('instructor_needed') }}</span>
+                    @endif
+                    <span
+                        class="help-block text-secondary small">{!! trans('cruds.booking.fields.instructor_needed_helper') !!}</span>
+                </div>
+                <div class="form-group">
+                    <div class="alert alert-warning alert-dismissible" id="warning-medical" style="display: none">
+                        <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
+                        {!! trans('global.medicalCheck_for_admin') !!}
                     </div>
-                @endforeach
-                @if($errors->has('type'))
-                    <span class="text-danger">{{ $errors->first('type') }}</span>
-                @endif
-                <span class="help-block text-secondary small">{!! trans('cruds.booking.fields.type_helper') !!}</span>
-            </div>
-            <div class="form-group">
-                <div class="alert alert-warning alert-dismissible" id="warning-medical" style="display: none">
-                    <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
-                    {!! trans('global.medicalCheck_for_admin') !!}
-                </div>
-                <div class="alert alert-warning alert-dismissible" id="warning-activity" style="display: none">
-                    <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
-                    {!! trans('global.activityCheck_for_admin') !!}
-                </div>
+                    <div class="alert alert-warning alert-dismissible" id="warning-activity" style="display: none">
+                        <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
+                        {!! trans('global.activityCheck_for_admin') !!}
+                    </div>
                 <div class="alert alert-info alert-dismissible" id="info-balance" style="display: none">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
@@ -155,16 +195,16 @@
             function formChecks(data) {
                 if (data.medicalCheckPassed === false) {
                     $("#warning-medical").show();
-                    $('input[name="type_id"][value="1"]').prop("checked", true);
-                    $('input[name="type_id"][value="0"]').prop("disabled", true);
+                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
+                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
 
                 if ((data.ratingCheckPassed === true) && (data.medicalCheckPassed === true)) {
-                    $('input[name="type_id"][value="0"]').prop("disabled", false);
-                    $('input[name="type_id"][value="0"]').prop("checked", true);
+                    $('input[name="instructor_needed"][value="0"]').prop("disabled", false);
+                    $('input[name="instructor_needed"][value="0"]').prop("checked", true);
                 } else {
-                    $('input[name="type_id"][value="1"]').prop("checked", true);
-                    $('input[name="type_id"][value="0"]').prop("disabled", true);
+                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
+                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
 
                 if ((data.balanceCheckPassed === false)) {
