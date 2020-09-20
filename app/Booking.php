@@ -47,6 +47,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Booking withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Booking withoutTrashed()
  * @mixin \Eloquent
+ * @property int $modus
+ * @property int $instructor_needed
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereInstructorNeeded($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Booking whereModus($value)
  */
 class Booking extends Model
 {
@@ -62,9 +66,9 @@ class Booking extends Model
         '0' => 'no',
         '1' => 'yes',
     ];
-    const TYPE_SELECT = [
-        '0' => 'personal',
-        '1' => 'slot',
+    const MODUS_SELECT = [
+        '0' => 'individual pilot reservation',
+        '1' => 'predefined slot',
     ];
 
     protected $dates = [
@@ -79,8 +83,7 @@ class Booking extends Model
         'reservation_start',
         'reservation_stop',
         'description',
-        'type',
-        'instructor_needed',
+        'modus',
         'status',
         'created_at',
         'updated_at',
@@ -88,6 +91,7 @@ class Booking extends Model
         'user_id',
         'type_id',
         'instructor_id',
+        'instructor_needed',
         'plane_id',
         'created_by_id',
     ];
