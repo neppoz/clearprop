@@ -34,10 +34,11 @@
                 </tr>
                 <tr>
                     <th>
-                        {{ trans('cruds.booking.fields.type') }}
+                        {{ trans('cruds.booking.fields.instructor_needed') }}
                     </th>
                     <td>
-                        <span class="text-primary">{{ App\Booking::TYPE_RADIO[$booking->type_id] ?? '' }}</span>
+                        <span
+                            class="text-primary">{{ App\Booking::INSTRUCTOR_NEEDED_RADIO[$booking->instructor_needed] ?? '' }}</span>
                     </td>
                 </tr>
                 <tr>
@@ -151,12 +152,15 @@
                     <span
                         class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
                 </div>
-                <div class="form-group">
-                    <button class="btn btn-success" type="submit">
-                        <i class="fas fa-edit"></i>
-                        {{ trans('global.update') }} {{ strtolower(trans('cruds.booking.title_singular')) }}
-                    </button>
-                </div>
+                    {{--                // TODO this does not work very well my friend ...--}}
+                    @if ((auth()->user()->is_admin OR auth()->user()->is_manager))
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit">
+                                <i class="fas fa-edit"></i>
+                                {{ trans('global.update') }} {{ strtolower(trans('cruds.booking.title_singular')) }}
+                            </button>
+                        </div>
+                    @endif
             @endcan
         </form>
     </div>
@@ -166,80 +170,80 @@
 
 
 @section('scripts')
-<script>
-    $(document).ready(function () {
-        if($('#instructor_id_input').length) {
-            $('#status').val(1);
-        }
+    <script>
+        $(document).ready(function () {
+            if ($('#instructor_id_input').length) {
+                $('#status').val(1);
+            }
 
-        $("#instructor_id_select").change(function(){
-            $('#status').val(1);
+            $("#instructor_id_select").change(function () {
+                $('#status').val(1);
+            });
+
+            $('#reservation_start').datetimepicker({
+                format: 'DD.MM.YYYY HH:mm',
+                locale: '{{ app()->getLocale() }}',
+                sideBySide: true,
+                toolbarPlacement: 'top',
+                showTodayButton: true,
+                showClose: true,
+                widgetPositioning: {
+                    horizontal: 'auto',
+                    vertical: 'top'
+                },
+                icons: {
+// time: 'glyphicon glyphicon-time',
+// date: 'glyphicon glyphicon-calendar',
+                    up: 'fas fa-chevron-up',
+                    down: 'fas fa-chevron-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'fas fa-dot-circle',
+// clear: 'glyphicon glyphicon-trash',
+                    close: 'fas fa-check-circle'
+
+                },
+//disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
+//enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                stepping: 15,
+            });
+
+            $('#reservation_stop').datetimepicker({
+                useCurrent: false,
+                format: 'DD.MM.YYYY HH:mm',
+                locale: '{{ app()->getLocale() }}',
+                sideBySide: true,
+                toolbarPlacement: 'top',
+                showTodayButton: true,
+                showClose: true,
+                widgetPositioning: {
+                    horizontal: 'auto',
+                    vertical: 'top'
+                },
+                icons: {
+// time: 'glyphicon glyphicon-time',
+// date: 'glyphicon glyphicon-calendar',
+                    up: 'fas fa-chevron-up',
+                    down: 'fas fa-chevron-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'fas fa-dot-circle',
+// clear: 'glyphicon glyphicon-trash',
+                    close: 'fas fa-check-circle'
+
+                },
+//disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
+//enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+                stepping: 15
+            });
+
+            $("#reservation_start").on("dp.change", function (e) {
+                $('#reservation_stop').data("DateTimePicker").minDate(e.date);
+            });
+            $("#reservation_stop").on("dp.change", function (e) {
+                $('#reservation_start').data("DateTimePicker").maxDate(e.date);
+            });
+
         });
-
-        $('#reservation_start').datetimepicker({
-            format: 'DD.MM.YYYY HH:mm',
-            locale: '{{ app()->getLocale() }}',
-            sideBySide: true,
-            toolbarPlacement: 'top',
-            showTodayButton: true,
-            showClose: true,
-            widgetPositioning: {
-                horizontal: 'auto',
-                vertical: 'top'
-            },
-            icons: {
-                // time: 'glyphicon glyphicon-time',
-                // date: 'glyphicon glyphicon-calendar',
-                up: 'fas fa-chevron-up',
-                down: 'fas fa-chevron-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'fas fa-dot-circle',
-                // clear: 'glyphicon glyphicon-trash',
-                close: 'fas fa-check-circle'
-
-            },
-            //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
-            //enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            stepping: 15,
-        });
-
-        $('#reservation_stop').datetimepicker({
-            useCurrent: false,
-            format: 'DD.MM.YYYY HH:mm',
-            locale: '{{ app()->getLocale() }}',
-            sideBySide: true,
-            toolbarPlacement: 'top',
-            showTodayButton: true,
-            showClose: true,
-            widgetPositioning: {
-                horizontal: 'auto',
-                vertical: 'top'
-            },
-            icons: {
-                // time: 'glyphicon glyphicon-time',
-                // date: 'glyphicon glyphicon-calendar',
-                up: 'fas fa-chevron-up',
-                down: 'fas fa-chevron-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'fas fa-dot-circle',
-                // clear: 'glyphicon glyphicon-trash',
-                close: 'fas fa-check-circle'
-
-            },
-            //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
-            //enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-            stepping: 15
-        });
-
-        $("#reservation_start").on("dp.change",function (e) {
-            $('#reservation_stop').data("DateTimePicker").minDate(e.date);
-        });
-        $("#reservation_stop").on("dp.change",function (e) {
-            $('#reservation_start').data("DateTimePicker").maxDate(e.date);
-        });
-
-    });
-</script>
+    </script>
 @endsection

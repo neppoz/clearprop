@@ -19,7 +19,7 @@ class RearrangeColumnsBookingsTable extends Migration
         });
 
         Schema::table('bookings', function (Blueprint $table) {
-            $table->unsignedInteger('type')->after('description')->default(0);
+            $table->unsignedInteger('modus')->after('description')->default(0);
             $table->unsignedInteger('type_id')->after('user_id')->nullable();
             $table->foreign('type_id', 'type_fk_bookings')->references('id')->on('types');
         });
