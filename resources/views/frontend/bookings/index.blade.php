@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.frontend')
 @section('content')
 
     <div class="card card-primary card-outline">
