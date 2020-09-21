@@ -82,6 +82,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Query\Builder|\App\User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\User withoutTrashed()
  * @mixin \Eloquent
+ * @property-read mixed $is_admin
+ * @property-read mixed $is_manager
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
