@@ -256,7 +256,7 @@ return [
     'sweetalert_success_sendreport' => 'Emails with reports generated successfully!',
     'sweetalert_warning_sendreport' => '',
     'sweetalert_error_sendreport' => 'Something went wrong!',
-    'caution' => 'Attention',
+    'caution' => 'Attenzione',
     'activityCheck' => 'La attività non rispetta il limite di sicurezza impostato. Puoi solo prenotare con istruttore.',
     'balanceCheck' => 'Il tuo credito residuo non è sufficiente. Nessuna prenotazione possibile.',
     'medicalCheck' => 'La tua visita medica è scaduta. Puoi solo prenotare con istruttore.',

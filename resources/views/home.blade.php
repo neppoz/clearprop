@@ -18,7 +18,7 @@
             @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
                 <div class="small-box bg-success">
                     @else
-                        <div class="small-box bg-danger">
+                        <div class="small-box bg-danger-gradient">
                             @endif
                             <div class="inner">
                                 <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
@@ -36,7 +36,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-info-gradient">
                         <div class="inner">
                             <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
@@ -53,7 +53,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
+                    <div class="small-box bg-warning-gradient">
                         <div class="inner">
                             <h4>{{  number_format($statistics['incomeAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
