@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route("frontend.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                 <div class="form-group">
@@ -166,10 +166,8 @@
 
                 if ((data.activityCheckPassed === false)) {
                     $("#warning-activity").show();
-                    $("#reservation_start").closest(".form-group").hide();
-                    $("#reservation_stop").closest(".form-group").hide();
-                    $("#description").closest(".form-group").hide();
-                    $("button[type=submit]").hide();
+                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
+                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
             }
 
