@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Activity;
 use App\Income;
+use App\Plane;
 use App\User;
 use Carbon\Carbon;
 use App\Parameter;
@@ -48,11 +49,12 @@ class UserCheckService
         return true;
     }
 
-    public function activityCheckPassed(User $user)
+    public function activityCheckPassed(User $user, Plane $plane)
     {
         if (Parameter::where('slug', 'check.activities')->value('value') == Parameter::CHECK_ACTIVITIES_ENABLED) {
-            $activities = Activity::where('user_id', $user->id)
-                ->whereBetween('event', [now()->startOfYear(), now()])
+            $activities = Activity::whereBetween('event', [now()->startOfYear(), now()])
+                ->where('user_id', $user->id)
+                ->where('plane_id', $plane->id)
                 ->orderBy('event', 'DESC')
                 ->first('event');
 
