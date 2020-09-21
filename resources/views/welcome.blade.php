@@ -79,9 +79,9 @@
                         <div class="icon">
                             <i class="fas fa-fw fa-clock"></i>
                         </div>
-                        {{--                <a href="{{ url('/admin/activity-reports') }}"--}}
-                        {{--                   class="small-box-footer">{{ trans('global.more_info') }} <i--}}
-                        {{--                        class="fas fa-arrow-circle-right"></i></a>--}}
+                        {{--                                        <a href="{{ url('/admin/activity-reports') }}"--}}
+                        {{--                                           class="small-box-footer">{{ trans('global.more_info') }} <i--}}
+                        {{--                                                class="fas fa-arrow-circle-right"></i></a>--}}
                     </div>
                 </div>
                 <!-- ./col -->
@@ -155,9 +155,9 @@
                                     {{ \Carbon\Carbon::parse($booking->reservation_start)->format('d.m') }}
                                 </td>
                                 <td>
-                                    {{--                            <a href="{{ url('#') }}" class="text-muted">--}}
-                                    {{--                                <i class="fas fa-search"></i>--}}
-                                    {{--                            </a>--}}
+                                    {{--                                    <a href="{{ url('#') }}" class="text-muted">--}}
+                                    {{--                                        <i class="fas fa-search"></i>--}}
+                                    {{--                                    </a>--}}
                                 </td>
                             </tr>
                             <tr>
@@ -174,23 +174,23 @@
                             </tr>
                         @endforeach
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <a class="btn btn-sm btn-secondary float-right" href="{{ route("frontend.bookings.create") }}">
+                            <i class="fas fa-edit"></i>
+                            {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
+                        </a>
+                        {{--                    <a href="{{ url('/admin/bookings') }}"--}}
+                        {{--                       class="btn btn-sm btn-secondary float-right">{{ trans('cruds.dashboard.show_all_reservations') }}--}}
+                        {{--                        <i--}}
+                        {{--                            class="fas fa-arrow-circle-right"></i></a>--}}
+                    </div>
+                    <!-- /.card-footer -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer clearfix">
-                    {{--                    <a class="btn btn-sm btn-secondary float-right" href="{{ route("frontend.bookings.create") }}">--}}
-                    {{--                        <i class="fas fa-edit"></i>--}}
-                    {{--                        {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}--}}
-                    {{--                    </a>--}}
-                    {{--                    <a href="{{ url('/admin/bookings') }}"--}}
-                    {{--                       class="btn btn-sm btn-secondary float-right">{{ trans('cruds.dashboard.show_all_reservations') }}--}}
-                    {{--                        <i--}}
-                    {{--                            class="fas fa-arrow-circle-right"></i></a>--}}
-                </div>
-                <!-- /.card-footer -->
             </div>
         </div>
-    </div>
 
 @endsection
 @section('scripts')

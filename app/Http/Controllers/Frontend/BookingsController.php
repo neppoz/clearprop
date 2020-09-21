@@ -87,15 +87,9 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $types = Type::where('active', '=', true)->pluck('name', 'id');
-
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('frontend.bookings.create', compact('users', 'types', 'planes', 'instructors'));
+        return view('frontend.bookings.create', compact('planes'));
 
 //        if (auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole()) {
 //            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));

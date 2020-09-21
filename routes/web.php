@@ -28,6 +28,9 @@ Route::group(['prefix' => '', 'as' => 'frontend.', 'namespace' => 'Frontend', 'm
     // Bookings
     Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
     Route::resource('bookings', 'BookingsController');
+
+    // Ratings
+    Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 });
 
 
