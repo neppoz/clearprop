@@ -71,10 +71,10 @@
                     </th>
                     <td>
                         @if(App\Booking::STATUS_RADIO[$booking->status] === 'pending')
-                            <span class="text-primary">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
+                            <span class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
                         @endif
                         @if(App\Booking::STATUS_RADIO[$booking->status] === 'confirmed')
-                            <span class="text-success">{{ App\Booking::STATUS_RADIO[$booking->status]}}</span>
+                            <span class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status]}}</span>
                         @endif
                     </td>
                 </tr>
@@ -102,7 +102,8 @@
             @method('PUT')
             @csrf
             <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
-            <input type="hidden" name="type_id" id="type_id" value="{{ old('type_id', $booking->type_id) }}" readonly>
+            <input type="hidden" name="type_id" id="type_id"
+                   value="{{ old('instructor_needed', $booking->instructor_needed) }}" readonly>
             <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}"
                    readonly>
             <input type="hidden" name="reservation_start" id="reservation_start"
@@ -110,7 +111,7 @@
             <input type="hidden" name="reservation_stop" id="reservation_stop"
                    value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
             @can('booking_edit')
-                @if ((auth()->user()->is_admin OR auth()->user()->is_manager) && $booking->type_id === 1 && $booking->status === 0)
+                @if ($booking->instructor_needed === 1 && $booking->status === 0)
                     <div class="form-group">
                         <label for="instructor_id_select">{{ trans('cruds.activity.fields.instructor') }}</label>
                         <select class="form-control select2 {{ $errors->has('instructor') ? 'is-invalid' : '' }}"
@@ -127,7 +128,7 @@
                             class="help-block text-secondary small">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
                     </div>
                 @endif
-                @if (auth()->user()->IsInstructorByFlag() && $booking->type_id === 1 && $booking->status === 0)
+                @if (auth()->user()->IsInstructorByFlag() && $booking->instructor_needed === 1 && $booking->status === 0)
                     <div class="form-group">
                         <label class="text" for="instructor_id_input">{{ trans('cruds.booking.fields.instructor') }}
                             : {{ auth()->user()->name }}</label>

@@ -173,26 +173,6 @@
                 }
             }
 
-
-            {{--if ($('#user_id_input').length) {--}}
-            {{--    user = $("#user_id_input").val();--}}
-            {{--}--}}
-
-            {{--$("#user_id_select").change(function () {--}}
-            {{--    user = $(this).val();--}}
-            {{--    plane = $("#plane_id").val();--}}
-            {{--    $("#warning-medical").hide();--}}
-            {{--    if ($(plane)) {--}}
-            {{--        $.ajax({--}}
-            {{--            url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,--}}
-            {{--            method: 'GET',--}}
-            {{--            success: function (data) {--}}
-            {{--                formChecks(data);--}}
-            {{--            }--}}
-            {{--        });--}}
-            {{--    }--}}
-            {{--});--}}
-
             $("#plane_id").change(function () {
                 plane = $(this).val();
                 if ($(user)) {

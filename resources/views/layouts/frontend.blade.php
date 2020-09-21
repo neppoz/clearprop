@@ -57,7 +57,73 @@
 
     </nav>
 
-    @include('partials.menu')
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-link">
+            <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user (optional) -->
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <li class="nav-item">
+                        <a href="{{ route("frontend.welcome") }}" class="nav-link">
+                            <p>
+                                <i class="fas fa-fw nav-icon fa-tachometer-alt">
+
+                                </i>
+                                <span>{{ trans('global.dashboard') }}</span>
+                            </p>
+                        </a>
+                    </li>
+                    {{--                    @can('activity_access')--}}
+                    {{--                        <li class="nav-item">--}}
+                    {{--                            <a href="{{ route("frontend.activities.index") }}" class="nav-link {{ request()->is('/activities') || request()->is('/activities/*') ? 'active' : '' }}">--}}
+                    {{--                                <i class="fa-fw nav-icon fas fa-plane-departure">--}}
+
+                    {{--                                </i>--}}
+                    {{--                                <p>--}}
+                    {{--                                    <span>{{ trans('cruds.activity.title') }}</span>--}}
+                    {{--                                </p>--}}
+                    {{--                            </a>--}}
+                    {{--                        </li>--}}
+                    {{--                    @endcan--}}
+                    @can('booking_access')
+                        <li class="nav-item">
+                            <a href="{{ route("frontend.bookings.index") }}"
+                               class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">
+                                <i class="fa-fw nav-icon far fa-calendar-alt">
+
+                                </i>
+                                <p>
+                                    <span>{{ trans('cruds.booking.title') }}</span>
+                                </p>
+                            </a>
+                        </li>
+                    @endcan
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"
+                           onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                            <p>
+                                <i class="fas fa-fw nav-icon fa-sign-out-alt">
+
+                                </i>
+                                <span>{{ trans('global.logout') }}</span>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
     <div class="content-wrapper" style="min-height: 917px;">
         <!-- Main content -->
         <section class="content" style="padding-top: 20px">
