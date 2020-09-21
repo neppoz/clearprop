@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\CurrentUserTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,7 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Expense extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CurrentUserTrait;
 
     public $table = 'expenses';
 
