@@ -194,13 +194,7 @@
                     $('input[name="instructor_needed"][value="1"]').prop("checked", true);
                     $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
-                if ((data.balanceCheckPassed === false)) {
-                    $("#info-balance").show();
-                }
 
-                if ((data.activityCheckPassed === false)) {
-                    $("#warning-activity").show();
-                }
                 if ((data.ratingCheckPassed === true) && (data.medicalCheckPassed === true)) {
                     $('input[name="instructor_needed"][value="0"]').prop("disabled", false);
                     $('input[name="instructor_needed"][value="0"]').prop("checked", true);
@@ -208,6 +202,15 @@
                     $('input[name="instructor_needed"][value="1"]').prop("checked", true);
                     $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
+
+                if ((data.balanceCheckPassed === false)) {
+                    $("#info-balance").show();
+                }
+
+                if ((data.activityCheckPassed === false)) {
+                    $("#warning-activity").show();
+                }
+
             }
 
             $("#modus").change(function () {
