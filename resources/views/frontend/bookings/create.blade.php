@@ -166,10 +166,8 @@
 
                 if ((data.activityCheckPassed === false)) {
                     $("#warning-activity").show();
-                    $("#reservation_start").closest(".form-group").hide();
-                    $("#reservation_stop").closest(".form-group").hide();
-                    $("#description").closest(".form-group").hide();
-                    $("button[type=submit]").hide();
+                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
+                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
             }
 
