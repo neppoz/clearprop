@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
-use App\User;
 
 class LoginController extends Controller
 {
@@ -27,7 +26,23 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/register-step2';
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+
+    public function redirectPath()
+    {
+        if (auth()->user()->is_admin) {
+            return route('admin.home');
+        }
+
+        if (auth()->user()->is_manager) {
+            return route('admin.home');
+        }
+
+        return route('frontend.welcome');
+
+        //TODO    protected $redirectTo = '/register-step2';
+    }
 
     /**
      * Create a new controller instance.

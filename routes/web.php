@@ -24,10 +24,15 @@ Route::group(['middleware' => ['auth']], function () {
 // Frontend
 Route::group(['prefix' => '', 'as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('welcome');
+
+    // Bookings
+    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
+    Route::resource('bookings', 'BookingsController');
 });
 
+
 // Admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     // Permissions
