@@ -223,16 +223,18 @@
                                         <td>
                                             <a href="{{ url('/admin/bookings/' . $booking->id .'/edit') }}">{{ $booking->reservation_start }}</a>
                                         </td>
-                                        <td>{{ $booking->plane->callsign }}</td>
+                                        <td>
+                                            {{ $booking->plane->callsign }}
+                                        </td>
                                         <td>
                                             @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
                                                 <span
                                                     class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
+                                            @else
+                                                <span
+                                                    class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
+                                            @endif
                                         </td>
-                                        @else
-                                            <span
-                                                class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span></td>
-                                        @endif
                                         <td>{{ $booking->user->name }}</td>
                                     </tr>
                                 @endforeach
@@ -253,35 +255,37 @@
 
 
 
-    {{-- <div class="content">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                      <h3 class="card-title">{{trans('cruds.dashboard.title_linechart')}}</h3>
 
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-lg-8">
+    {{--
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">{{trans('cruds.dashboard.title_linechart')}}</h3>
 
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
                   </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-
                 </div>
+                <div class="card-body">
+                    <div class="col-lg-8">
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+
             </div>
         </div>
-    </div> --}}
+    </div>
+    --}}
 @endsection
 @section('scripts')
 

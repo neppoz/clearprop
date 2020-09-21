@@ -13,7 +13,7 @@ Auth::routes([
     'register' => true,
     'verify' => true,
     'reset' => true
-  ]);
+]);
 
 // Complete profile after registration
 Route::group(['middleware' => ['auth']], function () {
@@ -21,9 +21,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('register-step2', 'Auth\RegisterStep2Controller@postForm')->name('register.step2');
 });
 
-// Route to API docs
-Route::group(['middleware' => ['auth']], function () {
-    Route::view('/docs', 'scribe.index');
+// Frontend
+Route::group(['prefix' => '', 'as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
+    Route::get('/', 'HomeController@index')->name('welcome');
 });
 
 // Admin
@@ -100,4 +100,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
+});
+
+// Route to API docs
+Route::group(['middleware' => ['auth']], function () {
+    Route::view('/docs', 'scribe.index');
 });
