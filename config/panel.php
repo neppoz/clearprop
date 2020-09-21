@@ -6,7 +6,7 @@ return [
     'primary_language'    => 'en',
     'available_languages' => [
         'en' => 'English',
-        'de' => 'German',
+//        'de' => 'German',
         'it' => 'Italian',
     ],
 ];

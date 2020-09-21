@@ -10,7 +10,9 @@ return [
         'incomeAmountTotal' => 'Incomes',
         'activityAmountTotal' => 'Activities',
         'activityHoursAndMinutes' => 'Total time',
-        'personal_reservations' => 'Pilot reservations',
+        'pilot_reservations' => 'Pilot reservations',
+        'personal_reservations' => 'My personal reservations',
+        'show_all_reservations' => 'Show all reservations',
     ],
     'userManagement'     => [
         'title'          => 'Member management',
@@ -245,6 +247,7 @@ return [
         'fields'         => [
             'id' => 'ID',
             'id_helper' => '',
+            'date' => 'Date / Time',
             'reservation_start' => 'Reservation Start',
             'reservation_start_helper' => 'Attention: Select local time (CEST)',
             'reservation_stop' => 'Reservation Stop',
