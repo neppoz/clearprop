@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route("frontend.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                 <div class="form-group">

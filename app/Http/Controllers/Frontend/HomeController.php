@@ -14,14 +14,15 @@ class HomeController
     {
         $statistics = (new StatisticsService())->dashboard($request);
 
-        $bookings = Booking::with(['plane', 'user', 'instructor'])
-            ->where('reservation_start', '>=', Carbon::parse(now()))
+        $bookingsDates = Booking::with(['plane', 'user', 'instructor'])
+            ->where('reservation_start', '>=', Carbon::parse(now())->subDays(1))
             ->where('user_id', Auth()->user()->id)
-            ->orderBy('reservation_start')
-            ->get();
+            ->orderBy('reservation_start', 'asc')
+            ->get()
+            ->groupBy(function ($booking) {
+                return Carbon::parse($booking->reservation_start)->localeDayOfWeek . ', ' . Carbon::parse($booking->reservation_start)->format(config('panel.date_format'));
+            });
 
-        $bookings->load('plane', 'user');
-
-        return view('welcome', compact('statistics', 'bookings'));
+        return view('welcome', compact('statistics', 'bookingsDates'));
     }
 }

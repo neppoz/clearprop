@@ -19,7 +19,7 @@
             @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
                 <div class="small-box bg-success">
                     @else
-                        <div class="small-box bg-danger">
+                        <div class="small-box bg-danger-gradient">
                             @endif
                             <div class="inner">
                                 <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
@@ -37,7 +37,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-info-gradient">
                         <div class="inner">
                             <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
@@ -54,7 +54,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
+                    <div class="small-box bg-warning-gradient">
                         <div class="inner">
                             <h4>{{  number_format($statistics['incomeAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
@@ -85,39 +85,7 @@
                     </div>
                 </div>
                 <!-- ./col -->
-                {{--        <div class="col-12 col-sm-6 col-md-6">--}}
-                {{--            <div class="info-box">--}}
-                {{--                <span class="info-box-icon bg-gray-light elevation-2"><i class="fas fa-fw fa-tachometer-alt"></i></span>--}}
 
-                {{--                <div class="info-box-content">--}}
-                {{--                    @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])--}}
-                {{--                        <span class="info-box-number text-success">{{  number_format($statistics['granTotal'], 2, ',', '.') }} &euro;</span>--}}
-                {{--                    @else--}}
-                {{--                        <span--}}
-                {{--                            class="info-box-number">{{  number_format($statistics['granTotal'], 2, ',', '.') }} &euro;</span>--}}
-                {{--                    @endif--}}
-                {{--                    <span class="info-box-text">--}}
-                {{--                          {{ trans('cruds.dashboard.grantotal') }}--}}
-                {{--                    </span>--}}
-                {{--                </div>--}}
-                {{--                <!-- /.info-box-content -->--}}
-                {{--            </div>--}}
-                {{--            <!-- /.info-box -->--}}
-                {{--        </div>--}}
-                {{--        <div class="col-12 col-sm-6 col-md-6">--}}
-                {{--            <div class="info-box">--}}
-                {{--                <span class="info-box-icon bg-dark-gradient elevation-2"><i class="fas fa-fw fa-clock"></i></span>--}}
-
-                {{--                <div class="info-box-content">--}}
-                {{--                <span class="info-box-number">--}}
-                {{--                      {{ $statistics['activityHoursAndMinutes'] }}--}}
-                {{--                </span>--}}
-                {{--                    <span class="info-box-text">{{ trans('cruds.dashboard.activityHoursAndMinutes') }}</span>--}}
-                {{--                </div>--}}
-                {{--                <!-- /.info-box-content -->--}}
-                {{--            </div>--}}
-                {{--            <!-- /.info-box -->--}}
-                {{--        </div>--}}
         </div>
 
         <div class="row mt-2 mb-2">
@@ -128,52 +96,48 @@
                     </div>
                     <div class="card-body table-responsive p-0">
                         <table class="table table-valign-middle">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($bookings as $booking)
-                            <tr class="bg-gray-light text-bold">
-                                <td>
-                                    @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
-                                        <span
-                                            class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
-                                    @else
-                                        <span
-                                            class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($booking->reservation_start)->localeDayOfWeek }}
-                                </td>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($booking->reservation_start)->format('d.m') }}
-                                </td>
-                                <td>
-                                    {{--                                    <a href="{{ url('#') }}" class="text-muted">--}}
-                                    {{--                                        <i class="fas fa-search"></i>--}}
-                                    {{--                                    </a>--}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {{ \Carbon\Carbon::parse($booking->reservation_start)->format('H:i') }}
-                                    &nbsp; {{ \Carbon\Carbon::parse($booking->reservation_stop)->format('H:i') }}
-                                </td>
-                                <td>
-                                    {{ $booking->plane->callsign }}
-                                </td>
-                                <td colspan="2">
-                                    {{ $booking->instructor->name ?? '' }}
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
+                            <thead>
+                            </thead>
+                            <tbody>
+                            @forelse($bookingsDates as $date => $bookings)
+                                <tr>
+                                    <td class="bg-gray-light text-bold text-center" colspan="4">
+                                        {{ $date }}
+                                    </td>
+                                </tr>
+                                @foreach($bookings as $booking)
+                                    <tr>
+                                        <td>
+                                            @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
+                                                <span
+                                                    class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
+                                            @else
+                                                <span
+                                                    class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($booking->reservation_start)->format('H:i') }}
+                                            - {{ \Carbon\Carbon::parse($booking->reservation_stop)->format('H:i') }}
+                                        </td>
+                                        <td>
+                                            {{ $booking->plane->callsign }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url('#') }}" class="text-muted">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @empty
+                                <tr>
+                                    <td class="text-center" colspan="3">
+                                        Uuuups..
+                                    </td>
+                                </tr>
+                            @endforelse
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->

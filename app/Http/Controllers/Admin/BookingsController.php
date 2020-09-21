@@ -46,14 +46,14 @@ class BookingsController extends Controller
                 }
                 // Define defaults
                 $title = trim($model->plane->callsign
-                    . ": " . $model->user->name
+                    . ": " . ($model->user->name ?? '')
                     . " [" . $model::STATUS_RADIO[$model->status] . "] ");
                 $url = [];
                 $textColor = [];
 
                 if (!empty($model->instructor_id)) {
                     $title = trim($model->plane->callsign
-                        . ": " . $model->user->name
+                        . ": " . ($model->user->name ?? '')
                         . " [" . $model::STATUS_RADIO[$model->status]
                         . " - " . $model->instructor->name . "] ");
                 }
@@ -75,6 +75,9 @@ class BookingsController extends Controller
                     'title' => $title,
                     'start' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudFieldValue)->format('Y-m-d H:i:s'),
                     'end' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudEndFieldValue)->format('Y-m-d H:i:s'),
+                    'extendedProps' => [
+                        'status' => $model->status,
+                    ],
                     'url' => $url,
                     'classNames' => $textColor,
                 ];
@@ -89,7 +92,7 @@ class BookingsController extends Controller
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $types = Type::where('active', '=', true)->pluck('name', 'id');
+        $types = Type::where('active', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');;
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
