@@ -107,10 +107,14 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    <a href="{{ url('/admin/bookings') }}"
-                       class="btn btn-sm btn-secondary float-right">{{ trans('cruds.dashboard.show_all_reservations') }}
-                        <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    {{--                    <a class="btn btn-sm btn-secondary float-right" href="{{ route("frontend.bookings.create") }}">--}}
+                    {{--                        <i class="fas fa-edit"></i>--}}
+                    {{--                        {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}--}}
+                    {{--                    </a>--}}
+                    {{--                    <a href="{{ url('/admin/bookings') }}"--}}
+                    {{--                       class="btn btn-sm btn-secondary float-right">{{ trans('cruds.dashboard.show_all_reservations') }}--}}
+                    {{--                        <i--}}
+                    {{--                            class="fas fa-arrow-circle-right"></i></a>--}}
                 </div>
                 <!-- /.card-footer -->
             </div>

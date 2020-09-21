@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-
     <div class="row m-2">
         <div class="col-sm-6">
             <h3 class="m-0 text-dark">{{ trans('cruds.dashboard.greeting') . auth()->user()->name }}</h3>
