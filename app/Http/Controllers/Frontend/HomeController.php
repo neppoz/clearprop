@@ -14,10 +14,13 @@ class HomeController
     {
         $statistics = (new StatisticsService())->dashboard($request);
 
-        $bookings = Booking::where('reservation_start', '>=', Carbon::parse(now()))
-            ->where('user_id', auth()->user()->id)
+        $bookings = Booking::with(['plane', 'user', 'instructor'])
+            ->where('reservation_start', '>=', Carbon::parse(now()))
+            ->where('user_id', Auth()->user()->id)
             ->orderBy('reservation_start')
             ->get();
+
+        $bookings->load('plane', 'user');
 
         return view('welcome', compact('statistics', 'bookings'));
     }
