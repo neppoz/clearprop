@@ -2,14 +2,15 @@
 
 return [
     'dashboard'     => [
-        'greeting'                  => 'Welcome ',
-        'title'                     => 'Dashboard',
-        'title_linechart'           => 'Activities',
-        'title_linechart_chart'     => 'Monthly total',
-        'grantotal'                 => 'Balance',
-        'incomeAmountTotal'         => 'Incomes',
-        'activityAmountTotal'       => 'Activites',
-        'activityHoursAndMinutes'   => 'Total time',
+        'greeting' => 'Welcome ',
+        'title' => 'Dashboard',
+        'title_linechart' => 'Activities',
+        'title_linechart_chart' => 'Monthly total',
+        'grantotal' => 'Balance',
+        'incomeAmountTotal' => 'Incomes',
+        'activityAmountTotal' => 'Activities',
+        'activityHoursAndMinutes' => 'Total time',
+        'personal_reservations' => 'Pilot reservations',
     ],
     'userManagement'     => [
         'title'          => 'Member management',

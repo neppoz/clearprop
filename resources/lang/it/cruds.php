@@ -2,15 +2,15 @@
 
 return [
     'dashboard'     => [
-        'greeting'                  => 'Ciao ',
-        'title'                     => 'Dashboard',
-        'title_linechart'           => 'Attività',
-        'title_linechart_chart'     => 'Attività mensile',
-        'title_singular'            => 'Gestione socio',
-        'grantotal'                 => 'Saldo',
-        'incomeAmountTotal'         => 'Versamenti',
-        'activityAmountTotal'       => 'Attività di volo',
-        'activityHoursAndMinutes'   => 'Minuti volati',
+        'greeting' => 'Ciao ',
+        'title' => 'Dashboard',
+        'title_linechart' => 'Attività',
+        'title_linechart_chart' => 'Attività mensile',
+        'title_singular' => 'Gestione socio',
+        'grantotal' => 'Saldo operativo attuale',
+        'incomeAmountTotal' => 'Versamenti acconto voli',
+        'activityAmountTotal' => 'Attività di volo',
+        'activityHoursAndMinutes' => 'Minuti volati in totale',
     ],
     'userManagement'     => [
         'title'          => 'Gestione Utenti',
