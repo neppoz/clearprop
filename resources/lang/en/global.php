@@ -269,4 +269,5 @@ return [
     'planeNotAvailable' => 'Sorry, there is another reservation in place. Please select a free slot',
     'confirm' => 'Confirm',
     'info' => 'Info',
+    'more_info' => 'More info',
 ];

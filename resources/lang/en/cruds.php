@@ -2,14 +2,17 @@
 
 return [
     'dashboard'     => [
-        'greeting'                  => 'Welcome ',
-        'title'                     => 'Dashboard',
-        'title_linechart'           => 'Activities',
-        'title_linechart_chart'     => 'Monthly total',
-        'grantotal'                 => 'Balance',
-        'incomeAmountTotal'         => 'Incomes',
-        'activityAmountTotal'       => 'Activites',
-        'activityHoursAndMinutes'   => 'Total time',
+        'greeting' => 'Welcome ',
+        'title' => 'Dashboard',
+        'title_linechart' => 'Activities',
+        'title_linechart_chart' => 'Monthly total',
+        'grantotal' => 'Balance',
+        'incomeAmountTotal' => 'Incomes',
+        'activityAmountTotal' => 'Activities',
+        'activityHoursAndMinutes' => 'Total time',
+        'pilot_reservations' => 'Pilot reservations',
+        'personal_reservations' => 'My personal reservations',
+        'show_all_reservations' => 'Show all reservations',
     ],
     'userManagement'     => [
         'title'          => 'Member management',
@@ -244,6 +247,7 @@ return [
         'fields'         => [
             'id' => 'ID',
             'id_helper' => '',
+            'date' => 'Date / Time',
             'reservation_start' => 'Reservation Start',
             'reservation_start_helper' => 'Attention: Select local time (CEST)',
             'reservation_stop' => 'Reservation Stop',

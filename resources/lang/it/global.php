@@ -269,4 +269,5 @@ return [
     'planeNotAvailable' => 'Esiste già una prenotazione per queste date. Scegli uno slot libero',
     'confirm' => 'Conferma',
     'info' => 'Info',
+    'more_info' => 'Visualizza',
 ];

@@ -10,7 +10,7 @@ trait CurrentUserTrait
     public static function bootCurrentUserTrait()
     {
         if (!app()->runningInConsole() && auth()->check()) {
-            $isAdmin = auth()->user()->roles->contains(1);
+            $isAdmin = auth()->user()->is_admin;
             // static::creating(function ($model) use ($isAdmin) {
             //     // Prevent admin from setting his own id - admin entries are global.
 

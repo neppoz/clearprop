@@ -15,10 +15,7 @@ class StatisticsService
     public function getActivities(Request $request)
     {
         $activities = Activity::with(['user', 'type', 'plane'])
-            ->whereBetween('event', [$request->session()->get('fromDate'), $request->session()->get('toDate')])
-            ->when(auth()->user()->roles->contains(1) !=true, function ($query) {
-                return $query->where('user_id', auth()->id());
-            });
+            ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
 
         return $activities;
     }
@@ -29,10 +26,7 @@ class StatisticsService
         $incomes = Income::whereHas('income_category', function ($q) {
             $q->where('deposit', '=', 1);
         })
-            ->whereBetween('entry_date', [$request->session()->get('fromDate'), $request->session()->get('toDate')])
-            ->when(auth()->user()->roles->contains(1) !=true, function ($query) {
-                return $query->where('user_id', auth()->id());
-            });
+            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
 
         return $incomes;
     }
@@ -41,7 +35,7 @@ class StatisticsService
     public function getAllIncomes(Request $request)
     {
         $incomes = Income::with('income_category')
-            ->whereBetween('entry_date', [$request->session()->get('fromDate'), $request->session()->get('toDate')]);
+            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
 
         return $incomes;
     }
@@ -50,10 +44,7 @@ class StatisticsService
     public function getExpenses(Request $request)
     {
         $expenses = Expense::with('expense_category')
-            ->whereBetween('entry_date', [$request->session()->get('fromDate'), $request->session()->get('toDate')])
-            ->when(auth()->user()->roles->contains(1) !=true, function ($query) {
-                return $query->where('user_id', auth()->id());
-            });
+            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
 
         return $expenses;
     }
