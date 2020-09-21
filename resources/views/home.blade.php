@@ -196,7 +196,7 @@
             <div class="col-lg-6 col-6">
                 <div class="card">
                     <div class="card-header border-transparent">
-                        <h3 class="card-title">{{ trans('cruds.dashboard.personal_reservations') }}</h3>
+                        <h3 class="card-title">{{ trans('cruds.dashboard.pilot_reservations') }}</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -212,8 +212,8 @@
                                 <tr>
                                     <th>{{ trans('cruds.booking.fields.reservation_start') }}</th>
                                     <th>{{ trans('cruds.booking.fields.plane') }}</th>
-                                    <th>{{ trans('cruds.booking.fields.status') }}</th>
                                     <th>{{ trans('cruds.booking.fields.user') }}</th>
+                                    <th>{{ trans('cruds.booking.fields.status') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -225,6 +225,7 @@
                                         <td>
                                             {{ $booking->plane->callsign }}
                                         </td>
+                                        <td>{{ $booking->user->name }}</td>
                                         <td>
                                             @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
                                                 <span
@@ -234,7 +235,6 @@
                                                     class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $booking->user->name }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

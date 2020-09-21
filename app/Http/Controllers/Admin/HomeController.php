@@ -14,7 +14,8 @@ class HomeController
     {
         $statistics = (new StatisticsService())->dashboard($request);
 
-        $bookings = Booking::where('reservation_start', '>=', Carbon::parse(now()))
+        $bookings = Booking::with(['plane', 'user', 'instructor'])
+            ->where('reservation_start', '>=', Carbon::parse(now()))
             ->where('modus', '0')
             ->orderBy('reservation_start')
             ->get();

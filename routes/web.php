@@ -32,7 +32,7 @@ Route::group(['prefix' => '', 'as' => 'frontend.', 'namespace' => 'Frontend', 'm
 
 
 // Admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     // Permissions
