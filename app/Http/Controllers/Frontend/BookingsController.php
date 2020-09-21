@@ -80,7 +80,7 @@ class BookingsController extends Controller
                 ];
             }
         }
-        return view('admin.bookings.index', compact('events'));
+        return view('frontend.bookings.index', compact('events'));
     }
 
     public function create()
@@ -119,7 +119,7 @@ class BookingsController extends Controller
 
             (new BookingStatusService())->createStatus($booking);
 
-            return redirect()->route('frontend.bookings.index');
+            return redirect()->route('frontend.welcome');
         }
 
         return back()->withToastError(trans('global.planeNotAvailable'));

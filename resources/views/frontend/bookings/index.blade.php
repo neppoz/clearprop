@@ -6,7 +6,7 @@
             @can('booking_create')
                 <div class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("admin.bookings.create") }}">
+                        <a class="btn btn-success" href="{{ route("frontend.bookings.create") }}">
                             <i class="fas fa-edit"></i>
                             {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
                         </a>
