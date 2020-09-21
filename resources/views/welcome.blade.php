@@ -124,7 +124,8 @@
                                             {{ $booking->plane->callsign }}
                                         </td>
                                         <td>
-                                            <a href="{{ url('#') }}" class="text-muted">
+                                            <a href="{{ route('frontend.bookings.edit', $booking->id) }}"
+                                               class="text-muted">
                                                 <i class="fas fa-search"></i>
                                             </a>
                                         </td>
