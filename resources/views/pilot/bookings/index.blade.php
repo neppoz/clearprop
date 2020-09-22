@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.pilot')
 @section('content')
 
     <div class="card card-primary card-outline">
@@ -6,7 +6,7 @@
             @can('booking_create')
                 <div class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("frontend.bookings.create") }}">
+                        <a class="btn btn-success" href="{{ route("pilot.bookings.create") }}">
                             <i class="fas fa-edit"></i>
                             {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
                         </a>
