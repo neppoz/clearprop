@@ -150,11 +150,14 @@
             let instructor_needed_val_1 = $('input[name="instructor_needed"][value="1"]');
             let instructor_needed_val_0 = $('input[name="instructor_needed"][value="0"]');
 
+            instructor_needed_val_1.prop("checked", true);
+
             function formChecks(data) {
                 warning_medical.hide();
                 warning_activity.hide();
                 info_balance.hide();
                 info_rating.hide();
+                instructor_needed_val_0.prop("disabled", false);
 
                 if (data.medicalCheckPassed === false) {
                     warning_medical.show();

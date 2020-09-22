@@ -154,6 +154,7 @@
                 warning_activity.hide();
                 info_balance.hide();
                 info_rating.hide();
+                instructor_needed_val_0.prop("disabled", false);
 
                 if (data.medicalCheckPassed === false) {
                     warning_medical.show();
