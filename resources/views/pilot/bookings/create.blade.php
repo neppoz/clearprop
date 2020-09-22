@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.pilot')
 @section('content')
 
     <div class="card">
@@ -7,7 +7,7 @@
         </div>
 
         <div class="card-body">
-            <form method="POST" action="{{ route("frontend.bookings.store") }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route("pilot.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
                 <div class="form-group">
@@ -175,7 +175,7 @@
                 plane = $(this).val();
                 if ($(user)) {
                     $.ajax({
-                        url: "{{ route('frontend.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
+                        url: "{{ route('pilot.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
                         method: 'GET',
                         success: function (data) {
                             formChecks(data);

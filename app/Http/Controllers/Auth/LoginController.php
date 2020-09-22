@@ -35,11 +35,7 @@ class LoginController extends Controller
             return route('admin.home');
         }
 
-        if (auth()->user()->is_manager) {
-            return route('admin.home');
-        }
-
-        return route('frontend.welcome');
+        return route('pilot.welcome');
 
         //TODO    protected $redirectTo = '/register-step2';
     }
