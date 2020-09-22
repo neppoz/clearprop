@@ -9,7 +9,8 @@
         <div class="card-body">
             <form method="POST" action="{{ route("pilot.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}">
+                <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
+
                 <div class="form-group">
                     <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
                     <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id"
@@ -52,9 +53,12 @@
                         {!! trans('global.activityCheck') !!}
                     </div>
                     <div class="alert alert-info alert-dismissible" id="info-balance" style="display: none">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
                         {{ trans('global.balanceCheck') }}
+                    </div>
+                    <div class="alert alert-info alert-dismissible" id="info-rating" style="display: none">
+                        <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
+                        {{ trans('global.ratingCheck') }}
                     </div>
                 </div>
                 <div class="form-group">
@@ -62,9 +66,9 @@
                            for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fas fa-calendar-alt"></i>
-                      </span>
+                          <span class="input-group-text">
+                            <i class="fas fa-calendar-alt"></i>
+                          </span>
                         </div>
                         <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}"
                                type="text"
@@ -82,14 +86,13 @@
                            for="reservation_stop">{{ trans('cruds.booking.fields.reservation_stop') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="fas fa-calendar-alt"></i>
-                      </span>
+                          <span class="input-group-text">
+                            <i class="fas fa-calendar-alt"></i>
+                          </span>
                         </div>
                         <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}"
-                               type="text"
-                               name="reservation_stop" id="reservation_stop" value="{{ old('reservation_stop') }}"
-                               required>
+                               type="text" name="reservation_stop" id="reservation_stop"
+                               value="{{ old('reservation_stop') }}" required>
                         @if($errors->has('reservation_stop'))
                             <span class="text-danger">{{ $errors->first('reservation_stop') }}</span>
                         @endif
@@ -140,34 +143,43 @@
         $(document).ready(function () {
             let user = $('#user_id').val();
             let plane;
+            let warning_medical = $("#warning-medical");
+            let warning_activity = $("#warning-activity");
+            let info_balance = $("#info-balance");
+            let info_rating = $("#info-rating");
+            let instructor_needed_val_1 = $('input[name="instructor_needed"][value="1"]');
+            let instructor_needed_val_0 = $('input[name="instructor_needed"][value="0"]');
 
             function formChecks(data) {
+                warning_medical.hide();
+                warning_activity.hide();
+                info_balance.hide();
+                info_rating.hide();
+
                 if (data.medicalCheckPassed === false) {
-                    $("#warning-medical").show();
-                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
-                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
+                    warning_medical.show();
+                    instructor_needed_val_1.prop("checked", true);
+                    instructor_needed_val_0.prop("disabled", true);
                 }
 
-                if ((data.ratingCheckPassed === true) && (data.medicalCheckPassed === true)) {
-                    $('input[name="instructor_needed"][value="0"]').prop("disabled", false);
-                    $('input[name="instructor_needed"][value="0"]').prop("checked", true);
-                } else {
-                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
-                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
+                if (data.ratingCheckPassed === false) {
+                    info_rating.show();
+                    instructor_needed_val_1.prop("checked", true);
+                    instructor_needed_val_0.prop("disabled", true);
+                }
+
+                if ((data.activityCheckPassed === false)) {
+                    warning_activity.show();
+                    instructor_needed_val_1.prop("checked", true);
+                    instructor_needed_val_0.prop("disabled", true);
                 }
 
                 if ((data.balanceCheckPassed === false)) {
-                    $("#info-balance").show();
+                    info_balance.show();
                     $("#reservation_start").closest(".form-group").hide();
                     $("#reservation_stop").closest(".form-group").hide();
                     $("#description").closest(".form-group").hide();
                     $("button[type=submit]").hide();
-                }
-
-                if ((data.activityCheckPassed === false)) {
-                    $("#warning-activity").show();
-                    $('input[name="instructor_needed"][value="1"]').prop("checked", true);
-                    $('input[name="instructor_needed"][value="0"]').prop("disabled", true);
                 }
             }
 

@@ -260,6 +260,7 @@ return [
     'activityCheck' => 'La attività non rispetta il limite di sicurezza impostato. Puoi solo prenotare con istruttore.',
     'balanceCheck' => 'Il tuo credito residuo non è sufficiente. Nessuna prenotazione possibile.',
     'medicalCheck' => 'La tua visita medica è scaduta. Puoi solo prenotare con istruttore.',
+    'ratingCheck' => 'Ti manca il rating su questo aeroplano. Puoi solo prenotarlo con istruttore.',
     'medicalCheck_for_admin' => 'Il pilota selezionato non ha una visita medica valida. Puoi solo prenotare con istruttore.',
     'activityCheck_for_admin' => 'Il pilota selezionato non rispetta il limite di sicurezza impostato.',
     'balanceCheck_for_admin' => 'Il pilota selezionato ha un credito residuo inferiore al limite impostato.',
