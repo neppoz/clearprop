@@ -263,7 +263,7 @@ return [
     'medicalCheck_for_admin' => 'The Pilot you selected has no valid medical. Only reservation with instructor possible.',
     'activityCheck_for_admin' => 'The Pilot you selected is below the safety limits.',
     'balanceCheck_for_admin' => 'The Pilot you selected is low with credit.',
-    'ratingCheck_for_admin' => 'No rating for this pilot/plane. Instructor required',
+    'ratingCheck_for_admin' => 'No rating for this pilot/plane specified.',
     'general' => 'General',
     'new' => 'New',
     'planeNotAvailable' => 'Sorry, there is another reservation in place. Please select a free slot',
