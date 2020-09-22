@@ -151,6 +151,7 @@ class BookingsController extends Controller
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
+        $booking->modus = 0;
         $booking->update($request->all());
 
         if ($booking->wasChanged('status')) { // Verify if status has changed
