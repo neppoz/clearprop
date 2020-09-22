@@ -72,7 +72,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <li class="nav-item">
-                        <a href="{{ route("frontend.welcome") }}" class="nav-link">
+                        <a href="{{ route("pilot.welcome") }}" class="nav-link">
                             <p>
                                 <i class="fas fa-fw nav-icon fa-tachometer-alt">
 
@@ -83,7 +83,7 @@
                     </li>
                     {{--                    @can('activity_access')--}}
                     {{--                        <li class="nav-item">--}}
-                    {{--                            <a href="{{ route("frontend.activities.index") }}" class="nav-link {{ request()->is('/activities') || request()->is('/activities/*') ? 'active' : '' }}">--}}
+                    {{--                            <a href="{{ route("pilot.activities.index") }}" class="nav-link {{ request()->is('/activities') || request()->is('/activities/*') ? 'active' : '' }}">--}}
                     {{--                                <i class="fa-fw nav-icon fas fa-plane-departure">--}}
 
                     {{--                                </i>--}}
@@ -95,7 +95,7 @@
                     {{--                    @endcan--}}
                     @can('booking_access')
                         <li class="nav-item">
-                            <a href="{{ route("frontend.bookings.index") }}"
+                            <a href="{{ route("pilot.bookings.index") }}"
                                class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">
                                 <i class="fa-fw nav-icon far fa-calendar-alt">
 

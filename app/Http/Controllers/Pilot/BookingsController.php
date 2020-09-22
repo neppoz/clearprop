@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Pilot;
 
 use App\Booking;
 use App\Http\Controllers\Controller;
@@ -30,7 +30,7 @@ class BookingsController extends Controller
                 'model' => '\\App\\Booking',
                 'date_field' => 'reservation_start',
                 'end_field' => 'reservation_stop',
-                'route' => 'admin.bookings.edit',
+                'route' => 'pilot.bookings.edit',
             ],
         ];
 
@@ -57,7 +57,7 @@ class BookingsController extends Controller
                         . " [" . $model::STATUS_RADIO[$model->status]
                         . " - " . $model->instructor->name . "] ");
                 }
-                if (auth()->user()->is_admin or auth()->user()->is_manager) {
+                if (auth()->user()->is_pilot or auth()->user()->is_manager) {
                     $url = route($source['route'], $model->id);
                     $textColor = [];
                 }
@@ -80,7 +80,7 @@ class BookingsController extends Controller
                 ];
             }
         }
-        return view('frontend.bookings.index', compact('events'));
+        return view('pilot.bookings.index', compact('events'));
     }
 
     public function create()
@@ -89,16 +89,16 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.bookings.create', compact('planes'));
+        return view('pilot.bookings.create', compact('planes'));
 
-//        if (auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole()) {
-//            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
+//        if (auth()->user()->IspilotByRole() OR auth()->user()->IsManagerByRole()) {
+//            return view('pilot.bookings.create', compact('users', 'planes', 'instructors'));
 //        } else {
 //            $user = auth()->user();
 //            if ((new UserCheckService())->medicalCheckPassed($user)) {
 //                if ((new UserCheckService())->balanceCheckPassed($user)) {
 //                    if ((new UserCheckService())->activityCheckPassed($user)) {
-//                        return view('admin.bookings.create', compact('user', 'planes'));
+//                        return view('pilot.bookings.create', compact('user', 'planes'));
 //                    } else {
 //                        return back()->withToastError(trans('global.activityCheck'));
 //                    }
@@ -119,7 +119,7 @@ class BookingsController extends Controller
 
             (new BookingStatusService())->createStatus($booking);
 
-            return redirect()->route('frontend.welcome');
+            return redirect()->route('pilot.welcome');
         }
 
         return back()->withToastError(trans('global.planeNotAvailable'));
@@ -137,7 +137,7 @@ class BookingsController extends Controller
 
         $booking->load('user', 'plane', 'created_by');
 
-        return view('admin.bookings.edit', compact('users', 'planes', 'booking', 'instructors'));
+        return view('pilot.bookings.edit', compact('users', 'planes', 'booking', 'instructors'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
@@ -148,7 +148,7 @@ class BookingsController extends Controller
             (new BookingStatusService())->updateStatus($booking);
         }
 
-        return redirect()->route('admin.bookings.index');
+        return redirect()->route('pilot.bookings.index');
     }
 
     public function show(Booking $booking)
@@ -157,7 +157,7 @@ class BookingsController extends Controller
 
         $booking->load('user', 'plane', 'created_by');
 
-        return view('admin.bookings.show', compact('booking'));
+        return view('pilot.bookings.show', compact('booking'));
     }
 
     public function destroy(Booking $booking)
@@ -168,7 +168,7 @@ class BookingsController extends Controller
 
 //        event(new BookingDeletedEvent($booking));
 
-        return redirect()->route('admin.bookings.index');
+        return redirect()->route('pilot.bookings.index');
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
