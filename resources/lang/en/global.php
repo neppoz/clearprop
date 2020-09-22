@@ -260,6 +260,7 @@ return [
     'activityCheck' => 'Your are below the safety limits. Only reservation with instructor possible.',
     'balanceCheck' => 'You have exceeded your credit! Sorry, no reservation possible.',
     'medicalCheck' => 'Your medical is invalid. Only reservation with instructor possible.',
+    'ratingCheck' => 'You have no rating for this plane. Only reservation with instructor possible.',
     'medicalCheck_for_admin' => 'The Pilot you selected has no valid medical. Only reservation with instructor possible.',
     'activityCheck_for_admin' => 'The Pilot you selected is below the safety limits.',
     'balanceCheck_for_admin' => 'The Pilot you selected is low with credit.',
