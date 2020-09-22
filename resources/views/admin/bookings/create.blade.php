@@ -145,7 +145,7 @@
             let info_balance = $("#info-balance");
             let info_rating = $("#info-rating");
             let instructor_needed_val_1 = $('input[name="instructor_needed"][value="1"]');
-            let instructor_needed_val_2 = $('input[name="instructor_needed"][value="0"]');
+            let instructor_needed_val_0 = $('input[name="instructor_needed"][value="0"]');
 
             instructor_needed_val_1.prop("checked", true);
 
@@ -158,7 +158,7 @@
                 if (data.medicalCheckPassed === false) {
                     warning_medical.show();
                     instructor_needed_val_1.prop("checked", true);
-                    instructor_needed_val_2.prop("disabled", true);
+                    instructor_needed_val_0.prop("disabled", true);
                 }
 
                 if (data.ratingCheckPassed === false) {
