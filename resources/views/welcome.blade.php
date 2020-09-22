@@ -1,4 +1,4 @@
-@extends('layouts.frontend')
+@extends('layouts.pilot')
 @section('content')
 
     <div class="row mt-2 mb-2">
@@ -124,7 +124,7 @@
                                             {{ $booking->plane->callsign }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('frontend.bookings.edit', $booking->id) }}"
+                                            <a href="{{ route('pilot.bookings.edit', $booking->id) }}"
                                                class="text-muted">
                                                 <i class="fas fa-search"></i>
                                             </a>
@@ -143,7 +143,7 @@
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer clearfix">
-                        <a class="btn btn-sm btn-secondary float-right" href="{{ route("frontend.bookings.create") }}">
+                        <a class="btn btn-sm btn-secondary float-right" href="{{ route("pilot.bookings.create") }}">
                             <i class="fas fa-edit"></i>
                             {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
                         </a>

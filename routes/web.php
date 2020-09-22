@@ -22,7 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 // Frontend
-Route::group(['prefix' => '', 'as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('welcome');
 
     // Bookings
