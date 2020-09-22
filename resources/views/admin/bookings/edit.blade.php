@@ -102,7 +102,7 @@
             @method('PUT')
             @csrf
             <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}" readonly>
-            <input type="hidden" name="type_id" id="type_id"
+            <input type="hidden" name="instructor_needed" id="instructor_needed"
                    value="{{ old('instructor_needed', $booking->instructor_needed) }}" readonly>
             <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}"
                    readonly>
@@ -110,6 +110,8 @@
                    value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
             <input type="hidden" name="reservation_stop" id="reservation_stop"
                    value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
+            <input type="hidden" name="status" id="status" value="{{ old('reservation_stop', $booking->status) }}"
+                   readonly>
             @can('booking_edit')
                 @if ($booking->instructor_needed === 1 && $booking->status === 0)
                     <div class="form-group">
@@ -128,20 +130,6 @@
                             class="help-block text-secondary small">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
                     </div>
                 @endif
-                @if (auth()->user()->IsInstructorByFlag() && $booking->instructor_needed === 1 && $booking->status === 0)
-                    <div class="form-group">
-                        <label class="text" for="instructor_id_input">{{ trans('cruds.booking.fields.instructor') }}
-                            : {{ auth()->user()->name }}</label>
-                        <input type="hidden" name="instructor_id" id="instructor_id_input"
-                               value="{{ auth()->user()->id }}" readonly>
-                    </div>
-                @endif
-                <div class="form-group">
-                    <label class="text"
-                           for="status">{{ trans('global.update') }} {{ trans('cruds.booking.fields.status') }}
-                        : {{ App\Booking::STATUS_RADIO['1'] }}</label>
-                    <input type="hidden" name="status" id="status" value="1" readonly>
-                </div>
                 <div class="form-group">
                     <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
                     <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
@@ -153,15 +141,12 @@
                     <span
                         class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
                 </div>
-                    {{--                // TODO this does not work very well my friend ...--}}
-                    @if ((auth()->user()->is_admin OR auth()->user()->is_manager))
-                        <div class="form-group">
-                            <button class="btn btn-success" type="submit">
-                                <i class="fas fa-edit"></i>
-                                {{ trans('global.update') }} {{ strtolower(trans('cruds.booking.title_singular')) }}
-                            </button>
-                        </div>
-                    @endif
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">
+                        <i class="fas fa-edit"></i>
+                        {{ trans('global.update') }} {{ strtolower(trans('cruds.booking.title_singular')) }}
+                    </button>
+                </div>
             @endcan
         </form>
     </div>
@@ -173,9 +158,6 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-            if ($('#instructor_id_input').length) {
-                $('#status').val(1);
-            }
 
             $("#instructor_id_select").change(function () {
                 $('#status').val(1);
@@ -193,19 +175,13 @@
                     vertical: 'top'
                 },
                 icons: {
-// time: 'glyphicon glyphicon-time',
-// date: 'glyphicon glyphicon-calendar',
                     up: 'fas fa-chevron-up',
                     down: 'fas fa-chevron-down',
                     previous: 'fas fa-chevron-left',
                     next: 'fas fa-chevron-right',
                     today: 'fas fa-dot-circle',
-// clear: 'glyphicon glyphicon-trash',
                     close: 'fas fa-check-circle'
-
                 },
-//disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
-//enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                 stepping: 15,
             });
 
@@ -222,19 +198,13 @@
                     vertical: 'top'
                 },
                 icons: {
-// time: 'glyphicon glyphicon-time',
-// date: 'glyphicon glyphicon-calendar',
                     up: 'fas fa-chevron-up',
                     down: 'fas fa-chevron-down',
                     previous: 'fas fa-chevron-left',
                     next: 'fas fa-chevron-right',
                     today: 'fas fa-dot-circle',
-// clear: 'glyphicon glyphicon-trash',
                     close: 'fas fa-check-circle'
-
                 },
-//disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
-//enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                 stepping: 15
             });
 
