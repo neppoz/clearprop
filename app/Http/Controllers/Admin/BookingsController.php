@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Booking;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
-use App\Plane;
 use App\Services\BookingStatusService;
 use App\Services\UserCheckService;
 use App\Services\BookingCheckService;
+use App\Booking;
+use App\Plane;
 use App\Type;
 use App\User;
+use App\Slot;
 use Gate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,69 +22,141 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BookingsController extends Controller
 {
+//    public function index(Request $request)
+//    {
+//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//
+//        $sources = [
+//            [
+//                'model'      => '\\App\\Booking',
+//                'date_field' => 'reservation_start',
+//                'end_field'  => 'reservation_stop',
+//                'route'      => 'admin.bookings.edit',
+//            ],
+//        ];
+//
+//        $events = [];
+//
+////        foreach ($sources as $source) {
+////            foreach ($source['model']::with(['user', 'plane', 'instructor'])->orderby($source['date_field'], 'asc')->get() as $model) {
+////                $crudFieldValue = $model->getOriginal($source['date_field']);
+////                $crudEndFieldValue = $model->getOriginal($source['end_field']);
+////
+////                if (!$crudFieldValue) {
+////                    continue;
+////                }
+////                // Define defaults
+////                $title = trim($model->plane->callsign
+////                    . ": " . ($model->user->name ?? '')
+////                    . " [" . $model::STATUS_RADIO[$model->status] . "] ");
+////                $url = [];
+////                $textColor = [];
+////
+////                if (!empty($model->instructor_id)) {
+////                    $title = trim($model->plane->callsign
+////                        . ": " . ($model->user->name ?? '')
+////                        . " [" . $model::STATUS_RADIO[$model->status]
+////                        . " - " . $model->instructor->name . "] ");
+////                }
+////                if (auth()->user()->is_admin or auth()->user()->is_manager) {
+////                    $url = route($source['route'], $model->id);
+////                    $textColor = [];
+////                }
+////                if (auth()->user()->id === $model->user_id) {
+////                    $url = route($source['route'], $model->id);
+////                    $textColor = ['text-primary'];
+////                }
+////                // Complex logic: checking if instructor, requires instructor, status is open and/or it is assigned to him
+////                if ((auth()->user()->IsInstructorByFlag() && $model->instructor_needed === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
+////                    $url = route($source['route'], $model->id);
+////                    $textColor = ['text-primary'];
+////                }
+////
+////                $events[] = [
+////                    'title' => $title,
+////                    'start' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudFieldValue)->format('Y-m-d H:i:s'),
+////                    'end' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudEndFieldValue)->format('Y-m-d H:i:s'),
+////                    'extendedProps' => [
+////                        'status' => $model->status,
+////                    ],
+////                    'url' => $url,
+////                    'classNames' => $textColor,
+////                ];
+////            }
+////        }
+//
+//        return view('admin.bookings.index', compact('events'));
+//    }
     public function index(Request $request)
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $sources = [
-            [
-                'model'      => '\\App\\Booking',
-                'date_field' => 'reservation_start',
-                'end_field'  => 'reservation_stop',
-                'route'      => 'admin.bookings.edit',
-            ],
-        ];
+        if ($request->ajax()) {
+            $query = Booking::with(['user', 'plane', 'slot'])
+                ->orderBy('reservation_start', 'desc')
+                ->select(sprintf('%s.*', (new Booking)->table));
+            $table = Datatables::of($query);
 
-        $events = [];
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
 
-        foreach ($sources as $source) {
-            foreach ($source['model']::with(['user', 'plane', 'instructor'])->orderby($source['date_field'], 'asc')->get() as $model) {
-                $crudFieldValue = $model->getOriginal($source['date_field']);
-                $crudEndFieldValue = $model->getOriginal($source['end_field']);
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'booking_show';
+                $editGate = 'booking_edit';
+                $deleteGate = 'booking_delete';
+                $crudRoutePart = 'bookings';
 
-                if (!$crudFieldValue) {
-                    continue;
-                }
-                // Define defaults
-                $title = trim($model->plane->callsign
-                    . ": " . ($model->user->name ?? '')
-                    . " [" . $model::STATUS_RADIO[$model->status] . "] ");
-                $url = [];
-                $textColor = [];
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
 
-                if (!empty($model->instructor_id)) {
-                    $title = trim($model->plane->callsign
-                        . ": " . ($model->user->name ?? '')
-                        . " [" . $model::STATUS_RADIO[$model->status]
-                        . " - " . $model->instructor->name . "] ");
-                }
-                if (auth()->user()->is_admin or auth()->user()->is_manager) {
-                    $url = route($source['route'], $model->id);
-                    $textColor = [];
-                }
-                if (auth()->user()->id === $model->user_id) {
-                    $url = route($source['route'], $model->id);
-                    $textColor = ['text-primary'];
-                }
-                // Complex logic: checking if instructor, requires instructor, status is open and/or it is assigned to him
-                if ((auth()->user()->IsInstructorByFlag() && $model->instructor_needed === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
-                    $url = route($source['route'], $model->id);
-                    $textColor = ['text-primary'];
-                }
+//            $table->editColumn('id', function ($row) {
+//                return $row->id ? $row->id : "";
+//            });
 
-                $events[] = [
-                    'title' => $title,
-                    'start' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudFieldValue)->format('Y-m-d H:i:s'),
-                    'end' => Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $crudEndFieldValue)->format('Y-m-d H:i:s'),
-                    'extendedProps' => [
-                        'status' => $model->status,
-                    ],
-                    'url' => $url,
-                    'classNames' => $textColor,
-                ];
-            }
+//            $table->editColumn('description', function ($row) {
+//                return $row->description ? $row->description : "";
+//            });
+            $table->editColumn('modus', function ($row) {
+                return $row->modus ? Booking::MODUS_SELECT[$row->modus] : '0';
+            });
+            $table->editColumn('status', function ($row) {
+                return $row->status ? Booking::STATUS_RADIO[$row->status] : '0';
+            });
+
+//            $table->editColumn('instructor_needed', function ($row) {
+//                return $row->instructor_needed ? Booking::INSTRUCTOR_NEEDED_RADIO[$row->instructor_needed] : '';
+//            });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
+
+            $table->editColumn('instructor_name', function ($row) {
+                return $row->user ? (is_string($row->user) ? $row->user : $row->instructor->name) : '';
+            });
+            $table->addColumn('plane_callsign', function ($row) {
+                return $row->plane ? $row->plane->callsign : '';
+            });
+
+//            $table->addColumn('slot_title', function ($row) {
+//                return $row->slot ? $row->slot->title : '';
+//            });
+
+            $table->rawColumns(['actions', 'placeholder', 'user', 'plane', 'slot']);
+
+            return $table->make(true);
         }
-        return view('admin.bookings.index', compact('events'));
+
+        $users = User::get();
+        $planes = Plane::get();
+        $slots = Slot::get();
+
+        return view('admin.bookings.index', compact('users', 'planes', 'slots'));
     }
 
     public function create()

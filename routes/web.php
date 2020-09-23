@@ -104,6 +104,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
     Route::resource('expense-reports', 'ExpenseReportController');
 
+    // Slots
+    Route::delete('slots/destroy', 'SlotsController@massDestroy')->name('slots.massDestroy');
+    Route::resource('slots', 'SlotsController');
+
+    // Schedules
+    Route::resource('schedules', 'SchedulesController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
+
     // Ratings
     Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
