@@ -16,7 +16,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-Slot">
+                <table class=" table row-column table-striped table-hover datatable datatable-Slot">
                     <thead>
                     <tr>
                         <th width="10">
@@ -130,8 +130,8 @@
 
             $.extend(true, $.fn.dataTable.defaults, {
                 orderCellsTop: true,
-                order: [[1, 'desc']],
-                pageLength: 100,
+                order: [[2, 'desc']],
+                // pageLength: 100,
             });
             let table = $('.datatable-Slot:not(.ajaxTable)').DataTable({buttons: dtButtons})
             $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {

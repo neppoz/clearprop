@@ -16,7 +16,8 @@
                     @if($errors->has('title'))
                         <span class="text-danger">{{ $errors->first('title') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.slot.fields.title_helper') }}</span>
+                    <span
+                        class="help-block help-block text-secondary small">{{ trans('cruds.slot.fields.title_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="users">{{ trans('cruds.slot.fields.user') }}</label>
@@ -36,7 +37,8 @@
                     @if($errors->has('users'))
                         <span class="text-danger">{{ $errors->first('users') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.slot.fields.user_helper') }}</span>
+                    <span
+                        class="help-block help-block text-secondary small">{{ trans('cruds.slot.fields.user_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-danger" type="submit">
