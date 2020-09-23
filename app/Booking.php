@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -89,12 +90,17 @@ class Booking extends Model
         'updated_at',
         'deleted_at',
         'user_id',
-        'type_id',
+        'slot_id',
         'instructor_id',
         'instructor_needed',
         'plane_id',
         'created_by_id',
     ];
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
 
     public function user()
     {
@@ -114,6 +120,11 @@ class Booking extends Model
     public function instructor()
     {
         return $this->belongsTo(User::class, 'instructor_id');
+    }
+
+    public function slot()
+    {
+        return $this->belongsTo(Slot::class, 'slot_id');
     }
 
     public function created_by()
