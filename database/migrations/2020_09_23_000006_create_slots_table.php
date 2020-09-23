@@ -31,10 +31,26 @@ class CreateSlotsTable extends Migration
         $permissions = [
             [
                 'id' => '77',
-                'title' => 'slot_access',
+                'title' => 'slot_create',
             ],
             [
                 'id' => '78',
+                'title' => 'slot_edit',
+            ],
+            [
+                'id' => '79',
+                'title' => 'slot_show',
+            ],
+            [
+                'id' => '80',
+                'title' => 'slot_delete',
+            ],
+            [
+                'id' => '81',
+                'title' => 'slot_access',
+            ],
+            [
+                'id' => '82',
                 'title' => 'schedule_access',
             ],
         ];
