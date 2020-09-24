@@ -1,5 +1,18 @@
 @extends('layouts.admin')
 @section('content')
+    <div class="row m-2">
+        <div class="col-sm-6">
+            {{--            <h3 class="m-0 text-dark">{{ trans('cruds.booking.title') }}</h3>--}}
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a
+                        href="{{route('admin.bookings.index')}}">{{trans('cruds.booking.title')}}</a></li>
+                <li class="breadcrumb-item active">{{ trans('global.create') }}</li>
+            </ol>
+        </div><!-- /.col -->
+    </div>
 
     <div class="card">
         <div class="card-header">
