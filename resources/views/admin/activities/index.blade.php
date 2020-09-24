@@ -15,14 +15,14 @@
     </div>
 
     <div class="card-body">
-        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Activity">
+        <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
             <thead>
-                <tr>
-                    <th>
-                        <i class="fas fa-eye"></i>
-                    </th>
-                    <th data-priority="1">
-                        {{ trans('cruds.activity.fields.event') }}
+            <tr>
+                <th>
+                    <i class="fas fa-eye"></i>
+                </th>
+                <th data-priority="1">
+                    {{ trans('cruds.activity.fields.event') }}
                     </th>
                     <th class="min-tablet-l">
                         {{ trans('cruds.activity.fields.type') }}
