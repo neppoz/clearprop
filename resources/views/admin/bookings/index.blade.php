@@ -2,7 +2,7 @@
 @section('content')
     <div class="row m-2">
         <div class="col-sm-6">
-            <h3 class="m-0 text-dark">{{ trans('cruds.booking.title') }}</h3>
+            <h3 class="m-0 text-dark">{{ trans('cruds.planning.title') }}</h3>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -16,7 +16,10 @@
         <div style="margin-bottom: 10px;" class="row m-2">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route('admin.bookings.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.booking.title_singular') }}
+                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
+                </a>
+                {{--                <a class="btn btn-success" href="{{ route('admin.schedules.create') }}">--}}
+                <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}
                 </a>
             </div>
         </div>
