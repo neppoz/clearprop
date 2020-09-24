@@ -92,9 +92,10 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Booking::with(['user', 'plane', 'slot'])
+            $query = Booking::with(['user', 'instructor', 'plane', 'slot'])
                 ->orderBy('reservation_start', 'desc')
                 ->select(sprintf('%s.*', (new Booking)->table));
+
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -115,48 +116,49 @@ class BookingsController extends Controller
                 ));
             });
 
-//            $table->editColumn('id', function ($row) {
-//                return $row->id ? $row->id : "";
-//            });
+            $table->addColumn('reservation_start_time', function ($row) {
+                return Carbon::createFromFormat('d/m/Y H:i', $row->reservation_start)->format(config('panel.time_format'));
+            });
 
-//            $table->editColumn('description', function ($row) {
-//                return $row->description ? $row->description : "";
-//            });
+            $table->addColumn('reservation_stop_time', function ($row) {
+                return Carbon::createFromFormat('d/m/Y H:i', $row->reservation_stop)->format(config('panel.time_format'));
+            });
+
+            $table->addColumn('reservation_start_date_iso', function ($row) {
+                return Carbon::createFromFormat('d/m/Y H:i', $row->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
+            });
+
             $table->editColumn('modus', function ($row) {
-                return $row->modus ? Booking::MODUS_SELECT[$row->modus] : '0';
-            });
-            $table->editColumn('status', function ($row) {
-                return $row->status ? Booking::STATUS_RADIO[$row->status] : '0';
+                return Booking::MODUS_SELECT[$row->modus] ?? '';
             });
 
-//            $table->editColumn('instructor_needed', function ($row) {
-//                return $row->instructor_needed ? Booking::INSTRUCTOR_NEEDED_RADIO[$row->instructor_needed] : '';
-//            });
+            $table->editColumn('status', function ($row) {
+                return Booking::STATUS_RADIO[$row->status] ?? '';
+            });
+
             $table->addColumn('user_name', function ($row) {
                 return $row->user ? $row->user->name : '';
             });
 
-            $table->editColumn('instructor_name', function ($row) {
-                return $row->user ? (is_string($row->user) ? $row->user : $row->instructor->name) : '';
+            $table->addColumn('instructor_name', function ($row) {
+                return $row->instructor ? $row->instructor->name : '';
             });
+
             $table->addColumn('plane_callsign', function ($row) {
                 return $row->plane ? $row->plane->callsign : '';
             });
 
-//            $table->addColumn('slot_title', function ($row) {
-//                return $row->slot ? $row->slot->title : '';
-//            });
-
-            $table->rawColumns(['actions', 'placeholder', 'user', 'plane', 'slot']);
+            $table->rawColumns(['actions', 'placeholder', 'user', 'instructor', 'plane']);
 
             return $table->make(true);
         }
 
         $users = User::get();
+        $instructors = User::where('instructor', true)->get();
         $planes = Plane::get();
-        $slots = Slot::get();
 
-        return view('admin.bookings.index', compact('users', 'planes', 'slots'));
+
+        return view('admin.bookings.index', compact('users', 'planes', 'instructors'));
     }
 
     public function create()
@@ -173,24 +175,6 @@ class BookingsController extends Controller
 
         return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors'));
 
-//        if (auth()->user()->IsAdminByRole() OR auth()->user()->IsManagerByRole()) {
-//            return view('admin.bookings.create', compact('users', 'planes', 'instructors'));
-//        } else {
-//            $user = auth()->user();
-//            if ((new UserCheckService())->medicalCheckPassed($user)) {
-//                if ((new UserCheckService())->balanceCheckPassed($user)) {
-//                    if ((new UserCheckService())->activityCheckPassed($user)) {
-//                        return view('admin.bookings.create', compact('user', 'planes'));
-//                    } else {
-//                        return back()->withToastError(trans('global.activityCheck'));
-//                    }
-//                } else {
-//                    return back()->withToastError(trans('global.balanceCheck'));
-//                }
-//            } else {
-//                return back()->withToastError(trans('global.medicalCheck'));
-//            }
-//        }
     }
 
     public function store(StoreBookingRequest $request)

@@ -268,7 +268,7 @@ return [
             'instructor_needed_helper' => 'Notam: If rating is not set by Admin, solo is not available.',
             'status' => 'Status',
             'status_helper' => '',
-            'modus' => 'Type Modus',
+            'modus' => 'Type',
             'modus_helper' => '',
             'instructor' => 'Instructor',
             'instructor_helper' => 'If you select an instructor the status will automatically change to confirmed',
