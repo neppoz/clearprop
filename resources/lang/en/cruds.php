@@ -439,8 +439,8 @@ return [
         'month' => 'Month',
     ],
     'slot' => [
-        'title' => 'Slots',
-        'title_singular' => 'Slot',
+        'title' => 'Slot types',
+        'title_singular' => 'Slot type',
         'fields' => [
             'id' => 'ID',
             'id_helper' => ' ',
@@ -464,6 +464,6 @@ return [
     ],
     'planning' => [
         'title' => 'Planning',
-        'title_singular' => 'Planning',
+        'title_singular' => 'Plan',
     ],
 ];

@@ -21,58 +21,15 @@
                         </p>
                     </a>
                 </li>
-                @can('schedule_access')
+                @can('booking_access')
                     <li class="nav-item">
-                        <a href="{{ route("admin.schedules.index") }}"
-                           class="nav-link {{ request()->is("admin/schedules") || request()->is("admin/schedules/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon far fa-calendar-check">
-
-                            </i>
-                            <p>
-                                {{ trans('cruds.schedule.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
-                @can('schedule_access')
-                    <li class="nav-item has-treeview {{ request()->is("admin/bookings*") ? "menu-open" : "" }} {{ request()->is("admin/slots*") ? "menu-open" : "" }}">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-calendar-check">
-
-                            </i>
+                        <a href="{{ route("admin.bookings.index") }}"
+                           class="nav-link {{ request()->is("admin/bookings") || request()->is("admin/bookings/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon far fa-calendar-alt"></i>
                             <p>
                                 {{ trans('cruds.planning.title') }}
-                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            @can('booking_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.bookings.index") }}"
-                                       class="nav-link {{ request()->is("admin/bookings") || request()->is("admin/bookings/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon far fa-calendar-alt">
-
-                                        </i>
-                                        <p>
-                                            {{ trans('cruds.booking.title') }}
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('slot_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.slots.index") }}"
-                                       class="nav-link {{ request()->is("admin/slots") || request()->is("admin/slots/*") ? "active" : "" }}">
-                                        <i class="fa-fw nav-icon fas fa-braille">
-
-                                        </i>
-                                        <p>
-                                            {{ trans('cruds.slot.title') }}
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
                     </li>
                 @endcan
                 @can('activity_access')
@@ -114,7 +71,7 @@
                     </li>
                 @endcan
                 @can('activity_management_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/types*') ? 'menu-open' : '' }} {{ request()->is('admin/factors*') ? 'menu-open' : '' }} {{ request()->is('admin/activity-reports*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/types*') ? 'menu-open' : '' }} {{ request()->is('admin/factors*') ? 'menu-open' : '' }} {{ request()->is('admin/activity-reports*') ? 'menu-open' : '' }} {{ request()->is('admin/slots*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-plane-departure">
 
@@ -151,12 +108,26 @@
                             @endcan
                             @can('factor_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.factors.index") }}" class="nav-link {{ request()->is('admin/factors') || request()->is('admin/factors/*') ? 'active' : '' }}">
+                                    <a href="{{ route("admin.factors.index") }}"
+                                       class="nav-link {{ request()->is('admin/factors') || request()->is('admin/factors/*') ? 'active' : '' }}">
                                         <i class="fa-fw nav-icon fas fa-user-check">
 
                                         </i>
                                         <p>
                                             <span>{{ trans('cruds.factor.title') }}</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('slot_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.slots.index") }}"
+                                       class="nav-link {{ request()->is("admin/slots") || request()->is("admin/slots/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-braille">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.slot.title') }}
                                         </p>
                                     </a>
                                 </li>

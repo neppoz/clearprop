@@ -437,8 +437,8 @@ return [
         'month' => 'Mese',
     ],
     'slot' => [
-        'title' => 'Slots',
-        'title_singular' => 'Slot',
+        'title' => 'Tipi di slot',
+        'title_singular' => 'Tipo slot',
         'fields' => [
             'id' => 'ID',
             'id_helper' => ' ',
@@ -457,8 +457,8 @@ return [
         ],
     ],
     'schedule' => [
-        'title' => 'Schedules',
-        'title_singular' => 'Schedule',
+        'title' => 'Prenotazioni slot',
+        'title_singular' => 'Prenotazione slot',
     ],
     'planning' => [
         'title' => 'Pianificazioni',
