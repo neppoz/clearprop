@@ -19,22 +19,33 @@ class StoreBookingRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => [
-                'required',
-                'integer'],
-            'instructor_needed' => [
-                'required',
-                'integer'],
-            'plane_id' => [
-                'required',
-                'integer'],
             'reservation_start' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
             'reservation_stop' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
+            'modus' => [
+                'required',
+                'integer'],
+            'status' => [
+                'nullable',
+                'integer'],
+            'user_id' => [
+                'nullable',
+                'integer'],
+            'slot_id' => [
+                'nullable',
+                'integer'],
+            'instructor_id' => [
+                'nullable',
+                'integer'],
+            'instructor_needed' => [
+                'nullable',
+                'integer'],
+            'plane_id' => [
+                'required',
+                'integer'],
         ];
-
     }
 }

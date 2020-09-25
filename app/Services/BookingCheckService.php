@@ -14,8 +14,8 @@ class BookingCheckService
     {
         try {
             $times = [
-                Carbon::parse($request->reservation_start)->addSeconds(1),
-                Carbon::parse($request->reservation_stop)->subSeconds(1),
+                Carbon::createFromFormat('d/m/Y H:i', $request->reservation_start)->addSeconds(1),
+                Carbon::createFromFormat('d/m/Y H:i', $request->reservation_stop)->subSeconds(1),
             ];
 //            debug($times);
             /** This query returns:

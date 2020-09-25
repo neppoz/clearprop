@@ -271,4 +271,5 @@ return [
     'confirm' => 'Confirm',
     'info' => 'Info',
     'more_info' => 'More info',
+    'is_needed' => 'is needed',
 ];
