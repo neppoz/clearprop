@@ -1,41 +1,33 @@
 @extends('layouts.admin')
 @section('content')
-    @can('booking_create')
-        <div class="row m-2">
-            <div class="col-sm-6">
-                <a class="btn btn-success"
-                   href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['0']]) }}">
-                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
-                </a>
-                <a class="btn btn-success"
-                   href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['1']]) }}">
-                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}
-                </a>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-                    <li class="breadcrumb-item active">{{ trans('cruds.planning.title') }}</li>
-                </ol>
-            </div><!-- /.col -->
-        </div>
-    @endcan
-    {{--    @can('booking_create')--}}
-    {{--        <div style="margin-bottom: 10px;" class="row m-2">--}}
-    {{--            <div class="col-lg-12">--}}
-    {{--                <a class="btn btn-success" href="{{ route('admin.bookings.create') }}">--}}
-    {{--                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}--}}
-    {{--                </a>--}}
-    {{--                <a class="btn btn-success" href="{{ route('admin.schedules.create') }}">--}}
-    {{--                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}--}}
-    {{--                </a>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    @endcan--}}
+    <div class="row m-2">
+        <div class="col-sm-6">
+            <h3 class="m-0 text-dark">{{ trans('cruds.planning.title') }}</h3>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item active">{{ trans('cruds.planning.title') }}</li>
+            </ol>
+        </div><!-- /.col -->
+    </div>
 
-    <div class="card">
+    <div class="card card-primary card-outline">
         <div class="card-header">
-            {{ trans('cruds.booking.title_singular') }} {{ trans('global.list') }}
+            @can('booking_create')
+                <div class="row m-2">
+                    <div class="col-sm-6">
+                        <a class="btn btn-success"
+                           href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['0']]) }}">
+                            <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
+                        </a>
+                        <a class="btn btn-success"
+                           href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['1']]) }}">
+                            <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}
+                        </a>
+                    </div><!-- /.col -->
+                </div>
+            @endcan
         </div>
 
         <div class="card-body">
