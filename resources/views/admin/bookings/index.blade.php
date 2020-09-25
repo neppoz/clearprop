@@ -1,29 +1,37 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="row m-2">
-        <div class="col-sm-6">
-            <h3 class="m-0 text-dark">{{ trans('cruds.planning.title') }}</h3>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-                <li class="breadcrumb-item active">{{ trans('cruds.booking.title') }}</li>
-            </ol>
-        </div><!-- /.col -->
-    </div>
-
     @can('booking_create')
-        <div style="margin-bottom: 10px;" class="row m-2">
-            <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route('admin.bookings.create') }}">
+        <div class="row m-2">
+            <div class="col-sm-6">
+                <a class="btn btn-success"
+                   href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['0']]) }}">
                     <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
                 </a>
-                {{--                <a class="btn btn-success" href="{{ route('admin.schedules.create') }}">--}}
-                <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}
+                <a class="btn btn-success"
+                   href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['1']]) }}">
+                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}
                 </a>
-            </div>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                    <li class="breadcrumb-item active">{{ trans('cruds.planning.title') }}</li>
+                </ol>
+            </div><!-- /.col -->
         </div>
     @endcan
+    {{--    @can('booking_create')--}}
+    {{--        <div style="margin-bottom: 10px;" class="row m-2">--}}
+    {{--            <div class="col-lg-12">--}}
+    {{--                <a class="btn btn-success" href="{{ route('admin.bookings.create') }}">--}}
+    {{--                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}--}}
+    {{--                </a>--}}
+    {{--                <a class="btn btn-success" href="{{ route('admin.schedules.create') }}">--}}
+    {{--                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}--}}
+    {{--                </a>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    @endcan--}}
 
     <div class="card">
         <div class="card-header">
@@ -77,6 +85,8 @@
                             @endforeach
                         </select>
                     </td>
+                    </td>
+                    <td>
                     <td>
                         <select class="search">
                             <option value>{{ trans('global.all') }}</option>
@@ -84,8 +94,7 @@
                                 <option value="{{ $item->callsign }}">{{ $item->callsign }}</option>
                             @endforeach
                         </select>
-                    </td>
-                    <td>
+
                     </td>
                     <td>
                     </td>
@@ -184,11 +193,11 @@
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],
                 orderCellsTop: true,
-                order: [[1, 'desc']],
+                order: [[1, 'asc']],
                 rowGroup: {
                     dataSrc: 'reservation_start_date_iso',
                 },
-                pageLength: 50,
+                pageLength: 25,
             };
             let table = $('.datatable-Booking').DataTable(dtOverrideGlobals);
             $('a[data-toggle="tab"]').on('shown.bs.tab click', function (e) {

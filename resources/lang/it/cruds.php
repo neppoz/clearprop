@@ -459,6 +459,10 @@ return [
     'schedule' => [
         'title' => 'Prenotazioni slot',
         'title_singular' => 'Prenotazione slot',
+        'fields' => [
+            'user_helper' => 'Notam: Se selezioni un pilota al salvataggio lo status verrà cambiato in confermato',
+            'instructor_helper' => ' ',
+        ],
     ],
     'planning' => [
         'title' => 'Pianificazioni',

@@ -271,7 +271,7 @@ return [
             'modus' => 'Type',
             'modus_helper' => '',
             'instructor' => 'Instructor',
-            'instructor_helper' => 'If you select an instructor the status will automatically change to confirmed',
+            'instructor_helper' => 'Notam: If you select an instructor the status will automatically change to confirmed',
             'created_by' => 'Created By',
             'created_by_helper' => '',
         ],
@@ -461,6 +461,10 @@ return [
     'schedule' => [
         'title' => 'Schedules',
         'title_singular' => 'Schedule',
+        'fields' => [
+            'user_helper' => 'Notam: If you select this the status will automatically change to confirmed',
+            'instructor_helper' => ' ',
+        ],
     ],
     'planning' => [
         'title' => 'Planning',

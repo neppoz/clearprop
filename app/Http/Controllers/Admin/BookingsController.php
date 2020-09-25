@@ -93,7 +93,8 @@ class BookingsController extends Controller
 
         if ($request->ajax()) {
             $query = Booking::with(['user', 'instructor', 'plane', 'slot'])
-                ->orderBy('reservation_start', 'desc')
+                ->where('reservation_stop', '>=', today())
+                ->orderBy('reservation_start', 'asc')
                 ->select(sprintf('%s.*', (new Booking)->table));
 
             $table = Datatables::of($query);
@@ -107,7 +108,7 @@ class BookingsController extends Controller
                 $deleteGate = 'booking_delete';
                 $crudRoutePart = 'bookings';
 
-                return view('partials.datatablesActions', compact(
+                return view('admin.bookings.partials.datatablesActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
@@ -157,13 +158,16 @@ class BookingsController extends Controller
         $instructors = User::where('instructor', true)->get();
         $planes = Plane::get();
 
-
         return view('admin.bookings.index', compact('users', 'planes', 'instructors'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $modus = $request->modus;
+
+        $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -173,7 +177,7 @@ class BookingsController extends Controller
 
         $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors'));
+        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors', 'slots', 'modus'));
 
     }
 
@@ -201,14 +205,16 @@ class BookingsController extends Controller
 
         $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $booking->load('user', 'plane', 'created_by');
+        $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.bookings.edit', compact('users', 'planes', 'booking', 'instructors'));
+        $booking->load('user', 'plane', 'instructor', 'slot', 'created_by');
+
+        return view('admin.bookings.edit', compact('users', 'planes', 'instructors', 'slots', 'booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        $booking->modus = 0;
+        $booking->modus = 0; // Is it a bug or is it a feature?
         $booking->update($request->all());
 
         if ($booking->wasChanged('status')) { // Verify if status has changed
@@ -232,8 +238,6 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $booking->delete();
-
-//        event(new BookingDeletedEvent($booking));
 
         return redirect()->route('admin.bookings.index');
     }
