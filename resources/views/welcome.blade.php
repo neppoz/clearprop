@@ -211,8 +211,8 @@
                                     <td>
                                         {{ $booking->plane->callsign ?? '' }}
                                     </td>
-                                    <td>
-                                        @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
+                                        <td width="10">
+                                            @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
                                             <i class="fa fa-question-circle text-warning" aria-hidden="true"></i>
                                         @else
                                             <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
