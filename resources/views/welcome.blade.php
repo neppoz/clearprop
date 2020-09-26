@@ -208,10 +208,10 @@
                                         <td>
                                             {{ $booking->user->name ?? '' }}
                                     </td>
-                                    <td>
-                                        {{ $booking->plane->callsign ?? '' }}
-                                    </td>
-                                        <td width="10">
+                                        <td width="20%">
+                                            {{ $booking->plane->callsign ?? '' }}
+                                        </td>
+                                        <td width="10%">
                                             @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
                                             <i class="fa fa-question-circle text-warning" aria-hidden="true"></i>
                                         @else
