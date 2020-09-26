@@ -177,4 +177,17 @@ class BookingsController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function bookSlot(Request $request, Booking $booking)
+    {
+        $slot = Booking::findOrFail($request->id);
+        $slot->status = 1;
+        $slot->user_id = \Auth::user()->id;
+        $slot->save();
+
+        (new BookingStatusService())->updateStatus($booking);
+
+        return redirect()->back();
+
+    }
 }
