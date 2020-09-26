@@ -12,8 +12,10 @@ return [
         'activityAmountTotal' => 'Attività di volo',
         'activityHoursAndMinutes' => 'Minuti volati in totale',
         'pilot_reservations' => 'Prenotazioni individuali',
-        'personal_reservations' => 'Le mie prenotazioni personali',
+        'personal_reservations' => 'Calendario prenotazioni',
         'show_all_reservations' => 'Visualizza tutte le prenotazioni',
+        'slot_title' => 'Appuntamenti disponibili per te',
+        'book_slot' => 'Prenota',
     ],
     'userManagement'     => [
         'title'          => 'Gestione Utenti',

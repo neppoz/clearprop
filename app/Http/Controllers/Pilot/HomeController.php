@@ -15,14 +15,27 @@ class HomeController
         $statistics = (new StatisticsService())->dashboard($request);
 
         $bookingsDates = Booking::with(['plane', 'user', 'instructor'])
-            ->where('reservation_start', '>=', Carbon::parse(now())->subDays(1))
-            ->where('user_id', Auth()->user()->id)
+            ->where('reservation_start', '>=', Carbon::parse(today()))
+//            ->where('user_id', Auth()->user()->id)
             ->orderBy('reservation_start', 'asc')
             ->get()
             ->groupBy(function ($booking) {
-                return Carbon::parse($booking->reservation_start)->localeDayOfWeek . ', ' . Carbon::parse($booking->reservation_start)->format(config('panel.date_format'));
+                return Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
             });
 
-        return view('welcome', compact('statistics', 'bookingsDates'));
+        $slotDates = Booking::with(['plane', 'user', 'instructor'])
+            ->where('reservation_start', '>=', Carbon::parse(today()))
+            ->where('modus', 1)
+            ->where('status', 0)
+            ->whereNull('user_id')
+//            ->where('user_id', Auth()->user()->id)
+            ->orderBy('reservation_start', 'asc')
+            ->get()
+            ->groupBy(function ($booking) {
+                return Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
+            });
+
+        return view('welcome', compact('statistics', 'bookingsDates', 'slotDates'));
     }
+
 }

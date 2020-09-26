@@ -151,7 +151,7 @@
                                     name="user_id" id="user_id_select" required>
                                 @foreach($users as $id => $user)
                                     <option
-                                        value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
+                                        value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $booking->user->id ?? '') == $id ? 'selected' : '' }}>{{ $user }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('user'))
@@ -171,17 +171,17 @@
                                     name="instructor_id" id="instructor_id_select">
                                 @foreach($instructors as $id => $instructor)
                                     <option
-                                        value="{{ $id }}" {{ old('instructor_id') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
+                                        value="{{ $id }}" {{ (old('instructor_id') ? old('instructor_id') : $booking->instructor->id ?? '') == $id ? 'selected' : '' }}>{{ $instructor }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('instructor'))
                                 <span class="text-danger">{{ $errors->first('instructor') }}</span>
                             @endif
-                        <span
-                            class="help-block text-secondary small">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
-                    </div>
-                @endif
-                <div class="form-group">
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
+                        </div>
+                    @endif
+                    <div class="form-group">
                     <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
                     <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
                               name="description"

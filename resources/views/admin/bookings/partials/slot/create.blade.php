@@ -2,7 +2,7 @@
     <div class="card-header"></div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.schedules.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
             @csrf
             <div id="modus" data-field="{{$modus}}"></div>
             <input type="hidden" name="modus" id="modus" value="1" readonly>

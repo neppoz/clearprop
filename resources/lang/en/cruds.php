@@ -11,8 +11,10 @@ return [
         'activityAmountTotal' => 'Activities',
         'activityHoursAndMinutes' => 'Total time',
         'pilot_reservations' => 'Pilot reservations',
-        'personal_reservations' => 'My personal reservations',
+        'personal_reservations' => 'Upcoming reservations',
         'show_all_reservations' => 'Show all reservations',
+        'slot_title' => 'Open reservations for you',
+        'book_slot' => 'Book',
     ],
     'userManagement'     => [
         'title'          => 'Member management',
