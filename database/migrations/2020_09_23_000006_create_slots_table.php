@@ -19,7 +19,6 @@ class CreateSlotsTable extends Migration
         });
 
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropForeign('bookings_ibfk_5');
             $table->dropColumn('type_id');
         });
 
