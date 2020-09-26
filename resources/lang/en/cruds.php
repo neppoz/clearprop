@@ -10,10 +10,9 @@ return [
         'incomeAmountTotal' => 'Incomes',
         'activityAmountTotal' => 'Activities',
         'activityHoursAndMinutes' => 'Total time',
-        'pilot_reservations' => 'Pilot reservations',
-        'personal_reservations' => 'Upcoming reservations',
         'show_all_reservations' => 'Show all reservations',
-        'slot_title' => 'Open reservations for you',
+        'personal_title' => 'Upcoming reservations',
+        'slot_title' => 'Appointments',
         'book_slot' => 'Book',
     ],
     'userManagement'     => [
