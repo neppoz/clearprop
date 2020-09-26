@@ -1,7 +1,7 @@
 @extends('layouts.pilot')
 @section('content')
 
-    <div class="row m-1">
+    <div class="row mt-2">
         <div class="col-sm-6">
             <h3 class="m-0 text-dark">{{ trans('cruds.dashboard.greeting') . auth()->user()->name }}</h3>
         </div><!-- /.col -->
@@ -13,7 +13,7 @@
         </div><!-- /.col -->
     </div>
 
-    <div class="row m-1">
+    <div class="row mt-2">
         <div class="col-lg-3 col-6">
             <!-- small box -->
             @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
@@ -99,14 +99,14 @@
     </div>
 
     @if(count($slotsDates) > 0)
-        <div class="row m-1 mb-4">
+        <div class="row mt-1 mb-4">
             <div class="col-sm-6">
                 <h4 class="m-0 text-dark">{{ trans('cruds.dashboard.slot_title') }}</h4>
             </div><!-- /.col -->
             <div class="col-sm-6">
             </div><!-- /.col -->
         </div>
-        <div class="row m-1">
+        <div class="row mt-1">
             <div class="col-12 col-sm-12 col-md-12">
                 <div class="card card-primary card-outline">
                     {{--                <div class="card-header">--}}
@@ -162,7 +162,7 @@
         </div>
     @endif
 
-    <div class="row m-1 mb-4">
+    <div class="row mt-1 mb-4">
         <div class="col-sm-6">
             <h4 class="m-0 text-dark">{{ trans('cruds.dashboard.personal_title') }}</h4>
         </div><!-- /.col -->
@@ -170,7 +170,7 @@
         </div><!-- /.col -->
     </div>
 
-    <div class="row m-1">
+    <div class="row mt-1">
         <div class="col-12 col-sm-12 col-md-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
@@ -193,15 +193,20 @@
                                 </td>
                             </tr>
                             @foreach($bookings as $booking)
-                                <tr>
-                                    <td>
-                                        {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}
-                                    </td>
-                                    <td>
-                                        {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}
-                                    </td>
-                                    <td>
-                                        {{ $booking->user->name ?? '' }}
+                                @if($booking->user->id != auth()->user()->id)
+                                    <tr class="text-black-50">
+                                @else
+                                    <tr>
+                                        @endif
+                                        <td>
+                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}
+                                        </td>
+                                        <td>
+                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}
+                                        </td>
+
+                                        <td>
+                                            {{ $booking->user->name ?? '' }}
                                     </td>
                                     <td>
                                         {{ $booking->plane->callsign ?? '' }}

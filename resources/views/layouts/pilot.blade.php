@@ -93,19 +93,19 @@
                     {{--                            </a>--}}
                     {{--                        </li>--}}
                     {{--                    @endcan--}}
-                    @can('booking_access')
-                        <li class="nav-item">
-                            <a href="{{ route("pilot.bookings.index") }}"
-                               class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">
-                                <i class="fa-fw nav-icon far fa-calendar-alt">
+                    {{--                    @can('booking_access')--}}
+                    {{--                        <li class="nav-item">--}}
+                    {{--                            <a href="{{ route("pilot.bookings.index") }}"--}}
+                    {{--                               class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">--}}
+                    {{--                                <i class="fa-fw nav-icon far fa-calendar-alt">--}}
 
-                                </i>
-                                <p>
-                                    <span>{{ trans('cruds.booking.title') }}</span>
-                                </p>
-                            </a>
-                        </li>
-                    @endcan
+                    {{--                                </i>--}}
+                    {{--                                <p>--}}
+                    {{--                                    <span>{{ trans('cruds.booking.title') }}</span>--}}
+                    {{--                                </p>--}}
+                    {{--                            </a>--}}
+                    {{--                        </li>--}}
+                    {{--                    @endcan--}}
                     <li class="nav-item">
                         <a href="#" class="nav-link"
                            onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
