@@ -20,6 +20,7 @@ class CreateSlotsTable extends Migration
 
         Schema::disableForeignKeyConstraints();
         Schema::table('bookings', function (Blueprint $table) {
+            $table->dropForeign('type_fk_bookings');
             $table->dropColumn('type_id');
         });
         Schema::enableForeignKeyConstraints();
