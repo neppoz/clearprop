@@ -18,9 +18,12 @@ class CreateSlotsTable extends Migration
             $table->softDeletes();
         });
 
+//        Schema::disableForeignKeyConstraints();
         Schema::table('bookings', function (Blueprint $table) {
+            $table->dropForeign(['type_id']);
             $table->dropColumn('type_id');
         });
+//        Schema::enableForeignKeyConstraints();
 
         Schema::table('bookings', function (Blueprint $table) {
             $table->unsignedInteger('slot_id')->after('user_id')->nullable();
