@@ -13,7 +13,7 @@ return [
         'show_all_reservations' => 'Show all reservations',
         'personal_title' => 'Upcoming reservations',
         'slot_title' => 'Appointments',
-        'book_slot' => 'Book',
+        'book_slot' => 'Book Now',
     ],
     'userManagement'     => [
         'title'          => 'Member management',
