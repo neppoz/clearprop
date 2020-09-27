@@ -28,39 +28,43 @@
                     </div>
                 </div>
             @else
-                <div class="small-box bg-danger-gradient">
-                    <div class="inner">
-                        <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
+                <a href="{{ url('#') }}">
+                    <div class="small-box bg-danger-gradient">
+                        <div class="inner">
+                            <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
 
-                        <p>{{ trans('cruds.dashboard.grantotal') }}</p>
+                            <p>{{ trans('cruds.dashboard.grantotal') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                        </div>
+                        <div class="small-box-footer">
+                            <i class="far fa-circle"></i>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                    </div>
-                </div>
+                </a>
             @endif
         </div>
         <!-- ./col -->
 
-        {{--                <a href="{{ url('/admin/expense-reports') }}"--}}
-        {{--                   class="small-box-footer">{{ trans('global.more_info') }} <i--}}
-        {{--                        class="fas fa-arrow-circle-right"></i></a>--}}
 
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info-gradient">
-                <div class="inner">
-                    <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
+            <a href="{{ url('#') }}">
+                <div class="small-box bg-info-gradient">
+                    <div class="inner">
+                        <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
-                    <p>{{ trans('cruds.dashboard.activityAmountTotal') }}</p>
+                        <p>{{ trans('cruds.dashboard.activityAmountTotal') }}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-fw fas fa-plane-departure"></i>
+                    </div>
+                    <div class="small-box-footer">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
                 </div>
-                <div class="icon">
-                    <i class="fa-fw fas fa-plane-departure"></i>
-                </div>
-                {{--                <a href="{{ url('/activities') }}"--}}
-                {{--                   class="small-box-footer">{{ trans('global.more_info') }} <i--}}
-                {{--                        class="fas fa-arrow-circle-right"></i></a>--}}
-            </div>
+            </a>
         </div>
         <!-- ./col -->
         <div class="col-lg-3 col-6">
@@ -74,8 +78,9 @@
                 <div class="icon">
                     <i class="fas fa-fw fa-money-bill-alt"></i>
                 </div>
-                {{--                <a href="{{ url('/incomes') }}" class="small-box-footer">{{ trans('global.more_info') }}--}}
-                {{--                    <i class="fas fa-arrow-circle-right"></i></a>--}}
+                <div class="small-box-footer">
+                    <i class="far fa-circle"></i>
+                </div>
             </div>
         </div>
         <!-- ./col -->
@@ -90,9 +95,9 @@
                 <div class="icon">
                     <i class="fas fa-fw fa-clock"></i>
                 </div>
-                {{--                                        <a href="{{ url('/admin/activity-reports') }}"--}}
-                {{--                                           class="small-box-footer">{{ trans('global.more_info') }} <i--}}
-                {{--                                                class="fas fa-arrow-circle-right"></i></a>--}}
+                <div class="small-box-footer">
+                    <i class="far fa-circle"></i>
+                </div>
             </div>
         </div>
         <!-- ./col -->
@@ -125,10 +130,10 @@
                             </tr>
                             @foreach($slots as $slot)
                                 <tr>
-                                    <td>
+                                    <td width="10%">
                                         {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}
                                     </td>
-                                    <td>
+                                    <td width="10%">
                                         {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}
                                     </td>
                                     <td>
@@ -174,12 +179,14 @@
         <div class="col-12 col-sm-12 col-md-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    @if(count($bookingsDates) > 0)
-                        <a class="btn btn-success float-right" href="{{ route("pilot.bookings.create") }}">
-                            <i class="fas fa-edit"></i>
-                            {{ trans('global.create') }}
-                        </a>
-                    @endif
+                    @can('booking_create')
+                        @if(count($bookingsDates) > 0)
+                            <a class="btn btn-success float-right" href="{{ route("pilot.bookings.create") }}">
+                                <i class="fas fa-edit"></i>
+                                {{ trans('global.create') }}
+                            </a>
+                        @endif
+                    @endcan
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-valign-middle">
@@ -193,32 +200,38 @@
                                 </td>
                             </tr>
                             @foreach($bookings as $booking)
-                                @if($booking->user->id != auth()->user()->id)
+                                @if(!empty($booking->user->id) && $booking->user->id != auth()->user()->id)
                                     <tr class="text-black-50">
                                 @else
                                     <tr>
                                         @endif
-                                        <td>
+                                        <td width="10%">
                                             {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}
                                         </td>
-                                        <td>
+                                        <td width="10%">
                                             {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}
                                         </td>
-
+                                        @if(!empty($booking->user->name))
+                                            <td>
+                                                {{ $booking->user->name ?? '' }}
+                                            </td>
+                                        @else
+                                            <td>
+                                                <span
+                                                    class="badge badge-secondary">{{ trans('cruds.dashboard.slot_title_singular') }}</span>
+                                            </td>
+                                        @endif
                                         <td>
-                                            {{ $booking->user->name ?? '' }}
-                                    </td>
-                                        <td width="20%">
                                             {{ $booking->plane->callsign ?? '' }}
                                         </td>
                                         <td width="10%">
                                             @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
-                                            <i class="fa fa-question-circle text-warning" aria-hidden="true"></i>
-                                        @else
-                                            <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
-                                        @endif
-                                    </td>
-                                </tr>
+                                                <i class="fa fa-question-circle text-warning" aria-hidden="true"></i>
+                                            @else
+                                                <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                                            @endif
+                                        </td>
+                                    </tr>
                             @endforeach
                         @empty
                             <div class="bg-light">
@@ -239,7 +252,7 @@
                 <!-- /.card-body -->
             </div>
         </div>
-
+    </div>
 
 
 
