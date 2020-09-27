@@ -14,6 +14,7 @@ return [
         'show_all_reservations' => 'Visualizza tutte le prenotazioni',
         'personal_title' => 'Calendario prenotazioni',
         'slot_title' => 'Appuntamenti',
+        'slot_title_singular' => 'Appuntamento',
         'book_slot' => 'Prenota ora',
     ],
     'userManagement'     => [
