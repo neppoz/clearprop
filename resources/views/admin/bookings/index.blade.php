@@ -37,11 +37,11 @@
                     <th width="10">
 
                     </th>
-                    <th>
-                        {{ trans('cruds.booking.fields.reservation_start') }}
+                    <th width="10">
+                        {{--                        {{ trans('cruds.booking.fields.reservation_start') }}--}}
                     </th>
-                    <th>
-                        {{ trans('cruds.booking.fields.reservation_stop') }}
+                    <th width="10">
+                        {{--                        {{ trans('cruds.booking.fields.reservation_stop') }}--}}
                     </th>
                     <th>
                         {{ trans('cruds.booking.fields.user') }}
@@ -63,9 +63,9 @@
                     </th>
                 </tr>
                 <tr>
-                    <td>
+                    <td width="10">
                     </td>
-                    <td>
+                    <td width="10">
                     </td>
                     <td>
                     </td>
