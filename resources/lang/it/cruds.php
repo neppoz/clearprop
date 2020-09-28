@@ -281,6 +281,10 @@ return [
             'instructor_helper' => 'Se selezioni un istruttore al salvataggio lo status verrà cambiato in confermato',
             'created_by' => 'Creato il',
             'created_by_helper' => '',
+            'pax' => 'pax',
+            'pax_helper' => ' ',
+            'email' => 'Mandare email di conferma?',
+            'email_helper' => 'Notam: Email di conferma verrà mandata quando selezionato.'
         ],
     ],
     'parameter'          => [

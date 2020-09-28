@@ -279,6 +279,10 @@ return [
             'instructor_helper' => 'Notam: If you select an instructor the status will automatically change to confirmed',
             'created_by' => 'Created By',
             'created_by_helper' => '',
+            'pax' => 'pax',
+            'pax_helper' => ' ',
+            'email' => 'Send confirmation email?',
+            'email_helper' => 'Notam: Email Notification will be sent when selected.'
         ],
     ],
     'parameter'          => [
