@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Notifications\BookingConfirmedNotification;
 use App\User;
+use App\Booking;
 use Illuminate\Support\Facades\Notification;
 
 class BookingStatusService
@@ -37,7 +38,7 @@ class BookingStatusService
     public function updateStatus($booking)
     {
         $booking->load('user', 'instructor', 'plane', 'created_by');
-        if ($booking->status == 1 && (App\Booking::MODUS_SELECT[$booking->modus] == 'pilot')) {
+        if ($booking->status == 1 && Booking::MODUS_SELECT[$booking->modus] == 'pilot') {
             $this->sendNotificationsConfirmed($booking);
         }
 
