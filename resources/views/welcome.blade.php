@@ -125,30 +125,34 @@
                             <tbody>
                             @forelse($slotsDates as $date => $slots)
                                 <tr>
-                                    <td class="bg-gray-light text-bold text-left" colspan="4">
+                                    <td class="bg-gray-light text-bold text-left" colspan="5">
                                         {{ $date }}
                                     </td>
                             </tr>
-                            @foreach($slots as $slot)
-                                <tr>
-                                    <td width="10">
-                                        {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}
-                                    </td>
-                                    <td width="10">
-                                        {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}
-                                    </td>
-                                    <td>
-                                        {{ $slot->instructor->name ?? '' }}
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('pilot.bookings.slot', $slot->id) }}" method="POST"
-                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                              style="display: inline-block;">
-                                            <input type="hidden" name="_method" value="POST">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <button type="submit" class="btn btn-primary"><i
-                                                    class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
-                                            </button>
+                                @foreach($slots as $slot)
+                                    <tr>
+                                        <td width="10">
+                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}
+                                        </td>
+                                        <td width="10">
+                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}
+                                        </td>
+                                        <td>
+                                            {{ $slot->instructor->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{--                                        //TODO this is a static value, change it later--}}
+                                            1 {{trans('cruds.booking.fields.pax')}}
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('pilot.bookings.slot', $slot->id) }}" method="POST"
+                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                  style="display: inline-block;">
+                                                <input type="hidden" name="_method" value="POST">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
+                                                </button>
                                         </form>
                                     </td>
                                 </tr>

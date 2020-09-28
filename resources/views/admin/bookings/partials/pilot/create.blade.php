@@ -110,6 +110,35 @@
                     class="help-block text-secondary small">{{ trans('cruds.booking.fields.reservation_stop_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required">{{ trans('cruds.booking.fields.status') }}</label>
+                @foreach(App\Booking::STATUS_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="status_{{ $key }}"
+                               name="status"
+                               value="{{ $key }}"
+                               {{ old('status', '0') === (string) $key ? 'checked' : '' }} required>
+                        <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('status'))
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                @endif
+                <span
+                    class="help-block text-secondary small">{!! trans('cruds.booking.fields.status_helper') !!}</span>
+            </div>
+            <div class="form-group">
+                <div class="form-check {{ $errors->has('email') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="email" value="0">
+                    <input class="form-check-input" type="checkbox" name="email" id="email"
+                           value="1" {{ old('email', 0) == 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="email">{{ trans('cruds.booking.fields.email') }}</label>
+                </div>
+                @if($errors->has('email'))
+                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                @endif
+                <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.email_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
                 <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description"
                           id="description">{{ old('description') }}</textarea>
@@ -127,149 +156,3 @@
         </form>
     </div>
 </div>
-
-{{--<script>--}}
-{{--    $(document).ready(function () {--}}
-{{--        let user;--}}
-{{--        let plane;--}}
-{{--        let warning_medical = $("#warning-medical");--}}
-{{--        let warning_activity = $("#warning-activity");--}}
-{{--        let info_balance = $("#info-balance");--}}
-{{--        let info_rating = $("#info-rating");--}}
-{{--        let instructor_needed_val_1 = $('input[name="instructor_needed"][value="1"]');--}}
-{{--        let instructor_needed_val_0 = $('input[name="instructor_needed"][value="0"]');--}}
-
-{{--        instructor_needed_val_1.prop("checked", true);--}}
-
-{{--        function formChecks(data) {--}}
-{{--            warning_medical.hide();--}}
-{{--            warning_activity.hide();--}}
-{{--            info_balance.hide();--}}
-{{--            info_rating.hide();--}}
-{{--            instructor_needed_val_0.prop("disabled", false);--}}
-
-{{--            if (data.medicalCheckPassed === false) {--}}
-{{--                warning_medical.show();--}}
-{{--                instructor_needed_val_1.prop("checked", true);--}}
-{{--                instructor_needed_val_0.prop("disabled", true);--}}
-{{--            }--}}
-
-{{--            if (data.ratingCheckPassed === false) {--}}
-{{--                info_rating.show();--}}
-{{--                instructor_needed_val_1.prop("checked", true);--}}
-{{--            }--}}
-
-{{--            if ((data.activityCheckPassed === false)) {--}}
-{{--                warning_activity.show();--}}
-{{--                instructor_needed_val_1.prop("checked", true);--}}
-{{--            }--}}
-
-{{--            if ((data.balanceCheckPassed === false)) {--}}
-{{--                info_balance.show();--}}
-{{--            }--}}
-{{--        }--}}
-
-{{--        $("#user_id_select").change(function () {--}}
-{{--            user = $(this).val();--}}
-{{--            plane = $("#plane_id").val();--}}
-{{--            $("#warning-medical").hide();--}}
-{{--            if ($(plane)) {--}}
-{{--                $.ajax({--}}
-{{--                    url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,--}}
-{{--                    method: 'GET',--}}
-{{--                    success: function (data) {--}}
-{{--                        formChecks(data);--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-
-{{--        $("#plane_id").change(function () {--}}
-{{--            plane = $(this).val();--}}
-{{--            if ($(user)) {--}}
-{{--                $.ajax({--}}
-{{--                    url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,--}}
-{{--                    method: 'GET',--}}
-{{--                    success: function (data) {--}}
-{{--                        formChecks(data);--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-
-{{--        $('#reservation_start').datetimepicker({--}}
-{{--            minDate: moment(),--}}
-{{--            format: 'DD/MM/YYYY HH:mm',--}}
-{{--            locale: '{{ app()->getLocale() }}',--}}
-{{--            sideBySide: true,--}}
-{{--            toolbarPlacement: 'bottom',--}}
-{{--            showTodayButton: false,--}}
-{{--            showClear: true,--}}
-{{--            showClose: true,--}}
-{{--            viewMode: 'days',--}}
-{{--            inline: false,--}}
-{{--            widgetPositioning: {--}}
-{{--                horizontal: 'auto',--}}
-{{--                vertical: 'bottom'--}}
-{{--            },--}}
-{{--            icons: {--}}
-{{--                time: 'fas fa-clock-o',--}}
-{{--                date: 'fas fa-calendar-alt',--}}
-{{--                up: 'fas fa-chevron-up',--}}
-{{--                down: 'fas fa-chevron-down',--}}
-{{--                previous: 'fas fa-chevron-left',--}}
-{{--                next: 'fas fa-chevron-right',--}}
-{{--                today: 'fas fa-dot-circle',--}}
-{{--                clear: 'fas fa-trash-alt',--}}
-{{--                close: 'fas fa-check-circle',--}}
-
-{{--            },--}}
-{{--            //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],--}}
-{{--            enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],--}}
-{{--            stepping: 15,--}}
-
-{{--        });--}}
-
-{{--        $('#reservation_stop').datetimepicker({--}}
-{{--            useCurrent: false,--}}
-{{--            focusOnShow: false,--}}
-{{--            format: 'DD/MM/YYYY HH:mm',--}}
-{{--            locale: '{{ app()->getLocale() }}',--}}
-{{--            sideBySide: true,--}}
-{{--            toolbarPlacement: 'bottom',--}}
-{{--            showTodayButton: false,--}}
-{{--            showClear: true,--}}
-{{--            showClose: true,--}}
-{{--            viewMode: 'days',--}}
-{{--            inline: false,--}}
-{{--            widgetPositioning: {--}}
-{{--                horizontal: 'auto',--}}
-{{--                vertical: 'bottom'--}}
-{{--            },--}}
-{{--            icons: {--}}
-{{--                time: 'fas fa-clock-o',--}}
-{{--                date: 'fas fa-calendar-alt',--}}
-{{--                up: 'fas fa-chevron-up',--}}
-{{--                down: 'fas fa-chevron-down',--}}
-{{--                previous: 'fas fa-chevron-left',--}}
-{{--                next: 'fas fa-chevron-right',--}}
-{{--                today: 'fas fa-dot-circle',--}}
-{{--                clear: 'fas fa-trash-alt',--}}
-{{--                close: 'fas fa-check-circle',--}}
-
-{{--            },--}}
-{{--            //disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],--}}
-{{--            enabledHours: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],--}}
-{{--            stepping: 15,--}}
-
-{{--        });--}}
-
-{{--        $("#reservation_start").on("dp.change", function (e) {--}}
-{{--            $('#reservation_stop').data("DateTimePicker").minDate(e.date);--}}
-{{--        });--}}
-{{--        $("#reservation_stop").on("dp.change", function (e) {--}}
-{{--            $('#reservation_start').data("DateTimePicker").maxDate(e.date);--}}
-{{--        });--}}
-
-{{--    });--}}
-{{--</script>--}}

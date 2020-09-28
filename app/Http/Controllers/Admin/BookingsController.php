@@ -187,7 +187,10 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            (new BookingStatusService())->createStatus($booking);
+            if ($request->email == true) {
+                (new BookingStatusService())->sendNotificationsConfirmed($booking);
+            }
+//            (new BookingStatusService())->createStatus($booking);
 
             return redirect()->route('admin.bookings.index');
         }
@@ -217,9 +220,13 @@ class BookingsController extends Controller
         $booking->modus = 0; // Is it a bug or is it a feature?
         $booking->update($request->all());
 
-        if ($booking->wasChanged('status')) { // Verify if status has changed
-            (new BookingStatusService())->updateStatus($booking);
+        if ($request->email == true) {
+            (new BookingStatusService())->sendNotificationsConfirmed($booking);
         }
+
+//        if ($booking->wasChanged('status')) { // Verify if status has changed
+//            (new BookingStatusService())->updateStatus($booking);
+//        }
 
         return redirect()->route('admin.bookings.index');
     }

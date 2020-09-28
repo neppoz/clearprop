@@ -44,8 +44,11 @@
                 let info_rating = $("#info-rating");
                 let instructor_needed_val_1 = $('input[name="instructor_needed"][value="1"]');
                 let instructor_needed_val_0 = $('input[name="instructor_needed"][value="0"]');
+                let status_val_1 = $('input[name="status"][value="1"]');
+                let status_val_0 = $('input[name="status"][value="0"]');
 
                 instructor_needed_val_1.prop("checked", true);
+                status_val_0.prop("checked", true);
 
                 function formChecks(data) {
                     warning_medical.hide();
@@ -58,16 +61,19 @@
                         warning_medical.show();
                         instructor_needed_val_1.prop("checked", true);
                         instructor_needed_val_0.prop("disabled", true);
+                        status_val_0.prop("checked", true);
                     }
 
                     if (data.ratingCheckPassed === false) {
                         info_rating.show();
                         instructor_needed_val_1.prop("checked", true);
+                        status_val_0.prop("checked", true);
                     }
 
                     if ((data.activityCheckPassed === false)) {
                         warning_activity.show();
                         instructor_needed_val_1.prop("checked", true);
+                        status_val_0.prop("checked", true);
                     }
 
                     if ((data.balanceCheckPassed === false)) {
