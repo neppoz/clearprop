@@ -1,12 +1,16 @@
 @extends('layouts.pilot')
 @section('content')
-    <div class="row mt-1 mb-4">
-        <div class="col-12">
-            <a href="{{ route('pilot.welcome') }}">
-                <div class="text-center">
-                    <div class="fas fa-arrow-circle-left text-dark"></div>
-                </div>
-            </a>
+    <div class="row m-2">
+        <div class="col-sm-6">
+            <h4 class="m-0 text-dark">{{ trans('cruds.booking.title') }}</h4>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{route('pilot.welcome')}}">Home</a></li>
+                <li class="breadcrumb-item"><a
+                        href="{{route('pilot.welcome')}}">{{ trans('cruds.booking.title_singular') }}</a></li>
+                <li class="breadcrumb-item active">{{ trans('global.edit') }}</li>
+            </ol>
         </div><!-- /.col -->
     </div>
 
