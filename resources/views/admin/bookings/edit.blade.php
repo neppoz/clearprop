@@ -126,8 +126,6 @@
                        value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
                 <input type="hidden" name="reservation_stop" id="reservation_stop"
                        value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
-                <input type="hidden" name="status" id="status" value="{{ old('status', $booking->status) }}"
-                       readonly>
                 @can('booking_edit')
                     @if ($booking->modus === 0)
                         <div class="form-group">
@@ -162,7 +160,7 @@
                         </div>
                     @endif
 
-                    @if ($booking->instructor_needed === 1 && $booking->status === 0)
+                    @if ($booking->instructor_needed === 1)
                         <div class="form-group">
                             <label for="instructor_id_select">{{ trans('cruds.activity.fields.instructor') }}
                                 <span class="badge badge-danger">{{ trans('global.is_needed') }}</span>
@@ -180,17 +178,47 @@
                             <span
                                 class="help-block text-secondary small">{{ trans('cruds.booking.fields.instructor_helper') }}</span>
                         </div>
-                    @endif
-                    <div class="form-group">
-                    <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
-                    <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
-                              name="description"
-                              id="description">{{ old('description', $booking->description) }}</textarea>
-                    @if($errors->has('description'))
-                        <span class="text-danger">{{ $errors->first('description') }}</span>
-                    @endif
-                    <span
-                        class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
+                        @endif
+                        <div class="form-group">
+                            <label class="required">{{ trans('cruds.booking.fields.status') }}</label>
+                            @foreach(App\Booking::STATUS_RADIO as $key => $label)
+                                <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
+                                    <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status"
+                                           value="{{ $key }}"
+                                           {{ old('status', $booking->status) === (string) $key ? 'checked' : '' }} required>
+                                    <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
+                                </div>
+                            @endforeach
+                            @if($errors->has('status'))
+                                <span class="text-danger">{{ $errors->first('status') }}</span>
+                            @endif
+                            <span
+                                class="help-block text-secondary small">{!! trans('cruds.booking.fields.status_helper') !!}</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check {{ $errors->has('email') ? 'is-invalid' : '' }}">
+                                <input type="hidden" name="email" value="0">
+                                <input class="form-check-input" type="checkbox" name="email" id="email"
+                                       value="1" {{ old('email', 0) == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label"
+                                       for="email">{{ trans('cruds.booking.fields.email') }}</label>
+                            </div>
+                            @if($errors->has('email'))
+                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                            @endif
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.booking.fields.email_helper') }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
+                            <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
+                                      name="description"
+                                      id="description">{{ old('description', $booking->description) }}</textarea>
+                            @if($errors->has('description'))
+                                <span class="text-danger">{{ $errors->first('description') }}</span>
+                            @endif
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-success" type="submit">
@@ -211,7 +239,7 @@
         $(document).ready(function () {
 
             $("#instructor_id_select").change(function () {
-                $('#status').val(1);
+                // $('#status').val(1);
             });
 
             {{--$('#reservation_start').datetimepicker({--}}
