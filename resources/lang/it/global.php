@@ -272,4 +272,6 @@ return [
     'info' => 'Info',
     'more_info' => 'Visualizza',
     'is_needed' => 'è obbligatorio',
+    'delete_reservation' => 'Elimina prenotazione',
+    'revoke_reservation' => 'Ritira prenotazione',
 ];

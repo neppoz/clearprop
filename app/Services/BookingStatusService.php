@@ -37,7 +37,7 @@ class BookingStatusService
     public function updateStatus($booking)
     {
         $booking->load('user', 'instructor', 'plane', 'created_by');
-        if ($booking->status == 1) {
+        if ($booking->status == 1 && (App\Booking::MODUS_SELECT[$booking->modus] == 'pilot')) {
             $this->sendNotificationsConfirmed($booking);
         }
 

@@ -23,13 +23,23 @@
                 <div class="col-6">
                     <div class="float-right">
                         @can('booking_delete')
-                            <form action="{{ route('pilot.bookings.destroy', $booking->id) }}" method="POST"
-                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="submit" class="btn btn-outline-danger"
-                                       value="{{ trans('global.delete') }}">
-                            </form>
+                            @if(App\Booking::MODUS_SELECT[$booking->modus ] == 'pilot')
+                                <form action="{{ route('pilot.bookings.destroy', $booking->id) }}" method="POST"
+                                      onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="submit" class="btn btn-outline-danger"
+                                           value="{{ trans('global.delete_reservation') }}">
+                                </form>
+                            @else
+                                <form action="{{ route('pilot.bookings.revokeSlot', $booking->id) }}" method="POST"
+                                      onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                                    <input type="hidden" name="_method" value="POST">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <input type="submit" class="btn btn-outline-danger"
+                                           value="{{ trans('global.revoke_reservation') }}">
+                                </form>
+                            @endif
                         @endcan
                     </div>
                 </div>
