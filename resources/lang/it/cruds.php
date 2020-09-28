@@ -13,9 +13,12 @@ return [
         'activityHoursAndMinutes' => 'Minuti volati in totale',
         'show_all_reservations' => 'Visualizza tutte le prenotazioni',
         'personal_title' => 'Calendario prenotazioni',
+        'personal_request' => 'Prenotazione',
         'slot_title' => 'Appuntamenti',
         'slot_title_singular' => 'Appuntamento',
         'book_slot' => 'Prenota ora',
+        'create_request' => 'Crea richiesta',
+        'edit_request' => 'Modifica richiesta',
     ],
     'userManagement'     => [
         'title'          => 'Gestione Utenti',
@@ -433,6 +436,7 @@ return [
         ],
     ],
     'calendar' => [
+        'title' => 'Calendario',
         'fivedays' => '+5',
         'tendays' => '10 Tage',
         'week' => 'Sett.',

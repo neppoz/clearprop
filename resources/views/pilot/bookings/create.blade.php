@@ -10,6 +10,7 @@
             <form method="POST" action="{{ route("pilot.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
+                <input type="hidden" name="modus" id="modus" value="0" readonly>
 
                 <div class="form-group">
                     <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
@@ -201,7 +202,7 @@
 
             $('#reservation_start').datetimepicker({
                 minDate: moment(),
-                format: 'DD.MM.YYYY HH:mm',
+                format: 'DD/MM/YYYY HH:mm',
                 locale: '{{ app()->getLocale() }}',
                 sideBySide: true,
                 toolbarPlacement: 'bottom',
@@ -235,7 +236,7 @@
             $('#reservation_stop').datetimepicker({
                 useCurrent: false,
                 focusOnShow: false,
-                format: 'DD.MM.YYYY HH:mm',
+                format: 'DD/MM/YYYY HH:mm',
                 locale: '{{ app()->getLocale() }}',
                 sideBySide: true,
                 toolbarPlacement: 'bottom',

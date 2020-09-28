@@ -12,9 +12,12 @@ return [
         'activityHoursAndMinutes' => 'Total time',
         'show_all_reservations' => 'Show all reservations',
         'personal_title' => 'Upcoming reservations',
+        'personal_request' => 'My reservation',
         'slot_title' => 'Appointments',
         'slot_title_singular' => 'Appointment',
         'book_slot' => 'Book Now',
+        'create_request' => 'Create request',
+        'edit_request' => 'Edit request',
     ],
     'userManagement'     => [
         'title'          => 'Member management',
@@ -435,6 +438,7 @@ return [
         ],
     ],
     'calendar' => [
+        'title' => 'Calendar',
         'fivedays' => '+5',
         'tendays' => '10 days',
         'week' => 'Week',

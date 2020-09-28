@@ -148,7 +148,7 @@ class BookingsController extends Controller
             (new BookingStatusService())->updateStatus($booking);
         }
 
-        return redirect()->route('pilot.bookings.index');
+        return redirect()->route('pilot.welcome');
     }
 
     public function show(Booking $booking)
@@ -168,7 +168,7 @@ class BookingsController extends Controller
 
 //        event(new BookingDeletedEvent($booking));
 
-        return redirect()->route('pilot.bookings.index');
+        return redirect()->route('pilot.welcome');
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
