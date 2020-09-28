@@ -178,16 +178,27 @@ class BookingsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function bookSlot(Request $request, Booking $booking)
+    public function bookSlot(Request $request)
     {
-        $slot = Booking::findOrFail($request->id);
-        $slot->status = 1;
-        $slot->user_id = \Auth::user()->id;
-        $slot->save();
+        $booking = Booking::findOrFail($request->id);
+        $booking->status = 1;
+        $booking->user_id = \Auth::user()->id;
+        $booking->save();
 
         (new BookingStatusService())->updateStatus($booking);
 
         return redirect()->back();
+
+    }
+
+    public function revokeSlot(Request $request, Booking $booking)
+    {
+        $booking = Booking::findOrFail($request->id);
+        $booking->status = 0;
+        $booking->user_id = null;
+        $booking->save();
+
+        return redirect()->route('pilot.welcome');
 
     }
 }

@@ -272,4 +272,6 @@ return [
     'info' => 'Info',
     'more_info' => 'More info',
     'is_needed' => 'is needed',
+    'delete_reservation' => 'Delete reservation',
+    'revoke_reservation' => 'Cancel reservation',
 ];
