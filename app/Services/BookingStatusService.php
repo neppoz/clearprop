@@ -24,7 +24,7 @@ class BookingStatusService
                 $booking->status = 1;
                 $booking->save();
 
-                $this->sendNotificationsConfirmed($booking);
+//                $this->sendNotificationsConfirmed($booking);
             }
             return true;
 
