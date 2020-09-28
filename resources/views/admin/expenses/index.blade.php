@@ -1,23 +1,35 @@
 @extends('layouts.admin')
 @section('content')
-@can('expense_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.expenses.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.expense.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.expense.title_singular') }} {{ trans('global.list') }}
+    <div class="row m-2">
+        <div class="col-sm-6">
+            <h3 class="m-0 text-dark">{{ trans('cruds.expense.title') }}</h3>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item active">{{ trans('cruds.expense.title') }}</li>
+            </ol>
+        </div><!-- /.col -->
     </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Expense">
-                <thead>
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            @can('expense_create')
+                <div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("admin.expenses.create") }}">
+                            <i class="fas fa-edit"></i>
+                            {{ trans('global.new') }} {{ trans('cruds.expense.title_singular') }}
+                        </a>
+                    </div>
+                </div>
+            @endcan
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-Expense">
+                    <thead>
                     <tr>
                         <th width="10">
 

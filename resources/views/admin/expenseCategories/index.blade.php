@@ -1,23 +1,34 @@
 @extends('layouts.admin')
 @section('content')
-@can('expense_category_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.expense-categories.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.expenseCategory.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.expenseCategory.title_singular') }} {{ trans('global.list') }}
+    <div class="row m-2">
+        <div class="col-sm-6">
+            <h3 class="m-0 text-dark">{{ trans('cruds.expenseCategory.title') }}</h3>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item active">{{ trans('cruds.expenseCategory.title') }}</li>
+            </ol>
+        </div><!-- /.col -->
     </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ExpenseCategory">
-                <thead>
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            @can('expense_category_create')
+                <div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("admin.expense-categories.create") }}">
+                            {{ trans('global.add') }} {{ trans('cruds.expenseCategory.title_singular') }}
+                        </a>
+                    </div>
+                </div>
+            @endcan
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-ExpenseCategory">
+                    <thead>
                     <tr>
                         <th width="10">
 

@@ -1,23 +1,35 @@
 @extends('layouts.admin')
 @section('content')
-@can('user_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.users.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
-            </a>
-        </div>
-    </div>
-@endcan
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
+    <div class="row m-2">
+        <div class="col-sm-6">
+            <h3 class="m-0 text-dark">{{ trans('cruds.user.title') }}</h3>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item active">{{ trans('cruds.user.title') }}</li>
+            </ol>
+        </div><!-- /.col -->
     </div>
 
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-User">
-                <thead>
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            @can('user_create')
+                <div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route('admin.users.create') }}">
+                            <i class="fas fa-edit"></i>
+                            {{ trans('global.new') }} {{ trans('cruds.user.title_singular') }}
+                        </a>
+                    </div>
+                </div>
+            @endcan
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class=" table table-bordered table-striped table-hover datatable datatable-User">
+                    <thead>
                     <tr>
                         <th width="10">
 
@@ -82,13 +94,13 @@
                             <td>
                                 @can('user_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
-                                        {{ trans('global.view') }}
+                                        <i class="fas fa-search"></i>
                                     </a>
                                 @endcan
 
                                 @can('user_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
-                                        {{ trans('global.edit') }}
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                 @endcan
 
@@ -96,7 +108,8 @@
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <button type="submit" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i>
+                                        </button>
                                     </form>
                                 @endcan
 
