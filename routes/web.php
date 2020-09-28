@@ -27,6 +27,7 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 
     // Bookings
     Route::post('bookings/slot/{id}', 'BookingsController@bookSlot')->name('bookings.slot');
+    Route::post('bookings/revoke/{id}', 'BookingsController@revokeSlot')->name('bookings.revokeSlot');
     Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
     Route::resource('bookings', 'BookingsController');
 
