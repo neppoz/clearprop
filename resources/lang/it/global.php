@@ -271,4 +271,5 @@ return [
     'confirm' => 'Conferma',
     'info' => 'Info',
     'more_info' => 'Visualizza',
+    'is_needed' => 'è obbligatorio',
 ];

@@ -6,26 +6,42 @@ $(document).ready(function () {
   })
 
   $('.date').datetimepicker({
-    format: 'DD.MM.YYYY',
-    locale: 'en',
-    icons: {
-      up: 'fas fa-chevron-up',
-      down: 'fas fa-chevron-down',
-      previous: 'fas fa-chevron-left',
-      next: 'fas fa-chevron-right'
-    }
+      format: 'DD/MM/YYYY',
+      locale: 'en',
+      icons: {
+          up: 'fas fa-chevron-up',
+          down: 'fas fa-chevron-down',
+          previous: 'fas fa-chevron-left',
+          next: 'fas fa-chevron-right'
+      }
   })
 
   $('.datetime').datetimepicker({
-    format: 'DD.MM.YYYY HH:mm',
-    locale: 'en',
-    sideBySide: true,
-    icons: {
-      up: 'fas fa-chevron-up',
-      down: 'fas fa-chevron-down',
-      previous: 'fas fa-chevron-left',
-      next: 'fas fa-chevron-right'
-    }
+      format: 'DD/MM/YYYY HH:mm',
+      locale: '{{ app()->getLocale() }}',
+      sideBySide: true,
+      toolbarPlacement: 'bottom',
+      showTodayButton: false,
+      showClear: true,
+      showClose: true,
+      viewMode: 'days',
+      inline: false,
+      widgetPositioning: {
+          horizontal: 'auto',
+          vertical: 'bottom'
+      },
+      icons: {
+          time: 'fas fa-clock-o',
+          date: 'fas fa-calendar-alt',
+          up: 'fas fa-chevron-up',
+          down: 'fas fa-chevron-down',
+          previous: 'fas fa-chevron-left',
+          next: 'fas fa-chevron-right',
+          today: 'fas fa-dot-circle',
+          clear: 'fas fa-trash-alt',
+          close: 'fas fa-check-circle',
+
+      },
   })
 
   $('.timepicker').datetimepicker({

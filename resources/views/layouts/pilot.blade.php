@@ -22,6 +22,7 @@
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.bootstrap4.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet"/>
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet"/>
     @yield('styles')
@@ -81,31 +82,32 @@
                             </p>
                         </a>
                     </li>
-                    {{--                    @can('activity_access')--}}
-                    {{--                        <li class="nav-item">--}}
-                    {{--                            <a href="{{ route("pilot.activities.index") }}" class="nav-link {{ request()->is('/activities') || request()->is('/activities/*') ? 'active' : '' }}">--}}
-                    {{--                                <i class="fa-fw nav-icon fas fa-plane-departure">--}}
-
-                    {{--                                </i>--}}
-                    {{--                                <p>--}}
-                    {{--                                    <span>{{ trans('cruds.activity.title') }}</span>--}}
-                    {{--                                </p>--}}
-                    {{--                            </a>--}}
-                    {{--                        </li>--}}
-                    {{--                    @endcan--}}
-                    @can('booking_access')
+                    @can('activity_access')
                         <li class="nav-item">
-                            <a href="{{ route("pilot.bookings.index") }}"
-                               class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">
-                                <i class="fa-fw nav-icon far fa-calendar-alt">
+                            <a href="{{ route("pilot.activities.index") }}"
+                               class="nav-link {{ request()->is('/activities') || request()->is('/activities/*') ? 'active' : '' }}">
+                                <i class="fa-fw nav-icon fas fa-plane-departure">
 
                                 </i>
                                 <p>
-                                    <span>{{ trans('cruds.booking.title') }}</span>
+                                    <span>{{ trans('cruds.activity.title') }}</span>
                                 </p>
                             </a>
                         </li>
                     @endcan
+                    {{--                    @can('booking_access')--}}
+                    {{--                        <li class="nav-item">--}}
+                    {{--                            <a href="{{ route("pilot.bookings.index") }}"--}}
+                    {{--                               class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">--}}
+                    {{--                                <i class="fa-fw nav-icon far fa-calendar-alt">--}}
+
+                    {{--                                </i>--}}
+                    {{--                                <p>--}}
+                    {{--                                    <span>{{ trans('cruds.booking.title') }}</span>--}}
+                    {{--                                </p>--}}
+                    {{--                            </a>--}}
+                    {{--                        </li>--}}
+                    {{--                    @endcan--}}
                     <li class="nav-item">
                         <a href="#" class="nav-link"
                            onclick="event.preventDefault(); document.getElementById('logoutform').submit();">

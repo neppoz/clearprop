@@ -148,7 +148,7 @@ class BookingsController extends Controller
             (new BookingStatusService())->updateStatus($booking);
         }
 
-        return redirect()->route('pilot.bookings.index');
+        return redirect()->route('pilot.welcome');
     }
 
     public function show(Booking $booking)
@@ -168,7 +168,7 @@ class BookingsController extends Controller
 
 //        event(new BookingDeletedEvent($booking));
 
-        return redirect()->route('pilot.bookings.index');
+        return redirect()->route('pilot.welcome');
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
@@ -176,5 +176,18 @@ class BookingsController extends Controller
         Booking::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function bookSlot(Request $request, Booking $booking)
+    {
+        $slot = Booking::findOrFail($request->id);
+        $slot->status = 1;
+        $slot->user_id = \Auth::user()->id;
+        $slot->save();
+
+        (new BookingStatusService())->updateStatus($booking);
+
+        return redirect()->back();
+
     }
 }
