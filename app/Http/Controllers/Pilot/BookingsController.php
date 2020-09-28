@@ -185,7 +185,6 @@ class BookingsController extends Controller
         $booking->user_id = \Auth::user()->id;
         $booking->save();
 
-        // TODO change to slot and test it out
         (new BookingStatusService())->updateStatus($booking);
 
         return redirect()->back();
