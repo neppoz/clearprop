@@ -26,23 +26,24 @@
                     <div class="icon">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                     </div>
+                    <div class="small-box-footer">
+                        <i class="far fa-circle"></i>
+                    </div>
                 </div>
             @else
-                <a href="{{ url('#') }}">
-                    <div class="small-box bg-danger-gradient">
-                        <div class="inner">
-                            <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
+                <div class="small-box bg-danger-gradient">
+                    <div class="inner">
+                        <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
 
-                            <p>{{ trans('cruds.dashboard.grantotal') }}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-fw fa-tachometer-alt"></i>
-                        </div>
-                        <div class="small-box-footer">
-                            <i class="far fa-circle"></i>
-                        </div>
+                        <p>{{ trans('cruds.dashboard.grantotal') }}</p>
                     </div>
-                </a>
+                    <div class="icon">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                    </div>
+                    <div class="small-box-footer">
+                        <i class="far fa-circle"></i>
+                    </div>
+                </div>
             @endif
         </div>
         <!-- ./col -->
@@ -50,7 +51,7 @@
 
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <a href="{{ url('#') }}">
+            <a href="{{ route('pilot.activities.index') }}">
                 <div class="small-box bg-info-gradient">
                     <div class="inner">
                         <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
@@ -130,10 +131,10 @@
                             </tr>
                             @foreach($slots as $slot)
                                 <tr>
-                                    <td width="10%">
+                                    <td width="10">
                                         {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}
                                     </td>
-                                    <td width="10%">
+                                    <td width="10">
                                         {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}
                                     </td>
                                     <td>
@@ -179,14 +180,21 @@
         <div class="col-12 col-sm-12 col-md-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    @can('booking_create')
-                        @if(count($bookingsDates) > 0)
-                            <a class="btn btn-success float-right" href="{{ route("pilot.bookings.create") }}">
-                                <i class="fas fa-edit"></i>
-                                {{ trans('global.create') }}
-                            </a>
-                        @endif
-                    @endcan
+                    <div class="row">
+                        <div class="col-6">
+                            {{--                            <h4 class="m-0 text-dark">{{ trans('cruds.calendar.title') }}</h4>--}}
+                        </div><!-- /.col -->
+                        <div class="col-6 float-right">
+                            @can('booking_create')
+                                @if(count($bookingsDates) > 0)
+                                    <a class="float-right" href="{{ route("pilot.bookings.create") }}">
+                                        <i class="fas fa-edit"></i>
+                                        {{ trans('cruds.dashboard.create_request') }}
+                                    </a>
+                                @endif
+                            @endcan
+                        </div><!-- /.col -->
+                    </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-valign-middle">
@@ -200,48 +208,67 @@
                                 </td>
                             </tr>
                             @foreach($bookings as $booking)
-                                @if(!empty($booking->user->id) && $booking->user->id != auth()->user()->id)
-                                    <tr class="text-black-50">
-                                @else
-                                    <tr>
-                                        @endif
-                                        <td width="10%">
-                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}
-                                        </td>
-                                        <td width="10%">
-                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}
-                                        </td>
-                                        @if(!empty($booking->user->name))
-                                            <td>
+                                <tr>
+                                    <td width="10">
+                                        {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}
+                                    </td>
+                                    <td width="10">
+                                        {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}
+                                    </td>
+                                    <td>
+                                        {{ $booking->plane->callsign ?? '' }}
+                                    </td>
+
+                                    @if(!empty($booking->user->name))
+                                        @if($booking->user->id == auth()->user()->id)
+                                            <td class="text-bold">
                                                 {{ $booking->user->name ?? '' }}
                                             </td>
                                         @else
-                                            <td>
-                                                <span
-                                                    class="badge badge-secondary">{{ trans('cruds.dashboard.slot_title_singular') }}</span>
+                                            <td class="text-black-50">
+                                                {{ $booking->user->name ?? '' }}
                                             </td>
                                         @endif
-                                        <td>
-                                            {{ $booking->plane->callsign ?? '' }}
-                                        </td>
-                                        <td width="10%">
-                                            @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
-                                                <i class="fa fa-question-circle text-warning" aria-hidden="true"></i>
-                                            @else
-                                                <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+
+                                        <td width="10">
+                                            @if($booking->user->id != auth()->user()->id)
+                                                @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
+                                                    <i class="fa fa-question-circle text-warning"
+                                                       aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+                                                @endif
+                                            @endif
+                                            @if($booking->user->id == auth()->user()->id)
+                                                <a href="{{ route('pilot.bookings.edit', $booking->id) }}">
+                                                    @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
+                                                        <i class="fa fa-edit text-warning" aria-hidden="true"></i>
+                                                    @else
+                                                        <i class="fa fa-edit text-success" aria-hidden="true"></i>
+                                                    @endif
+                                                </a>
                                             @endif
                                         </td>
-                                    </tr>
-                            @endforeach
-                        @empty
-                            <div class="bg-light">
-                                <div class="pt-4 text-center"><i class="fas fa-paper-plane fa-2x text-black-50"></i>
-                                </div>
-                                {{--                                <div class="p-2 text-center text-black-50">{{ trans('cruds.dashboard.no_personal_title') }}</div>--}}
-                                <div class="p-4 text-center text-success">
-                                    <a class="btn btn-default" href="{{ route("pilot.bookings.create") }}">
-                                        <i class="fas fa-edit"></i>
-                                        {{ trans('global.create') }}
+                                    @else
+                                        <td>
+                                            <span class="badge badge-secondary">{{ $booking->slot->title ?? '' }}</span>
+                                        </td>
+                                        <td>
+                                        </td>
+                                        @endif
+                                        </td>
+                                        @endforeach
+                                        @empty
+                                            <div class="bg-light">
+                                                <div class="pt-4 text-center"><i
+                                                        class="fas fa-paper-plane fa-2x text-black-50"></i>
+                                                </div>
+                                                {{--                                <div class="p-2 text-center text-black-50">{{ trans('cruds.dashboard.no_personal_title') }}</div>--}}
+                                                <div class="p-4 text-center text-success">
+                                                    <a class="btn btn-default"
+                                                       href="{{ route("pilot.bookings.create") }}">
+                                                        <i class="fas fa-edit"></i>
+                                                        {{ trans('cruds.dashboard.create_request') }}
                                     </a>
                                 </div>
                             </div>
