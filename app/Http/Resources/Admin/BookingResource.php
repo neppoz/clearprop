@@ -16,7 +16,7 @@ class BookingResource extends JsonResource
             'status' => $this->status,
             'user' => new UserResource($this->user),
             'plane' => new PlaneResource($this->plane),
-            'type' => new TypeResource($this->type),
+//            'type' => new TypeResource($this->type),
         ];
 
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Resources\Admin\BookingResource;
+use App\Services\BookingStatusService;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class BookingsApiController extends Controller
      */
     public function index()
     {
-//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $bookings = Booking::with(['user', 'plane', 'created_by'])->orderBy('reservation_start', 'desc')->paginate(10);
 
@@ -34,7 +35,12 @@ class BookingsApiController extends Controller
      */
     public function store(StoreBookingRequest $request)
     {
+
         $booking = Booking::create($request->all());
+        $booking->modus = 0;
+        $booking->save();
+
+        (new BookingStatusService())->createStatus($booking);
 
         return (new BookingResource($booking))
             ->response()
