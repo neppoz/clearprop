@@ -5,10 +5,6 @@ namespace App\Http\Controllers\Api\V1\Admin;
 use App\Booking;
 use App\Http\Controllers\Admin\RatingsController;
 use App\Http\Controllers\Controller;
-
-//use App\Http\Requests\StoreBookingRequest;
-//use App\Http\Requests\UpdateBookingRequest;
-//use App\Http\Resources\Admin\BookingResource;
 use App\Http\Resources\Admin\RatingResource;
 use Gate;
 use Illuminate\Http\Request;
@@ -28,9 +24,9 @@ class RatingsApiController extends Controller
 //        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $ratings = ((new RatingsController())->getRatingsForUser($request));
-
-        dd($ratings);
-        return RatingResource::collection($ratings);
+        // It is already Json, no JsonResource needed
+        return $ratings;
+//        return RatingResource::toJson($ratings);
     }
 
 //    /**
