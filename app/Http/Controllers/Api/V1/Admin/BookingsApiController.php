@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Http\Resources\Admin\BookingResource;
+use App\Services\BookingCheckService;
 use App\Services\BookingStatusService;
 use Gate;
 use Illuminate\Http\Request;
@@ -35,16 +36,20 @@ class BookingsApiController extends Controller
      */
     public function store(StoreBookingRequest $request)
     {
+        if ((new BookingCheckService())->availabilityCheckPassed($request)) {
+            $booking = Booking::create($request->all());
+            $booking->modus = 0;
+            $booking->save();
 
-        $booking = Booking::create($request->all());
-        $booking->modus = 0;
-        $booking->save();
+            (new BookingStatusService())->createStatus($booking);
 
-        (new BookingStatusService())->createStatus($booking);
+            return (new BookingResource($booking))
+                ->response()
+                ->setStatusCode(Response::HTTP_CREATED);
+        }
 
-        return (new BookingResource($booking))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return response('Duplicate booking. No data saved.', Response::HTTP_FORBIDDEN);
+
     }
 
     /**
