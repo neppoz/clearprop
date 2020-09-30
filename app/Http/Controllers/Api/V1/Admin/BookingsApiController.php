@@ -26,7 +26,11 @@ class BookingsApiController extends Controller
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $bookings = Booking::with(['user', 'plane', 'created_by'])->orderBy('reservation_start', 'desc')->paginate(10);
+        $bookings = Booking::with(['user', 'plane', 'created_by'])
+            ->orderBy('reservation_start', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->orderBy('id', 'asc')
+            ->paginate(25);
 
         return BookingResource::collection($bookings);
     }
