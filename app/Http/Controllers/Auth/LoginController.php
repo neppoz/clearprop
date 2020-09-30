@@ -35,9 +35,9 @@ class LoginController extends Controller
             return route('admin.home');
         }
 
+//        TODO this is not working..
+//        (new RegisterStep2Controller)->showForm();
         return route('pilot.welcome');
-
-        //TODO    protected $redirectTo = '/register-step2';
     }
 
     /**

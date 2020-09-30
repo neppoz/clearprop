@@ -20,7 +20,7 @@ class RegisterStep2Controller extends Controller
         if (empty($user->privacy_confirmed_at) and $user->roles->contains(User::IS_MEMBER)) {
             return view('auth.register_step2', compact('user'));
         } else {
-            return redirect()->route('admin.home');
+            return redirect()->route('pilot.welcome');
         }
     }
 
@@ -39,6 +39,6 @@ class RegisterStep2Controller extends Controller
 
         User::findOrFail(auth()->user()->id)->roles()->sync(User::IS_MEMBER);
 
-        return redirect()->route('admin.home');
+        return redirect()->route('pilot.welcome');
     }
 }
