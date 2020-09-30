@@ -40,7 +40,7 @@
                     <th width="10">
                         {{--                        {{ trans('cruds.booking.fields.reservation_start') }}--}}
                     </th>
-                    <th width="10">
+                    <th>
                         {{--                        {{ trans('cruds.booking.fields.reservation_stop') }}--}}
                     </th>
                     <th>
