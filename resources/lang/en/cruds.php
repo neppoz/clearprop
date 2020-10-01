@@ -18,6 +18,7 @@ return [
         'book_slot' => 'Book Now',
         'create_request' => 'Create request',
         'edit_request' => 'Edit request',
+
     ],
     'userManagement'     => [
         'title'          => 'Member management',
