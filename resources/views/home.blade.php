@@ -11,7 +11,6 @@
             </ol>
         </div><!-- /.col -->
     </div>
-
     <div class="row m-2">
         <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -88,115 +87,58 @@
 
         <div class="row m-2">
             <div class="col-lg-6 col-6">
-                {{--        <div class="card">--}}
-                {{--            <div class="card-header border-0">--}}
-                {{--                <h3 class="card-title">Products</h3>--}}
-                {{--                <div class="card-tools">--}}
-                {{--                    <a href="#" class="btn btn-tool btn-sm">--}}
-                {{--                        <i class="fas fa-download"></i>--}}
-                {{--                    </a>--}}
-                {{--                    <a href="#" class="btn btn-tool btn-sm">--}}
-                {{--                        <i class="fas fa-bars"></i>--}}
-                {{--                    </a>--}}
-                {{--                </div>--}}
-                {{--            </div>--}}
-                {{--            <div class="card-body table-responsive p-0">--}}
-                {{--                <table class="table table-striped table-valign-middle">--}}
-                {{--                    <thead>--}}
-                {{--                    <tr>--}}
-                {{--                        <th>Product</th>--}}
-                {{--                        <th>Price</th>--}}
-                {{--                        <th>Sales</th>--}}
-                {{--                        <th>More</th>--}}
-                {{--                    </tr>--}}
-                {{--                    </thead>--}}
-                {{--                    <tbody>--}}
-                {{--                    <tr>--}}
-                {{--                        <td>--}}
-                {{--                            <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">--}}
-                {{--                            Some Product--}}
-                {{--                        </td>--}}
-                {{--                        <td>$13 USD</td>--}}
-                {{--                        <td>--}}
-                {{--                            <small class="text-success mr-1">--}}
-                {{--                                <i class="fas fa-arrow-up"></i>--}}
-                {{--                                12%--}}
-                {{--                            </small>--}}
-                {{--                            12,000 Sold--}}
-                {{--                        </td>--}}
-                {{--                        <td>--}}
-                {{--                            <a href="#" class="text-muted">--}}
-                {{--                                <i class="fas fa-search"></i>--}}
-                {{--                            </a>--}}
-                {{--                        </td>--}}
-                {{--                    </tr>--}}
-                {{--                    <tr>--}}
-                {{--                        <td>--}}
-                {{--                            <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">--}}
-                {{--                            Another Product--}}
-                {{--                        </td>--}}
-                {{--                        <td>$29 USD</td>--}}
-                {{--                        <td>--}}
-                {{--                            <small class="text-warning mr-1">--}}
-                {{--                                <i class="fas fa-arrow-down"></i>--}}
-                {{--                                0.5%--}}
-                {{--                            </small>--}}
-                {{--                            123,234 Sold--}}
-                {{--                        </td>--}}
-                {{--                        <td>--}}
-                {{--                            <a href="#" class="text-muted">--}}
-                {{--                                <i class="fas fa-search"></i>--}}
-                {{--                            </a>--}}
-                {{--                        </td>--}}
-                {{--                    </tr>--}}
-                {{--                    <tr>--}}
-                {{--                        <td>--}}
-                {{--                            <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">--}}
-                {{--                            Amazing Product--}}
-                {{--                        </td>--}}
-                {{--                        <td>$1,230 USD</td>--}}
-                {{--                        <td>--}}
-                {{--                            <small class="text-danger mr-1">--}}
-                {{--                                <i class="fas fa-arrow-down"></i>--}}
-                {{--                                3%--}}
-                {{--                            </small>--}}
-                {{--                            198 Sold--}}
-                {{--                        </td>--}}
-                {{--                        <td>--}}
-                {{--                            <a href="#" class="text-muted">--}}
-                {{--                                <i class="fas fa-search"></i>--}}
-                {{--                            </a>--}}
-                {{--                        </td>--}}
-                {{--                    </tr>--}}
-                {{--                    <tr>--}}
-                {{--                        <td>--}}
-                {{--                            <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">--}}
-                {{--                            Perfect Item--}}
-                {{--                            <span class="badge bg-danger">NEW</span>--}}
-                {{--                        </td>--}}
-                {{--                        <td>$199 USD</td>--}}
-                {{--                        <td>--}}
-                {{--                            <small class="text-success mr-1">--}}
-                {{--                                <i class="fas fa-arrow-up"></i>--}}
-                {{--                                63%--}}
-                {{--                            </small>--}}
-                {{--                            87 Sold--}}
-                {{--                        </td>--}}
-                {{--                        <td>--}}
-                {{--                            <a href="#" class="text-muted">--}}
-                {{--                                <i class="fas fa-search"></i>--}}
-                {{--                            </a>--}}
-                {{--                        </td>--}}
-                {{--                    </tr>--}}
-                {{--                    </tbody>--}}
-                {{--                </table>--}}
-                {{--            </div>--}}
-                {{--        </div>--}}
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">{{ trans('cruds.user.title') }} {{ trans('cruds.user.fields.medical_due') }}</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.user.fields.name') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.user.fields.license') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.user.fields.medical_due') }}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($userMedicals as $user)
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url('/admin/users/' . $user->id) }}">{{ $user->name }}</a>
+                                        </td>
+                                        <td>
+                                            {{ $user->license }}
+                                        </td>
+                                        <td>
+                                            {{ $user->medical_due }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="col-lg-6 col-6">
                 <div class="card">
                     <div class="card-header border-transparent">
-                        <h3 class="card-title">{{ trans('cruds.dashboard.pilot_reservations') }}</h3>
+                        <h3 class="card-title">{{ trans('cruds.dashboard.personal_title') }}</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -252,41 +194,39 @@
             </div>
         </div>
 
-
-
-
-    {{--
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">{{trans('cruds.dashboard.title_linechart')}}</h3>
-
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                    <div class="col-lg-8">
-
-                    </div>
-                </div>
-                <!-- /.card-body -->
-              </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-
-            </div>
-        </div>
-    </div>
-    --}}
 @endsection
 @section('scripts')
 
 
 @endsection
+
+{{--
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">{{trans('cruds.dashboard.title_linechart')}}</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+                <div class="col-lg-8">
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+
+        </div>
+    </div>
+</div>
+--}}
