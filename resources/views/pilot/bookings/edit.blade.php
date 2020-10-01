@@ -23,7 +23,7 @@
                 <div class="col-6">
                     <div class="float-right">
                         @can('booking_delete')
-                            @if(App\Booking::MODUS_SELECT[$booking->modus ] == 'pilot')
+                            @if($booking->modus === 0)
                                 <form action="{{ route('pilot.bookings.destroy', $booking->id) }}" method="POST"
                                       onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
                                     <input type="hidden" name="_method" value="DELETE">

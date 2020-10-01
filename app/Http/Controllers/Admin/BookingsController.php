@@ -165,7 +165,7 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $modus = $request->modus;
+//        $modus = $request->modus;
 
         $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -176,8 +176,8 @@ class BookingsController extends Controller
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors', 'slots', 'modus'));
+//        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors', 'slots', 'modus'));
+        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors', 'slots'));
 
     }
 
@@ -217,7 +217,7 @@ class BookingsController extends Controller
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-        $booking->modus = 0; // Is it a bug or is it a feature?
+//        $booking->modus = 0; // Is it a bug or is it a feature?
         $booking->update($request->all());
 
         if ($request->email == true) {
