@@ -26,10 +26,13 @@ class StoreBookingRequest extends FormRequest
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
             'modus' => [
-                'nullable',
+                'required',
                 'integer'],
             'status' => [
-                'nullable',
+                'required',
+                'integer'],
+            'plane_id' => [
+                'required',
                 'integer'],
             'user_id' => [
                 'nullable',
@@ -43,9 +46,7 @@ class StoreBookingRequest extends FormRequest
             'instructor_needed' => [
                 'nullable',
                 'integer'],
-            'plane_id' => [
-                'required',
-                'integer'],
+
         ];
     }
 }

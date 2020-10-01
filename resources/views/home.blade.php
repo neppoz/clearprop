@@ -165,9 +165,9 @@
                                             <a href="{{ url('/admin/bookings/' . $booking->id .'/edit') }}">{{ $booking->reservation_start }}</a>
                                         </td>
                                         <td>
-                                            {{ $booking->plane->callsign }}
+                                            {{ $booking->plane->callsign ?? '' }}
                                         </td>
-                                        <td>{{ $booking->user->name }}</td>
+                                        <td>{{ $booking->user->name ?? '' }}</td>
                                         <td>
                                             @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
                                                 <span
@@ -197,36 +197,4 @@
 @endsection
 @section('scripts')
 
-
 @endsection
-
-{{--
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">{{trans('cruds.dashboard.title_linechart')}}</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="card-body">
-                <div class="col-lg-8">
-
-                </div>
-            </div>
-            <!-- /.card-body -->
-          </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-
-        </div>
-    </div>
-</div>
---}}

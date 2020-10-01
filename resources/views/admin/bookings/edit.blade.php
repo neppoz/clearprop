@@ -40,23 +40,6 @@
         <div class="card-body">
             <table class="table table-bordered table-striped">
                 <tbody>
-                {{--                    <tr>--}}
-                {{--                        <th>--}}
-                {{--                            {{ trans('cruds.booking.fields.user') }}--}}
-                {{--                        </th>--}}
-                {{--                        <td>--}}
-                {{--                            {{ $booking->user->name ?? '' }}--}}
-                {{--                        </td>--}}
-                {{--                    </tr>--}}
-                {{--                    <tr>--}}
-                {{--                        <th>--}}
-                {{--                            {{ trans('cruds.booking.fields.instructor_needed') }}--}}
-                {{--                        </th>--}}
-                {{--                        <td>--}}
-                {{--                            <span--}}
-                {{--                                class="text-primary">{{ App\Booking::INSTRUCTOR_NEEDED_RADIO[$booking->instructor_needed] ?? '' }}</span>--}}
-                {{--                        </td>--}}
-                {{--                    </tr>--}}
                 <tr>
                     <th>
                         {{ trans('cruds.booking.fields.plane') }}
