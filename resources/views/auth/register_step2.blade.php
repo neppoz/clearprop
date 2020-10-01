@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="login-logo">
+    <div class="container">
+        <div class="row justify-content-center">
             <div class="login-logo">
-                <a href="{{ route('admin.home') }}">
-                    {{ trans('panel.site_title') }}
-                </a>
+                <div class="login-logo">
+                    <a href="{{ route('pilot.welcome') }}">
+                        {{ trans('panel.site_title') }}
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Complete Profile') }}</div>
-                {{-- @foreach($user as $user) --}}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Complete Profile') }}</div>
+                    {{-- @foreach($user as $user) --}}
                 <div class="card-body">
                     <form method="POST" action="{{ route('register.step2') }}">
                         @csrf

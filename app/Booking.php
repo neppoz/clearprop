@@ -22,8 +22,9 @@ class Booking extends Model
         '1' => 'yes',
     ];
     const MODUS_SELECT = [
-        '0' => 'pilot',
-        '1' => 'slot',
+        '0' => 'Member reservation',
+        '1' => 'Slot open booking',
+        '2' => 'Slot blocked',
     ];
 
     protected $dates = [
