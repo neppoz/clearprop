@@ -15,18 +15,10 @@
     <div class="card card-primary card-outline">
         <div class="card-header">
             @can('booking_create')
-                <div class="row m-2">
-                    <div class="col-sm-6">
-                        <a class="btn btn-success"
-                           href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['0']]) }}">
-                            <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
-                        </a>
-                        <a class="btn btn-success"
-                           href="{{ route('admin.bookings.create', ['modus' => App\Booking::MODUS_SELECT['1']]) }}">
-                            <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.schedule.title_singular') }}
-                        </a>
-                    </div><!-- /.col -->
-                </div>
+                <a class="btn btn-success"
+                   href="{{ route('admin.bookings.create') }}">
+                    <i class="fas fa-edit"></i> {{ trans('global.new') }} {{ trans('cruds.booking.title_singular') }}
+                </a>
             @endcan
         </div>
 
@@ -38,10 +30,10 @@
 
                     </th>
                     <th width="10">
-                        {{--                        {{ trans('cruds.booking.fields.reservation_start') }}--}}
+
                     </th>
-                    <th width="10">
-                        {{--                        {{ trans('cruds.booking.fields.reservation_stop') }}--}}
+                    <th>
+
                     </th>
                     <th>
                         {{ trans('cruds.booking.fields.user') }}
@@ -172,15 +164,14 @@
                     {
                         data: 'modus',
                         name: 'modus',
-                        render: data => {
-                            if (data === 'slot') {
-                                return '<i class="fas fa-warehouse"></i>';
-                            }
-                            if (data === 'pilot') {
-                                return '<i class="fas fa-user-lock"></i>';
-                            }
-                            return data;
-                        },
+                        // console.log(data);
+                        // render: data => {
+                        //     if (data === 0) {
+                        //         return '<i class="fas fa-user-lock"></i>' + data;
+                        //     } else {
+                        //         return data + ' <i class="fas fa-warehouse"></i>';
+                        //     }
+                        // },
                     },
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],

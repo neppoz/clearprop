@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Booking;
 use App\Services\StatisticsService;
+use App\User;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class HomeController
 {
@@ -15,12 +17,21 @@ class HomeController
         $statistics = (new StatisticsService())->dashboard($request);
 
         $bookings = Booking::with(['plane', 'user', 'instructor'])
-            ->where('reservation_start', '>=', Carbon::parse(now()))
+            ->where('reservation_start', '>=', Carbon::parse(today()))
             ->where('modus', '0')
             ->orderBy('reservation_start')
             ->get();
 
-        return view('home', compact('statistics', 'bookings'));
+        $userMedicals = User::whereNotNull('medical_due')
+//            ->whereBetween('medical_due', [
+//                Carbon::parse(today())->addMonths(12),
+//                Carbon::parse(today())->subMonths(12)
+//                ])
+            ->orderBy('medical_due', 'desc')
+            ->get();
+
+        return view('home', compact('statistics', 'bookings', 'userMedicals'));
+    }
 
 
 //        $chart_options = [
@@ -72,5 +83,4 @@ class HomeController
 //        ]);
 
 
-    }
 }

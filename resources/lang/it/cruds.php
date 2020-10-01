@@ -275,7 +275,7 @@ return [
             'instructor_needed_helper' => 'Notam: Se il rating non è stato specificato si può solo prenotare con istruttore.',
             'status' => 'Status',
             'status_helper' => '',
-            'modus' => 'Tipo',
+            'modus' => 'Modalità di prenotazione',
             'modus_helper' => '',
             'instructor' => 'Istruttore',
             'instructor_helper' => 'Se selezioni un istruttore al salvataggio lo status verrà cambiato in confermato',

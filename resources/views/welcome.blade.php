@@ -140,11 +140,7 @@
                                         <td>
                                             {{ $slot->instructor->name ?? '' }}
                                         </td>
-                                        <td>
-                                            {{--                                        //TODO this is a static value, change it later--}}
-                                            1 {{trans('cruds.booking.fields.pax')}}
-                                        </td>
-                                        <td>
+                                        <td class="text-right">
                                             <form action="{{ route('pilot.bookings.slot', $slot->id) }}" method="POST"
                                                   onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                                   style="display: inline-block;">
@@ -153,10 +149,10 @@
                                                 <button type="submit" class="btn btn-primary"><i
                                                         class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
                                                 </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @empty
                                 <div class="bg-light">
                                     <div class="p-4 text-center"><i class="fas fa-paper-plane fa-2x text-black-50"></i>

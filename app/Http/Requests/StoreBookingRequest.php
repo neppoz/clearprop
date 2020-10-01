@@ -29,7 +29,10 @@ class StoreBookingRequest extends FormRequest
                 'required',
                 'integer'],
             'status' => [
-                'nullable',
+                'required',
+                'integer'],
+            'plane_id' => [
+                'required',
                 'integer'],
             'user_id' => [
                 'nullable',
@@ -43,9 +46,7 @@ class StoreBookingRequest extends FormRequest
             'instructor_needed' => [
                 'nullable',
                 'integer'],
-            'plane_id' => [
-                'required',
-                'integer'],
+
         ];
     }
 }

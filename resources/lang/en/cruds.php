@@ -18,6 +18,7 @@ return [
         'book_slot' => 'Book Now',
         'create_request' => 'Create request',
         'edit_request' => 'Edit request',
+
     ],
     'userManagement'     => [
         'title'          => 'Member management',
@@ -273,7 +274,7 @@ return [
             'instructor_needed_helper' => 'Notam: If rating is not set by Admin, solo is not available.',
             'status' => 'Status',
             'status_helper' => '',
-            'modus' => 'Type',
+            'modus' => 'Reservation modus',
             'modus_helper' => '',
             'instructor' => 'Instructor',
             'instructor_helper' => 'Notam: If you select an instructor the status will automatically change to confirmed',

@@ -43,4 +43,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Incomes
     Route::apiResource('incomes', 'IncomeApiController');
+
+    // Ratings
+    Route::get('ratings/{user_id}/{plane_id}', 'RatingsApiController@index');
 });
