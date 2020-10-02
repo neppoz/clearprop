@@ -11,6 +11,7 @@
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
                 <input type="hidden" name="modus" id="modus" value="0" readonly>
+                <input type="hidden" name="status" id="status" value="0" readonly>
 
                 <div class="form-group">
                     <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
@@ -144,6 +145,7 @@
         $(document).ready(function () {
             let user = $('#user_id').val();
             let plane;
+            let instructor_needed = $('input[name="instructor_needed"]');
             let warning_medical = $("#warning-medical");
             let warning_activity = $("#warning-activity");
             let info_balance = $("#info-balance");
@@ -164,18 +166,21 @@
                     warning_medical.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
+                    status.val('0');
                 }
 
                 if (data.ratingCheckPassed === false) {
                     info_rating.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
+                    status.val('0');
                 }
 
                 if ((data.activityCheckPassed === false)) {
                     warning_activity.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
+                    status.val('0');
                 }
 
                 if ((data.balanceCheckPassed === false)) {
