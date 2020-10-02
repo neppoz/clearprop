@@ -125,10 +125,10 @@
                             <tbody>
                             @forelse($slotsDates as $date => $slots)
                                 <tr>
-                                    <td class="bg-gray-light text-bold text-left" colspan="5">
+                                    <td class="bg-gray-light text-bold text-left" colspan="4">
                                         {{ $date }}
                                     </td>
-                            </tr>
+                                </tr>
                                 @foreach($slots as $slot)
                                     <tr>
                                         <td width="10">
@@ -250,22 +250,34 @@
                                             @endif
                                         </td>
                                     @else
-                                        <td>
-                                            <span class="badge badge-secondary">{{ $booking->slot->title ?? '' }}</span>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        @endif
-                                        </td>
-                                        @endforeach
-                                        @empty
-                                            <div class="bg-light">
-                                                <div class="pt-4 text-center"><i
-                                                        class="fas fa-paper-plane fa-2x text-black-50"></i>
-                                                </div>
-                                                {{--                                <div class="p-2 text-center text-black-50">{{ trans('cruds.dashboard.no_personal_title') }}</div>--}}
-                                                <div class="p-4 text-center text-success">
-                                                    <a class="btn btn-default"
+                                        @if($booking->modus === 1)
+                                            <td>
+                                                <span
+                                                    class="badge badge-secondary">{{ $booking->slot->title ?? '' }}</span>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-check-circle text-black-50" aria-hidden="true"></i>
+                                            </td>
+                                        @elseif ($booking->modus === 2)
+                                            <td>
+                                                <span
+                                                    class="badge badge-secondary">{{ $booking->slot->title ?? '' }}</span>
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-times-circle text-black-50" aria-hidden="true"></i>
+                                            </td>
+                                            @endif
+                                            @endif
+                                            </td>
+                                            @endforeach
+                                            @empty
+                                                <div class="bg-light">
+                                                    <div class="pt-4 text-center"><i
+                                                            class="fas fa-paper-plane fa-2x text-black-50"></i>
+                                                    </div>
+                                                    {{--                                <div class="p-2 text-center text-black-50">{{ trans('cruds.dashboard.no_personal_title') }}</div>--}}
+                                                    <div class="p-4 text-center text-success">
+                                                        <a class="btn btn-default"
                                                        href="{{ route("pilot.bookings.create") }}">
                                                         <i class="fas fa-edit"></i>
                                                         {{ trans('cruds.dashboard.create_request') }}
