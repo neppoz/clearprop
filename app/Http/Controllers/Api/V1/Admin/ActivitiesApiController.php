@@ -22,7 +22,7 @@ class ActivitiesApiController extends Controller
      */
     public function index()
     {
-//        abort_if(Gate::denies('activity_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('activity_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $activities = Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])->get();
 
@@ -47,7 +47,7 @@ class ActivitiesApiController extends Controller
      */
     public function show(Activity $activity)
     {
-//        abort_if(Gate::denies('activity_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('activity_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ActivityResource(
             Activity::with(['user', 'copilot', 'instructor', 'plane', 'type', 'created_by'])
@@ -73,7 +73,7 @@ class ActivitiesApiController extends Controller
      */
     public function destroy(Activity $activity)
     {
-//        abort_if(Gate::denies('activity_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('activity_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $activity->delete();
 
