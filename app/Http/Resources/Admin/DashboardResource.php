@@ -8,7 +8,12 @@ class DashboardResource extends JsonResource
 {
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'granTotal' => $this->granTotal,
+            'incomeAmountTotal' => $this->incomeAmountTotal,
+//            'activityAmountTotal'
+//            'activityHoursAndMinutes'
+        ];
 
     }
 }
