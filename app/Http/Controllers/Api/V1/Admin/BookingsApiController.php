@@ -24,7 +24,7 @@ class BookingsApiController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $bookings = Booking::with(['user', 'plane', 'created_by'])
             ->where('reservation_stop', '>=', today())
@@ -89,5 +89,25 @@ class BookingsApiController extends Controller
         $booking->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Get personal reservations
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function personal(Request $request)
+    {
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $bookings = Booking::with(['user', 'plane', 'created_by'])
+            ->where('reservation_stop', '>=', today())
+            ->where('user_id', '=', $request->user_id)
+            ->orderBy('reservation_start', 'asc')
+            ->orderBy('created_at', 'asc')
+            ->orderBy('id', 'asc')
+            ->paginate(25);
+
+        return BookingResource::collection($bookings);
     }
 }
