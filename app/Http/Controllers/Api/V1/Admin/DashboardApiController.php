@@ -18,8 +18,9 @@ class DashboardApiController extends Controller
     public function stats(Request $request)
     {
         $statistics = (new StatisticsService())->dashboard($request);
-
-        return DashboardResource::collection($statistics);
+        return $statistics;
+        // TODO not working
+//        return DashboardResource::collection($statistics);
     }
 
     public function currentUser()
