@@ -21,7 +21,7 @@ class RatingsApiController extends Controller
      */
     public function index(Request $request)
     {
-//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $ratings = ((new RatingsController())->getRatingsForUser($request));
         // It is already Json, no JsonResource needed
@@ -29,49 +29,4 @@ class RatingsApiController extends Controller
 //        return RatingResource::toJson($ratings);
     }
 
-//    /**
-//     * Create reservations
-//     */
-//    public function store(StoreBookingRequest $request)
-//    {
-//        $booking = Booking::create($request->all());
-//
-//        return (new BookingResource($booking))
-//            ->response()
-//            ->setStatusCode(Response::HTTP_CREATED);
-//    }
-//
-//    /**
-//     * Get reservation by ID
-//     */
-//    public function show(Booking $booking)
-//    {
-////        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-//
-//        return new BookingResource($booking->load(['user', 'plane', 'created_by']));
-//    }
-//
-//    /**
-//     * Update reservations
-//     */
-//    public function update(UpdateBookingRequest $request, Booking $booking)
-//    {
-//        $booking->update($request->all());
-//
-//        return (new BookingResource($booking))
-//            ->response()
-//            ->setStatusCode(Response::HTTP_ACCEPTED);
-//    }
-//
-//    /**
-//     * Delete reservation by ID
-//     */
-//    public function destroy(Booking $booking)
-//    {
-////        abort_if(Gate::denies('booking_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-//
-//        $booking->delete();
-//
-//        return response(null, Response::HTTP_NO_CONTENT);
-//    }
 }
