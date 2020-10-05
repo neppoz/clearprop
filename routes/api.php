@@ -1,9 +1,9 @@
 <?php
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/currentUser', function (Request $request) {
-        return Auth::user();
-    });
+    // Dashboard
+    Route::get('/stats', 'DashboardApiController@stats');
+    Route::get('/currentUser', 'DashboardApiController@currentUser');
 
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
@@ -27,6 +27,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('activities', 'ActivitiesApiController');
 
     // Bookings
+    Route::get('bookings/personal/{user_id}', 'BookingsApiController@personal');
     Route::apiResource('bookings', 'BookingsApiController');
 
     // Parameters
