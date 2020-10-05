@@ -24,7 +24,7 @@ class BookingsApiController extends Controller
      */
     public function index()
     {
-//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $bookings = Booking::with(['user', 'plane', 'created_by'])
             ->where('reservation_stop', '>=', today())
