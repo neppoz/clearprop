@@ -2,7 +2,7 @@
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:sanctum']], function () {
     // Dashboard
-    Route::get('/stats/{user_id}', 'DashboardApiController@stats');
+    Route::get('/stats', 'DashboardApiController@stats');
     Route::get('/currentUser', 'DashboardApiController@currentUser');
 
     // Permissions
