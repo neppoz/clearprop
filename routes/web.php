@@ -35,11 +35,17 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
     Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
     // Activities
-//    Route::get('activities/userActivities/{user_id}', 'ActivitiesController@getActivitiesByUser')->name('activities.getActivitiesByUser');
-//    Route::get('activities/instructorActivities/{user_id}', 'ActivitiesController@getActivitiesByUserAsInstructor')->name('activities.getActivitiesByUserAsInstructor');
-//    Route::get('activities/planeActivities/{plane_id}', 'ActivitiesController@getActivitiesByPlane')->name('activities.getActivitiesByPlane');
     Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
     Route::resource('activities', 'ActivitiesController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
+
+    // Billings
+    Route::resource('billing', 'BillingController');
+
+    // Checkout
+    Route::post('checkout/charge', 'CheckoutController@charge')->name('checkout.charge');
+    Route::post('checkout/calculateBasket', 'CheckoutController@calculateBasket')->name('checkout.calculateBasket');
+    Route::post('checkout/cardCheckout', 'CheckoutController@cardCheckout')->name('checkout.cardCheckout');
+
 });
 
 
