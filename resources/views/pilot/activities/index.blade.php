@@ -66,6 +66,8 @@
     <script>
         $(function () {
             @can('activity_delete')
+            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
             let deleteButton = {
                 text: deleteButtonTrans,
@@ -98,12 +100,9 @@
             dtButtons.push(deleteButton)
             @endcan
 
-            let dtButtons = []
-            let dtDom = 'Brtp'
-
             let dtOverrideGlobals = {
-                dom: dtDom,
-                buttons: dtButtons,
+                dom: 'Bfrt<"actions">',
+                "bFilter": false,
                 processing: true,
                 serverSide: true,
                 retrieve: true,
