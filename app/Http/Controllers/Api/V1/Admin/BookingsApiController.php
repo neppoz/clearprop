@@ -116,13 +116,13 @@ class BookingsApiController extends Controller
         $to_date = $request->to_date;
 
         $bookings = Booking::with(['user', 'plane', 'created_by'])
-            ->where('user_id', $user_id)
             ->when($from_date, function ($query) use ($from_date) {
                 return $query->where('reservation_stop', '>=', $from_date);
             })
             ->when($to_date, function ($query) use ($to_date) {
                 return $query->where('reservation_stop', '<=', $to_date);
             })
+            ->where('user_id', '=', $user_id)
             ->where('reservation_stop', '>=', today())
             ->orderBy('reservation_start', 'asc')
             ->orderBy('created_at', 'asc')
