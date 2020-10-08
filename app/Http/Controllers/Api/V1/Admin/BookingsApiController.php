@@ -26,7 +26,7 @@ class BookingsApiController extends Controller
      */
     public function index(Request $request)
     {
-//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $from_date = $request->from_date;
         $to_date = $request->to_date;
@@ -73,7 +73,7 @@ class BookingsApiController extends Controller
      */
     public function show(Booking $booking)
     {
-//        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BookingResource($booking->load(['user', 'plane', 'created_by']));
     }
@@ -122,7 +122,7 @@ class BookingsApiController extends Controller
             ->when($to_date, function ($query) use ($to_date) {
                 return $query->where('reservation_stop', '<=', $to_date);
             })
-            ->where('user_id', '=', $user_id)
+            ->where('user_id', auth()->user()->id)
             ->where('reservation_stop', '>=', today())
             ->orderBy('reservation_start', 'asc')
             ->orderBy('created_at', 'asc')
