@@ -21,12 +21,23 @@ class BookingsApiController extends Controller
 {
     /**
      * Get ALL reservations
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+
         $bookings = Booking::with(['user', 'plane', 'created_by'])
+            ->when($from_date, function ($query) use ($from_date) {
+                return $query->where('reservation_stop', '>=', $from_date);
+            })
+            ->when($to_date, function ($query) use ($to_date) {
+                return $query->where('reservation_stop', '<=', $to_date);
+            })
             ->where('reservation_stop', '>=', today())
             ->orderBy('reservation_start', 'asc')
             ->orderBy('created_at', 'asc')
@@ -62,7 +73,7 @@ class BookingsApiController extends Controller
      */
     public function show(Booking $booking)
     {
-//        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BookingResource($booking->load(['user', 'plane', 'created_by']));
     }
@@ -107,6 +118,7 @@ class BookingsApiController extends Controller
             ->orderBy('created_at', 'asc')
             ->orderBy('id', 'asc')
             ->paginate(25);
+
 
         return BookingResource::collection($bookings);
     }
