@@ -10,23 +10,29 @@ use Stripe\Charge;
 
 class CheckoutController extends Controller
 {
+    public function paymentIntent(Request $request)
+    {
+        try {
+            \Stripe\Stripe::setApiKey('sk_test_51HY3SMKi5dM1ECAoEIARwLvPyljsAMlqCt3rNgP0vClpnAx5WLgcWSaPS0udLNVJSXPb7dDCz5OXkPksxH3R1STz00GTukXV2O');
+
+            $paymentIntent = \Stripe\PaymentIntent::create([
+                'amount' => $request->input('amount'),
+                'currency' => 'eur',
+                'metadata' => ['integration_check' => 'accept_a_payment'],
+            ]);
+
+            return view('pilot.billings.checkout', compact('paymentIntent'));
+
+        } catch (Error $e) {
+            http_response_code(500);
+            return json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
     public function charge(Request $request)
     {
-        if ($request->input('stripeToken')) {
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        return view('pilot.billings.index');
 
-            $customer = \Stripe\Customer::create(array(
-                'email' => $request->stripeEmail,
-                'source' => $request->stripeToken
-            ));
-
-            $charge = \Stripe\Charge::create(array(
-                'amount' => $request->input('amount'),
-                'currency' => 'eur'
-            ));
-
-            dd('ok...');
-        }
 
     }
 

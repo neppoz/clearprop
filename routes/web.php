@@ -43,7 +43,7 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 
     // Checkout
     Route::post('checkout/charge', 'CheckoutController@charge')->name('checkout.charge');
-    Route::post('checkout/calculateBasket', 'CheckoutController@calculateBasket')->name('checkout.calculateBasket');
+    Route::post('checkout/paymentIntent', 'CheckoutController@paymentIntent')->name('checkout.paymentIntent');
     Route::post('checkout/cardCheckout', 'CheckoutController@cardCheckout')->name('checkout.cardCheckout');
 
 });
