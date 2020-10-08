@@ -26,7 +26,7 @@ class BookingsApiController extends Controller
      */
     public function index(Request $request)
     {
-//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $from_date = $request->from_date;
         $to_date = $request->to_date;
@@ -109,23 +109,11 @@ class BookingsApiController extends Controller
      */
     public function personal(Request $request)
     {
-//        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        dd($request);
-        $from_date = $request->from_date;
-        $to_date = $request->to_date;
+        abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $bookings = Booking::with(['user', 'plane', 'created_by'])
-            ->when($from_date, function ($query) use ($from_date) {
-                return $query->where('reservation_stop', '>=', $from_date);
-            })
-            ->when($to_date, function ($query) use ($to_date) {
-                return $query->where('reservation_stop', '<=', $to_date);
-            })
-            ->when(auth()->user()->id, function ($query) {
-                return $query->where('user_id', 4);
-            })
             ->where('reservation_stop', '>=', today())
+            ->where('user_id', '=', $request->user_id)
             ->orderBy('reservation_start', 'asc')
             ->orderBy('created_at', 'asc')
             ->orderBy('id', 'asc')
