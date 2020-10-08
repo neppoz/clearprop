@@ -29,6 +29,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Bookings
     Route::get('bookings/personal/{user_id}', 'BookingsApiController@personal');
     Route::get('bookings/{from_date?}/{to_date?}', 'BookingsApiController@index');
+    Route::get('bookings/{id}', 'BookingsApiController@show');
     Route::apiResource('bookings', 'BookingsApiController');
 
     // Parameters
