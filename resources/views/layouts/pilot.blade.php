@@ -187,11 +187,11 @@
     $(function () {
         //let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
         //let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
-        let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
-//   let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
-        let printButtonTrans = '{{ trans('global.datatables.print') }}'
-        let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
-//   let selectAllButtonTrans = '{{ trans('global.select_all') }}'
+        {{--let excelButtonTrans = '{{ trans('global.datatables.excel') }}'--}}
+        //   let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
+        {{--        let printButtonTrans = '{{ trans('global.datatables.print') }}'--}}
+        {{--        let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'--}}
+        //   let selectAllButtonTrans = '{{ trans('global.select_all') }}'
 //   let selectNoneButtonTrans = '{{ trans('global.deselect_all') }}'
 
         let languages = {
@@ -274,14 +274,14 @@
                 //       columns: ':visible'
                 //     }
                 //   },
-                {
-                    extend: 'excel',
-                    className: 'btn-default',
-                    text: excelButtonTrans,
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }
+                // {
+                //     extend: 'excel',
+                //     className: 'btn-default',
+                //     text: excelButtonTrans,
+                //     exportOptions: {
+                //         columns: ':visible'
+                //     }
+                // }
                 //   {
                 //     extend: 'pdf',
                 //     className: 'btn-default',
