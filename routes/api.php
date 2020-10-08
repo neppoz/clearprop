@@ -27,10 +27,10 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('activities', 'ActivitiesApiController');
 
     // Bookings
+    Route::apiResource('bookings', 'BookingsApiController', ['except' => ['index']]);
     Route::get('bookings/personal/{user_id}', 'BookingsApiController@personal');
     Route::get('bookings/{from_date?}/{to_date?}', 'BookingsApiController@index');
-    Route::get('bookings/{id}', 'BookingsApiController@show');
-    Route::apiResource('bookings', 'BookingsApiController');
+
 
     // Parameters
     Route::apiResource('parameters', 'ParametersApiController');
