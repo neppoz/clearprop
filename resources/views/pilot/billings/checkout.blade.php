@@ -20,10 +20,11 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <form id="payment-form">
+                    <form action="{{ route('pilot.checkout.processCheckout') }}" method="POST" id="checkout-form">
                         @csrf
-                        <input id="card-holder-name" type="text" placeholder="Card holder name">
+                        <input id="card-holder-name" type="text" placeholder="Card holder name"/>
                         <input type="hidden" name="payment-method" id="payment-method" value=""/>
+
                         <div id="card-element">
                             <!-- Elements will create input elements here -->
                         </div>
@@ -63,47 +64,33 @@
                     iconColor: '#fa755a'
                 }
             }
-
             let card = elements.create('card', {style: style})
             card.mount('#card-element')
-
-            cardElement.on('change', function (event) {
-                var displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
+            let paymentMethod = null
+            $('#checkout-form').on('submit', function (e) {
+                if (paymentMethod) {
+                    return true
                 }
-            });
-
-            var form = document.getElementById('payment-form');
-
-            form.addEventListener('submit', function (ev) {
-                ev.preventDefault();
-                stripe.confirmCardPayment({{$paymentIntent->client_secret}}, {
-                    payment_method: {
-                        card: card,
-                        billing_details: {
-                            name: 'Jenny Rosen'
+                stripe.confirmCardPayment(
+                    "{{ $intent->client_secret }}",
+                    {
+                        payment_method: {
+                            card: card,
+                            billing_details: {name: $('#card-holder-name').val()}
                         }
                     }
-                }).then(function (result) {
+                ).then(function (result) {
                     if (result.error) {
-                        // Show error to your customer (e.g., insufficient funds)
-                        console.log(result.error.message);
+                        console.log(result)
+                        alert('error')
                     } else {
-                        // The payment has been processed!
-                        if (result.paymentIntent.status === 'succeeded') {
-                            alert('iatz woll');
-                            // Show a success message to your customer
-                            // There's a risk of the customer closing the window before callback
-                            // execution. Set up a webhook or plugin to listen for the
-                            // payment_intent.succeeded event that handles any business critical
-                            // post-payment actions.
-                        }
+                        paymentMethod = result.paymentIntent.payment_method
+                        $('#payment-method').val(paymentMethod)
+                        $('#checkout-form').submit()
                     }
-                });
-            });
+                })
+                return false
+            })
         });
     </script>
 @endsection
@@ -121,15 +108,12 @@
             -webkit-transition: box-shadow 150ms ease;
             transition: box-shadow 150ms ease;
         }
-
         .StripeElement--focus {
             box-shadow: 0 1px 3px 0 #cfd7df;
         }
-
         .StripeElement--invalid {
             border-color: #fa755a;
         }
-
         .StripeElement--webkit-autofill {
             background-color: #fefde5 !important;
         }
