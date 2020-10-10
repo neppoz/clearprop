@@ -274,4 +274,5 @@ return [
     'is_needed' => 'è obbligatorio',
     'delete_reservation' => 'Elimina prenotazione',
     'revoke_reservation' => 'Ritira prenotazione',
+    'pay-now' => 'Conferma pagamento',
 ];

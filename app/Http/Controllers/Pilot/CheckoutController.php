@@ -13,13 +13,16 @@ class CheckoutController extends Controller
     public function paymentIntent(Request $request)
     {
         try {
-            \Stripe\Stripe::setApiKey('sk_test_51HY3SMKi5dM1ECAoEIARwLvPyljsAMlqCt3rNgP0vClpnAx5WLgcWSaPS0udLNVJSXPb7dDCz5OXkPksxH3R1STz00GTukXV2O');
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $intent = \Stripe\PaymentIntent::create([
+                'receipt_email' => auth()->user()->email,
                 'amount' => $request->input('amount') * 100,
-                'currency' => 'eur',
+                'currency' => env('STRIPE_CURRENCY'),
                 'metadata' => ['integration_check' => 'accept_a_payment'],
-            ]);
+                'description' => $request->input('title'),
+                'application_fee_amount' => ceil($request->input('amount') * env('STRIPE_FEE')),
+            ], ['stripe_account' => env('STRIPE_CONNECTED_ACCOUNT')]);
 
             return view('pilot.billings.checkout', compact('intent'));
 
@@ -31,6 +34,14 @@ class CheckoutController extends Controller
 
     public function processCheckout(Request $request)
     {
+//        \Stripe\Stripe::setApiKey('sk_test_51HY3SMKi5dM1ECAoEIARwLvPyljsAMlqCt3rNgP0vClpnAx5WLgcWSaPS0udLNVJSXPb7dDCz5OXkPksxH3R1STz00GTukXV2O');
+//
+//        $customer = \Stripe\Customer::create([
+//            'name' => auth()->user()->name,
+//            'email' => auth()->user()->email,
+//            'payment_method' => $request->input('payment-method'),
+//        ]);
+
         dd($request);
     }
 //

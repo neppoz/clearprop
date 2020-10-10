@@ -22,17 +22,25 @@
                 <div class="col-md-6">
                     <form action="{{ route('pilot.checkout.processCheckout') }}" method="POST" id="checkout-form">
                         @csrf
-                        <input id="card-holder-name" type="text" placeholder="Card holder name"/>
                         <input type="hidden" name="payment-method" id="payment-method" value=""/>
 
-                        <div id="card-element">
-                            <!-- Elements will create input elements here -->
+                        <div class="form-group">
+                            <input id="card-holder-name" type="text"
+                                   placeholder="{{trans('cruds.checkout.fields.card-holder-name')}}"/>
                         </div>
+                        <div class="form-group">
+                            <label for="card-element">{{trans('cruds.checkout.fields.card-element')}}</label>
 
+                            <div id="card-element" class="form-control">
+                                <!-- Elements will create input elements here -->
+                            </div>
+                        </div>
                         <!-- We'll put the error messages in this element -->
                         <div id="card-errors" role="alert"></div>
 
-                        <button id="submit">Pay</button>
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="submit">{{trans('global.pay-now')}}</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -47,7 +55,9 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         $(document).ready(function () {
-            let stripe = Stripe("{{ env('STRIPE_KEY') }}")
+            let stripe = Stripe("{{ env('STRIPE_KEY') }}", {
+                stripeAccount: "{{ env('STRIPE_CONNECTED_ACCOUNT') }}",
+            })
             let elements = stripe.elements()
             let style = {
                 base: {
