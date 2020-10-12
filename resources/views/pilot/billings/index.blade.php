@@ -14,8 +14,16 @@
 
     <div class="card card-primary card-outline">
         <div class="card-header">
-            Pagamento
+            {{trans('global.pay-online')}}
         </div>
+
+        {{--        @if(session('message'))--}}
+        {{--            <div class="row">--}}
+        {{--                <div class="alert alert-success">--}}
+        {{--                    {{session('message')}}--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        @endif--}}
 
         <div class="card-body">
             <div class="row">
@@ -51,27 +59,35 @@
                             <label class="required" for="title">{{ trans('cruds.billing.fields.title') }}</label>
                             <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text"
                                    name="title"
-                                   id="title" value="{{ old('title', 'Versamento acconto') }}" required>
+                                   id="title" value="{{ old('title', '') }}" required>
                             @if($errors->has('title'))
                                 <span class="text-danger">{{ $errors->first('title') }}</span>
                             @endif
                             <span
-                                class="help-block help-block text-secondary small">{{ trans('cruds.billing.fields.amount_helper') }}</span>
+                                class="help-block help-block text-secondary small">{{ trans('cruds.billing.fields.title_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="amount">{{ trans('cruds.billing.fields.amount') }}</label>
-                            <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}" type="number"
-                                   name="amount"
-                                   id="amount" value="{{ old('amount', '150') }}" step="0.01" required>
-                            @if($errors->has('amount'))
-                                <span class="text-danger">{{ $errors->first('amount') }}</span>
-                            @endif
-                            <span
-                                class="help-block help-block text-secondary small">{{ trans('cruds.billing.fields.amount_helper') }}</span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-euro-sign"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control {{ $errors->has('amount') ? 'is-invalid' : '' }}"
+                                       type="number"
+                                       name="amount"
+                                       id="amount" value="{{ old('amount', '150') }}" step="0.01" required>
+                                @if($errors->has('amount'))
+                                    <span class="text-danger">{{ $errors->first('amount') }}</span>
+                                @endif
+                                <span
+                                    class="help-block help-block text-secondary small">{{ trans('cruds.billing.fields.amount_helper') }}</span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary" type="submit">
-                                Acquista con Carta di credito
+                                {{trans('global.proceed-payment')}}
                             </button>
                         </div>
                     </form>

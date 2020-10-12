@@ -41,8 +41,14 @@ class CheckoutController extends Controller
 //            'email' => auth()->user()->email,
 //            'payment_method' => $request->input('payment-method'),
 //        ]);
+        $paymentMethod = $request->input('payment-method');
 
-        dd($request);
+        try {
+            return redirect()->route('pilot.billing.index')->withMessage('Payment completed successfully. ' . $paymentMethod);
+        } catch (\Throwable $exception) {
+            return redirect()->back()->withError($exception->getMessage());
+        }
+
     }
 //
 //    public function charge(Request $request)
