@@ -274,5 +274,9 @@ return [
     'is_needed' => 'is needed',
     'delete_reservation' => 'Delete reservation',
     'revoke_reservation' => 'Cancel reservation',
-    'pay-now' => 'Confirm payment',
+    'pay-online' => 'Online payment',
+    'pay-now' => 'Pay now',
+    'proceed-payment' => 'Confirm payment',
+    'secure-transaction' => 'Secure payment',
+    'payment-processing' => 'Processing payment for you ..',
 ];
