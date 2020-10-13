@@ -136,4 +136,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 // Stripe Webhook
-Route::stripeWebhooks('stripe-connect-webhook');
+if (!empty(env('STRIPE_WEBHOOK_SECRET'))) {
+    Route::stripeWebhooks('stripe-connect-webhook');
+}
+
