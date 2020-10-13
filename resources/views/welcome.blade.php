@@ -198,7 +198,7 @@
                 </div>
                 <div class="card-body p-1">
                     <div class="table-responsive">
-                        <table class="table table-responsive">
+                        <table class="table">
                             <tbody>
                             @forelse($bookingsDates as $date => $bookings)
                                 <tr>
