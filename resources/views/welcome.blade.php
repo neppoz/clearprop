@@ -202,7 +202,7 @@
                             <tbody>
                             @forelse($bookingsDates as $date => $bookings)
                                 <tr>
-                                    <td class="bg-gray-light text-bold text-left" colspan="5">
+                                    <td class="bg-gray-light text-bold text-left" colspan="4">
                                         {{ $date }}
                                     </td>
                                 </tr>
