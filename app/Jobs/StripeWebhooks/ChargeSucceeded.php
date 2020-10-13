@@ -2,6 +2,9 @@
 
 namespace App\Jobs\StripeWebhooks;
 
+use App\Payment;
+use App\User;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,8 +26,21 @@ class ChargeSucceeded //TODO implements ShouldQueue
 
     public function handle()
     {
-        // do your work here
-
         // you can access the payload of the webhook call with `$this->webhookCall->payload`
+        $charge = $this->webhookCall->payload['data']['object'];
+        $user = User::where('email', $charge['receipt_email'])->findOrFail();
+
+        try {
+            Payment::create([
+                'user_id' => $user->id,
+                'stripe_id' => $charge['id'],
+                'total' => $charge['amount'],
+            ]);
+
+        } catch (\Throwable $exception) {
+            Bugsnag::notifyException($exception);
+            return $exception->getMessage();
+        }
+
     }
 }

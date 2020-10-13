@@ -26,7 +26,7 @@ class CheckoutController extends Controller
 
             return view('pilot.billings.checkout', compact('intent'));
 
-        } catch (Error $e) {
+        } catch (\Throwable $e) {
             http_response_code(500);
             return json_encode(['error' => $e->getMessage()]);
         }
