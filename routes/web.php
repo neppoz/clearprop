@@ -134,3 +134,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 Route::group(['middleware' => ['auth']], function () {
     Route::view('/docs', 'scribe.index');
 });
+
+// Stripe Webhook
+Route::stripeWebhooks('stripe-connect-webhook');

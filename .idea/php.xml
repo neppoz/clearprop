@@ -175,6 +175,8 @@
       <path value="$PROJECT_DIR$/vendor/seld/jsonlint" />
       <path value="$PROJECT_DIR$/vendor/grosv/laravel-passwordless-login" />
       <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-stripe-webhooks" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-webhook-client" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

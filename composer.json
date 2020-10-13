@@ -32,6 +32,7 @@
         "snowfire/beautymail": "^1.1",
         "spatie/browsershot": "^3.35",
         "spatie/laravel-backup": "^6.10",
+        "spatie/laravel-stripe-webhooks": "^2.3",
         "spatie/valuestore": "^1.2",
         "stripe/stripe-php": "^7.57",
         "verumconsilium/laravel-browsershot": "^1.1",
