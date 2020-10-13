@@ -274,4 +274,9 @@ return [
     'is_needed' => 'è obbligatorio',
     'delete_reservation' => 'Elimina prenotazione',
     'revoke_reservation' => 'Ritira prenotazione',
+    'pay-online' => 'Pagamento online',
+    'pay-now' => 'Conferma pagamento',
+    'proceed-payment' => 'Procedi con il pagamento',
+    'secure-transaction' => 'Pagamento sicuro',
+    'payment-processing' => 'Elaborazione pagamento in corso ..',
 ];

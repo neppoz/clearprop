@@ -481,4 +481,23 @@ return [
         'title' => 'Planning',
         'title_singular' => 'Plan',
     ],
+    'billing' => [
+        'title' => 'Payments',
+        'title_singular' => 'Payment',
+        'fields' => [
+            'title' => 'Payment subject',
+            'title_helper' => ' ',
+            'amount' => 'Amount',
+            'amount_helper' => ' ',
+        ],
+    ],
+    'checkout' => [
+        'fields' => [
+            'card-element' => 'Enter card details',
+            'cardholder-name' => 'Name of cardholder',
+            'card-number' => 'Card number',
+            'card-cvc' => 'CVC',
+            'card-exp' => 'Exp.',
+        ],
+    ],
 ];
