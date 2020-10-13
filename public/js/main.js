@@ -7,7 +7,7 @@ $(document).ready(function () {
 
   $('.date').datetimepicker({
       format: 'DD/MM/YYYY',
-      locale: 'en',
+      locale: '{{ app()->getLocale() }}',
       icons: {
           up: 'fas fa-chevron-up',
           down: 'fas fa-chevron-down',
