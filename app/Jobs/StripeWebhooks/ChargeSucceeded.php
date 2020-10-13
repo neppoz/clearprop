@@ -28,7 +28,7 @@ class ChargeSucceeded //TODO implements ShouldQueue
     {
         // you can access the payload of the webhook call with `$this->webhookCall->payload`
         $charge = $this->webhookCall->payload['data']['object'];
-        $user = User::where('email', $charge['receipt_email'])->findOrFail();
+        $user = User::where('email', $charge['receipt_email'])->firstOrFail();
 
         try {
             Payment::create([
