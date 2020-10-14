@@ -279,4 +279,5 @@ return [
     'proceed-payment' => 'Confirm payment',
     'secure-transaction' => 'Secure payment',
     'payment-processing' => 'Processing payment for you ..',
+    'payment-success' => 'Thank you for your payment!'
 ];
