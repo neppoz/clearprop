@@ -2,9 +2,11 @@
 
 namespace App\Jobs\StripeWebhooks;
 
+use App\Income;
 use App\Payment;
 use App\User;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -12,7 +14,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-class ChargeSucceeded //TODO implements ShouldQueue
+class ChargeSucceeded implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,10 +33,18 @@ class ChargeSucceeded //TODO implements ShouldQueue
         $user = User::where('email', $charge['receipt_email'])->firstOrFail();
 
         try {
-            Payment::create([
+            $payment = Payment::create([
                 'user_id' => $user->id,
-                'stripe_id' => $charge['id'],
+                'stripe_id' => $charge['payment_intent'],
                 'total' => $charge['amount'],
+            ]);
+
+            Income::create([
+                'entry_date' => Carbon::createFromTimestamp($charge['created'])->toDateString(),
+                'amount' => $charge['amount'],
+                'description' => 'Card payment ref.: ' . $payment->id,
+                'income_category_id' => '1',
+                'user_id' => $user->id,
             ]);
 
         } catch (\Throwable $exception) {
@@ -42,5 +52,6 @@ class ChargeSucceeded //TODO implements ShouldQueue
             return $exception->getMessage();
         }
 
+        return true;
     }
 }
