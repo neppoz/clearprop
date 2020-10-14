@@ -40,7 +40,7 @@ class ChargeSucceeded implements ShouldQueue
             ]);
 
             Income::create([
-                'entry_date' => Carbon::parse($entry_date)->format('d-m-Y'),
+                'entry_date' => Carbon::parse($entry_date)->format(config('panel.date_format')),
                 'amount' => $charge['amount'],
                 'description' => 'Card payment ref.: ' . $payment->id,
                 'income_category_id' => '1',
