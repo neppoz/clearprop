@@ -31,7 +31,7 @@ class ChargeSucceeded implements ShouldQueue
         // you can access the payload of the webhook call with `$this->webhookCall->payload`
         $charge = $this->webhookCall->payload['data']['object'];
         $user = User::where('email', $charge['receipt_email'])->firstOrFail();
-
+        $entry_date = Carbon::createFromTimestamp($charge['created']);
         try {
             $payment = Payment::create([
                 'user_id' => $user->id,
@@ -40,7 +40,7 @@ class ChargeSucceeded implements ShouldQueue
             ]);
 
             Income::create([
-                'entry_date' => Carbon::createFromTimestamp($charge['created']),
+                'entry_date' => Carbon::parse($entry_date)->format('d-m-Y'),
                 'amount' => $charge['amount'],
                 'description' => 'Card payment ref.: ' . $payment->id,
                 'income_category_id' => '1',
