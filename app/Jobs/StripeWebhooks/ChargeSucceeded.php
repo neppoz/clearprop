@@ -37,12 +37,12 @@ class ChargeSucceeded implements ShouldQueue
             $payment = Payment::create([
                 'user_id' => $user->id,
                 'stripe_id' => $charge['payment_intent'],
-                'total' => $charge['amount'] / 100,
+                'total' => $charge['amount'] / 100, // Cave, amount is in cents
             ]);
 
             Income::create([
                 'entry_date' => Carbon::parse($entry_date)->format(config('panel.date_format')),
-                'amount' => $charge['amount'],
+                'amount' => $charge['amount'] / 100, // Cave, amount is in cents
                 'description' => 'Card payment ref.: ' . $payment->id,
                 'income_category_id' => '1',
                 'user_id' => $user->id,
