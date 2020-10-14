@@ -30,12 +30,12 @@
                         <div class="col mx-auto">
                             <img src="{{asset('/images/payment/2.png')}}" alt="mastercard">
                         </div>
-                        <div class="col mx-auto">
-                            <img src="{{asset('/images/payment/3.png')}}" alt="maestro">
-                        </div>
-                        <div class="col mx-auto">
-                            <img src="{{asset('/images/payment/4.png')}}" alt="cirrus">
-                        </div>
+                        {{--                        <div class="col mx-auto">--}}
+                        {{--                            <img src="{{asset('/images/payment/3.png')}}" alt="maestro">--}}
+                        {{--                        </div>--}}
+                        {{--                        <div class="col mx-auto">--}}
+                        {{--                            <img src="{{asset('/images/payment/4.png')}}" alt="cirrus">--}}
+                        {{--                        </div>--}}
                     </div>
                     <div class="row align-items-center mb-2 bg-light">
                         <div class="col-12 text-center">
@@ -50,7 +50,9 @@
                     <hr>
                     <form action="{{ route('pilot.checkout.processCheckout') }}" method="POST" id="checkout-form">
                         @csrf
+                        <input type="hidden" name="payment-id" id="payment-id" value=""/>
                         <input type="hidden" name="payment-method" id="payment-method" value=""/>
+                        <input type="hidden" name="payment-status" id="payment-status" value=""/>
                         <h5>{{trans('cruds.checkout.fields.card-element')}}</h5>
                         <hr>
                         {{--                        <div class="form-group">--}}
@@ -192,7 +194,7 @@
 
             let paymentMethod = null
             $('#checkout-form').on('submit', function (e) {
-                $('#checkout-button').hide("slow")
+                $('#checkout-button').prop("disabled", true)
 
                 if (paymentMethod) {
                     return true
@@ -212,8 +214,12 @@
                             console.log(result)
                             alert('error')
                         } else {
+                            paymentId = result.paymentIntent.id
                             paymentMethod = result.paymentIntent.payment_method
+                            paymentStatus = result.paymentIntent.status
+                            $('#payment-id').val(paymentId)
                             $('#payment-method').val(paymentMethod)
+                            $('#payment-status').val(paymentStatus)
                             $('#checkout-form').submit()
                         }
                     })
