@@ -478,4 +478,23 @@ return [
         'title' => 'Pianificazioni',
         'title_singular' => 'Pianificazione',
     ],
+    'billing' => [
+        'title' => 'Pagamenti',
+        'title_singular' => 'Pagamento',
+        'fields' => [
+            'title' => 'Soggetto di pagamento',
+            'title_helper' => ' ',
+            'amount' => 'Valore',
+            'amount_helper' => ' ',
+        ],
+    ],
+    'checkout' => [
+        'fields' => [
+            'card-element' => 'Inserisci i dettagli della tua carta',
+            'cardholder-name' => 'Intestatario',
+            'card-number' => 'Numero carta',
+            'card-cvc' => 'CVC',
+            'card-exp' => 'Scad.',
+        ],
+    ],
 ];
