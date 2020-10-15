@@ -163,32 +163,36 @@
                 instructor_needed_val_0.prop("disabled", false);
 
                 if (data.medicalCheckPassed === false) {
+                    // alert('Medical')
                     warning_medical.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
-                    status.val('0');
+                    // status.val('0');
                 }
 
                 if (data.ratingCheckPassed === false) {
+                    // alert('Rating')
                     info_rating.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
-                    status.val('0');
+                    // status.val('0');
                 }
 
-                if ((data.activityCheckPassed === false)) {
+                if (data.activityCheckPassed === false) {
+                    // alert('Activity')
                     warning_activity.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
-                    status.val('0');
+                    // status.val('0');
                 }
 
-                if ((data.balanceCheckPassed === false)) {
+                if (data.balanceCheckPassed === false) {
+                    // alert('Balance')
                     info_balance.show();
-                    $("#reservation_start").closest(".form-group").hide();
-                    $("#reservation_stop").closest(".form-group").hide();
-                    $("#description").closest(".form-group").hide();
-                    $("button[type=submit]").hide();
+                    $("#reservation_start").prop("disabled", true);
+                    $("#reservation_stop").prop("disabled", true);
+                    $("#description").prop("disabled", true);
+                    $("button[type=submit]").prop("disabled", true);
                 }
             }
 

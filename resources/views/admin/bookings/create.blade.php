@@ -328,6 +328,7 @@
                         instructor_needed_val_0.prop("disabled", false);
 
                         if (data.medicalCheckPassed === false) {
+                            // alert('Medical')
                             warning_medical.show();
                             instructor_needed_val_1.prop("checked", true);
                             instructor_needed_val_0.prop("disabled", true);
@@ -335,18 +336,21 @@
                         }
 
                         if (data.ratingCheckPassed === false) {
+                            // alert('Rating')
                             info_rating.show();
                             instructor_needed_val_1.prop("checked", true);
                             status_val_0.prop("checked", true);
                         }
 
-                        if ((data.activityCheckPassed === false)) {
+                        if (data.activityCheckPassed === false) {
+                            // alert('Activity')
                             warning_activity.show();
                             instructor_needed_val_1.prop("checked", true);
                             status_val_0.prop("checked", true);
                         }
 
-                        if ((data.balanceCheckPassed === false)) {
+                        if (data.balanceCheckPassed === false) {
+                            // alert('Balance')
                             info_balance.show();
                         }
                     }
@@ -354,7 +358,7 @@
                     $("#user_id_select").change(function () {
                         user = $(this).val();
                         plane = $("#plane_id").val();
-                        warning_medical.hide();
+                        // warning_medical.hide();
                         if ($(plane)) {
                             $.ajax({
                                 url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
