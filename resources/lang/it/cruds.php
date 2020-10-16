@@ -278,7 +278,7 @@ return [
             'modus' => 'Modalità di prenotazione',
             'modus_helper' => '',
             'instructor' => 'Istruttore',
-            'instructor_helper' => 'Se selezioni un istruttore al salvataggio lo status verrà cambiato in confermato',
+            'instructor_helper' => ' ',
             'created_by' => 'Creato il',
             'created_by_helper' => '',
             'pax' => 'pax',

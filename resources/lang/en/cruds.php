@@ -277,7 +277,7 @@ return [
             'modus' => 'Reservation modus',
             'modus_helper' => '',
             'instructor' => 'Instructor',
-            'instructor_helper' => 'Notam: If you select an instructor the status will automatically change to confirmed',
+            'instructor_helper' => ' ',
             'created_by' => 'Created By',
             'created_by_helper' => '',
             'pax' => 'pax',
