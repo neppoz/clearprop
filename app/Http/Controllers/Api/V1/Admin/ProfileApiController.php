@@ -3,9 +3,7 @@
 
 namespace App\Http\Controllers\Api\V1\Admin;
 
-
 use App\Http\Requests\UpdatePasswordRequest;
-use App\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProfileApiController
 {
-    public function updatePassword(UpdatePasswordRequest $request, User $user)
+    public function changePassword(UpdatePasswordRequest $request)
     {
         auth()->user()->update($request->validated());
 
