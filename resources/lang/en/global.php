@@ -279,5 +279,7 @@ return [
     'proceed-payment' => 'Confirm payment',
     'secure-transaction' => 'Secure payment',
     'payment-processing' => 'Processing payment for you ..',
-    'payment-success' => 'Thank you for your payment!'
+    'payment-success' => 'Thank you for your payment!',
+    'my_profile' => 'Personal data',
+    'change_profile_data' => 'My data',
 ];

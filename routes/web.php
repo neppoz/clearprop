@@ -48,7 +48,6 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 
 });
 
-
 // Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'HomeController@index')->name('home');
@@ -139,4 +138,12 @@ Route::group(['middleware' => ['auth']], function () {
 if (!empty(env('STRIPE_WEBHOOK_SECRET'))) {
     Route::stripeWebhooks('stripe-connect-webhook');
 }
+
+// Change password
+Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
+    Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
+    Route::post('password', 'ChangePasswordController@update')->name('password.update');
+    Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
+    Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
+});
 
