@@ -31,7 +31,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::get('bookings/personal/{user_id}', 'BookingsApiController@personal');
     Route::get('bookings/{from_date?}/{to_date?}', 'BookingsApiController@index');
 
-
     // Parameters
     Route::apiResource('parameters', 'ParametersApiController');
 
@@ -49,4 +48,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Ratings
     Route::get('ratings/{user_id}/{plane_id}', 'RatingsApiController@index');
+
+    // Profile
+    Route::post('changePassword', 'ProfileApiController@changePassword');
 });
