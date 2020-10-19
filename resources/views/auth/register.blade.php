@@ -1,17 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+    <div class="container">
+        <div class="login-logo">
+            <div class="login-logo">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
 
-                        <div class="form-group row">
+                <a href="{{ route('admin.home') }}">
+                    <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" width="150"
+                         height="auto"/>
+                    {{--                                {{ trans('panel.site_title') }}--}}
+                </a>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Register') }}</div>
+
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+
+                            <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
@@ -57,32 +68,59 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control"
+                                       name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                            <hr>
 
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">{{ trans('cruds.user.fields.lang') }}</label>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">{{ trans('cruds.user.fields.lang') }}</label>
 
-                            <div class="col-md-6">
-                                <select class="form-control {{ $errors->has('lang') ? 'is-invalid' : '' }}" name="lang" id="lang" required>
-                                    <option value disabled {{ old('lang', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                                <div class="col-md-6">
+                                    <select class="form-control {{ $errors->has('lang') ? 'is-invalid' : '' }}"
+                                            name="lang" id="lang" required>
+                                        <option value
+                                                disabled {{ old('lang', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                                         <option value="EN">English</option>
                                         <option value="IT">Italian</option>
-                                        <option value="DE">German</option>
-                                </select>
+                                        {{--                                        <option value="DE">German</option>--}}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right"
+                                       for="phone_1">{{ trans('cruds.user.fields.phone_1') }}</label>
+                                <div class="col-md-6">
+                                    <input class="form-control @error('phone_1') is-invalid @enderror" name="phone_1"
+                                           value="{{ old('phone_1') }}" type="text" id="phone_1" required>
+                                    @error('phone_1')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
+
+                            {{--                        <div class="form-group row">--}}
+                            {{--                            <input type="hidden" name="privacy_confirmed_at" value="0">--}}
+                            {{--                            <input class=" col-md-4 col-form-label text-md-right form-check-input" type="checkbox" name="privacy_confirmed_at" id="privacy_confirmed_at" value="{{ now() }}" {{ old('privacy_confirmed_at', 0) == 0 || old('privacy_confirmed_at') === null ? 'checked' : '' }} required>--}}
+                            {{--                            <div class="col-md-6">--}}
+                            {{--                                <label class="form-check-label" for="privacy_confirmed_at">{{ trans('cruds.user.fields.privacy') }}</label>--}}
+                            {{--                            </div>--}}
+                            {{--                            --}}
+                            {{--                        </div>--}}
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Register') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
             </div>
         </div>
     </div>

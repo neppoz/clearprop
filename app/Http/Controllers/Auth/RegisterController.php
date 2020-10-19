@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/register-step2';
+//    protected $redirectTo = '/register-step2';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -53,6 +55,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'lang' => ['required', 'string', 'min:2'],
+            'phone_1' => ['required', 'string', 'min:6'],
         ]);
     }
 
@@ -64,11 +67,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'lang' => $data['lang'],
+            'phone_1' => $data['phone_1'],
         ]);
+
+        if (!$user->roles()->get()->contains(User::IS_MEMBER)) {
+            $user->roles()->attach(User::IS_MEMBER);
+        }
+
+        return $user;
     }
+
 }
