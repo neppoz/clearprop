@@ -279,5 +279,7 @@ return [
     'proceed-payment' => 'Procedi con il pagamento',
     'secure-transaction' => 'Pagamento sicuro',
     'payment-processing' => 'Elaborazione pagamento in corso ..',
-    'payment-success' => 'Grazie per il pagamento!'
+    'payment-success' => 'Grazie per il pagamento!',
+    'my_profile' => 'Dati personali',
+    'change_profile_data' => 'Dati personali',
 ];
