@@ -4,8 +4,6 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Http\Resources\Admin\UserResource;
-use App\User;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,12 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProfileApiController
 {
-    public function changePassword(UpdatePasswordRequest $request, User $user)
+    public function changePassword(UpdatePasswordRequest $request)
     {
         auth()->user()->update($request->validated());
 
-        return (new UserResource($user))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        return response(null, Response::HTTP_ACCEPTED);
     }
 }
