@@ -15,14 +15,14 @@ Auth::routes([
     'reset' => true
 ]);
 
-// Complete profile after registration
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('register-step2', 'Auth\RegisterStep2Controller@showForm');
-    Route::post('register-step2', 'Auth\RegisterStep2Controller@postForm')->name('register.step2');
-});
+//// Complete profile after registration
+//Route::group(['middleware' => ['auth']], function () {
+//    Route::get('register-step2', 'Auth\RegisterStep2Controller@showForm');
+//    Route::post('register-step2', 'Auth\RegisterStep2Controller@postForm')->name('register.step2');
+//});
 
 // Frontend
-Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/', 'HomeController@index')->name('welcome');
 
     // Bookings
