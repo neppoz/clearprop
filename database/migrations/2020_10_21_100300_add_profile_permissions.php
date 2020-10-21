@@ -27,11 +27,9 @@ class AddProfilePermissions extends Migration
         ];
         Permission::insertOrIgnore($permissions);
 
-        $admin_permissions = Permission::all();
-        Role::findOrFail(App\User::IS_ADMIN)->permissions()->sync($admin_permissions->pluck('id'));
-
-        Role::findOrFail(App\User::IS_MANAGER)->permissions()->sync(Arr::pluck($permissions, 'id'));
-        Role::findOrFail(App\User::IS_MEMBER)->permissions()->sync(Arr::pluck($permissions, 'id'));
+        Role::findOrFail(App\User::IS_ADMIN)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
+        Role::findOrFail(App\User::IS_MANAGER)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
+        Role::findOrFail(App\User::IS_MEMBER)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
     }
 
 }
