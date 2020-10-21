@@ -116,6 +116,7 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route("profile.password.update") }}">
                         @csrf
+                        <input type="hidden" name="email" id="email" value="{{ auth()->user()->email }}">
                         <div class="form-group">
                             <label class="required" for="password">New {{ trans('cruds.user.fields.password') }}</label>
                             <input class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
