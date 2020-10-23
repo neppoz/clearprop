@@ -21,11 +21,11 @@ class Booking extends Model
         '0' => 'no',
         '1' => 'yes',
     ];
-    const MODUS_SELECT = [
-        '0' => 'Member reservation',
-        '1' => 'Slot open booking',
-        '2' => 'Slot blocked',
-    ];
+//    const MODUS_SELECT = [
+//        '0' => 'Member reservation',
+//        '1' => 'Slot open booking',
+//        '2' => 'Slot blocked',
+//    ];
 
     protected $dates = [
         'created_at',
@@ -39,12 +39,13 @@ class Booking extends Model
         'reservation_start',
         'reservation_stop',
         'description',
-        'modus',
+//        'modus',
         'status',
         'created_at',
         'updated_at',
         'deleted_at',
-        'user_id',
+        'mode_id',
+//        'user_id',
         'slot_id',
         'instructor_id',
         'instructor_needed',
@@ -62,10 +63,10 @@ class Booking extends Model
         return $this->belongsToMany(User::class);
     }
 
-//    public function user()
-//    {
-//        return $this->belongsTo(User::class, 'user_id');
-//    }
+    public function mode()
+    {
+        return $this->belongsTo(Mode::class, 'mode_id');
+    }
 
     public function plane()
     {

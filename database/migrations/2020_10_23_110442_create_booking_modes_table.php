@@ -16,44 +16,21 @@ class CreateBookingModesTable extends Migration
     public function up()
     {
         Schema::create('modes', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->text('name');
             $table->boolean('active')->default(1);
             $table->timestamps();
         });
 
-        $modes = [
-            [
-                'id' => '1',
-                'name' => 'Charter',
-                'active' => '1',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '2',
-                'name' => 'School',
-                'active' => '1',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '3',
-                'name' => 'Event',
-                'active' => '1',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id' => '4',
-                'name' => 'Maintenance',
-                'active' => '1',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-        ];
+        artisan::call('db:seed', array(
+            '--class' => 'ModesTableSeeder'
+        ));
 
-        Mode::insertOrIgnore($modes);
+        Schema::table('bookings', function (Blueprint $table) {
+            $table->dropColumn('modus');
+            $table->unsignedInteger('mode_id')->after('deleted_at');
+            $table->foreign('mode_id')->references('id')->on('modes')->onDelete('cascade');
+        });
 
     }
 
