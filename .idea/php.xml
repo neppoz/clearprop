@@ -177,6 +177,7 @@
       <path value="$PROJECT_DIR$/vendor/stripe/stripe-php" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-stripe-webhooks" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-webhook-client" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-translatable" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

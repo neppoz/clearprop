@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.16.1 on 2020-10-13 09:24:10.
+ * Generated for Laravel 7.16.1 on 2020-10-23 10:45:39.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -17949,15 +17949,25 @@ namespace {
 
     class Bus extends \Illuminate\Support\Facades\Bus {}
 
-    class Cache extends \Illuminate\Support\Facades\Cache {}
+    class Cache extends \Illuminate\Support\Facades\Cache
+    {
+    }
 
-    class Config extends \Illuminate\Support\Facades\Config {}
+    class Config extends \Illuminate\Support\Facades\Config
+    {
+    }
 
-    class Cookie extends \Illuminate\Support\Facades\Cookie {}
+    class Cookie extends \Illuminate\Support\Facades\Cookie
+    {
+    }
 
-    class Crypt extends \Illuminate\Support\Facades\Crypt {}
+    class Crypt extends \Illuminate\Support\Facades\Crypt
+    {
+    }
 
-    class DB extends \Illuminate\Support\Facades\DB {}
+    class DB extends \Illuminate\Support\Facades\DB
+    {
+    }
 
     class Eloquent extends \Illuminate\Database\Eloquent\Model
     {
@@ -20838,15 +20848,25 @@ namespace {
         }
     }
 
-    class Event extends \Illuminate\Support\Facades\Event {}
+    class Event extends \Illuminate\Support\Facades\Event
+    {
+    }
 
-    class File extends \Illuminate\Support\Facades\File {}
+    class File extends \Illuminate\Support\Facades\File
+    {
+    }
 
-    class Gate extends \Illuminate\Support\Facades\Gate {}
+    class Gate extends \Illuminate\Support\Facades\Gate
+    {
+    }
 
-    class Hash extends \Illuminate\Support\Facades\Hash {}
+    class Hash extends \Illuminate\Support\Facades\Hash
+    {
+    }
 
-    class Lang extends \Illuminate\Support\Facades\Lang {}
+    class Lang extends \Illuminate\Support\Facades\Lang
+    {
+    }
 
     class Log extends \Illuminate\Support\Facades\Log {}
 
