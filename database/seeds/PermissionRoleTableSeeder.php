@@ -8,10 +8,13 @@ class PermissionRoleTableSeeder extends Seeder
 {
     public function run()
     {
-        $admin_permissions = Permission::all();
-        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
+        $all_permissions = Permission::all();
+        Role::findOrFail(App\User::IS_ADMIN)->permissions()->sync($all_permissions->pluck('id'));
 
-        $user_permissions = 37;
-        Role::findOrFail(2)->permissions()->sync($user_permissions);
+        $manager_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84];
+        Role::findOrFail(App\User::IS_MANAGER)->permissions()->syncWithoutDetaching($manager_permissions);
+
+        $user_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84];
+        Role::findOrFail(App\User::IS_MEMBER)->permissions()->syncWithoutDetaching($user_permissions);
     }
 }

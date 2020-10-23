@@ -305,12 +305,44 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'expense_report_show',
             ],
             [
-                'id'    => '75',
+                'id' => '75',
                 'title' => 'expense_report_delete',
             ],
             [
-                'id'    => '76',
+                'id' => '76',
                 'title' => 'expense_report_access',
+            ],
+            [
+                'id' => '77',
+                'title' => 'slot_create',
+            ],
+            [
+                'id' => '78',
+                'title' => 'slot_edit',
+            ],
+            [
+                'id' => '79',
+                'title' => 'slot_show',
+            ],
+            [
+                'id' => '80',
+                'title' => 'slot_delete',
+            ],
+            [
+                'id' => '81',
+                'title' => 'slot_access',
+            ],
+            [
+                'id' => '82',
+                'title' => 'schedule_access',
+            ],
+            [
+                'id' => '83',
+                'title' => 'profile_password_edit',
+            ],
+            [
+                'id' => '84',
+                'title' => 'profile_data_edit',
             ],
         ];
 
