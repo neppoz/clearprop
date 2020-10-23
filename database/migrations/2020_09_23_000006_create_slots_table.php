@@ -32,37 +32,15 @@ class CreateSlotsTable extends Migration
             $table->foreign('slot_id', 'slot_fk_bookings')->references('id')->on('slots');
         });
 
-        $permissions = [
-            [
-                'id' => '77',
-                'title' => 'slot_create',
-            ],
-            [
-                'id' => '78',
-                'title' => 'slot_edit',
-            ],
-            [
-                'id' => '79',
-                'title' => 'slot_show',
-            ],
-            [
-                'id' => '80',
-                'title' => 'slot_delete',
-            ],
-            [
-                'id' => '81',
-                'title' => 'slot_access',
-            ],
-            [
-                'id' => '82',
-                'title' => 'schedule_access',
-            ],
-        ];
-        Permission::insertOrIgnore($permissions);
-
-        Role::findOrFail(App\User::IS_ADMIN)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
-//        Role::findOrFail(App\User::IS_MANAGER)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
-//        Role::findOrFail(App\User::IS_MEMBER)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
+        artisan::call('db:seed', array(
+            '--class' => 'PermissionsTableSeeder'
+        ));
+        artisan::call('db:seed', array(
+            '--class' => 'RolesTableSeeder'
+        ));
+        artisan::call('db:seed', array(
+            '--class' => 'PermissionRoleTableSeeder'
+        ));
 
     }
 }

@@ -15,21 +15,15 @@ class AddProfilePermissions extends Migration
      */
     public function up()
     {
-        $permissions = [
-            [
-                'id' => '83',
-                'title' => 'profile_password_edit',
-            ],
-            [
-                'id' => '84',
-                'title' => 'profile_data_edit',
-            ],
-        ];
-        Permission::insertOrIgnore($permissions);
-
-        Role::findOrFail(App\User::IS_ADMIN)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
-        Role::findOrFail(App\User::IS_MANAGER)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
-        Role::findOrFail(App\User::IS_MEMBER)->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
+        artisan::call('db:seed', array(
+            '--class' => 'PermissionsTableSeeder'
+        ));
+        artisan::call('db:seed', array(
+            '--class' => 'RolesTableSeeder'
+        ));
+        artisan::call('db:seed', array(
+            '--class' => 'PermissionRoleTableSeeder'
+        ));
     }
 
 }

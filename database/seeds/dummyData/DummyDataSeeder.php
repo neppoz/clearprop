@@ -39,34 +39,34 @@ class DummyDataSeeder extends Seeder
 
         $faker = Faker::create('it_IT');
         $dt = $faker->dateTimeBetween($startDate = '-12 months', $endDate = '+5 months');
-        $date = $dt->format("d.m.Y");
+        $date = $dt->format('Y-m-d');
 
         $users = [
             [
-                'id'             => 2,
-                'name'           => 'Demo Admin',
-                'email'          => 'demo.admin@clearprop.aero',
-                'password'       => Hash::make('demo.admin'),
+                'id' => 2,
+                'name' => 'Demo Admin',
+                'email' => 'demo.admin@clearprop.aero',
+                'password' => Hash::make('demo.admin'),
                 'remember_token' => null,
-                'medical_due'    => $date,
-                'license'        => $faker->numberBetween(5000, 50000),
-                'lang'           => 'EN',
-                'instructor'     => 0,
-                'factor_id'      => null,
+                'medical_due' => null,
+                'license' => $faker->numberBetween(5000, 50000),
+                'lang' => 'EN',
+                'instructor' => 0,
+                'factor_id' => null,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
             [
-                'id'             => 3,
-                'name'           => 'Demo Instructor',
-                'email'          => 'demo.instructor@clearprop.aero',
-                'password'       => Hash::make('demo.instructor'),
+                'id' => 3,
+                'name' => 'Demo Instructor',
+                'email' => 'demo.instructor@clearprop.aero',
+                'password' => Hash::make('demo.instructor'),
                 'remember_token' => null,
-                'medical_due'    => $date,
-                'license'        => $faker->numberBetween(5000, 50000),
-                'lang'           => 'EN',
-                'instructor'     => 1,
-                'factor_id'      => null,
+                'medical_due' => null,
+                'license' => $faker->numberBetween(5000, 50000),
+                'lang' => 'EN',
+                'instructor' => 1,
+                'factor_id' => null,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ],
@@ -91,17 +91,17 @@ class DummyDataSeeder extends Seeder
         /** Generate Users */
         foreach (range(1, 30) as $index) {
             $dt = $faker->dateTimeBetween($startDate = '-12 months', $endDate = '+5 months');
-            $date = $dt->format("d.m.Y");
+            $date = $dt->format('Y-m-d');
             DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->email,
                 'password' => bcrypt('secret'),
                 'remember_token' => null,
-                'lang'           => 'IT',
-                'taxno'          => $faker->taxid,
-                'phone_1'        => $faker->phoneNumber,
-                'phone_2'        => $faker->phoneNumber,
-                'address'        => $faker->address,
+                'lang' => 'IT',
+                'taxno' => $faker->taxid,
+                'phone_1' => $faker->phoneNumber,
+                'phone_2' => $faker->phoneNumber,
+                'address' => $faker->address,
                 'city'           => $faker->city,
                 'license'        => $faker->numberBetween(5000, 50000),
                 'medical_due'    => $date,
@@ -122,7 +122,7 @@ class DummyDataSeeder extends Seeder
         foreach (range(1, 20) as $index) {
             $user_id = User::where('id', '>', 3)->get()->random()->id;
             $dt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now');
-            $date = $dt->format("d.m.Y");
+            $date = $dt->format(config('panel.date_format'));
             Income::create([
                 'entry_date' => $date,
                 'amount' => $faker->randomFloat(0, 100, 2500),
@@ -136,7 +136,7 @@ class DummyDataSeeder extends Seeder
         foreach (range(1, 50) as $index) {
             $user_id = User::where('id', '>', 3)->get()->random()->id;
             $dt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now');
-            $date = $dt->format("d.m.Y");
+            $date = $dt->format(config('panel.date_format'));
             Income::create([
                 'entry_date' => $date,
                 'amount' => $faker->randomFloat(0, 100, 2500),
@@ -154,7 +154,7 @@ class DummyDataSeeder extends Seeder
             $counter_stop = $counter_start+$faker->randomFloat(2, 1, 3);
             $user_id = User::where('id', '>', 3)->get()->random()->id;
             $dt = $faker->dateTimeBetween($startDate = '-6 months', $endDate = 'now');
-            $date = $dt->format("d.m.Y");
+            $date = $dt->format(config('panel.date_format'));
             $activity = Activity::create([
                 'counter_start' => $counter_start,
                 'counter_stop' => $counter_stop,
@@ -176,7 +176,7 @@ class DummyDataSeeder extends Seeder
         foreach (range(1, 500) as $index) {
             $user_id = User::where('id', '>', 3)->get()->random()->id;
             $instructor_id = User::where('instructor', '=', 1)->get()->random()->id;
-            $dt_start = $faker->dateTimeBetween($startDate = '-6 months', $endDate = '+ 5 months');
+            $dt_start = $faker->dateTimeBetween($startDate = '-1 months', $endDate = '+ 2 months');
             $dt_start_clone = clone $dt_start;
             $dt_stop = $faker->dateTimeBetween($dt_start, $dt_start_clone->modify('+2 hours'));
             $reservation_start = Carbon::parse($dt_start)->format(config('panel.date_format') . ' ' .config('panel.time_format'));

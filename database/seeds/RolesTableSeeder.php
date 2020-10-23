@@ -29,6 +29,6 @@ class RolesTableSeeder extends Seeder
             ],
         ];
 
-        Role::insert($roles);
+        Role::insertOrIgnore($roles);
     }
 }
