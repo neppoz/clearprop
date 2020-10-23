@@ -101,7 +101,7 @@ class User extends Authenticatable //implements MustVerifyEmail
 
     public function userBookings()
     {
-        return $this->hasMany(Booking::class, 'user_id', 'id');
+        return $this->belongsToMany(Booking::class);
     }
 
     public function copilotActivities()

@@ -57,10 +57,15 @@ class Booking extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function user()
+    public function bookingUsers()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsToMany(User::class);
     }
+
+//    public function user()
+//    {
+//        return $this->belongsTo(User::class, 'user_id');
+//    }
 
     public function plane()
     {
