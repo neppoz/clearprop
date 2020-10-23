@@ -28,7 +28,7 @@ class AddUserBookingPivotTable extends Migration
         }
 
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropForeign('user_fk_1172722');
+            $table->dropForeign('bookings_user_id_foreign');
             $table->dropColumn('user_id');
         });
     }
