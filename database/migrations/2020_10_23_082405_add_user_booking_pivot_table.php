@@ -26,6 +26,11 @@ class AddUserBookingPivotTable extends Migration
         foreach ($userBookings as $userBooking) {
             $userBooking->bookingUsers()->syncWithoutDetaching($userBooking->user_id);
         }
+
+        Schema::table('bookings', function (Blueprint $table) {
+            $table->dropForeign('user_fk_1172722');
+            $table->dropColumn('user_id');
+        });
     }
 
     public function down()
