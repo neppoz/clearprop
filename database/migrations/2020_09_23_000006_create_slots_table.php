@@ -61,7 +61,7 @@ class CreateSlotsTable extends Migration
         Permission::insertOrIgnore($permissions);
 
         $admin_permissions = Permission::all();
-        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));
+        Role::findOrFail(App\User::IS_ADMIN)->permissions()->sync($admin_permissions->pluck('id'));
 
     }
 }
