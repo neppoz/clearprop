@@ -33,9 +33,4 @@ class AddUserBookingPivotTable extends Migration
         });
     }
 
-    public function down()
-    {
-        Schema::drop('booking_user');
-    }
-
 }

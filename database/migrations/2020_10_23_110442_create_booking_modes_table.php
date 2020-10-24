@@ -15,10 +15,13 @@ class CreateBookingModesTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('modes', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
             $table->boolean('active')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -31,6 +34,8 @@ class CreateBookingModesTable extends Migration
             $table->unsignedInteger('mode_id')->after('deleted_at');
             $table->foreign('mode_id')->references('id')->on('modes')->onDelete('cascade');
         });
+
+        Schema::enableForeignKeyConstraints();
 
     }
 
