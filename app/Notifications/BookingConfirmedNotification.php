@@ -13,15 +13,11 @@ class BookingConfirmedNotification extends Notification implements ShouldQueue
     use Queueable;
 
     protected $booking;
-    protected $user;
-    protected $instructor;
     protected $plane;
 
     public function __construct($booking)
     {
         $this->booking = $booking;
-        $this->user = $booking->user;
-        $this->instructor = $booking->instructor;
         $this->plane = $booking->plane;
     }
 
@@ -39,7 +35,6 @@ class BookingConfirmedNotification extends Notification implements ShouldQueue
             ->greeting('Hi,')
             ->line('the following reservation has been created and confirmed:')
             ->line(new HtmlString('<hr>'))
-            ->line(new HtmlString('Pilot: ' . '<strong>' . $this->user->name . '</strong>' . '<br>'))
             ->line(new HtmlString('Plane: ' . '<strong>' . $this->plane->callsign . '</strong>' . '<br>'))
             ->line(new HtmlString('Reservation from: ' . '<strong>' . $this->booking->reservation_start . '</strong>' . '<br>'))
             ->line(new HtmlString('Reservation to: ' . '<strong>' . $this->booking->reservation_stop . '</strong>' . '<br><br>'))
@@ -48,10 +43,6 @@ class BookingConfirmedNotification extends Notification implements ShouldQueue
             ->line('')
             ->line(new HtmlString('Status: ' . '<strong>' . \App\Booking::STATUS_RADIO[$this->booking->status] . '</strong>' . '<br>'))
             ->line('');
-
-            if (!empty($this->instructor->name)) {
-                $mailMessage->line(new HtmlString('Instructor: ' . '<strong>' . $this->instructor->name . '</strong>' . '<br>'));
-            }
 
         $mailMessage
             ->line('Please log in to see more information.')

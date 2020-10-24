@@ -21,11 +21,6 @@ class Booking extends Model
         '0' => 'no',
         '1' => 'yes',
     ];
-//    const MODUS_SELECT = [
-//        '0' => 'Member reservation',
-//        '1' => 'Slot open booking',
-//        '2' => 'Slot blocked',
-//    ];
 
     protected $dates = [
         'created_at',
@@ -45,9 +40,7 @@ class Booking extends Model
         'updated_at',
         'deleted_at',
         'mode_id',
-//        'user_id',
         'slot_id',
-//        'instructor_id',
         'instructor_needed',
         'plane_id',
         'created_by_id',

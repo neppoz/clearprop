@@ -7,6 +7,7 @@ use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Mode;
+use App\Services\BookingNotificationService;
 use App\Services\BookingStatusService;
 use App\Services\BookingCheckService;
 use App\Booking;
@@ -91,7 +92,7 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Booking::with(['bookingUsers', 'bookingInstructors', 'mode', 'plane', 'slot'])
+            $query = Booking::with(['bookingUsers', 'bookingInstructors', 'mode', 'plane'])
                 ->where('reservation_stop', '>=', today())
                 ->orderBy('reservation_start', 'asc')
                 ->select(sprintf('%s.*', (new Booking)->table));
@@ -128,29 +129,29 @@ class BookingsController extends Controller
                 return Carbon::createFromFormat('d/m/Y H:i', $row->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
             });
 
-            $table->editColumn('mode_name', function ($row) {
+            $table->addColumn('mode_name', function ($row) {
                 return $row->mode ? $row->mode->name : '';
             });
 
-            $table->editColumn('status', function ($row) {
+            $table->addColumn('status', function ($row) {
                 return Booking::STATUS_RADIO[$row->status] ?? '';
             });
 
-            $table->editColumn('user_name', function ($row) {
+            $table->editColumn('user', function ($row) {
                 $labels = [];
 
                 foreach ($row->bookingUsers as $user) {
-                    $labels[] = sprintf('<span class="badge badge-light">%s</span>', $user->name);
+                    $labels[] = sprintf('<span class="badge badge-info">%s</span>', $user->name);
                 }
 
                 return implode(' ', $labels);
             });
 
-            $table->editColumn('instructor_name', function ($row) {
+            $table->editColumn('instructor', function ($row) {
                 $labels = [];
 
-                foreach ($row->bookingInstructors as $user) {
-                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $user->name);
+                foreach ($row->bookingInstructors as $instructor) {
+                    $labels[] = sprintf('<span class="badge badge-primary">%s</span>', $instructor->name);
                 }
 
                 return implode(' ', $labels);
@@ -160,7 +161,7 @@ class BookingsController extends Controller
                 return $row->plane ? $row->plane->callsign : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'bookingUsers', 'bookingInstructors', 'plane']);
+            $table->rawColumns(['actions', 'placeholder', 'user', 'instructor', 'plane']);
 
             return $table->make(true);
         }
@@ -190,9 +191,6 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            if ($booking->mode_id == 4) { //Maintenance
-                return redirect()->route('admin.bookings.index');
-            }
             return redirect()->route('admin.bookings.edit', $booking->id);
         }
 
@@ -223,7 +221,7 @@ class BookingsController extends Controller
         $booking->bookingInstructors()->sync($request->input('instructors', []));
 
         if ($request->input('email') == true) {
-            (new BookingStatusService())->sendNotificationsConfirmed($booking);
+            (new BookingNotificationService())->sendNotificationsConfirmed($booking);
         }
 
         return redirect()->route('admin.bookings.index');
@@ -233,7 +231,7 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-//        $booking->load('user', 'plane', 'created_by');
+        $booking->load('user', 'plane', 'created_by');
 
         return view('admin.bookings.show', compact('booking'));
     }
