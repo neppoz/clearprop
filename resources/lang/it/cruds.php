@@ -275,8 +275,8 @@ return [
             'instructor_needed_helper' => 'Notam: Se il rating non è stato specificato si può solo prenotare con istruttore.',
             'status' => 'Status',
             'status_helper' => '',
-            'modus' => 'Modalità di prenotazione',
-            'modus_helper' => '',
+            'mode' => 'Modalità',
+            'mode_helper' => '',
             'instructor' => 'Istruttore',
             'instructor_helper' => ' ',
             'created_by' => 'Creato il',
@@ -284,7 +284,9 @@ return [
             'pax' => 'pax',
             'pax_helper' => ' ',
             'email' => 'Mandare email di conferma?',
-            'email_helper' => 'Notam: Email di conferma verrà mandata quando selezionato.'
+            'email_helper' => 'Notam: Email di conferma verrà mandata quando selezionato.',
+            'checkin' => 'Aperto al CheckIn?',
+            'checkin_helper' => 'Notam: La prenotazione diventa prenotabile per altri soci/ospiti.',
         ],
     ],
     'parameter'          => [

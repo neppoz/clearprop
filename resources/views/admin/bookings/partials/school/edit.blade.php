@@ -112,8 +112,7 @@
     @parent
     <script>
         $(document).ready(function () {
-            let status_val_0 = $('input[name="status"][value="0"]');
-            status_val_0.prop("checked", true);
+
         });
     </script>
 @endsection

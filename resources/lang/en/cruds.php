@@ -274,8 +274,8 @@ return [
             'instructor_needed_helper' => 'Notam: If rating is not set by Admin, solo is not available.',
             'status' => 'Status',
             'status_helper' => '',
-            'modus' => 'Reservation modus',
-            'modus_helper' => '',
+            'mode' => 'Mode',
+            'mode_helper' => '',
             'instructor' => 'Instructor',
             'instructor_helper' => ' ',
             'created_by' => 'Created By',
@@ -283,7 +283,9 @@ return [
             'pax' => 'pax',
             'pax_helper' => ' ',
             'email' => 'Send confirmation email?',
-            'email_helper' => 'Notam: Email Notification will be sent when selected.'
+            'email_helper' => 'Notam: Email Notification will be sent when selected.',
+            'checkin' => 'Open for CheckIn?',
+            'checkin_helper' => 'Notam: The reservation becomes open for other members/guests.',
         ],
     ],
     'parameter'          => [
