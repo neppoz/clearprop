@@ -8,7 +8,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Mode extends Model
 {
-    use SoftDeletes, HasTranslations;
+    use SoftDeletes;
 
     public $table = 'modes';
 

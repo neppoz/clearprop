@@ -31,7 +31,7 @@ class ModesTableSeeder extends Seeder
             ],
             [
                 'id' => '3',
-                'name' => 'Event',
+                'name' => 'Promotion',
                 'active' => '1',
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -46,5 +46,13 @@ class ModesTableSeeder extends Seeder
         ];
 
         Mode::insertOrIgnore($modes);
+
+//        $item = new Mode();
+//        $translations = [
+//            'en' => 'Promotion',
+//            'it' => 'Promozione'
+//        ];
+//        $item->setTranslations('name', $translations);
+
     }
 }
