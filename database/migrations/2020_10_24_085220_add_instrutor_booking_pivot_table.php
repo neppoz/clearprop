@@ -28,6 +28,7 @@ class AddInstrutorBookingPivotTable extends Migration
         }
 
         Schema::table('bookings', function (Blueprint $table) {
+            $table->boolean('instructor_needed')->change()->nullable()->default(null);
             $table->dropForeign('instructor_fk_bookings');
             $table->dropColumn('instructor_id');
         });
