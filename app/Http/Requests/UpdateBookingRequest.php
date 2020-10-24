@@ -20,21 +20,12 @@ class UpdateBookingRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => [
-                'required',
-                'integer'],
-            'instructor_needed' => [
-                'required',
-                'integer'],
             'plane_id' => [
                 'required',
                 'integer'],
-            'reservation_start' => [
+            'status' => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
-            'reservation_stop' => [
-                'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
+                'integer'],
         ];
 
     }
