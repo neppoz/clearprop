@@ -48,7 +48,7 @@
                         {{ trans('cruds.booking.fields.status') }}
                     </th>
                     <th>
-                        {{ trans('cruds.booking.fields.modus') }}
+                        {{ trans('cruds.booking.fields.mode') }}
                     </th>
                     <th>
                         &nbsp;
@@ -145,8 +145,8 @@
                     {data: 'placeholder', name: 'placeholder'},
                     {data: 'reservation_start_time', name: 'reservation_start_time'},
                     {data: 'reservation_stop_time', name: 'reservation_stop_time'},
-                    {data: 'user_name', name: 'user.name'},
-                    {data: 'instructor_name', name: 'instructor.name'},
+                    {data: 'user', name: 'user.name'},
+                    {data: 'instructor', name: 'instructor.name'},
                     {data: 'plane_callsign', name: 'plane.callsign'},
                     {
                         data: 'status',

@@ -59,8 +59,7 @@
     <label class="required">{{ trans('cruds.booking.fields.status') }}</label>
     @foreach(App\Booking::STATUS_RADIO as $key => $label)
         <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
-            <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status"
-                   value="{{ $key }}"
+            <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status" value="{{ $key }}"
                    {{ old('status', $booking->status) === (string) $key ? 'checked' : '' }} required>
             <label class="form-check-label" for="status_{{ $key }}">{{ $label }}</label>
         </div>
@@ -111,9 +110,6 @@
             let warning_activity = $("#warning-activity");
             let info_balance = $("#info-balance");
             let info_rating = $("#info-rating");
-            let status_val_0 = $('input[name="status"][value="0"]');
-
-            status_val_0.prop("checked", true);
 
             user_select.change(function () {
                 user = $(this).val();
@@ -137,17 +133,14 @@
 
                 if (data.medicalCheckPassed === false) {
                     warning_medical.show();
-                    status_val_0.prop("checked", true);
                 }
 
                 if (data.ratingCheckPassed === false) {
                     info_rating.show();
-                    status_val_0.prop("checked", true);
                 }
 
                 if (data.activityCheckPassed === false) {
                     warning_activity.show();
-                    status_val_0.prop("checked", true);
                 }
 
                 if (data.balanceCheckPassed === false) {
