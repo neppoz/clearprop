@@ -31,7 +31,7 @@ class CreateBookingModesTable extends Migration
 
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropColumn('modus');
-            $table->unsignedInteger('mode_id')->after('deleted_at');
+            $table->unsignedInteger('mode_id')->after('description')->default(1);
             $table->foreign('mode_id')->references('id')->on('modes')->onDelete('cascade');
         });
 
