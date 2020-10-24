@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 7.16.1 on 2020-10-23 10:45:39.
+ * Generated for Laravel 7.16.1 on 2020-10-24 06:21:23.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -16987,6 +16987,196 @@ namespace Laravel\Horizon {
 
 }
 
+namespace Livewire {
+
+    /**
+     *
+     *
+     * @see \Livewire\LivewireManager
+     */
+    class Livewire
+    {
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function component($alias, $viewClass = null)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->component($alias, $viewClass);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function getAlias($class, $default = null)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->getAlias($class, $default);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function getClass($alias)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->getClass($alias);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function getInstance($component, $id)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->getInstance($component, $id);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function mount($name, $params = [])
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->mount($name, $params);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function dummyMount($id, $tagName)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->dummyMount($id, $tagName);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function test($name, $params = [])
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->test($name, $params);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function visit($browser, $class, $queryString = '')
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->visit($browser, $class, $queryString);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function actingAs($user, $driver = null)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->actingAs($user, $driver);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function styles($options = [])
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->styles($options);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function scripts($options = [])
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->scripts($options);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function isLivewireRequest()
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->isLivewireRequest();
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function getRootElementTagName($dom)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->getRootElementTagName($dom);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function dispatch($event, ...$params)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->dispatch($event, ...$params);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function listen($event, $callback)
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->listen($event, $callback);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function isOnVapor()
+        {
+            /** @var \Livewire\LivewireManager $instance */
+            return $instance->isOnVapor();
+        }
+
+    }
+
+}
+
 namespace VerumConsilium\Browsershot\Facades {
 
     /**
@@ -20932,15 +21122,25 @@ namespace {
     {
     }
 
+    class Livewire extends \Livewire\Livewire
+    {
+    }
+
     class PDF extends \VerumConsilium\Browsershot\Facades\PDF
     {
     }
 
-    class Alert extends \RealRashid\SweetAlert\Facades\Alert {}
+    class Alert extends \RealRashid\SweetAlert\Facades\Alert
+    {
+    }
 
-    class Screenshot extends \VerumConsilium\Browsershot\Facades\Screenshot {}
+    class Screenshot extends \VerumConsilium\Browsershot\Facades\Screenshot
+    {
+    }
 
-    class DataTables extends \Yajra\DataTables\Facades\DataTables {}
+    class DataTables extends \Yajra\DataTables\Facades\DataTables
+    {
+    }
 
 }
 
