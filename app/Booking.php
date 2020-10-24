@@ -47,7 +47,7 @@ class Booking extends Model
         'mode_id',
 //        'user_id',
         'slot_id',
-        'instructor_id',
+//        'instructor_id',
         'instructor_needed',
         'plane_id',
         'created_by_id',
@@ -60,7 +60,12 @@ class Booking extends Model
 
     public function bookingUsers()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'booking_user');
+    }
+
+    public function bookingInstructors()
+    {
+        return $this->belongsToMany(User::class, 'booking_instructor');
     }
 
     public function mode()
