@@ -161,18 +161,7 @@
                             return data;
                         },
                     },
-                    {
-                        data: 'modus',
-                        name: 'modus',
-                        // console.log(data);
-                        // render: data => {
-                        //     if (data === 0) {
-                        //         return '<i class="fas fa-user-lock"></i>' + data;
-                        //     } else {
-                        //         return data + ' <i class="fas fa-warehouse"></i>';
-                        //     }
-                        // },
-                    },
+                    {data: 'mode_name', name: 'mode.name'},
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],
                 orderCellsTop: true,

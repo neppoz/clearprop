@@ -25,28 +25,12 @@ class StoreBookingRequest extends FormRequest
             'reservation_stop' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format')],
-            'modus' => [
-                'required',
-                'integer'],
-            'status' => [
+            'mode_id' => [
                 'required',
                 'integer'],
             'plane_id' => [
                 'required',
                 'integer'],
-            'user_id' => [
-                'nullable',
-                'integer'],
-            'slot_id' => [
-                'nullable',
-                'integer'],
-            'instructor_id' => [
-                'nullable',
-                'integer'],
-            'instructor_needed' => [
-                'nullable',
-                'integer'],
-
         ];
     }
 }

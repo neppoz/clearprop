@@ -6,12 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyBookingRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
+use App\Mode;
 use App\Services\BookingStatusService;
-use App\Services\UserCheckService;
 use App\Services\BookingCheckService;
 use App\Booking;
 use App\Plane;
-use App\Type;
 use App\User;
 use App\Slot;
 use Gate;
@@ -92,7 +91,7 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Booking::with(['user', 'instructor', 'plane', 'slot'])
+            $query = Booking::with(['bookingUsers', 'bookingInstructors', 'mode', 'plane', 'slot'])
                 ->where('reservation_stop', '>=', today())
                 ->orderBy('reservation_start', 'asc')
                 ->select(sprintf('%s.*', (new Booking)->table));
@@ -129,27 +128,39 @@ class BookingsController extends Controller
                 return Carbon::createFromFormat('d/m/Y H:i', $row->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
             });
 
-            $table->editColumn('modus', function ($row) {
-                return Booking::MODUS_SELECT[$row->modus] ?? '';
+            $table->editColumn('mode_name', function ($row) {
+                return $row->mode ? $row->mode->name : '';
             });
 
             $table->editColumn('status', function ($row) {
                 return Booking::STATUS_RADIO[$row->status] ?? '';
             });
 
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
+            $table->editColumn('user_name', function ($row) {
+                $labels = [];
+
+                foreach ($row->bookingUsers as $user) {
+                    $labels[] = sprintf('<span class="badge badge-light">%s</span>', $user->name);
+                }
+
+                return implode(' ', $labels);
             });
 
-            $table->addColumn('instructor_name', function ($row) {
-                return $row->instructor ? $row->instructor->name : '';
+            $table->editColumn('instructor_name', function ($row) {
+                $labels = [];
+
+                foreach ($row->bookingInstructors as $user) {
+                    $labels[] = sprintf('<span class="label label-info label-many">%s</span>', $user->name);
+                }
+
+                return implode(' ', $labels);
             });
 
-            $table->addColumn('plane_callsign', function ($row) {
+            $table->editColumn('plane_callsign', function ($row) {
                 return $row->plane ? $row->plane->callsign : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'user', 'instructor', 'plane']);
+            $table->rawColumns(['actions', 'placeholder', 'bookingUsers', 'bookingInstructors', 'plane']);
 
             return $table->make(true);
         }
@@ -165,19 +176,11 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-//        $modus = $request->modus;
-
-        $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $types = Type::where('active', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');;
+        $modes = Mode::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-//        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors', 'slots', 'modus'));
-        return view('admin.bookings.create', compact('users', 'types', 'planes', 'instructors', 'slots'));
+        return view('admin.bookings.create', compact('modes', 'planes'));
 
     }
 
@@ -187,12 +190,10 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            if ($request->email == true) {
-                (new BookingStatusService())->sendNotificationsConfirmed($booking);
+            if ($booking->mode_id == 4) { //Maintenance
+                return redirect()->route('admin.bookings.index');
             }
-//            (new BookingStatusService())->createStatus($booking);
-
-            return redirect()->route('admin.bookings.index');
+            return redirect()->route('admin.bookings.edit', $booking->id);
         }
 
         return back()->withToastError(trans('global.planeNotAvailable'));
@@ -210,23 +211,20 @@ class BookingsController extends Controller
 
         $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $booking->load('user', 'plane', 'instructor', 'slot', 'created_by');
+        $booking->load('bookingUsers', 'plane', 'instructor', 'slot', 'created_by');
 
         return view('admin.bookings.edit', compact('users', 'planes', 'instructors', 'slots', 'booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
-//        $booking->modus = 0; // Is it a bug or is it a feature?
         $booking->update($request->all());
+        $booking->bookingUsers()->sync($request->input('users', []));
+        $booking->bookingInstructors()->sync($request->input('instructors', []));
 
-        if ($request->email == true) {
+        if ($request->input('email') == true) {
             (new BookingStatusService())->sendNotificationsConfirmed($booking);
         }
-
-//        if ($booking->wasChanged('status')) { // Verify if status has changed
-//            (new BookingStatusService())->updateStatus($booking);
-//        }
 
         return redirect()->route('admin.bookings.index');
     }
@@ -235,7 +233,7 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $booking->load('user', 'plane', 'created_by');
+//        $booking->load('user', 'plane', 'created_by');
 
         return view('admin.bookings.show', compact('booking'));
     }
