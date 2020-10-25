@@ -36,6 +36,9 @@
 
                     </th>
                     <th>
+                        {{ trans('cruds.booking.fields.mode') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.booking.fields.user') }}
                     </th>
                     <th>
@@ -48,9 +51,6 @@
                         {{ trans('cruds.booking.fields.status') }}
                     </th>
                     <th>
-                        {{ trans('cruds.booking.fields.mode') }}
-                    </th>
-                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -58,6 +58,8 @@
                     <td width="10">
                     </td>
                     <td width="10">
+                    </td>
+                    <td>
                     </td>
                     <td>
                     </td>
@@ -79,8 +81,6 @@
                             @endforeach
                         </select>
 
-                    </td>
-                    <td>
                     </td>
                     <td>
                     </td>
@@ -145,6 +145,7 @@
                     {data: 'placeholder', name: 'placeholder'},
                     {data: 'reservation_start_time', name: 'reservation_start_time'},
                     {data: 'reservation_stop_time', name: 'reservation_stop_time'},
+                    {data: 'mode', name: 'mode.name'},
                     {data: 'user', name: 'user.name'},
                     {data: 'instructor', name: 'instructor.name'},
                     {data: 'plane_callsign', name: 'plane.callsign'},
@@ -161,7 +162,7 @@
                             return data;
                         },
                     },
-                    {data: 'mode_name', name: 'mode.name'},
+
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],
                 orderCellsTop: true,
