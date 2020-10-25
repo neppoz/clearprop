@@ -33,6 +33,8 @@ class CreateBookingModesTable extends Migration
             $table->dropColumn('modus');
             $table->unsignedInteger('mode_id')->after('description')->default(1);
             $table->foreign('mode_id')->references('id')->on('modes')->onDelete('cascade');
+            $table->boolean('checkin')->nullable()->after('slot_id');
+            $table->unsignedInteger('seats')->nullable()->after('checkin');
         });
 
         Schema::enableForeignKeyConstraints();
