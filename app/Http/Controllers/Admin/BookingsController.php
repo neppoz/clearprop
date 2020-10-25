@@ -92,7 +92,7 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Booking::with(['bookingUsers', 'bookingInstructors', 'mode', 'plane'])
+            $query = Booking::with(['bookingUsers', 'bookingInstructors', 'mode', 'slot', 'plane'])
                 ->where('reservation_stop', '>=', today())
                 ->orderBy('reservation_start', 'asc')
                 ->select(sprintf('%s.*', (new Booking)->table));
@@ -129,8 +129,15 @@ class BookingsController extends Controller
                 return Carbon::createFromFormat('d/m/Y H:i', $row->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
             });
 
-            $table->addColumn('mode_name', function ($row) {
+            $table->addColumn('mode', function ($row) {
+                if ($slot = $row->slot) {
+                    return $row->mode->name . ': ' . $slot->title;
+                }
                 return $row->mode ? $row->mode->name : '';
+            });
+
+            $table->addColumn('slot', function ($row) {
+                return $row->slot ? $row->slot->title : '';
             });
 
             $table->addColumn('status', function ($row) {
