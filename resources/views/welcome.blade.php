@@ -131,10 +131,9 @@
                                                 <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}</span>
                                             </td>
                                             <td>
-                                        <span
-                                            class="text text-{{$slot->mode_id == 4 ? 'danger' : 'black'}}">{{ $slot->plane->callsign ?? '' }}</span><br>
                                                 <span
-                                                    class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title}}</span>
+                                                    class="text text-{{$slot->mode_id == 4 ? 'danger' : 'black'}}">{{ $slot->plane->callsign ?? '' }}</span><br>
+                                                {{--                                                    <span class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title}}</span>--}}
                                             </td>
                                             <td>
                                                 @foreach($slot->bookingInstructors as $instructorBookings)
@@ -145,14 +144,16 @@
                                                 <span
                                                     class="font-weight-lighter text-black-50 small">{{$slot->description}}</span>
                                             </td>
-                                            <td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" colspan="4">
                                                 <form action="{{ route('pilot.bookings.book', $slot->id) }}"
                                                       method="POST"
                                                       onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                                       style="display: inline-block;">
                                                     <input type="hidden" name="_method" value="POST">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                    <button type="submit" class="btn btn-primary"><i
+                                                    <button type="submit" class="btn btn-outline-success btn-block"><i
                                                             class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
                                                     </button>
                                                 </form>
@@ -161,8 +162,8 @@
                                     @endforeach
                                 @empty
                                     <div class="bg-light">
-                                        <div class="p-4 text-center"><i
-                                                class="fas fa-paper-plane fa-2x text-black-50"></i>
+                                        <div class="p-4 text-center">
+                                            <i class="fas fa-paper-plane fa-2x text-black-50"></i>
                                         </div>
                                     </div>
                                 @endforelse
