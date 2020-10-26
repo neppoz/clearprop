@@ -135,63 +135,63 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 col-6">
-                <div class="card">
-                    <div class="card-header border-transparent">
-                        <h3 class="card-title">{{ trans('cruds.dashboard.personal_title') }}</h3>
+            {{--            <div class="col-lg-6 col-6">--}}
+            {{--                <div class="card">--}}
+            {{--                    <div class="card-header border-transparent">--}}
+            {{--                        <h3 class="card-title">{{ trans('cruds.dashboard.personal_title') }}</h3>--}}
 
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table m-0">
-                                <thead>
-                                <tr>
-                                    <th>{{ trans('cruds.booking.fields.reservation_start') }}</th>
-                                    <th>{{ trans('cruds.booking.fields.plane') }}</th>
-                                    <th>{{ trans('cruds.booking.fields.user') }}</th>
-                                    <th>{{ trans('cruds.booking.fields.status') }}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($bookings as $booking)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ url('/admin/bookings/' . $booking->id .'/edit') }}">{{ $booking->reservation_start }}</a>
-                                        </td>
-                                        <td>
-                                            {{ $booking->plane->callsign ?? '' }}
-                                        </td>
-                                        <td>{{ $booking->user->name ?? '' }}</td>
-                                        <td>
-                                            @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')
-                                                <span
-                                                    class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
-                                            @else
-                                                <span
-                                                    class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.table-responsive -->
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix">
-                        <a href="{{ url('/admin/bookings') }}"
-                           class="btn btn-sm btn-secondary float-right">{{ trans('global.more_info') }}</a>
-                    </div>
-                    <!-- /.card-footer -->
-                </div>
-            </div>
+            {{--                        <div class="card-tools">--}}
+            {{--                            <button type="button" class="btn btn-tool" data-card-widget="collapse">--}}
+            {{--                                <i class="fas fa-minus"></i>--}}
+            {{--                            </button>--}}
+            {{--                        </div>--}}
+            {{--                    </div>--}}
+            {{--                    <!-- /.card-header -->--}}
+            {{--                    <div class="card-body p-0">--}}
+            {{--                        <div class="table-responsive">--}}
+            {{--                            <table class="table m-0">--}}
+            {{--                                <thead>--}}
+            {{--                                <tr>--}}
+            {{--                                    <th>{{ trans('cruds.booking.fields.reservation_start') }}</th>--}}
+            {{--                                    <th>{{ trans('cruds.booking.fields.plane') }}</th>--}}
+            {{--                                    <th>{{ trans('cruds.booking.fields.user') }}</th>--}}
+            {{--                                    <th>{{ trans('cruds.booking.fields.status') }}</th>--}}
+            {{--                                </tr>--}}
+            {{--                                </thead>--}}
+            {{--                                <tbody>--}}
+            {{--                                @foreach($bookings as $booking)--}}
+            {{--                                    <tr>--}}
+            {{--                                        <td>--}}
+            {{--                                            <a href="{{ url('/admin/bookings/' . $booking->id .'/edit') }}">{{ $booking->reservation_start }}</a>--}}
+            {{--                                        </td>--}}
+            {{--                                        <td>--}}
+            {{--                                            {{ $booking->plane->callsign ?? '' }}--}}
+            {{--                                        </td>--}}
+            {{--                                        <td>{{ $booking->user->name ?? '' }}</td>--}}
+            {{--                                        <td>--}}
+            {{--                                            @if (App\Booking::STATUS_RADIO[$booking->status] == 'pending')--}}
+            {{--                                                <span--}}
+            {{--                                                    class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>--}}
+            {{--                                            @else--}}
+            {{--                                                <span--}}
+            {{--                                                    class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>--}}
+            {{--                                            @endif--}}
+            {{--                                        </td>--}}
+            {{--                                    </tr>--}}
+            {{--                                @endforeach--}}
+            {{--                                </tbody>--}}
+            {{--                            </table>--}}
+            {{--                        </div>--}}
+            {{--                        <!-- /.table-responsive -->--}}
+            {{--                    </div>--}}
+            {{--                    <!-- /.card-body -->--}}
+            {{--                    <div class="card-footer clearfix">--}}
+            {{--                        <a href="{{ url('/admin/bookings') }}"--}}
+            {{--                           class="btn btn-sm btn-secondary float-right">{{ trans('global.more_info') }}</a>--}}
+            {{--                    </div>--}}
+            {{--                    <!-- /.card-footer -->--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
         </div>
 
 @endsection
