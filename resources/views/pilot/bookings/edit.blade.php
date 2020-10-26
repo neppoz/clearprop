@@ -23,7 +23,7 @@
                 <div class="col-6">
                     <div class="float-right">
                         @can('booking_delete')
-                            @if($booking->modus === 0)
+                            @if(($booking->created_by_id == auth()->user()->id) && ($booking->bookingUsers->count() == 1))
                                 <form action="{{ route('pilot.bookings.destroy', $booking->id) }}" method="POST"
                                       onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
                                     <input type="hidden" name="_method" value="DELETE">
@@ -32,7 +32,7 @@
                                            value="{{ trans('global.delete_reservation') }}">
                                 </form>
                             @else
-                                <form action="{{ route('pilot.bookings.revokeSlot', $booking->id) }}" method="POST"
+                                <form action="{{ route('pilot.bookings.revoke', $booking->id) }}" method="POST"
                                       onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
                                     <input type="hidden" name="_method" value="POST">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -54,20 +54,27 @@
                         {{ trans('cruds.booking.fields.user') }}
                     </th>
                     <td>
-                        {{ $booking->user->name ?? '' }}
+                        @foreach($booking->bookingUsers as $bookingUsers)
+                            <span>{{ $bookingUsers->name ?? '' }}</span><br>
+                        @endforeach
                     </td>
                 </tr>
-                <tr>
+                <tr style="{{ $booking->instructor_needed === 1 ? '' : 'display:none' }}">
                     <th>
                         {{ trans('cruds.booking.fields.instructor_needed') }}
                     </th>
                     <td>
-                        @if (App\Booking::INSTRUCTOR_NEEDED_RADIO[$booking->instructor_needed] == 'yes')
-                            <span class="fa fa-check-circle text-dark" aria-hidden="true"></span>
-                        @else
-                            <span class="fa fa-times-circle text-dark" aria-hidden="true"></span>
-                        @endif
-                        {{--                        <span class="text-primary">{{ App\Booking::INSTRUCTOR_NEEDED_RADIO[$booking->instructor_needed] ?? '' }}</span>--}}
+                        <span class="fa fa-check-circle text-dark"></span>
+                    </td>
+                </tr>
+                <tr style="{{ $booking->bookingInstructors->count() ? '' : 'display:none' }}">
+                    <th>
+                        {{ trans('cruds.booking.fields.instructor') }}
+                    </th>
+                    <td>
+                        @foreach($booking->bookingInstructors as $bookingInstructor)
+                            <span>{{ $bookingInstructor->name ?? '' }}</span><br>
+                        @endforeach
                     </td>
                 </tr>
                 <tr>
@@ -99,24 +106,9 @@
                         {{ trans('cruds.booking.fields.status') }}
                     </th>
                     <td>
-                        @if(App\Booking::STATUS_RADIO[$booking->status] === 'pending')
-                            <span class="badge badge-warning">{{ App\Booking::STATUS_RADIO[$booking->status] }}</span>
-                        @endif
-                        @if(App\Booking::STATUS_RADIO[$booking->status] === 'confirmed')
-                            <span class="badge badge-success">{{ App\Booking::STATUS_RADIO[$booking->status]}}</span>
-                        @endif
+                        <i class="fa fa-lg fa-{{ $booking->status === 0 ? 'question-circle text-warning' : 'check-circle text-success'}}"></i>
                     </td>
                 </tr>
-                @if(!empty($booking->instructor_id) && App\Booking::STATUS_RADIO[$booking->status] === 'confirmed')
-                    <tr>
-                        <th>
-                            {{ trans('cruds.booking.fields.instructor') }}
-                        </th>
-                        <td>
-                            {{ $booking->instructor->name ?? '' }}
-                        </td>
-                    </tr>
-                @endif
                 </tbody>
             </table>
         </div>
@@ -131,18 +123,9 @@
                   enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
-                <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id', $booking->user_id) }}"
-                       readonly>
-                <input type="hidden" name="instructor_needed" id="instructor_needed"
-                       value="{{ old('instructor_needed', $booking->instructor_needed) }}"
-                       readonly>
                 <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}"
                        readonly>
-                <input type="hidden" name="reservation_start" id="reservation_start"
-                       value="{{ old('reservation_start', $booking->reservation_start) }}" readonly>
-                <input type="hidden" name="reservation_stop" id="reservation_stop"
-                       value="{{ old('reservation_stop', $booking->reservation_stop) }}" readonly>
-
+                <input type="hidden" name="status" id="status" value="{{ old('status', $booking->status) }}" readonly>
                 <div class="form-group">
                     <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
                     <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}"
@@ -170,77 +153,6 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-            if ($('#instructor_id_input').length) {
-                $('#status').val(1);
-            }
-
-            $("#instructor_id_select").change(function () {
-                $('#status').val(1);
-            });
-
-            $('#reservation_start').datetimepicker({
-                format: 'DD/MM/YYYY HH:mm',
-                locale: '{{ app()->getLocale() }}',
-                sideBySide: true,
-                toolbarPlacement: 'top',
-                showTodayButton: true,
-                showClose: true,
-                widgetPositioning: {
-                    horizontal: 'auto',
-                    vertical: 'top'
-                },
-                icons: {
-// time: 'glyphicon glyphicon-time',
-// date: 'glyphicon glyphicon-calendar',
-                    up: 'fas fa-chevron-up',
-                    down: 'fas fa-chevron-down',
-                    previous: 'fas fa-chevron-left',
-                    next: 'fas fa-chevron-right',
-                    today: 'fas fa-dot-circle',
-// clear: 'glyphicon glyphicon-trash',
-                    close: 'fas fa-check-circle'
-
-                },
-//disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
-//enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-                stepping: 15,
-            });
-
-            $('#reservation_stop').datetimepicker({
-                useCurrent: false,
-                format: 'DD/MM/YYYY HH:mm',
-                locale: '{{ app()->getLocale() }}',
-                sideBySide: true,
-                toolbarPlacement: 'top',
-                showTodayButton: true,
-                showClose: true,
-                widgetPositioning: {
-                    horizontal: 'auto',
-                    vertical: 'top'
-                },
-                icons: {
-// time: 'glyphicon glyphicon-time',
-// date: 'glyphicon glyphicon-calendar',
-                    up: 'fas fa-chevron-up',
-                    down: 'fas fa-chevron-down',
-                    previous: 'fas fa-chevron-left',
-                    next: 'fas fa-chevron-right',
-                    today: 'fas fa-dot-circle',
-// clear: 'glyphicon glyphicon-trash',
-                    close: 'fas fa-check-circle'
-
-                },
-//disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 6 })], [moment({ h: 20, m: 00 }), moment({ h: 24 })]],
-//enabledHours: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-                stepping: 15
-            });
-
-            $("#reservation_start").on("dp.change", function (e) {
-                $('#reservation_stop').data("DateTimePicker").minDate(e.date);
-            });
-            $("#reservation_stop").on("dp.change", function (e) {
-                $('#reservation_start').data("DateTimePicker").maxDate(e.date);
-            });
 
         });
     </script>

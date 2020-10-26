@@ -15,7 +15,7 @@
         class="help-block text-secondary small">{{ trans('cruds.slot.fields.title_helper') }}</span>
 </div>
 <div class="form-group">
-    <label for="users">{{ trans('cruds.booking.fields.user') }}</label>
+    <label for="users">{{ trans('cruds.booking.fields.school_user') }}</label>
     <div style="padding-bottom: 4px">
         <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
         <span class="btn btn-info btn-xs deselect-all"
@@ -31,7 +31,7 @@
     @if($errors->has('user'))
         <span class="text-danger">{{ $errors->first('user') }}</span>
     @endif
-    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.user_helper') }}</span>
+    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.school_user_helper') }}</span>
 </div>
 <div class="form-group">
     <label for="instructors">{{ trans('cruds.activity.fields.instructor') }}</label>
@@ -67,27 +67,6 @@
     @endif
     <span class="help-block text-secondary small">{!! trans('cruds.booking.fields.status_helper') !!}</span>
 </div>
-{{--<div class="form-group">
-    <div class="form-check {{ $errors->has('checkin') ? 'is-invalid' : '' }}">
-        <input type="hidden" name="checkin" value="0">
-        <input class="form-check-input" type="checkbox" name="checkin" id="checkin"
-               value="1" {{ old('checkin', 0) == 1 ? 'checked' : '' }}>
-        <label class="form-check-label" for="checkin">{{ trans('cruds.booking.fields.checkin') }}</label>
-    </div>
-    @if($errors->has('checkin'))
-        <span class="text-danger">{{ $errors->first('checkin') }}</span>
-    @endif
-    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.checkin_helper') }}</span>
-</div>
-<div class="form-group">
-    <label for="seats">{{ trans('cruds.booking.fields.seats') }}</label>
-    <input class="form-control {{ $errors->has('seats') ? 'is-invalid' : '' }}" type="number" name="seats" id="seats" value="{{ old('seats', $booking->seats) }}" step="1">
-    @if($errors->has('seats'))
-        <span class="text-danger">{{ $errors->first('seats') }}</span>
-    @endif
-    <span class="help-block">{{ trans('cruds.booking.fields.seats_helper') }}</span>
-</div>--}}
-
 <div class="form-group">
     <label for="checkin">{{ trans('cruds.booking.fields.checkin') }}</label>
     <div class="input-group">

@@ -10,7 +10,7 @@
             <form method="POST" action="{{ route("pilot.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
-                <input type="hidden" name="modus" id="modus" value="0" readonly>
+                <input type="hidden" name="mode_id" id="mode_id" value="1" readonly>
                 <input type="hidden" name="status" id="status" value="0" readonly>
 
                 <div class="form-group">
@@ -33,8 +33,7 @@
                     @foreach(App\Booking::INSTRUCTOR_NEEDED_RADIO as $key => $label)
                         <div class="form-check {{ $errors->has('instructor_needed') ? 'is-invalid' : '' }}">
                             <input class="form-check-input" type="radio" id="instructor_needed_{{ $key }}"
-                                   name="instructor_needed"
-                                   value="{{ $key }}"
+                                   name="instructor_needed" value="{{ $key }}"
                                    {{ old('instructor_needed', '1') === (string) $key ? 'checked' : '' }} required>
                             <label class="form-check-label" for="instructor_needed_{{ $key }}">{{ $label }}</label>
                         </div>
@@ -127,25 +126,24 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.1.0/dist/sweetalert2.all.min.js"></script>
-    <script>
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-    </script>
+    {{--    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.1.0/dist/sweetalert2.all.min.js"></script>--}}
+    {{--    <script>--}}
+    {{--        const Toast = Swal.mixin({--}}
+    {{--            toast: true,--}}
+    {{--            position: 'top-end',--}}
+    {{--            showConfirmButton: false,--}}
+    {{--            timer: 5000,--}}
+    {{--            timerProgressBar: true,--}}
+    {{--            onOpen: (toast) => {--}}
+    {{--                toast.addEventListener('mouseenter', Swal.stopTimer)--}}
+    {{--                toast.addEventListener('mouseleave', Swal.resumeTimer)--}}
+    {{--            }--}}
+    {{--        })--}}
+    {{--    </script>--}}
     <script>
         $(document).ready(function () {
             let user = $('#user_id').val();
             let plane;
-            let instructor_needed = $('input[name="instructor_needed"]');
             let warning_medical = $("#warning-medical");
             let warning_activity = $("#warning-activity");
             let info_balance = $("#info-balance");
@@ -163,31 +161,24 @@
                 instructor_needed_val_0.prop("disabled", false);
 
                 if (data.medicalCheckPassed === false) {
-                    // alert('Medical')
                     warning_medical.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
-                    // status.val('0');
                 }
 
                 if (data.ratingCheckPassed === false) {
-                    // alert('Rating')
                     info_rating.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
-                    // status.val('0');
                 }
 
                 if (data.activityCheckPassed === false) {
-                    // alert('Activity')
                     warning_activity.show();
                     instructor_needed_val_1.prop("checked", true);
                     instructor_needed_val_0.prop("disabled", true);
-                    // status.val('0');
                 }
 
                 if (data.balanceCheckPassed === false) {
-                    // alert('Balance')
                     info_balance.show();
                     $("#reservation_start").prop("disabled", true);
                     $("#reservation_stop").prop("disabled", true);

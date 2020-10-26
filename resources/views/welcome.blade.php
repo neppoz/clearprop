@@ -205,20 +205,26 @@
                                     </td>
                                 </tr>
                                 @foreach($bookings as $booking)
-                                    <tr class="table-tr" data-url="{{}}">
+                                    <tr class="{{ $booking->bookingUsers->contains('id', auth()->user()->id) ? 'table-tr-edit' : 'table-tr' }}"
+                                        data-url="{{ route('pilot.bookings.edit', $booking->id)}}">
                                         <td>
-                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}
-                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}
+                                            <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}</span><br>
+                                            <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}</span>
                                         </td>
                                         <td>
-                                            {{ $booking->plane->callsign ?? '' }}
+                                            <span
+                                                class="text text-{{$booking->mode->id === 4 ? 'danger' : 'black'}}">{{ $booking->plane->callsign ?? '' }}</span><br>
+                                            <span
+                                                class="badge badge-{{$booking->mode->id === 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name}}</span>
                                         </td>
                                         <td>
                                             @foreach($booking->bookingUsers as $userBookings)
                                                 <span
-                                                    class="text {{ $userBookings->id == auth()->user()->id ? 'text-bold' : 'text-black-50'}}">{{ $userBookings->name ?? '' }}</span>
+                                                    class="text {{ $userBookings->id == auth()->user()->id ? 'text-primary' : 'text-black'}}">{{ $userBookings->name ?? '' }}</span>
                                                 <br>
                                             @endforeach
+                                            <span
+                                                class="font-weight-lighter text-black-50 small">{{$booking->description}}</span>
                                         </td>
                                         <td>
                                             <i class="fa fa-lg fa-{{ $booking->status === 0 ? 'question-circle text-warning' : 'check-circle text-success'}}"></i>
@@ -254,7 +260,7 @@
 @section('scripts')
     <script>
         $(function () {
-            $('table.table').on("click", "tr.table-tr", function () {
+            $('table.table').on("click", "tr.table-tr-edit", function () {
                 window.location = $(this).data("url");
             });
         });
