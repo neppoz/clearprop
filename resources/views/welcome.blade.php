@@ -120,7 +120,7 @@
                                 <tbody>
                                 @forelse($checkinDates as $date => $slots)
                                     <tr>
-                                        <td class="bg-gray-light text-bold text-left" colspan="4">
+                                        <td class="bg-gray-light text-bold text-left" colspan="3">
                                             {{ $date }}
                                         </td>
                                     </tr>
@@ -133,7 +133,8 @@
                                             <td>
                                                 <span
                                                     class="text text-{{$slot->mode_id == 4 ? 'danger' : 'black'}}">{{ $slot->plane->callsign ?? '' }}</span><br>
-                                                {{--                                                    <span class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title}}</span>--}}
+                                                <span
+                                                    class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title}}</span>
                                             </td>
                                             <td>
                                                 @foreach($slot->bookingInstructors as $instructorBookings)
@@ -146,7 +147,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-center" colspan="4">
+                                            <td class="text-center" colspan="3">
                                                 <form action="{{ route('pilot.bookings.book', $slot->id) }}"
                                                       method="POST"
                                                       onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
