@@ -15,7 +15,7 @@ return [
         'personal_request' => 'My reservation',
         'slot_title' => 'Appointments',
         'slot_title_singular' => 'Appointment',
-        'book_slot' => 'Book Now',
+        'book_slot' => 'Book your seat',
         'create_request' => 'Create request',
         'edit_request' => 'Edit request',
 

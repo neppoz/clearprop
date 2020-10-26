@@ -16,7 +16,7 @@ return [
         'personal_request' => 'Prenotazione',
         'slot_title' => 'Appuntamenti',
         'slot_title_singular' => 'Appuntamento',
-        'book_slot' => 'Prenota ora',
+        'book_slot' => 'Prenota tuo posto',
         'create_request' => 'Crea richiesta',
         'edit_request' => 'Modifica richiesta',
     ],
