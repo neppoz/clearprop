@@ -1,6 +1,5 @@
 @extends('layouts.pilot')
 @section('content')
-
     <div class="row mt-2">
         <div class="col-sm-6">
             <h3 class="m-0 text-dark">{{ trans('cruds.dashboard.greeting') . auth()->user()->name }}</h3>
@@ -47,8 +46,6 @@
             @endif
         </div>
         <!-- ./col -->
-
-
         <div class="col-lg-3 col-6">
             <!-- small box -->
             <a href="{{ route('pilot.activities.index') }}">
@@ -107,7 +104,6 @@
     @if(count($checkinDates) > 0)
         <div class="row mt-1 mb-4">
             <div class="col-sm-6">
-                <h4 class="m-0 text-dark">{{ trans('cruds.dashboard.slot_title') }}</h4>
             </div><!-- /.col -->
             <div class="col-sm-6">
             </div><!-- /.col -->
@@ -115,50 +111,64 @@
         <div class="row mt-1">
             <div class="col-12 col-sm-12 col-md-12">
                 <div class="card card-primary card-outline">
-
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-valign-middle">
-                            <thead>
-                            </thead>
-                            <tbody>
-                            @forelse($checkinDates as $date => $slots)
-                                <tr>
-                                    <td class="bg-gray-light text-bold text-left" colspan="4">
-                                        {{ $date }}
-                                    </td>
-                                </tr>
-                                @foreach($slots as $slot)
+                    <div class="card-header"></div>
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                @forelse($checkinDates as $date => $slots)
                                     <tr>
-                                        <td width="10">
-                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}
-                                        </td>
-                                        <td width="10">
-                                            {{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}
-                                        </td>
-                                        <td>
-                                            {{ $slot->instructor->name ?? '' }}
-                                        </td>
-                                        <td class="text-right">
-                                            <form action="{{ route('pilot.bookings.slot', $slot->id) }}" method="POST"
-                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                  style="display: inline-block;">
-                                                <input type="hidden" name="_method" value="POST">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="btn btn-primary"><i
-                                                        class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
-                                                </button>
-                                            </form>
+                                        <td class="bg-gray-light text-bold text-left" colspan="4">
+                                            {{ $date }}
                                         </td>
                                     </tr>
-                                @endforeach
-                            @empty
-                                <div class="bg-light">
-                                    <div class="p-4 text-center"><i class="fas fa-paper-plane fa-2x text-black-50"></i>
+                                    @foreach($slots as $slot)
+                                        <tr>
+                                            <td>
+                                                <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}</span><br>
+                                                <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}</span>
+                                            </td>
+                                            <td>
+                                        <span
+                                            class="text text-{{$slot->mode_id == 4 ? 'danger' : 'black'}}">{{ $slot->plane->callsign ?? '' }}</span><br>
+                                                <span
+                                                    class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title}}</span>
+                                            </td>
+                                            <td>
+                                                @foreach($slot->bookingInstructors as $instructorBookings)
+                                                    <span
+                                                        class="text text-black">{{ $instructorBookings->name ?? '' }}</span>
+                                                    <br>
+                                                @endforeach
+                                                <span
+                                                    class="font-weight-lighter text-black-50 small">{{$slot->description}}</span>
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('pilot.bookings.book', $slot->id) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                      style="display: inline-block;">
+                                                    <input type="hidden" name="_method" value="POST">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @empty
+                                    <div class="bg-light">
+                                        <div class="p-4 text-center"><i
+                                                class="fas fa-paper-plane fa-2x text-black-50"></i>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforelse
-                            </tbody>
-                        </table>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-footer -->
                 </div>
@@ -212,10 +222,10 @@
                                             <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}</span>
                                         </td>
                                         <td>
+                                        <span
+                                            class="text text-{{$booking->mode_id == 4 ? 'danger' : 'black'}}">{{ $booking->plane->callsign ?? '' }}</span><br>
                                             <span
-                                                class="text text-{{$booking->mode->id === 4 ? 'danger' : 'black'}}">{{ $booking->plane->callsign ?? '' }}</span><br>
-                                            <span
-                                                class="badge badge-{{$booking->mode->id === 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name}}</span>
+                                                class="badge badge-{{$booking->mode_id == 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name}}</span>
                                         </td>
                                         <td>
                                             @foreach($booking->bookingUsers as $userBookings)
@@ -253,10 +263,8 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
+
 @section('scripts')
     <script>
         $(function () {

@@ -26,7 +26,7 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
     Route::get('/', 'HomeController@index')->name('welcome');
 
     // Bookings
-    Route::post('bookings/slot/{id}', 'BookingsController@bookSlot')->name('bookings.slot');
+    Route::post('bookings/book/{id}', 'BookingsController@book')->name('bookings.book');
     Route::post('bookings/revoke/{id}', 'BookingsController@revoke')->name('bookings.revoke');
     Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
     Route::resource('bookings', 'BookingsController');

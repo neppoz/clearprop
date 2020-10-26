@@ -154,7 +154,7 @@ class BookingsController extends Controller
                 $labels = [];
 
                 if ($row->checkin === 1) {
-                    $labels[] = sprintf('<span class="text-black-50 text-sm">' . trans('global.checkin_active') . ': +' . $row->seats . '</span><br>');
+                    $labels[] = sprintf('<span class="text-black-50 text-sm">' . trans('global.checkin_active') . ': +' . $row->seats_available . '</span><br>');
 
                 }
 
@@ -213,7 +213,7 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            (new BookingCheckService())->calculateCheckIn($booking);
+            (new BookingCheckService())->calculateSeatsCheckIn($booking);
 
             return redirect()->route('admin.bookings.edit', $booking->id);
         }
@@ -244,7 +244,7 @@ class BookingsController extends Controller
         $booking->bookingUsers()->sync($request->input('users', []));
         $booking->bookingInstructors()->sync($request->input('instructors', []));
 
-        //(new BookingCheckService())->calculateCheckIn($booking);
+        (new BookingCheckService())->calculateSeatsCheckIn($booking);
 
         if ($request->input('email') == true) {
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);

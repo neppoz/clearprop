@@ -154,10 +154,9 @@ class BookingsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function bookSlot(Request $request)
+    public function book(Request $request)
     {
         $booking = Booking::findOrFail($request->id);
-        $booking->status = 1;
         $booking->user_id = \Auth::user()->id;
         $booking->save();
 
