@@ -91,24 +91,6 @@ class BookingsController extends Controller
 
         return view('pilot.bookings.create', compact('planes'));
 
-//        if (auth()->user()->IspilotByRole() OR auth()->user()->IsManagerByRole()) {
-//            return view('pilot.bookings.create', compact('users', 'planes', 'instructors'));
-//        } else {
-//            $user = auth()->user();
-//            if ((new UserCheckService())->medicalCheckPassed($user)) {
-//                if ((new UserCheckService())->balanceCheckPassed($user)) {
-//                    if ((new UserCheckService())->activityCheckPassed($user)) {
-//                        return view('pilot.bookings.create', compact('user', 'planes'));
-//                    } else {
-//                        return back()->withToastError(trans('global.activityCheck'));
-//                    }
-//                } else {
-//                    return back()->withToastError(trans('global.balanceCheck'));
-//                }
-//            } else {
-//                return back()->withToastError(trans('global.medicalCheck'));
-//            }
-//        }
     }
 
     public function store(StoreBookingRequest $request)
@@ -118,6 +100,8 @@ class BookingsController extends Controller
             $booking = Booking::create($request->all());
 
             (new BookingStatusService())->createStatus($booking);
+
+            $booking->bookingUsers()->attach(auth()->user()->id);
 
             return redirect()->route('pilot.welcome');
         }
@@ -129,15 +113,9 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $booking->load('bookingUsers', 'bookingInstructors', 'plane', 'created_by');
 
-        $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $booking->load('user', 'plane', 'created_by');
-
-        return view('pilot.bookings.edit', compact('users', 'planes', 'booking', 'instructors'));
+        return view('pilot.bookings.edit', compact('booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
@@ -166,8 +144,6 @@ class BookingsController extends Controller
 
         $booking->delete();
 
-//        event(new BookingDeletedEvent($booking));
-
         return redirect()->route('pilot.welcome');
     }
 
@@ -191,11 +167,10 @@ class BookingsController extends Controller
 
     }
 
-    public function revokeSlot(Request $request, Booking $booking)
+    public function revoke(Request $request)
     {
         $booking = Booking::findOrFail($request->id);
-        $booking->status = 0;
-        $booking->user_id = null;
+        $booking->bookingUsers()->detach(auth()->user()->id);
         $booking->save();
 
         return redirect()->route('pilot.welcome');
