@@ -39,13 +39,13 @@
                         {{ trans('cruds.booking.fields.mode') }}
                     </th>
                     <th>
+                        {{ trans('cruds.booking.fields.plane') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.booking.fields.user') }}
                     </th>
                     <th>
                         {{ trans('cruds.user.fields.instructor') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.booking.fields.plane') }}
                     </th>
                     <th>
                         {{ trans('cruds.booking.fields.status') }}
@@ -66,22 +66,20 @@
                     <td>
                         <select class="search">
                             <option value>{{ trans('global.all') }}</option>
+                            @foreach($planes as $key => $item)
+                                <option value="{{ $item->callsign }}">{{ $item->callsign }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
                             @foreach($users as $key => $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </td>
-                    </td>
                     <td>
-                    <td>
-                        <select class="search">
-                            <option value>{{ trans('global.all') }}</option>
-                            @foreach($planes as $key => $item)
-                                <option value="{{ $item->callsign }}">{{ $item->callsign }}</option>
-                            @endforeach
-                        </select>
-
-                    </td>
                     <td>
                     </td>
                     <td>
@@ -146,23 +144,10 @@
                     {data: 'reservation_start_time', name: 'reservation_start_time'},
                     {data: 'reservation_stop_time', name: 'reservation_stop_time'},
                     {data: 'mode', name: 'mode.name'},
+                    {data: 'plane_callsign', name: 'plane.callsign'},
                     {data: 'user', name: 'user.name'},
                     {data: 'instructor', name: 'instructor.name'},
-                    {data: 'plane_callsign', name: 'plane.callsign'},
-                    {
-                        data: 'status',
-                        name: 'status',
-                        render: data => {
-                            if (data === 'pending') {
-                                return '<span class="badge badge-warning">' + data + '</span>';
-                            }
-                            if (data === 'confirmed') {
-                                return '<span class="badge badge-success">' + data + '</span>';
-                            }
-                            return data;
-                        },
-                    },
-
+                    {data: 'status'},
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],
                 orderCellsTop: true,

@@ -274,6 +274,8 @@ return [
     'info' => 'Info',
     'more_info' => 'Visualizza',
     'is_needed' => 'è obbligatorio',
+    'instructor_is_needed' => 'Istruttore richiesto',
+    'checkin_active' => 'Check-In attivo',
     'delete_reservation' => 'Elimina prenotazione',
     'revoke_reservation' => 'Ritira prenotazione',
     'pay-online' => 'Pagamento online',

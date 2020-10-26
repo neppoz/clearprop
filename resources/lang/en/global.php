@@ -274,6 +274,8 @@ return [
     'info' => 'Info',
     'more_info' => 'More info',
     'is_needed' => 'is needed',
+    'instructor_is_needed' => 'Instructor request',
+    'checkin_active' => 'Check-In active',
     'delete_reservation' => 'Delete reservation',
     'revoke_reservation' => 'Cancel reservation',
     'pay-online' => 'Online payment',
