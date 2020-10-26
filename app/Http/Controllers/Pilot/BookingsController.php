@@ -156,6 +156,8 @@ class BookingsController extends Controller
         $booking->bookingUsers()->attach(auth()->user()->id);
         $booking->save();
 
+        (new BookingCheckService())->calculateSeatsCheckIn($booking);
+
         return redirect()->route('pilot.welcome');
 
     }
@@ -165,6 +167,8 @@ class BookingsController extends Controller
         $booking = Booking::findOrFail($request->id);
         $booking->bookingUsers()->detach(auth()->user()->id);
         $booking->save();
+
+        (new BookingCheckService())->calculateSeatsCheckIn($booking);
 
         return redirect()->route('pilot.welcome');
 
