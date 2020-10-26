@@ -136,19 +136,30 @@ class BookingsController extends Controller
                 return $row->mode ? $row->mode->name : '';
             });
 
-            $table->addColumn('slot', function ($row) {
-                return $row->slot ? $row->slot->title : '';
-            });
-
             $table->addColumn('status', function ($row) {
-                return Booking::STATUS_RADIO[$row->status] ?? '';
+                $labels = [];
+
+                if ($row->status === 0) {
+                    $labels[] = sprintf('<i class="fas fa-question-circle fa-lg text-warning" aria-hidden="true"></i>');
+                }
+                if ($row->status === 1) {
+                    $labels[] = sprintf('<i class="fas fa-check-circle fa-lg text-success" aria-hidden="true"></i>');
+//                    $labels[] = sprintf('<span class="badge badge-success">%s</span>', Booking::STATUS_RADIO[$row->status]);
+                }
+
+                return implode(' ', $labels);
             });
 
             $table->editColumn('user', function ($row) {
                 $labels = [];
 
+                if ($row->checkin === 1) {
+                    $labels[] = sprintf('<span class="text-black-50 text-sm">' . trans('global.checkin_active') . ': +' . $row->seats . '</span><br>');
+
+                }
+
                 foreach ($row->bookingUsers as $user) {
-                    $labels[] = sprintf('<span class="badge badge-info">%s</span>', $user->name);
+                    $labels[] = sprintf('<span class="badge badge-info">%s</span><br>', $user->name);
                 }
 
                 return implode(' ', $labels);
@@ -157,8 +168,12 @@ class BookingsController extends Controller
             $table->editColumn('instructor', function ($row) {
                 $labels = [];
 
+                if ($row->instructor_needed === 1) {
+                    $labels[] = sprintf('<span class="text-black-50 text-sm">' . trans('global.instructor_is_needed') . '</span><br>');
+                }
+
                 foreach ($row->bookingInstructors as $instructor) {
-                    $labels[] = sprintf('<span class="badge badge-primary">%s</span>', $instructor->name);
+                    $labels[] = sprintf('<span class="badge badge-primary">%s</span><br>', $instructor->name);
                 }
 
                 return implode(' ', $labels);
@@ -168,7 +183,7 @@ class BookingsController extends Controller
                 return $row->plane ? $row->plane->callsign : '';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'user', 'instructor', 'plane']);
+            $table->rawColumns(['actions', 'placeholder', 'status', 'user', 'instructor', 'plane']);
 
             return $table->make(true);
         }
