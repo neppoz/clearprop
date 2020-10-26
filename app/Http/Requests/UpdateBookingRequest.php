@@ -26,6 +26,12 @@ class UpdateBookingRequest extends FormRequest
             'status' => [
                 'required',
                 'integer'],
+            'seats' => [
+                'exclude_if:checkin,0|required|integer'],
+            'users' => [
+                'sometimes',
+                'array'],
+
         ];
 
     }

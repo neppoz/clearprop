@@ -276,6 +276,7 @@ return [
     'is_needed' => 'is needed',
     'instructor_is_needed' => 'Instructor request',
     'checkin_active' => 'Check-In active',
+    'seats_taken_exceeded' => 'Seats for check-in are overbooked. Please check the available number of seats.',
     'delete_reservation' => 'Delete reservation',
     'revoke_reservation' => 'Cancel reservation',
     'pay-online' => 'Online payment',

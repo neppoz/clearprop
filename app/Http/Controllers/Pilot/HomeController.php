@@ -15,7 +15,7 @@ class HomeController
     {
         $statistics = (new StatisticsService())->dashboard($request);
 
-        $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot'])
+        $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
             ->where('reservation_start', '>=', Carbon::parse(today()))
             ->orderBy('reservation_start', 'asc')
             ->get()
@@ -24,9 +24,12 @@ class HomeController
             });
 
         $checkinDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot'])
+            ->whereDoesntHave('bookingUsers', function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
             ->where('reservation_start', '>=', Carbon::parse(today()))
             ->where('checkin', 1)
-            ->where('seats', '>', 0)
+            ->where('seats_available', '>', 0)
             ->where('status', 1)
             ->orderBy('reservation_start', 'asc')
             ->get()
