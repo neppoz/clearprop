@@ -122,10 +122,6 @@ class BookingsController extends Controller
     {
         $booking->update($request->all());
 
-        if ($booking->wasChanged('status')) { // Verify if status has changed
-            (new BookingStatusService())->updateStatus($booking);
-        }
-
         return redirect()->route('pilot.welcome');
     }
 
@@ -157,12 +153,10 @@ class BookingsController extends Controller
     public function book(Request $request)
     {
         $booking = Booking::findOrFail($request->id);
-        $booking->user_id = \Auth::user()->id;
+        $booking->bookingUsers()->attach(auth()->user()->id);
         $booking->save();
 
-        (new BookingStatusService())->updateStatus($booking);
-
-        return redirect()->back();
+        return redirect()->route('pilot.welcome');
 
     }
 

@@ -22,8 +22,6 @@ class BookingStatusService
                 // Auto-Confirmation, status 1
                 $booking->status = 1;
                 $booking->save();
-
-//                $this->sendNotificationsConfirmed($booking);
             }
             return true;
 
@@ -32,16 +30,6 @@ class BookingStatusService
             return back()->withToastError($exception->getMessage());
         }
 
-    }
-
-    public function updateStatus($booking)
-    {
-        $booking->load('user', 'instructor', 'plane', 'created_by');
-        if ($booking->status == 1 && Booking::MODUS_SELECT[$booking->modus] == 'pilot') {
-            $this->sendNotificationsConfirmed($booking);
-        }
-
-        return true;
     }
 
     public function sendNotificationsConfirmed($booking) {
@@ -62,8 +50,4 @@ class BookingStatusService
         return true;
     }
 
-//    public function sendNotificationsPending($booking, $type, $redirect_url, $plane, $user) {
-//
-//        return true;
-//    }
 }
