@@ -42,6 +42,8 @@ class Booking extends Model
         'slot_id',
         'checkin',
         'seats',
+        'seats_taken',
+        'seats_available',
         'instructor_needed',
         'plane_id',
         'created_by_id',

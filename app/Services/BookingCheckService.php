@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Booking;
 use App\Plane;
 use App\Parameter;
 
@@ -28,7 +29,7 @@ class BookingCheckService
                         ->orWhereBetween('reservation_stop', $times)
                         ->orWhere(function ($query) use ($times) {
                             $query->where('reservation_start', '<', $times[0])
-                            ->where('reservation_stop', '>', $times[1]);
+                                ->where('reservation_stop', '>', $times[1]);
                         });
                 })->count();
 
@@ -39,5 +40,21 @@ class BookingCheckService
             report($exception);
             return back()->withToastError($exception->getMessage());
         }
+        return false;
+    }
+
+    public function calculateCheckIn(Booking $booking)
+    {
+        $booking->seats_taken = $booking->bookingUsers()->count();
+    }
+
+    public function decrementSeats(Request $request)
+    {
+
+    }
+
+    public function incrementSeats(Request $request)
+    {
+
     }
 }

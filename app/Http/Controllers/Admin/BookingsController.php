@@ -159,7 +159,7 @@ class BookingsController extends Controller
                 }
 
                 foreach ($row->bookingUsers as $user) {
-                    $labels[] = sprintf('<span class="badge badge-info">%s</span><br>', $user->name);
+                    $labels[] = sprintf('<span class="text">%s</span><br>', $user->name);
                 }
 
                 return implode(' ', $labels);
@@ -168,12 +168,12 @@ class BookingsController extends Controller
             $table->editColumn('instructor', function ($row) {
                 $labels = [];
 
-                if ($row->instructor_needed === 1) {
-                    $labels[] = sprintf('<span class="text-black-50 text-sm">' . trans('global.instructor_is_needed') . '</span><br>');
+                if ($row->instructor_needed === 1 && $row->bookingInstructors->count() === 0) {
+                    $labels[] = sprintf('<span class="badge badge-warning">' . trans('global.instructor_is_needed') . '</span><br>');
                 }
 
                 foreach ($row->bookingInstructors as $instructor) {
-                    $labels[] = sprintf('<span class="badge badge-primary">%s</span><br>', $instructor->name);
+                    $labels[] = sprintf('<span class="text">%s</span><br>', $instructor->name);
                 }
 
                 return implode(' ', $labels);
@@ -199,7 +199,7 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $modes = Mode::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $modes = Mode::where('active', 1)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -212,6 +212,8 @@ class BookingsController extends Controller
         if ((new BookingCheckService())->availabilityCheckPassed($request)) {
 
             $booking = Booking::create($request->all());
+
+            (new BookingCheckService())->calculateCheckIn($booking);
 
             return redirect()->route('admin.bookings.edit', $booking->id);
         }
@@ -241,6 +243,8 @@ class BookingsController extends Controller
         $booking->update($request->all());
         $booking->bookingUsers()->sync($request->input('users', []));
         $booking->bookingInstructors()->sync($request->input('instructors', []));
+
+        //(new BookingCheckService())->calculateCheckIn($booking);
 
         if ($request->input('email') == true) {
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);

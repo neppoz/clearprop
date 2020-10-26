@@ -12,7 +12,6 @@ class BookingStatusService
 {
     public function createStatus($booking)
     {
-        $booking->load('user', 'instructor', 'plane', 'created_by');
         try {
             if ($booking->instructor_needed == true) {
                 // set status to pending
