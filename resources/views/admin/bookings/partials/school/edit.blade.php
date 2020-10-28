@@ -1,8 +1,8 @@
 <input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
 <div class="form-group">
-    <label for="slot_id_select">{{ trans('cruds.slot.title_singular') }}</label>
+    <label class="required" for="slot_id_select">{{ trans('cruds.slot.title_singular') }}</label>
     <select class="form-control select2 {{ $errors->has('slot') ? 'is-invalid' : '' }}" name="slot_id"
-            id="slot_id_select">
+            id="slot_id_select" required>
         @foreach($slots as $id => $slot)
             <option
                 value="{{ $id }}" {{ (old('slot_id') ? old('slot_id') : $booking->slot->id ?? '') == $id ? 'selected' : '' }}>{{ $slot }}</option>
@@ -32,6 +32,49 @@
         <span class="text-danger">{{ $errors->first('user') }}</span>
     @endif
     <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.school_user_helper') }}</span>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-sm-4">
+            <label for="checkin">{{ trans('cruds.booking.fields.checkin') }}</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <input type="hidden" name="checkin" value="0">
+                        <input type="checkbox" name="checkin" id="checkin" value="1" {{ $booking->checkin || old('checkin', 0) === 1 ? 'checked' : '' }}>
+                    </span>
+                </div>
+                <input class="form-control {{ $errors->has('seats') ? 'is-invalid' : '' }}" type="number"
+                       placeholder="{{trans('cruds.booking.fields.checkin_seats')}}" name="seats" id="seats"
+                       value="{{ old('seats', $booking->seats) }}" step="1" min="1">
+                @if($errors->has('checkin'))
+                    <span class="text-danger">{{ $errors->first('checkin') }}</span>
+                @endif
+            </div>
+            <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.checkin_helper') }}</span>
+        </div>
+        <div class="col-sm-4">
+            <label for="seats_available">{{ trans('cruds.booking.fields.seats_available') }}</label>
+            <input class="form-control {{ $errors->has('seats_available') ? 'is-invalid' : '' }}" type="number"
+                   name="seats_available" id="seats_available"
+                   value="{{ old('seats_available', $booking->seats_available) }}" readonly>
+            @if($errors->has('seats_available'))
+                <span class="text-danger">{{ $errors->first('seats_available') }}</span>
+            @endif
+            <span
+                class="help-block text-secondary small">{{ trans('cruds.booking.fields.seats_available_helper') }}</span>
+        </div>
+        <div class="col-sm-4">
+            <label for="seats_taken">{{ trans('cruds.booking.fields.seats_taken') }}</label>
+            <input class="form-control {{ $errors->has('seats_taken') ? 'is-invalid' : '' }}" type="number"
+                   name="seats_taken" id="seats_taken"
+                   value="{{ old('seats_taken', $booking->seats_taken) }}" readonly>
+            @if($errors->has('seats_taken'))
+                <span class="text-danger">{{ $errors->first('seats_taken') }}</span>
+            @endif
+            <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.seats_taken_helper') }}</span>
+        </div>
+    </div>
 </div>
 <div class="form-group">
     <label for="instructors">{{ trans('cruds.activity.fields.instructor') }}</label>
@@ -68,25 +111,6 @@
     <span class="help-block text-secondary small">{!! trans('cruds.booking.fields.status_helper') !!}</span>
 </div>
 <div class="form-group">
-    <label for="checkin">{{ trans('cruds.booking.fields.checkin') }}</label>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text">
-                <input type="hidden" name="checkin" value="0">
-                <input type="checkbox" name="checkin" id="checkin" value="1" {{ $booking->checkin || old('checkin', 0) === 1 ? 'checked' : '' }}>
-            </span>
-        </div>
-        <input class="form-control {{ $errors->has('seats') ? 'is-invalid' : '' }}" type="number"
-               placeholder="{{trans('cruds.booking.fields.checkin_seats')}}" name="seats" id="seats"
-               value="{{ old('seats', $booking->seats) }}" step="1">
-        @if($errors->has('seats'))
-            <span class="text-danger">{{ $errors->first('seats') }}</span>
-        @endif
-    </div>
-    <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.checkin_helper') }}</span>
-</div>
-
-<div class="form-group">
     <div class="form-check {{ $errors->has('email') ? 'is-invalid' : '' }}">
         <input type="hidden" name="email" value="0">
         <input class="form-check-input" type="checkbox" name="email" id="email"
@@ -120,6 +144,28 @@
     @parent
     <script>
         $(document).ready(function () {
+            let count;
+            let seats = $("#seats");
+            let seats_taken = $("#seats_taken");
+            let seats_available = $("#seats_available");
+
+            $("#users").change(function () {
+                count = $("#users :selected").length;
+                seats.prop({"min": count});
+                seats_taken.val(count);
+            });
+
+            $("#checkin").change(function () {
+                if ($(this).is(":checked")) {
+                    seats.val(count)
+                    seats.prop({"min": count});
+                }
+            });
+
+            seats.change(function () {
+                let count_available = $(this).val() - seats_taken.val();
+                seats_available.val(count_available);
+            });
 
         });
     </script>

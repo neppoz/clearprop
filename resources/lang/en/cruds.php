@@ -15,7 +15,7 @@ return [
         'personal_request' => 'My reservation',
         'slot_title' => 'Appointments',
         'slot_title_singular' => 'Appointment',
-        'book_slot' => 'Book your seat',
+        'book_slot' => ' Book your seat now ',
         'create_request' => 'Create request',
         'edit_request' => 'Edit request',
 
@@ -289,8 +289,12 @@ return [
             'email' => 'Send confirmation email?',
             'email_helper' => 'Notam: Email Notification will be sent when selected.',
             'checkin' => 'Open for Check-In?',
-            'checkin_seats' => 'Specify maximum free seats',
-            'checkin_helper' => 'Notam: Specify maximum free seats',
+            'checkin_seats' => 'Total number',
+            'checkin_helper' => 'Notam: Specify maximum',
+            'seats_taken' => 'Occupied seats',
+            'seats_taken_helper' => '',
+            'seats_available' => 'Available seats',
+            'seats_available_helper' => '',
         ],
     ],
     'parameter'          => [
