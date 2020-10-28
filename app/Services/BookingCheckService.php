@@ -45,26 +45,37 @@ class BookingCheckService
 
     public function calculateSeatsCheckIn(Booking $booking)
     {
+
+    }
+
+    public function decrementSeats(Booking $booking)
+    {
         try {
-            $booking->seats_taken = $booking->bookingUsers()->count();
-            $booking->seats_available = $booking->seats - $booking->seats_taken;
+            $booking->bookingUsers()->attach(auth()->user()->id);
+            $booking->seats_available = $booking->seats_available - 1;
             $booking->save();
+
+            return true;
 
         } catch (\Throwable $exception) {
             report($exception);
             return back()->withToastError($exception->getMessage());
         }
 
-        return true;
     }
 
-    public function decrementSeats(Request $request)
+    public function incrementSeats(Booking $booking)
     {
+        try {
+            $booking->bookingUsers()->detach(auth()->user()->id);
+            $booking->seats_available = $booking->seats_available + 1;
+            $booking->save();
 
-    }
+            return true;
 
-    public function incrementSeats(Request $request)
-    {
-
+        } catch (\Throwable $exception) {
+            report($exception);
+            return back()->withToastError($exception->getMessage());
+        }
     }
 }

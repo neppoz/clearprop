@@ -8,7 +8,6 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Mode;
 use App\Services\BookingNotificationService;
-use App\Services\BookingStatusService;
 use App\Services\BookingCheckService;
 use App\Booking;
 use App\Plane;
@@ -213,8 +212,6 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            (new BookingCheckService())->calculateSeatsCheckIn($booking);
-
             return redirect()->route('admin.bookings.edit', $booking->id);
         }
 
@@ -243,8 +240,6 @@ class BookingsController extends Controller
         $booking->update($request->all());
         $booking->bookingUsers()->sync($request->input('users', []));
         $booking->bookingInstructors()->sync($request->input('instructors', []));
-
-        (new BookingCheckService())->calculateSeatsCheckIn($booking);
 
         if ($request->input('email') == true) {
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);

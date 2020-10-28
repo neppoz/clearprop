@@ -153,10 +153,8 @@ class BookingsController extends Controller
     public function book(Request $request)
     {
         $booking = Booking::findOrFail($request->id);
-        $booking->bookingUsers()->attach(auth()->user()->id);
-        $booking->save();
 
-        (new BookingCheckService())->calculateSeatsCheckIn($booking);
+        (new BookingCheckService())->decrementSeats($booking);
 
         return redirect()->route('pilot.welcome');
 
@@ -165,10 +163,7 @@ class BookingsController extends Controller
     public function revoke(Request $request)
     {
         $booking = Booking::findOrFail($request->id);
-        $booking->bookingUsers()->detach(auth()->user()->id);
-        $booking->save();
-
-        (new BookingCheckService())->calculateSeatsCheckIn($booking);
+        (new BookingCheckService())->incrementSeats($booking);
 
         return redirect()->route('pilot.welcome');
 

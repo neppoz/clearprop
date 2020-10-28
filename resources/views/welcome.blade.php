@@ -114,13 +114,13 @@
                     <div class="card-header"></div>
                     <div class="card-body p-1">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-borderless">
                                 <thead>
                                 </thead>
                                 <tbody>
                                 @forelse($checkinDates as $date => $slots)
                                     <tr>
-                                        <td class="bg-gray-light text-bold text-left" colspan="3">
+                                        <td class="bg-gray-light text-bold text-left" colspan="4">
                                             {{ $date }}
                                         </td>
                                     </tr>
@@ -134,7 +134,14 @@
                                                 <span
                                                     class="text text-{{$slot->mode_id == 4 ? 'danger' : 'black'}}">{{ $slot->plane->callsign ?? '' }}</span><br>
                                                 <span
-                                                    class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title}}</span>
+                                                    class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title ?? ''}}</span>
+                                            </td>
+                                            <td>
+                                                @foreach($slot->bookingUsers as $bookingUser)
+                                                    <span
+                                                        class="text text-black">{{ $bookingUser->name ?? '' }}</span>
+                                                    <br>
+                                                @endforeach
                                             </td>
                                             <td>
                                                 @foreach($slot->bookingInstructors as $instructorBookings)
@@ -143,11 +150,17 @@
                                                     <br>
                                                 @endforeach
                                                 <span
-                                                    class="font-weight-lighter text-black-50 small">{{$slot->description}}</span>
+                                                    class="font-weight-lighter text-black-50 small">{{$slot->description ?? ''}}</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="text-center" colspan="3">
+                                            <td class="text-center" colspan="4">
+                                                 <span
+                                                     class="font-weight-lighter text-black-50 small">{{ trans('cruds.booking.fields.seats_available') . ': +' . $slot->seats_available ?? ''}}</span><br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" colspan="4">
                                                 <form action="{{ route('pilot.bookings.book', $slot->id) }}"
                                                       method="POST"
                                                       onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
@@ -155,7 +168,7 @@
                                                     <input type="hidden" name="_method" value="POST">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <button type="submit" class="btn btn-outline-success btn-block"><i
-                                                            class="fas fa-check-circle"></i> {{ trans('cruds.dashboard.book_slot') }}
+                                                            class="fas fa-check-circle"></i>{{ trans('cruds.dashboard.book_slot') }}
                                                     </button>
                                                 </form>
                                             </td>
@@ -227,7 +240,7 @@
                                         <span
                                             class="text text-{{$booking->mode_id == 4 ? 'danger' : 'black'}}">{{ $booking->plane->callsign ?? '' }}</span><br>
                                             <span
-                                                class="badge badge-{{$booking->mode_id == 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name}}</span>
+                                                class="badge badge-{{$booking->mode_id == 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name ?? ''}}</span>
                                         </td>
                                         <td>
                                             @foreach($booking->bookingUsers as $userBookings)
@@ -236,7 +249,7 @@
                                                 <br>
                                             @endforeach
                                             <span
-                                                class="font-weight-lighter text-black-50 small">{{$booking->description}}</span>
+                                                class="font-weight-lighter text-black-50 small">{{$booking->description ?? ''}}</span>
                                         </td>
                                         <td>
                                             <i class="fa fa-lg fa-{{ $booking->status === 0 ? 'question-circle text-warning' : 'check-circle text-success'}}"></i>
