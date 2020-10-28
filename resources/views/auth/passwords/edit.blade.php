@@ -32,10 +32,9 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label class="required" for="license">{{ trans('cruds.user.fields.license') }}</label>
+                            <label for="license">{{ trans('cruds.user.fields.license') }}</label>
                             <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text"
-                                   name="license" id="license" value="{{ old('license', auth()->user()->license) }}"
-                                   required>
+                                   name="license" id="license" value="{{ old('license', auth()->user()->license) }}">
                             @if($errors->has('license'))
                                 <span class="text-danger">{{ $errors->first('license') }}</span>
                             @endif
@@ -98,6 +97,19 @@
                                 <span class="text-danger">{{ $errors->first('city') }}</span>
                             @endif
                             <span class="help-block">{{ trans('cruds.user.fields.city_helper') }}</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="required" for="lang">{{ trans('cruds.user.fields.lang') }}</label>
+                            <select class="form-control select2 {{ $errors->has('lang') ? 'is-invalid' : '' }}"
+                                    name="lang" id="lang" required>
+                                @foreach(config('panel.available_languages') as $langLocale => $langName)
+                                    <option
+                                        value="{{ $langLocale }}" {{ ($langLocale ? auth()->user()->lang : old('lang')) == $langLocale ? 'selected' : ''}}>{{ $langName }}</option>
+                                @endforeach
+                            </select>
+                            @if($errors->has('lang'))
+                                <span class="text-danger">{{ $errors->first('lang') }}</span>
+                            @endif
                         </div>
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">
