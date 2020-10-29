@@ -37,7 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Expense extends Model
 {
-    use SoftDeletes, CurrentUserTrait;
+    use SoftDeletes;
 
     public $table = 'expenses';
 
