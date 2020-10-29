@@ -101,8 +101,6 @@ class BookingsController extends Controller
 
             (new BookingStatusService())->createStatus($booking);
 
-            $booking->bookingUsers()->attach(auth()->user()->id);
-
             return redirect()->route('pilot.welcome');
         }
 
@@ -163,6 +161,7 @@ class BookingsController extends Controller
     public function revoke(Request $request)
     {
         $booking = Booking::findOrFail($request->id);
+
         (new BookingCheckService())->incrementSeats($booking);
 
         return redirect()->route('pilot.welcome');
