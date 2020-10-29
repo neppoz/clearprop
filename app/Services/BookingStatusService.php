@@ -16,13 +16,15 @@ class BookingStatusService
             if ($booking->instructor_needed == true) {
                 // set status to pending
                 $booking->status = 0;
-                $booking->save();
-
             } else {
                 // Auto-Confirmation, status 1
                 $booking->status = 1;
-                $booking->save();
             }
+
+            $booking->bookingUsers()->attach(auth()->user()->id);
+            $booking->created_by_id = auth()->user()->id;
+            $booking->save();
+
             return true;
 
         } catch (\Throwable $exception) {
