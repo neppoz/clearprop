@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Gate;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use VerumConsilium\Browsershot\Facades\PDF;
 use App\Services\StatisticsService;
 
@@ -12,6 +14,8 @@ class ExpenseReportController extends Controller
 {
     public function index(Request $request)
     {
+        abort_if(Gate::denies('expense_report_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $fromMonth = Carbon::parse(sprintf(
             '%s-%s-01',
             request()->query('y', Carbon::now()->year),
