@@ -33,7 +33,9 @@ class UsersController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id');
 
-        $roles = Role::all()->pluck('title', 'id');
+        $roles = Role::when(!auth()->user()->is_admin, function ($q) {
+            $q->where('id', '<>', 1);
+        })->pluck('title', 'id');
 
         return view('admin.users.create', compact('factors', 'planes', 'roles'));
     }
@@ -55,7 +57,9 @@ class UsersController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id');
 
-        $roles = Role::all()->pluck('title', 'id');
+        $roles = Role::when(!auth()->user()->is_admin, function ($q) {
+            $q->where('id', '<>', 1);
+        })->pluck('title', 'id');
 
         $user->load('factor', 'planes', 'roles');
 
