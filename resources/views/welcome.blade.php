@@ -137,21 +137,18 @@
                                                     class="badge badge-{{$slot->mode_id == 4 ? 'danger' : 'secondary'}}">{{$slot->slot->title ?? ''}}</span>
                                             </td>
                                             <td>
+                                                @foreach($slot->bookingInstructors as $instructorBookings)
+                                                    <span
+                                                        class="text text-black">{{ $instructorBookings->name ?? '' }}</span>
+                                                    <br>
+                                                @endforeach
                                                 @foreach($slot->bookingUsers as $bookingUser)
                                                     <span
                                                         class="text text-black">{{ $bookingUser->name ?? '' }}</span>
                                                     <br>
                                                 @endforeach
                                             </td>
-                                            <td>
-                                                @foreach($slot->bookingInstructors as $instructorBookings)
-                                                    <span
-                                                        class="text text-black">{{ $instructorBookings->name ?? '' }}</span>
-                                                    <br>
-                                                @endforeach
-                                                <span
-                                                    class="font-weight-lighter text-black-50 small">{{$slot->description ?? ''}}</span>
-                                            </td>
+
                                         </tr>
                                         <tr>
                                             <td class="text-center" colspan="4">
@@ -243,6 +240,11 @@
                                                 class="badge badge-{{$booking->mode_id == 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name ?? ''}}</span>
                                         </td>
                                         <td>
+                                            @foreach($booking->bookingInstructors as $instructorBookings)
+                                                <span
+                                                    class="text {{ $instructorBookings->id == auth()->user()->id ? 'text-primary' : 'text-black'}}">{{ $instructorBookings->name ?? '' }}</span>
+                                                <br>
+                                            @endforeach
                                             @foreach($booking->bookingUsers as $userBookings)
                                                 <span
                                                     class="text {{ $userBookings->id == auth()->user()->id ? 'text-primary' : 'text-black'}}">{{ $userBookings->name ?? '' }}</span>
