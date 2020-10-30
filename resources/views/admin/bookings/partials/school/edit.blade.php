@@ -66,6 +66,7 @@
         </div>
         <div class="col-sm-4">
             <label for="seats_taken">{{ trans('cruds.booking.fields.seats_taken') }}</label>
+
             <input class="form-control {{ $errors->has('seats_taken') ? 'is-invalid' : '' }}" type="number"
                    name="seats_taken" id="seats_taken"
                    value="{{ old('seats_taken', $booking->seats_taken) }}" readonly>
@@ -145,25 +146,38 @@
     <script>
         $(document).ready(function () {
             let count;
+            let count_available;
             let seats = $("#seats");
             let seats_taken = $("#seats_taken");
             let seats_available = $("#seats_available");
 
             $("#users").change(function () {
                 count = $("#users :selected").length;
-                seats.prop({"min": count});
+                if (count > seats.val()) {
+                    seats.prop({"min": count});
+                    seats.val(count);
+                }
+
                 seats_taken.val(count);
+                count_available = seats.val() - seats_taken.val();
+                seats_available.val(count_available);
             });
 
             $("#checkin").change(function () {
                 if ($(this).is(":checked")) {
-                    seats.val(count)
+                    count = $("#users :selected").length;
                     seats.prop({"min": count});
+                    seats.val(count);
+
+                    seats_taken.val(count);
+                    count_available = seats.val() - seats_taken.val();
+                    seats_available.val(count_available);
                 }
             });
 
             seats.change(function () {
-                let count_available = $(this).val() - seats_taken.val();
+                seats_taken.val(count);
+                count_available = seats.val() - seats_taken.val();
                 seats_available.val(count_available);
             });
 
