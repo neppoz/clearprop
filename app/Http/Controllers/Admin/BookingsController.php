@@ -16,6 +16,7 @@ use App\Slot;
 use Gate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -188,10 +189,11 @@ class BookingsController extends Controller
         }
 
         $users = User::get();
-        $instructors = User::where('instructor', true)->get();
+        $modes = Mode::get();
+        //$instructors = User::where('instructor', true)->get();
         $planes = Plane::get();
 
-        return view('admin.bookings.index', compact('users', 'planes', 'instructors'));
+        return view('admin.bookings.index', compact('users', 'planes', 'modes'));
     }
 
     public function create(Request $request)

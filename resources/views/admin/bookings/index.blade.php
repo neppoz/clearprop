@@ -62,6 +62,12 @@
                     <td>
                     </td>
                     <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($modes as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td>
                         <select class="search">
@@ -80,6 +86,7 @@
                         </select>
                     </td>
                     <td>
+                    </td>
                     <td>
                     </td>
                     <td>
@@ -145,8 +152,8 @@
                     {data: 'reservation_stop_time', name: 'reservation_stop_time'},
                     {data: 'mode', name: 'mode.name'},
                     {data: 'plane_callsign', name: 'plane.callsign'},
-                    {data: 'user', name: 'user.name'},
-                    {data: 'instructor', name: 'instructor.name'},
+                    {data: 'user', name: 'bookingUsers.name'},
+                    {data: 'instructor', name: 'bookingInstructors.name'},
                     {data: 'status'},
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],
