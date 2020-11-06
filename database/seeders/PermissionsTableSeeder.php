@@ -345,6 +345,26 @@ class PermissionsTableSeeder extends Seeder
                 'id' => '84',
                 'title' => 'profile_data_edit',
             ],
+            [
+                'id' => '85',
+                'title' => 'user_alert_access',
+            ],
+            [
+                'id' => '86',
+                'title' => 'user_alert_create',
+            ],
+            [
+                'id' => '87',
+                'title' => 'user_alert_edit',
+            ],
+            [
+                'id' => '88',
+                'title' => 'user_alert_show',
+            ],
+            [
+                'id' => '89',
+                'title' => 'user_alert_delete',
+            ],
         ];
 
         Permission::insertOrIgnore($permissions);

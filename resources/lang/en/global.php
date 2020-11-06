@@ -287,4 +287,5 @@ return [
     'payment-success' => 'Thank you for your payment!',
     'my_profile' => 'Personal data',
     'change_profile_data' => 'My data',
+    'all_notifications' => 'See All Notifications',
 ];

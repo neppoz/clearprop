@@ -175,4 +175,9 @@ class User extends Authenticatable //implements MustVerifyEmail
     {
         return $this->belongsToMany(Plane::class);
     }
+
+    public function userUserAlerts()
+    {
+        return $this->belongsToMany(UserAlert::class);
+    }
 }

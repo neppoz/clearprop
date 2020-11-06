@@ -45,22 +45,87 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             @foreach(config('panel.available_languages') as $langLocale => $langName)
-                                <a class="dropdown-item" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }} ({{ $langName }})</a>
+                                <a class="dropdown-item"
+                                   href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }}
+                                    ({{ $langName }})</a>
                             @endforeach
                         </div>
                     </li>
                 </ul>
-            @endif
+        @endif
 
-        </nav>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-envelope mr-2"></i> 4 new messages
+                <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-users mr-2"></i> 8 friend requests
+                <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-file mr-2"></i> 3 new reports
+                <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+        </li>
 
-        @include('partials.menu')
-        <div class="content-wrapper" style="min-height: 917px;">
-            <!-- Main content -->
-            <section class="content" style="padding-top: 20px">
-                @if(session('message'))
-                    <div class="row mb-2">
-                        <div class="col-lg-12">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown notifications-menu">
+                <a href="#" class="nav-link" data-toggle="dropdown">
+                    <i class="far fa-bell"></i>
+                    @php($alertsCount = \Auth::user()->userUserAlerts()->where('read', false)->count())
+                    @if($alertsCount > 0)
+                        <span class="badge badge-warning navbar-badge">
+                                        {{ $alertsCount }}
+                                    </span>
+                    @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+                    @if(count($alerts = \Auth::user()->userUserAlerts()->withPivot('read')->limit(5)->orderBy('created_at', 'ASC')->get()->reverse()) > 0)
+                        <span
+                            class="dropdown-item dropdown-header bg-gray-light">{{count($alerts) > 1 ? trans('global.messages') : trans('global.message')}}</span>
+                        <div class="dropdown-divider"></div>
+                        @foreach($alerts as $alert)
+                            <div class="dropdown-item">
+                                <a class="text-wrap text-{{$alert->pivot->read === 0 ? 'primary' : 'secondary'}}"
+                                   href="{{ $alert->alert_link ? $alert->alert_link : "#" }}" target="_self">
+                                    <i class="fas fa-envelope mr-2"></i>
+                                    {{ $alert->alert_text }}<br>
+                                    <span class="text-muted text-sm">Da tradurre -- 2 giorni fa</span>
+                                    <span class="float-right text-muted text-sm"><i
+                                            class="{{$alert->pivot->read === 0 ? 'far fa-circle text-primary' : 'fa fa-check-circle'}}"></i></span>
+                                </a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        @endforeach
+                        <a href="{{route('admin.user-alerts.index')}}"
+                           class="dropdown-item dropdown-footer bg-light">({{sprintf("%+d", count($alerts))}}
+                            ) {{trans('global.all_notifications')}}</a>
+                    @else
+                        <div class="text-center">
+                            {{ trans('global.no_alerts') }}
+                        </div>
+                    @endif
+                </div>
+            </li>
+        </ul>
+
+    </nav>
+
+    @include('partials.menu')
+    <div class="content-wrapper" style="min-height: 917px;">
+        <!-- Main content -->
+        <section class="content" style="padding-top: 20px">
+            @if(session('message'))
+                <div class="row mb-2">
+                    <div class="col-lg-12">
                             <div class="alert alert-success" role="alert">{{ session('message') }}</div>
                         </div>
                     </div>

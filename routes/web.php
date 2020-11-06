@@ -15,12 +15,6 @@ Auth::routes([
     'reset' => true
 ]);
 
-//// Complete profile after registration
-//Route::group(['middleware' => ['auth']], function () {
-//    Route::get('register-step2', 'Auth\RegisterStep2Controller@showForm');
-//    Route::post('register-step2', 'Auth\RegisterStep2Controller@postForm')->name('register.step2');
-//});
-
 // Frontend
 Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/', 'HomeController@index')->name('welcome');
@@ -66,6 +60,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('users/individualReport/{user}', 'UsersReportController@individualReport')->name('users.individualReport');
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
+
+    // User Alerts
+    Route::delete('user-alerts/destroy', 'UserAlertsController@massDestroy')->name('user-alerts.massDestroy');
+    Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update']]);
 
     // Planes
     Route::delete('planes/destroy', 'PlanesController@massDestroy')->name('planes.massDestroy');

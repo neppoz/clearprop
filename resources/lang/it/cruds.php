@@ -508,4 +508,22 @@ return [
             'card-exp' => 'Scad.',
         ],
     ],
+    'userAlert' => [
+        'title' => 'Notifiche',
+        'title_singular' => 'Notifica',
+        'fields' => [
+            'id' => 'ID',
+            'id_helper' => ' ',
+            'alert_text' => 'Testo',
+            'alert_text_helper' => ' ',
+            'alert_link' => 'Link',
+            'alert_link_helper' => ' ',
+            'user' => 'Soci',
+            'user_helper' => ' ',
+            'created_at' => 'Creato il',
+            'created_at_helper' => ' ',
+            'updated_at' => 'Aggiornato il',
+            'updated_at_helper' => ' ',
+        ],
+    ],
 ];
