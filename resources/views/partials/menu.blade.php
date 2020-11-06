@@ -227,7 +227,7 @@
                     </li>
                 @endcan --}}
                 @can('setting_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/parameters*') ? 'menu-open' : '' }} {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/parameters*') ? 'menu-open' : '' }} {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }} {{ request()->is('admin/user-alerts*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-cog">
 
@@ -238,9 +238,23 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            @can('user_alert_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.user-alerts.index") }}"
+                                       class="nav-link {{ request()->is("admin/user-alerts") || request()->is("admin/user-alerts/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-bell">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.userAlert.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
                             @can('parameter_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.parameters.index") }}" class="nav-link {{ request()->is('admin/parameters') || request()->is('admin/parameters/*') ? 'active' : '' }}">
+                                    <a href="{{ route("admin.parameters.index") }}"
+                                       class="nav-link {{ request()->is('admin/parameters') || request()->is('admin/parameters/*') ? 'active' : '' }}">
                                         <i class="fa-fw nav-icon fas fa-sliders-h">
 
                                         </i>
@@ -277,34 +291,6 @@
                         </ul>
                     </li>
                 @endcan
-                {{-- @can('security_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/permissions*') ? 'menu-open' : '' }} {{ request()->is('admin/roles*') ? 'menu-open' : '' }}">
-                        <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-lock">
-
-                            </i>
-                            <p>
-                                <span>{{ trans('cruds.security.title') }}</span>
-                                <i class="right fa fa-fw nav-icon fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-
-                        </ul>
-                    </li>
-                @endcan --}}
-                {{-- @can('booking_access')
-                <li class="nav-item">
-                    <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
-                        <i class="fas fa-fw nav-icon fa-calendar">
-
-                        </i>
-                        <p>
-                            <span>{{ trans('global.systemCalendar') }}</span>
-                        </p>
-                    </a>
-                </li>
-                @endcan --}}
                 <li class="nav-item">
                     <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         <p>
