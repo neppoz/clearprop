@@ -286,5 +286,5 @@ return [
     'payment-success' => 'Grazie per il pagamento!',
     'my_profile' => 'Dati personali',
     'change_profile_data' => 'Dati personali',
-    'all_notifications' => 'Vedi tutte le notifiche',
+    'all_notifications' => 'Vedi elementi già letti',
 ];

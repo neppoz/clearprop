@@ -64,14 +64,17 @@ class UserAlertsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function read(Request $request)
+    public function updateRead(Request $request)
     {
-        $alerts = \Auth::user()->userUserAlerts()->where('read', false)->get();
+        if ($request->user_alert_id) {
+            $userAlert = UserAlert::with('users')->findOrFail($request->user_alert_id);
+            $userAlert->users()->updateExistingPivot(\Auth::id(), ['read' => '1']);
 
-        foreach ($alerts as $alert) {
-            $pivot = $alert->pivot;
-            $pivot->read = true;
-            $pivot->save();
+            $alertsCount = \Auth::user()->userUserAlerts()->where('read', false)->count();
+
+            return $alertsCount;
         }
+
+        return false;
     }
 }
