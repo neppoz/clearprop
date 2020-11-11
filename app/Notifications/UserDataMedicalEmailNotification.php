@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -21,7 +22,15 @@ class UserDataMedicalEmailNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
+    }
+
+    public function toArray($notifiable)
+    {
+        return [
+            'name' => $this->data['name'],
+            'expires_at' => Carbon::createFromFormat(config('panel.date_format'), $this->data['medical_due'])->format('Y-m-d'),
+        ];
     }
 
     public function toMail($notifiable)
