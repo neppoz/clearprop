@@ -21,7 +21,16 @@ class UserDataBalanceEmailNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
+    }
+
+    public function toArray($notifiable)
+    {
+        return [
+            'type' => 'balance',
+            'name' => $this->data['name'],
+            'amount' => $this->data['balance'],
+        ];
     }
 
     public function toMail($notifiable)
