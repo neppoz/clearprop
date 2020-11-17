@@ -29,7 +29,7 @@ class UserDataMedicalEmailNotification extends Notification
     {
         return [
             'name' => $this->data['name'],
-            'expires_at' => Carbon::createFromFormat(config('panel.date_format'), $this->data['medical_due'])->format('Y-m-d'),
+            'medical_due' => Carbon::createFromFormat(config('panel.date_format'), $this->data['medical_due'])->format('Y-m-d'),
         ];
     }
 

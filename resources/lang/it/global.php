@@ -249,7 +249,7 @@ return [
     'y_axis_field' => 'Asse-Y campo',
     'you_have_no_messages' => 'Non hai messaggi',
     'content' => 'Contenuto',
-    'no_alerts' => 'Nessuna notifica No alerts',
+    'no_alerts' => 'Nessuna notifica',
     'calendar' => 'Calendario',
     'messenger' => 'Messenger',
     'counter_type_option1' => 'Industrial minutes (100/hour)',
@@ -286,5 +286,8 @@ return [
     'payment-success' => 'Grazie per il pagamento!',
     'my_profile' => 'Dati personali',
     'change_profile_data' => 'Dati personali',
-    'all_notifications' => 'Vedi elementi già letti',
+    'all_notifications' => 'Vedi elementi letti',
+    'mark_as_read' => 'Segna come letta',
+    'notification_medical' => ': scade la visita medica il ',
+    'notification_balance' => ': ha un credito negativo di -',
 ];
