@@ -288,4 +288,7 @@ return [
     'my_profile' => 'Personal data',
     'change_profile_data' => 'My data',
     'all_notifications' => 'See already read elements',
+    'mark_as_read' => 'Mark as read',
+    'notification_medical' => ': the medical expires at ',
+    'notification_balance' => ': has a negative balance of -',
 ];

@@ -64,17 +64,21 @@ class UserAlertsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function updateRead(Request $request)
+    public function markNotification(Request $request)
     {
-        if ($request->user_alert_id) {
-            $userAlert = UserAlert::with('users')->findOrFail($request->user_alert_id);
-            $userAlert->users()->updateExistingPivot(\Auth::id(), ['read' => '1']);
+        auth()->user()
+            ->unreadNotifications
+            ->when($request->input('id'), function ($query) use ($request) {
+                return $query->where('id', $request->input('id'));
+            })
+            ->markAsRead();
 
-            $alertsCount = \Auth::user()->userUserAlerts()->where('read', false)->count();
+        return response()->noContent();
+    }
 
-            return $alertsCount;
-        }
-
-        return false;
+    public function getAlertCount(Request $request)
+    {
+        return auth()->user()->unreadNotifications->count();
     }
 }
+

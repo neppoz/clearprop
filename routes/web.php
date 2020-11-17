@@ -63,8 +63,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // User Alerts
     Route::delete('user-alerts/destroy', 'UserAlertsController@massDestroy')->name('user-alerts.massDestroy');
-    Route::get('user-alerts/updateRead', 'UserAlertsController@updateRead')->name('user-alerts.updateRead');
-    Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update', 'updateRead']]);
+    Route::get('user-alerts/getAlertCount', 'UserAlertsController@getAlertCount')->name('user-alerts.getAlertCount');
+    Route::post('user-alerts/mark-as-read', 'UserAlertsController@markNotification')->name('user-alerts.markNotification');
+    Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update', 'updateRead', 'markNotification']]);
 
     // Planes
     Route::delete('planes/destroy', 'PlanesController@massDestroy')->name('planes.massDestroy');
