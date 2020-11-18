@@ -290,4 +290,5 @@ return [
     'mark_as_read' => 'Segna come letta',
     'notification_medical' => ': scade la visita medica il ',
     'notification_balance' => ': ha un credito negativo di -',
+    'no_deadline' => 'Nessuna scadenza in previsione',
 ];

@@ -22,11 +22,12 @@ class HomeController
             ->orderBy('reservation_start')
             ->get();
 
-        $userMedicals = User::whereNotNull('medical_due')
+        $userMedicalGoingDue = User::whereNotNull('medical_due')
+            ->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addWeeks(4)])
             ->orderBy('medical_due', 'desc')
             ->get();
 
-        return view('home', compact('statistics', 'bookings', 'userMedicals'));
+        return view('home', compact('statistics', 'bookings', 'userMedicalGoingDue'));
     }
 
 }
