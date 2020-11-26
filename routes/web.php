@@ -45,7 +45,6 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 // Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
     Route::get('/', 'HomeController@index')->name('home');
-//    Route::get('users/getUsersMedical', 'HomeController@getUsersMedical')->name('home.getUsersMedical');
 
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -125,6 +124,27 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Ratings
     Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
+
+    // Asset Categories
+    Route::delete('asset-categories/destroy', 'AssetCategoryController@massDestroy')->name('asset-categories.massDestroy');
+    Route::resource('asset-categories', 'AssetCategoryController');
+
+    // Asset Locations
+    Route::delete('asset-locations/destroy', 'AssetLocationController@massDestroy')->name('asset-locations.massDestroy');
+    Route::resource('asset-locations', 'AssetLocationController');
+
+    // Asset Statuses
+    Route::delete('asset-statuses/destroy', 'AssetStatusController@massDestroy')->name('asset-statuses.massDestroy');
+    Route::resource('asset-statuses', 'AssetStatusController');
+
+    // Assets
+    Route::delete('assets/destroy', 'AssetController@massDestroy')->name('assets.massDestroy');
+    Route::post('assets/media', 'AssetController@storeMedia')->name('assets.storeMedia');
+    Route::post('assets/ckmedia', 'AssetController@storeCKEditorImages')->name('assets.storeCKEditorImages');
+    Route::resource('assets', 'AssetController');
+
+    // Assets Histories
+//    Route::resource('assets-histories', 'AssetsHistoryController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });

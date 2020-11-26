@@ -25,9 +25,9 @@
                     <label class="required" for="mode_id">{{ trans('cruds.booking.fields.mode') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-tags"></i>
-                          </span>
+                      <span class="input-group-text">
+                        <i class="fas fa-tags"></i>
+                      </span>
                         </div>
                         <select class="form-control select2 {{ $errors->has('mode') ? 'is-invalid' : '' }}"
                                 name="mode_id"
@@ -48,9 +48,9 @@
                     <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-plane"></i>
-                          </span>
+                      <span class="input-group-text">
+                        <i class="fas fa-plane"></i>
+                      </span>
                         </div>
                         <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}"
                                 name="plane_id"
@@ -72,9 +72,9 @@
                            for="reservation_start">{{ trans('cruds.booking.fields.reservation_start') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-calendar-alt"></i>
-                          </span>
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
                         </div>
                         <input class="form-control {{ $errors->has('reservation_start') ? 'is-invalid' : '' }}"
                                type="text" name="reservation_start" id="reservation_start"
@@ -91,9 +91,9 @@
                            for="reservation_stop">{{ trans('cruds.booking.fields.reservation_stop') }}</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="fas fa-calendar-alt"></i>
-                          </span>
+                      <span class="input-group-text">
+                        <i class="fas fa-calendar-alt"></i>
+                      </span>
                         </div>
                         <input class="form-control {{ $errors->has('reservation_stop') ? 'is-invalid' : '' }}"
                                type="text" name="reservation_stop" id="reservation_stop"
@@ -113,7 +113,6 @@
             </form>
         </div>
     </div>
-
 @endsection
 
 @section('styles')
