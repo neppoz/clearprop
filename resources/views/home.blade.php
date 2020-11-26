@@ -12,136 +12,22 @@
         </div><!-- /.col -->
     </div>
     <div class="row m-2">
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
-                <div class="small-box bg-success">
-                    @else
-                        <div class="small-box bg-danger-gradient">
-                            @endif
-                            <div class="inner">
-                                <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
+        @include('partials.admin.stats-general')
+    </div>
+    <div class="row m-2">
+        {{--        @include('partials.admin.stats-minutes')--}}
+    </div>
+    <div class="row m-2">
+        @include('partials.admin.deadlines')
+    </div>
+    <div class="row m-2">
+        @include('partials.admin.assets-global')
+    </div>
 
-                                <p>{{ trans('cruds.dashboard.grantotal') }}</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-fw fa-tachometer-alt"></i>
-                            </div>
-                            <a href="{{ url('/admin/expense-reports') }}"
-                               class="small-box-footer">{{ trans('global.more_info') }} <i
-                                    class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info-gradient">
-                        <div class="inner">
-                            <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
-
-                            <p>{{ trans('cruds.dashboard.activityAmountTotal') }}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa-fw fas fa-plane-departure"></i>
-                        </div>
-                        <a href="{{ url('/admin/activities') }}"
-                           class="small-box-footer">{{ trans('global.more_info') }} <i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-warning-gradient">
-                        <div class="inner">
-                            <h4>{{  number_format($statistics['incomeAmountTotal'], 2, ',', '.') }} &euro;</h4>
-
-                            <p>{{ trans('cruds.dashboard.incomeAmountTotal') }}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-fw fa-money-bill-alt"></i>
-                        </div>
-                        <a href="{{ url('/admin/incomes') }}" class="small-box-footer">{{ trans('global.more_info') }}
-                            <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-dark-gradient">
-                        <div class="inner">
-                            <h4>{{ $statistics['activityHoursAndMinutes'] }}</h4>
-
-                            <p>{{ trans('cruds.dashboard.activityHoursAndMinutes') }}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fas fa-fw fa-clock"></i>
-                        </div>
-                        <a href="{{ url('/admin/activity-reports') }}"
-                           class="small-box-footer">{{ trans('global.more_info') }} <i
-                                class="fas fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-        </div>
-
-        <div class="row m-2">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="card">
-                    <div class="card-header border-transparent">
-                        <h3 class="card-title">{{ trans('cruds.user.fields.medical_due') }}</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table m-0">
-                                <thead>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.user.fields.name') }}
-                                    </th>
-                                    <th>
-                                        {{ trans('cruds.user.fields.medical_due') }}
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @forelse($userMedicalGoingDue as $user)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ url('/admin/users/' . $user->id) }}">{{ $user->name }}</a>
-                                        </td>
-                                        <td>
-                                            {{ $user->medical_due }}
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td class="p-0 bg-light text-center text-secondary" colspan="2">
-                                            <i class="pt-4 fas fa-paper-plane fa-2x text-black-50"></i><br>
-                                            <p class="pt-4">{{trans('global.no_deadline')}}</p>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-
-            </div>
-        </div>
 
 @endsection
+
 @section('scripts')
+    @parent
 
 @endsection

@@ -2,7 +2,12 @@
 
 namespace App\Listeners;
 
+use App\Activity;
+use App\Asset;
 use App\Events\ActivityCostCalculation;
+use App\Jobs\ActivityAssetsRunningHoursJob;
+use App\Services\AssetsService;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Jobs\UserDataVerificationJob;
@@ -49,7 +54,9 @@ class ActivityCostCalculationListener
             }
 
             $event->activity->save();
-            /** Dispatch verification job */
+
+            (new AssetsService())->calculateAssetsRunningHours($plane->id);
+            /** Dispatch jobs */
             UserDataVerificationJob::dispatch($user);
 
             return;
@@ -133,6 +140,6 @@ class ActivityCostCalculationListener
             $event->activity->warmup_minutes = $warmup_minutes;
         }
 
-        return;
     }
+
 }

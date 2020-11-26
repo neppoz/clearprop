@@ -365,6 +365,94 @@ class PermissionsTableSeeder extends Seeder
                 'id' => '89',
                 'title' => 'user_alert_delete',
             ],
+            [
+                'id' => 90,
+                'title' => 'asset_management_access',
+            ],
+            [
+                'id' => 91,
+                'title' => 'asset_category_create',
+            ],
+            [
+                'id' => 92,
+                'title' => 'asset_category_edit',
+            ],
+            [
+                'id' => 93,
+                'title' => 'asset_category_show',
+            ],
+            [
+                'id' => 94,
+                'title' => 'asset_category_delete',
+            ],
+            [
+                'id' => 95,
+                'title' => 'asset_category_access',
+            ],
+            [
+                'id' => 96,
+                'title' => 'asset_location_create',
+            ],
+            [
+                'id' => 97,
+                'title' => 'asset_location_edit',
+            ],
+            [
+                'id' => 98,
+                'title' => 'asset_location_show',
+            ],
+            [
+                'id' => 99,
+                'title' => 'asset_location_delete',
+            ],
+            [
+                'id' => 100,
+                'title' => 'asset_location_access',
+            ],
+            [
+                'id' => 101,
+                'title' => 'asset_status_create',
+            ],
+            [
+                'id' => 102,
+                'title' => 'asset_status_edit',
+            ],
+            [
+                'id' => 103,
+                'title' => 'asset_status_show',
+            ],
+            [
+                'id' => 104,
+                'title' => 'asset_status_delete',
+            ],
+            [
+                'id' => 105,
+                'title' => 'asset_status_access',
+            ],
+            [
+                'id' => 106,
+                'title' => 'asset_create',
+            ],
+            [
+                'id' => 107,
+                'title' => 'asset_edit',
+            ],
+            [
+                'id' => 108,
+                'title' => 'asset_show',
+            ],
+            [
+                'id' => 109,
+                'title' => 'asset_delete',
+            ],
+            [
+                'id' => 110,
+                'title' => 'asset_access',
+            ],
+            [
+                'id' => 111,
+                'title' => 'assets_history_access',
+            ],
         ];
 
         Permission::insertOrIgnore($permissions);
