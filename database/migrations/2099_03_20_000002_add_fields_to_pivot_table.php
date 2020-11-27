@@ -14,8 +14,4 @@ class AddFieldsToPivotTable extends Migration
         });
     }
 
-    public function down()
-    {
-        //
-    }
 }

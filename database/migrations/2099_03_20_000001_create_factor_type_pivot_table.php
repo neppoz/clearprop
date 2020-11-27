@@ -16,8 +16,4 @@ class CreateFactorTypePivotTable extends Migration
         });
     }
 
-    public function down()
-    {
-        //
-    }
 }

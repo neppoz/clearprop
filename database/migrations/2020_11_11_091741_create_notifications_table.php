@@ -23,20 +23,13 @@ class CreateNotificationsTable extends Migration
         });
 
         artisan::call('db:seed', array(
-            '--class' => 'PermissionsTableSeeder'
+            '--class' => 'PermissionsTableSeeder',
+            '--force' => true
         ));
         artisan::call('db:seed', array(
-            '--class' => 'PermissionRoleTableSeeder'
+            '--class' => 'PermissionRoleTableSeeder',
+            '--force' => true
         ));
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('notifications');
-    }
 }
