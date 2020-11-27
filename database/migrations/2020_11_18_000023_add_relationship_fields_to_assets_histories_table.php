@@ -22,15 +22,18 @@ class AddRelationshipFieldsToAssetsHistoriesTable extends Migration
         });
 
         artisan::call('db:seed', array(
-            '--class' => 'AssetStatusTableSeeder'
+            '--class' => 'AssetStatusTableSeeder',
+            '--force' => true
         ));
 
         artisan::call('db:seed', array(
-            '--class' => 'PermissionsTableSeeder'
+            '--class' => 'PermissionsTableSeeder',
+            '--force' => true
         ));
 
         artisan::call('db:seed', array(
-            '--class' => 'PermissionRoleTableSeeder'
+            '--class' => 'PermissionRoleTableSeeder',
+            '--force' => true
         ));
     }
 
