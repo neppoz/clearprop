@@ -6,35 +6,33 @@ use App\Activity;
 use App\Asset;
 use App\Income;
 use App\Expense;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Arr;
 
 class StatisticsService
 {
     public function dashboard(Request $request)
     {
         // Call the function
-        $activity_lines = $this->getActivitiesCurrentYear($request);
+        $activity_lines = $this->getActivitiesCurrentYear();
 
         $activityAmountTotal = $activity_lines->sum('amount');
         $activityMinutesTotal = $activity_lines->sum('minutes');
         $activityHoursAndMinutes = sprintf("%02d", intval($activityMinutesTotal / 60)) . 'h : ' . sprintf("%02d", $activityMinutesTotal % 60) . 'm';
 
         // Call the function
-        $income_lines = $this->getDepositIncomes($request);
+        $income_lines = $this->getDepositIncomesCurrentYear();
         $incomeAmountTotal = $income_lines->sum('amount');
         $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
 
         // Call the function
-        $assetsOverhaulData = $this->getAssetsOverhaulData($request);
+        $assetsOverhaulData = $this->getAssetsOverhaulData();
 
         return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
     }
 
-    public function getAssetsOverhaulData(Request $request)
+    public function getAssetsOverhaulData()
     {
         $activeAssetsWithPlane = Asset::with('plane')->where('status_id', 1)->whereNotNull('plane_id');
         $activeAssetsGroupedByPlane = $activeAssetsWithPlane->get()->groupBy('plane.callsign');
@@ -66,27 +64,33 @@ class StatisticsService
 
     }
 
-    public function getActivitiesCurrentYear(Request $request)
+    public function getActivitiesCurrentYear()
     {
         return Activity::with(['user', 'type', 'plane'])
             ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getActivitiesAllTime(Request $request)
+    public function getActivitiesByFilter($fromDate, $toDate)
+    {
+        return Activity::with(['user', 'type', 'plane'])
+            ->whereBetween('event', [$fromDate, $toDate]);
+    }
+
+    public function getActivitiesAllTime()
     {
         return Activity::all();
     }
 
-    public function getActivityReport(Request $request)
+    public function getActivityReport($fromDate, $toDate)
     {
         /** Call the function
          *  CAVE: when calling the activities, the filter will be enlarged for every call.
          *  So therefore the order of the sum is crucial
          * */
-        $activities = $this->getActivitiesCurrentYear($request);
+        $activities = $this->getActivitiesByFilter($fromDate, $toDate);
 
         $activityTotalMinutes = $activities->sum('minutes');
-        $activityTotalTime = sprintf("%02d", intval($activityTotalMinutes / 60)) .':'. sprintf("%02d", $activityTotalMinutes%60);
+        $activityTotalTime = sprintf("%02d", intval($activityTotalMinutes / 60)) . ':' . sprintf("%02d", $activityTotalMinutes % 60);
 
         /* Activity by member */
         $groupedUserActivities = $activities->whereNotNull('user_id')->orderBy('minutes', 'desc')->get()->groupBy('user_id');
@@ -167,43 +171,49 @@ class StatisticsService
         ];
     }
 
-    public function getDepositIncomes(Request $request)
+    public function getDepositIncomesCurrentYear()
     {
-        $incomes = Income::whereHas('income_category', function ($q) {
+        return Income::whereHas('income_category', function ($q) {
             $q->where('deposit', '=', 1);
         })
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-
-        return $incomes;
     }
 
-    public function getAllIncomes(Request $request)
+    public function getIncomesCurrentYear(Request $request)
     {
-        $incomes = Income::with('income_category')
+        return Income::with('income_category')
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-
-        return $incomes;
     }
 
-    public function getExpenses(Request $request)
+    public function getIncomesByFilter($fromDate, $toDate)
     {
-        $expenses = Expense::with('expense_category')
-            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-
-        return $expenses;
+        return Income::with('income_category')
+            ->whereBetween('entry_date', [$fromDate, $toDate]);
     }
 
-    public function getExpenseReport(Request $request)
+    public function getExpensesCurrentYear(Request $request)
+    {
+        return Expense::with('expense_category')
+            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+    }
+
+    public function getExpensesByFilter($fromDate, $toDate)
+    {
+        return Expense::with('expense_category')
+            ->whereBetween('entry_date', [$fromDate, $toDate]);
+    }
+
+    public function getExpenseReport($fromDate, $toDate)
     {
         // Call the functions
-        $expenses = $this->getExpenses($request);
-        $incomes = $this->getAllIncomes($request);
+        $expenses = $this->getExpensesByFilter($fromDate, $toDate);
+        $incomes = $this->getIncomesByFilter($fromDate, $toDate);
 
         $expensesTotal = $expenses->sum('amount');
         $incomesTotal = $incomes->sum('amount');
         $groupedExpenses = $expenses->whereNotNull('expense_category_id')->orderBy('amount', 'desc')->get()->groupBy('expense_category_id');
-        $groupedIncomes  = $incomes->whereNotNull('income_category_id')->orderBy('amount', 'desc')->get()->groupBy('income_category_id');
-        $profit          = $incomesTotal - $expensesTotal;
+        $groupedIncomes = $incomes->whereNotNull('income_category_id')->orderBy('amount', 'desc')->get()->groupBy('income_category_id');
+        $profit = $incomesTotal - $expensesTotal;
 
         $expensesSummary = [];
 
@@ -265,10 +275,10 @@ class StatisticsService
             GROUP BY i.user_id) i ON u.id = i.user_id
         ORDER BY total ASC
         "), array(
-            'activityfrom' => $request->session()->get('fromDate'),
-            'activityto'   => $request->session()->get('toDate'),
-            'incomefrom'   => $request->session()->get('fromDate'),
-            'incometo'     => $request->session()->get('toDate')
+            'activityfrom' => $fromDate,
+            'activityto' => $toDate,
+            'incomefrom' => $fromDate,
+            'incometo' => $toDate
         ));
 
         return [
@@ -278,8 +288,8 @@ class StatisticsService
             'incomesTotal' => $incomesTotal,
             'profit' => $profit,
             'overdueMembers' => $overdueMembers,
-            'fromSelectedDate' => $request->session()->get('fromDate'),
-            'toSelectedDate' => $request->session()->get('toDate')
+            'fromSelectedDate' => $fromDate,
+            'toSelectedDate' => $toDate
 
         ];
     }
