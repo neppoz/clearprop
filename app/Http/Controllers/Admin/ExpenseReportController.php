@@ -39,7 +39,7 @@ class ExpenseReportController extends Controller
         $toSelectedDate = Carbon::parse($to)->format(config('panel.date_format'));
 
         /** Invoke Service Class */
-        $statistics = (new StatisticsService())->getExpenseReport($request);
+        $statistics = (new StatisticsService())->getExpenseReport($fromDate, $toDate);
 
         session([
             'fromSelectedDate' => $fromSelectedDate,

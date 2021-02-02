@@ -40,7 +40,7 @@ class ActivityReportController extends Controller
         $toSelectedDate = Carbon::parse($to)->format(config('panel.date_format'));
 
         /** Invoke Service Class */
-        $statistics = (new StatisticsService())->getActivityReport($request);
+        $statistics = (new StatisticsService())->getActivityReport($fromDate, $toDate);
 
         session([
             'fromSelectedDate' => $fromSelectedDate,
