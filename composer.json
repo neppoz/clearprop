@@ -45,8 +45,6 @@
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.7",
         "facade/ignition": "^2.3.6",
-        "fzaninotto/faker": "^1.9",
-        "knuckleswtf/scribe": "^1.9",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.5",
