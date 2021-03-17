@@ -19081,7 +19081,7 @@ namespace Illuminate\View {
 }
 
 
-namespace {
+namespace  {
     class App extends \Illuminate\Support\Facades\App
     {
     }
