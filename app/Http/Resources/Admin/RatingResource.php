@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class RatingResource extends JsonResource
 {
-    public function toJson($request)
+    public function toArray($request)
     {
 
 //        return response()->json([
