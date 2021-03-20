@@ -16,7 +16,7 @@ return [
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN', 'app.clearprop.aero'),
-        'secret' => '50c002dd99841fed26bbc3ce9ccd9afd-a2b91229-97397c86',
+        'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.eu.mailgun.net'),
     ],
 
