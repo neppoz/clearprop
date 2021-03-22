@@ -131,11 +131,11 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'support@clearprop.aero',
+            'to' => env('BACKUP_MAIL_TO_ADDRESS'),
 
             'from' => [
-                'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'address' => env('BACKUP_MAIL_FROM_ADDRESS', 'hello@example.com'),
+                'name' => env('BACKUP_MAIL_FROM_NAME', 'Example'),
             ],
         ],
 
