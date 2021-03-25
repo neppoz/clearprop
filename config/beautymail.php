@@ -21,18 +21,18 @@ return [
         'senderName'  => null,
         'reminder'    => null,
         'unsubscribe' => null,
-        'address'     => null,
+        'address' => null,
 
-        'logo'        => [
+        'logo' => [
             //'path'   => '%PUBLIC%/vendor/beautymail/assets/images/sunny/logo.png',
-            'path'   => '',
-            'width'  => '',
+            'path' => '',
+            'width' => '',
             'height' => '',
         ],
 
-        'twitter'  => null,
-        'facebook' => 'CampoVoloTermon',
-        'flickr'   => null,
+        'twitter' => null,
+        'facebook' => null,
+        'flickr' => null,
     ],
 
 ];

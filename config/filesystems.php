@@ -66,9 +66,9 @@ return [
 
         'storagebox' => [
             'driver' => 'sftp',
-            'host' => 'u233711.your-storagebox.de',
-            'username' => 'u233711-sub2',
-            'password' => 'GSPaeSxpjZim7iEQ',
+            'host' => env('HETZNER_HOST'),
+            'username' => env('HETZNER_USERNAME'),
+            'password' => env('HETZNER_PASSWORD'),
             'root' => '/',
             'timeout' => 10,
         ],
