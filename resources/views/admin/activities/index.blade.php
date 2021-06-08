@@ -26,20 +26,20 @@
         @endcan
     </div>
 
-    <div class="card-body">
-        <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
-            <thead>
-            <tr>
-                <th>
-                    <i class="fas fa-eye"></i>
-                </th>
-                <th data-priority="1">
-                    {{ trans('cruds.activity.fields.event') }}
+        <div class="card-body">
+            <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
+                <thead>
+                <tr>
+                    <th>
+                        <i class="fas fa-eye"></i>
+                    </th>
+                    <th data-priority="1">
+                        {{ trans('cruds.activity.fields.event') }}
                     </th>
                     <th class="min-tablet-l">
                         {{ trans('cruds.activity.fields.type') }}
                     </th>
-                    @if (auth()->user()->IsAdminByRole())
+                    @if (auth()->user()->roles->contains(App\User::IS_ADMIN) OR auth()->user()->roles->contains(App\User::IS_MANAGER))
                         <th>
                             {{ trans('cruds.activity.fields.user') }}
                         </th>
@@ -63,19 +63,19 @@
                         &nbsp;
                     </th>
                 </tr>
-            </thead>
-        </table>
+                </thead>
+            </table>
+        </div>
     </div>
-</div>
 
 
 
 @endsection
 @section('scripts')
-@parent
+    @parent
 <script>
     $(function () {
-@if (auth()->user()->IsAdminByRole())
+        @if (auth()->user()->roles->contains(App\User::IS_ADMIN) OR auth()->user()->roles->contains(App\User::IS_MANAGER))
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
   let dtDom = 'lBfrtip<"actions">'
 @can('activity_delete')
@@ -148,7 +148,7 @@
         },
         { type: 'date', data: 'event', name: 'event' },
         { data: 'type_name', name: 'type.name' },
-        @if (auth()->user()->IsAdminByRole())
+            @if (auth()->user()->roles->contains(App\User::IS_ADMIN) OR auth()->user()->roles->contains(App\User::IS_MANAGER))
             { data: 'user_name', name: 'user.name' },
         @endif
         { data: 'plane_callsign', name: 'plane.callsign' },
