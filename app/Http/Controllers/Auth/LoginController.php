@@ -29,20 +29,20 @@ class LoginController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
 
-    public function redirectPath()
-    {
-        if (auth()->user()->is_admin) {
-            return route('admin.home');
-        }
-
-        if (auth()->user()->is_manager) {
-            return route('admin.home');
-        }
-
-//        TODO this is not working..
-//        (new RegisterStep2Controller)->showForm();
-        return route('pilot.welcome');
-    }
+//    public function redirectPath()
+//    {
+//        if (auth()->user()->is_admin) {
+//            return route('admin.home');
+//        }
+//
+//        if (auth()->user()->is_manager) {
+//            return route('admin.home');
+//        }
+//
+////        TODO this is not working..
+////        (new RegisterStep2Controller)->showForm();
+//        return route('pilot.welcome');
+//    }
 
     /**
      * Create a new controller instance.
