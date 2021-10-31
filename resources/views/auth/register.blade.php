@@ -2,14 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="login-logo">
-            <div class="login-logo">
-                <a href="{{ route('admin.home') }}">
-                    <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" width="150"
-                         height="auto"/>
-                </a>
-            </div>
-        </div>
+        @include('partials.logo')
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card card-primary card-outline">
