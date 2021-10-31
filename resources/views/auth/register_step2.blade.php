@@ -3,14 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="login-logo">
-                <div class="login-logo">
-                    <a href="{{ route('pilot.welcome') }}">
-                        {{ trans('panel.site_title') }}
-                    </a>
-                </div>
-            </div>
-        </div>
+        @include('partials.logo')
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">

@@ -1,14 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="login-box">
-        <div class="login-logo">
-            <div class="login-logo">
-                <a href="{{ route('admin.home') }}">
-                    <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" width="150"
-                         height="auto"/>
-                </a>
-            </div>
-        </div>
+        @include('partials.logo')
         <div class="card card-primary card-outline">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">

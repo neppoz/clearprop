@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Providers\RouteServiceProvider;
-use App\User;
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use App\Models\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -29,7 +29,6 @@ class RegisterController extends Controller
      *
      * @var string
      */
-//    protected $redirectTo = '/register-step2';
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
@@ -54,32 +53,21 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'lang' => ['required', 'string', 'min:2'],
-//            'phone_1' => ['required', 'string', 'min:6'],
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param array $data
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'lang' => $data['lang'],
-//            'phone_1' => $data['phone_1'],
         ]);
-
-        if (!$user->roles()->get()->contains(User::IS_MEMBER)) {
-            $user->roles()->attach(User::IS_MEMBER);
-        }
-
-        return $user;
     }
-
 }

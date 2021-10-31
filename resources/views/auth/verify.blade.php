@@ -2,9 +2,10 @@
 
 @section('content')
 <div class="container">
+    @include('partials.logo')
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-6">
+            <div class="card card-primary card-outline">
                 <div class="card-header">{{ __('Verify Your Email Address') }}</div>
 
                 <div class="card-body">

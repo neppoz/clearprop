@@ -157,3 +157,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 //if (!empty(env('STRIPE_WEBHOOK_SECRET'))) {
 //    Route::stripeWebhooks('stripe-connect-webhook');
 //}
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
