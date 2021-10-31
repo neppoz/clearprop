@@ -7,34 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * App\Expense
- *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $entry_date
- * @property float|null $amount
- * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property int|null $expense_category_id
- * @property-read \App\ExpenseCategory|null $expense_category
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense newQuery()
- * @method static \Illuminate\Database\Query\Builder|\App\Expense onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereEntryDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereExpenseCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Expense whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Expense withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Expense withoutTrashed()
- * @mixin \Eloquent
- */
 class Expense extends Model
 {
     use SoftDeletes;

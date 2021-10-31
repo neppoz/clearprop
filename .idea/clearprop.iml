@@ -184,5 +184,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Laravel-Multi-Tenancy-Multi-Team-master" />
   </component>
 </module>

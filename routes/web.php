@@ -1,19 +1,18 @@
 <?php
 
+Auth::routes(['register' => true, 'verify' => true, 'reset' => true]);
 Route::redirect('/', '/login');
 Route::get('/home', function () {
-    if (session('status')) {
-        return redirect()->route('admin.home')->with('status', session('status'));
-    }
-
     return redirect()->route('admin.home');
 });
 
-Auth::routes([
-    'register' => true,
-    'verify' => true,
-    'reset' => true
-]);
+// Change password
+Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
+    Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
+    Route::post('password', 'ChangePasswordController@update')->name('password.update');
+    Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
+    Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
+});
 
 // Frontend
 Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth', 'verified']], function () {
@@ -43,7 +42,7 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 });
 
 // Admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin', 'verified']], function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     // Permissions
@@ -149,21 +148,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
 
-// Route to API docs
-Route::group(['middleware' => ['auth']], function () {
-    Route::view('/docs', 'scribe.index');
-});
-
-// Stripe Webhook
-if (!empty(env('STRIPE_WEBHOOK_SECRET'))) {
-    Route::stripeWebhooks('stripe-connect-webhook');
-}
-
-// Change password
-Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
-    Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
-    Route::post('password', 'ChangePasswordController@update')->name('password.update');
-    Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
-    Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
-});
-
+//// Route to API docs
+//Route::group(['middleware' => ['auth']], function () {
+//    Route::view('/docs', 'scribe.index');
+//});
+//
+//// Stripe Webhook
+//if (!empty(env('STRIPE_WEBHOOK_SECRET'))) {
+//    Route::stripeWebhooks('stripe-connect-webhook');
+//}
