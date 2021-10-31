@@ -3,16 +3,13 @@
     <div class="login-box">
         <div class="login-logo">
             <div class="login-logo">
-
-
                 <a href="{{ route('admin.home') }}">
                     <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" width="150"
                          height="auto"/>
-                    {{--                                {{ trans('panel.site_title') }}--}}
                 </a>
             </div>
         </div>
-        <div class="card">
+        <div class="card card-primary card-outline">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">
                     {{ trans('global.login') }}

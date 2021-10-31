@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'lang' => ['required', 'string', 'min:2'],
-            'phone_1' => ['required', 'string', 'min:6'],
+//            'phone_1' => ['required', 'string', 'min:6'],
         ]);
     }
 
@@ -72,7 +72,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'lang' => $data['lang'],
-            'phone_1' => $data['phone_1'],
+//            'phone_1' => $data['phone_1'],
         ]);
 
         if (!$user->roles()->get()->contains(User::IS_MEMBER)) {
