@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/Downloads/Laravel-Multi-Tenancy-Multi-Team-master/.idea/Laravel-Multi-Tenancy-Multi-Team-master.iml" filepath="$USER_HOME$/Downloads/Laravel-Multi-Tenancy-Multi-Team-master/.idea/Laravel-Multi-Tenancy-Multi-Team-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/clearprop.iml" filepath="$PROJECT_DIR$/.idea/clearprop.iml" />
     </modules>
   </component>
