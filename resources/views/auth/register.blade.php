@@ -1,58 +1,59 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <div class="register-box">
-            @include('partials.logo')
-            <div class="card card-outline card-primary">
-                <div class="card-header text-center">
-                    <p class="login-box-msg">Register a new membership</p>
-                </div>
-                <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="register-box">
+                @include('partials.logo')
+                <div class="card card-outline card-primary">
+                    <div class="card-header text-center">
+                        <p class="login-box-msg">Register a new membership</p>
+                    </div>
+                    <div class="card-body">
 
 
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-                        <div class="input-group mb-4">
-                            <input type="text" id="teamName" name="teamName"
-                                   class="form-control @error('teamName') is-invalid @enderror"
-                                   placeholder="Name of your team or group" required autocomplete="teamName" autofocus
-                                   style="background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
-                            @error('teamName')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="text" id="name" name="name"
-                                   class="form-control @error('name') is-invalid @enderror" placeholder="Your name"
-                                   required autocomplete="name" autofocus
-                                   style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user"></span>
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+                            {{--                        <div class="input-group mb-4">--}}
+                            {{--                            <input type="text" id="teamName" name="teamName"--}}
+                            {{--                                   class="form-control @error('teamName') is-invalid @enderror"--}}
+                            {{--                                   placeholder="Name of your team or group" required autocomplete="teamName" autofocus--}}
+                            {{--                                   style="background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">--}}
+                            {{--                            @error('teamName')--}}
+                            {{--                            <span class="invalid-feedback" role="alert">--}}
+                            {{--                                <strong>{{ $message }}</strong>--}}
+                            {{--                            </span>--}}
+                            {{--                            @enderror--}}
+                            {{--                        </div>--}}
+                            <div class="input-group mb-3">
+                                <input type="text" id="name" name="name"
+                                       class="form-control @error('name') is-invalid @enderror" placeholder="Your name"
+                                       required autocomplete="name" autofocus
+                                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-user"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            @error('name')
-                            <span class="invalid-feedback" role="alert">
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
-                            @enderror
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="email" id="email" name="email"
-                                   class="form-control @error('email') is-invalid @enderror" placeholder="Email"
-                                   required autocomplete="email">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                @enderror
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="email" id="email" name="email"
+                                       class="form-control @error('email') is-invalid @enderror" placeholder="Email"
+                                       required autocomplete="email">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
-                            @enderror
+                                @enderror
                         </div>
                         <div class="input-group mb-3">
                             <input type="password" id="password" name="password"
@@ -115,9 +116,10 @@
                         <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
                     </div>
 
-                </div>
-                <!-- /.form-box -->
-            </div><!-- /.card -->
+                    </div>
+                    <!-- /.form-box -->
+                </div><!-- /.card -->
+            </div>
         </div>
     </div>
 @endsection

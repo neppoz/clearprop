@@ -1,6 +1,6 @@
 <?php
 
-Auth::routes(['register' => true, 'verify' => true, 'reset' => true]);
+Auth::routes(['register' => false, 'verify' => true, 'reset' => true]);
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     return redirect()->route('admin.home');
@@ -158,6 +158,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 //    Route::stripeWebhooks('stripe-connect-webhook');
 //}
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Auth::routes();
+//
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
