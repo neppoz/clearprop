@@ -31,7 +31,6 @@ class UserCheckService
     {
         if (Parameter::where('slug', 'check.balance')->value('value') == Parameter::CHECK_BALANCE_ENABLED) {
             $activities = Activity::where('user_id', $user->id)
-                ->whereBetween('event', [now()->startOfYear(), now()])
                 ->get('amount');
 
             $incomes = Income::whereHas('income_category', function ($q) {
@@ -52,8 +51,7 @@ class UserCheckService
     public function activityCheckPassed(User $user, Plane $plane)
     {
         if (Parameter::where('slug', 'check.activities')->value('value') == Parameter::CHECK_ACTIVITIES_ENABLED) {
-            $activities = Activity::whereBetween('event', [now()->startOfYear(), now()])
-                ->where('user_id', $user->id)
+            $activities = Activity::where('user_id', $user->id)
                 ->where('plane_id', $plane->id)
                 ->orderBy('event', 'DESC')
                 ->first('event');
