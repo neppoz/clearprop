@@ -1,26 +1,28 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-        @include('partials.logo')
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Complete Profile') }}</div>
-                    {{-- @foreach($user as $user) --}}
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register.step2') }}">
-                        @csrf
+            @include('partials.logo')
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">{{ __('Complete Profile') }}</div>
+                        {{-- @foreach($user as $user) --}}
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('register.step2') }}">
+                                @csrf
 
-                        <div class="form-group">
-                            <label class="required" for="license">{{ trans('cruds.user.fields.license') }}</label>
-                            <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}" type="text" name="license" id="license" value="{{ old('license', $user->license) }}" required>
-                            @if($errors->has('license'))
-                                <span class="text-danger">{{ $errors->first('license') }}</span>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.license_helper') }}</span>
-                        </div>
+                                <div class="form-group">
+                                    <label class="required"
+                                           for="license">{{ trans('cruds.user.fields.license') }}</label>
+                                    <input class="form-control {{ $errors->has('license') ? 'is-invalid' : '' }}"
+                                           type="text" name="license" id="license"
+                                           value="{{ old('license', $user->license) }}" required>
+                                    @if($errors->has('license'))
+                                        <span class="text-danger">{{ $errors->first('license') }}</span>
+                                    @endif
+                                    <span class="help-block">{{ trans('cruds.user.fields.license_helper') }}</span>
+                                </div>
                         <div class="form-group">
                             <label class="required" for="medical_due">{{ trans('cruds.user.fields.medical_due') }}</label>
                             <input class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}" type="text" name="medical_due" id="medical_due" value="{{ old('medical_due', $user->medical_due) }}" required>
@@ -72,26 +74,30 @@
                         <div class="form-group">
                             <div class="form-check {{ $errors->has('privacy_confirmed_at') ? 'is-invalid' : '' }}">
                                 <input type="hidden" name="privacy_confirmed_at" value="0">
-                                <input class="form-check-input" type="checkbox" name="privacy_confirmed_at" id="privacy_confirmed_at" value="{{ now() }}" {{ old('privacy_confirmed_at', 0) == 0 || old('privacy_confirmed_at') === null ? 'checked' : '' }} required>
-                                <label class="form-check-label" for="privacy_confirmed_at">{{ trans('cruds.user.fields.privacy') }}</label>
+                                <input class="form-check-input" type="checkbox" name="privacy_confirmed_at"
+                                       id="privacy_confirmed_at" value="{{ now() }}"
+                                       {{ old('privacy_confirmed_at', 0) == 0 || old('privacy_confirmed_at') === null ? 'checked' : '' }} required>
+                                <label class="form-check-label"
+                                       for="privacy_confirmed_at">{{ trans('cruds.user.fields.privacy') }}</label>
                             </div>
                             @if($errors->has('instructor'))
                                 <span class="text-danger">{{ $errors->first('instructor') }}</span>
                             @endif
                             <span class="help-block">{{ trans('cruds.user.fields.instructor_helper') }}</span>
                         </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Finish registration') }}
-                                </button>
-                            </div>
+                                <div class="form-group row mb-0">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Finish registration') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                        {{-- @endforeach --}}
+                    </div>
                 </div>
-                {{-- @endforeach --}}
             </div>
         </div>
     </div>
-</div>
 @endsection

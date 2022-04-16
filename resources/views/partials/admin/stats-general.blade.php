@@ -18,7 +18,7 @@
 <!-- ./col -->
 <div class="col-lg-3 col-md-6 col-sm-12">
     <!-- small box -->
-    <div class="small-box bg-info-gradient">
+    <div class="small-box bg-gradient-info">
         <div class="inner">
             <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
@@ -35,7 +35,7 @@
 <!-- ./col -->
 <div class="col-lg-3 col-md-6 col-sm-12">
     <!-- small box -->
-    <div class="small-box bg-warning-gradient">
+    <div class="small-box bg-gradient-warning">
         <div class="inner">
             <h4>{{  number_format($statistics['incomeAmountTotal'], 2, ',', '.') }} &euro;</h4>
 
@@ -51,7 +51,7 @@
 <!-- ./col -->
 <div class="col-lg-3 col-md-6 col-sm-12">
     <!-- small box -->
-    <div class="small-box bg-dark-gradient">
+    <div class="small-box bg-gradient-dark">
         <div class="inner">
             <h4>{{ $statistics['activityHoursAndMinutes'] }}</h4>
 
