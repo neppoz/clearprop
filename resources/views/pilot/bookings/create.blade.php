@@ -29,7 +29,10 @@
                         class="help-block text-secondary small">{{ trans('cruds.booking.fields.plane_helper') }}</span>
                 </div>
                 <div class="form-group">
-                    <label class="required">{{ trans('cruds.booking.fields.instructor_needed') }}</label>
+                    <div>
+                        <label class="required"
+                               for="instructor_needed">{{ trans('cruds.booking.fields.instructor_needed') }}</label>
+                    </div>
                     @foreach(App\Booking::INSTRUCTOR_NEEDED_RADIO as $key => $label)
                         <div
                             class="form-check form-check-inline icheck-primary {{ $errors->has('instructor_needed') ? 'is-invalid' : '' }}">
