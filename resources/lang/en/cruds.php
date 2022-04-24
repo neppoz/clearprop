@@ -16,7 +16,7 @@ return [
         'slot_title' => 'Appointments',
         'slot_title_singular' => 'Appointment',
         'book_slot' => ' Book your seat now ',
-        'create_request' => 'Create request',
+        'create_request' => 'Create',
         'edit_request' => 'Edit request',
 
     ],
@@ -275,7 +275,7 @@ return [
             'plane' => 'Plane',
             'plane_helper' => '',
             'instructor_needed' => 'Do you need an instructor?',
-            'instructor_needed_helper' => 'Notam: If rating is not set by Admin, solo is not available.',
+            'instructor_needed_helper' => 'Notam: If rating is not set by Admin, solo-flying is not possible.',
             'status' => 'Status',
             'status_helper' => '',
             'mode' => 'Mode',

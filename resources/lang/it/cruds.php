@@ -17,7 +17,7 @@ return [
         'slot_title' => 'Appuntamenti',
         'slot_title_singular' => 'Appuntamento',
         'book_slot' => ' Prenota il tuo posto ',
-        'create_request' => 'Crea richiesta',
+        'create_request' => 'Crea',
         'edit_request' => 'Modifica richiesta',
     ],
     'userManagement'     => [
@@ -158,7 +158,6 @@ return [
     'type'               => [
         'title'          => 'Tipi di attività',
         'title_singular' => 'Tipo di attività',
-        'price'          => 'Prezzo al minuto (€)',
         'title_select'   => 'Selezionare attività',
         'price'          => 'Prezzo al minuto (€)',
         'fields'         => [
