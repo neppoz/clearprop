@@ -31,6 +31,7 @@ class UserCheckService
     {
         if (Parameter::where('slug', 'check.balance')->value('value') == Parameter::CHECK_BALANCE_ENABLED) {
             $activities = Activity::where('user_id', $user->id)
+                ->whereBetween('event', [now()->startOfYear(), now()])
                 ->get('amount');
 
             $incomes = Income::whereHas('income_category', function ($q) {
@@ -40,10 +41,12 @@ class UserCheckService
                 ->whereBetween('entry_date', [now()->startOfYear(), now()])
                 ->get('amount');
 
-            $balance = ($incomes->sum('amount')-abs($activities->sum('amount')));
+            $balance = ($incomes->sum('amount') - abs($activities->sum('amount')));
+            debug("Incomes: " . $incomes->sum('amount') . "\t Activities: " . $activities->sum('amount'));
             if ($balance <= Parameter::where('slug', 'check.balance.limit.amount')->value('value')) {
                 return false;
             }
+
         }
         return true;
     }
