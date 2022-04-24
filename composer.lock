@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc2fe9efd26bd704f303998e2a634f51",
+    "content-hash": "70f5d7ff1c309f15bdefa93966ff2fb5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3046,6 +3046,70 @@
                 }
             ],
             "time": "2022-04-14T14:57:13+00:00"
+        },
+        {
+            "name": "league/flysystem-sftp-v3",
+            "version": "3.0.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-sftp-v3.git",
+                "reference": "8e5c3d4d50b58281786f9a15b827aaeef739fc32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-sftp-v3/zipball/8e5c3d4d50b58281786f9a15b827aaeef739fc32",
+                "reference": "8e5c3d4d50b58281786f9a15b827aaeef739fc32",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^2.0.0 || ^3.0.0",
+                "league/mime-type-detection": "^1.0.0",
+                "php": "^8.0.2",
+                "phpseclib/phpseclib": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\PhpseclibV3\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "In-memory filesystem adapter for Flysystem.",
+            "keywords": [
+                "Flysystem",
+                "file",
+                "files",
+                "filesystem",
+                "sftp"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem-sftp-v3/issues",
+                "source": "https://github.com/thephpleague/flysystem-sftp-v3/tree/3.0.17"
+            },
+            "funding": [
+                {
+                    "url": "https://offset.earth/frankdejonge",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/frankdejonge",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-04-14T14:56:41+00:00"
         },
         {
             "name": "league/glide",

@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.0.2",
         "bugsnag/bugsnag-laravel": "^2.17",
         "doctrine/dbal": "^2.9",
         "fruitcake/laravel-cors": "^2.0",
@@ -23,6 +23,7 @@
         "laravel/ui": "^3.0",
         "laraveldaily/laravel-charts": "^0.1.25",
         "league/flysystem": "^3.17",
+        "league/flysystem-sftp-v3": "^3.0",
         "livewire/livewire": "^2.3",
         "niklasravnsborg/laravel-pdf": "^4.0",
         "nuovo/spreadsheet-reader": "^0.5.11",
@@ -49,10 +50,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "platform": {
-            "php": "8.0"
-        }
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
