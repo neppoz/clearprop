@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pilot;
 use App\Booking;
 use App\Services\StatisticsService;
 use App\Slot;
+use Illuminate\Support\Str;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class HomeController
             ->orderBy('reservation_start', 'asc')
             ->get()
             ->groupBy(function ($booking) {
-                return Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
+                return Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('ddd DD MMM');
             });
 
         $checkinDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot'])
