@@ -1,25 +1,19 @@
 @extends('layouts.app')
 @section('content')
-<div class="login-box">
-    <div class="login-logo">
-        <div class="login-logo">
-            <a href="{{ route('admin.home') }}">
-                {{ trans('panel.site_title') }}
-            </a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">
-                {{ trans('global.reset_password') }}
-            </p>
+    <div class="login-box">
+        @include('partials.logo')
+        <div class="card card-primary card-outline">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">
+                    {{ trans('global.reset_password') }}
+                </p>
 
-            <form method="POST" action="{{ route('password.request') }}">
-                @csrf
+                <form method="POST" action="{{ route('password.request') }}">
+                    @csrf
 
-                <input name="token" value="{{ $token }}" type="hidden">
+                    <input name="token" value="{{ $token }}" type="hidden">
 
-                <div>
+                    <div>
                     <div class="form-group">
                         <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="{{ trans('global.login_email') }}">
 

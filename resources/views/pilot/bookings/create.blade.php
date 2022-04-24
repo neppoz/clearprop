@@ -1,7 +1,7 @@
 @extends('layouts.pilot')
 @section('content')
 
-    <div class="card">
+    <div class="card card-primary card-outline">
         <div class="card-header">
             {{ trans('global.create') }} {{ trans('cruds.booking.title_singular') }}
         </div>
@@ -31,18 +31,18 @@
                 <div class="form-group">
                     <label class="required">{{ trans('cruds.booking.fields.instructor_needed') }}</label>
                     @foreach(App\Booking::INSTRUCTOR_NEEDED_RADIO as $key => $label)
-                        <div class="form-check {{ $errors->has('instructor_needed') ? 'is-invalid' : '' }}">
+                        <div
+                            class="form-check form-check-inline icheck-primary {{ $errors->has('instructor_needed') ? 'is-invalid' : '' }}">
                             <input class="form-check-input" type="radio" id="instructor_needed_{{ $key }}"
-                                   name="instructor_needed" value="{{ $key }}"
-                                   {{ old('instructor_needed', '1') === (string) $key ? 'checked' : '' }} required>
+                                   name="instructor_needed" value="{{ $key }}" required>
                             <label class="form-check-label" for="instructor_needed_{{ $key }}">{{ $label }}</label>
                         </div>
                     @endforeach
                     @if($errors->has('instructor_needed'))
                         <span class="text-danger">{{ $errors->first('instructor_needed') }}</span>
                     @endif
-                    <span
-                        class="help-block text-secondary small">{!! trans('cruds.booking.fields.instructor_needed_helper') !!}</span>
+                    <div
+                        class="help-block text-secondary small">{!! trans('cruds.booking.fields.instructor_needed_helper') !!}</div>
                 </div>
                 <div class="form-group">
                     <div class="alert alert-warning alert-dismissible" id="warning-medical" style="display: none">
@@ -151,7 +151,8 @@
             let instructor_needed_val_1 = $('input[name="instructor_needed"][value="1"]');
             let instructor_needed_val_0 = $('input[name="instructor_needed"][value="0"]');
 
-            instructor_needed_val_1.prop("checked", true);
+            instructor_needed_val_0.prop("checked", false);
+            instructor_needed_val_1.prop("checked", false);
 
             function formChecks(data) {
                 warning_medical.hide();
@@ -189,6 +190,8 @@
 
             $("#plane_id").change(function () {
                 plane = $(this).val();
+                instructor_needed_val_0.prop("checked", false);
+                instructor_needed_val_1.prop("checked", false);
                 if ($(user)) {
                     $.ajax({
                         url: "{{ route('pilot.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
@@ -247,7 +250,7 @@
                 inline: false,
                 widgetPositioning: {
                     horizontal: 'auto',
-                    vertical: 'bottom'
+                    vertical: 'top'
                 },
                 icons: {
                     time: 'fas fa-clock-o',

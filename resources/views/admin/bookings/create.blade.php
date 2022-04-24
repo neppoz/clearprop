@@ -170,7 +170,7 @@
                 inline: false,
                 widgetPositioning: {
                     horizontal: 'auto',
-                    vertical: 'bottom'
+                    vertical: 'top'
                 },
                 icons: {
                     time: 'fas fa-clock-o',
