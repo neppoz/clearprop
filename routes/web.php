@@ -148,16 +148,3 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
 
-//// Route to API docs
-//Route::group(['middleware' => ['auth']], function () {
-//    Route::view('/docs', 'scribe.index');
-//});
-//
-//// Stripe Webhook
-//if (!empty(env('STRIPE_WEBHOOK_SECRET'))) {
-//    Route::stripeWebhooks('stripe-connect-webhook');
-//}
-
-//Auth::routes();
-//
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
