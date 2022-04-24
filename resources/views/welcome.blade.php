@@ -224,7 +224,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-2 text-lg">
+                                    <div class="col-3 text-lg">
                                         <i class="fas fa-plane-departure"></i><br>
                                         <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->format('H:i') }}</span><br>
                                         <i class="fas fa-plane-arrival"></i><br>
@@ -236,7 +236,7 @@
                                         <span
                                             class="badge badge-{{$booking->mode_id == 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name ?? ''}}</span><br>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         @foreach($booking->bookingInstructors as $instructorBookings)
                                             <span
                                                 class="text {{ $instructorBookings->id == auth()->user()->id ? 'text-primary' : 'text-black'}}">{{ $instructorBookings->name ?? '' }}</span>
