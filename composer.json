@@ -22,7 +22,6 @@
         "laravel/tinker": "^2.6",
         "laravel/ui": "^3.0",
         "laraveldaily/laravel-charts": "^0.1.25",
-        "league/flysystem": "^3.17",
         "league/flysystem-sftp-v3": "^3.0",
         "livewire/livewire": "^2.3",
         "niklasravnsborg/laravel-pdf": "^4.0",
