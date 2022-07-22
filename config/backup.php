@@ -29,6 +29,7 @@ return [
                 'exclude' => [
                     base_path('vendor'),
                     base_path('node_modules'),
+                    base_path('storage/tmp'),
                 ],
 
                 /*
@@ -169,8 +170,8 @@ return [
             'to' => env('BACKUP_MAIL_TO_ADDRESS'),
 
             'from' => [
-                'address' => env('BACKUP_MAIL_FROM_ADDRESS', 'backup@example.com'),
-                'name' => env('BACKUP_MAIL_FROM_NAME', 'Spatie Backup'),
+                'address' => env('BACKUP_MAIL_FROM_ADDRESS', 'support@clearprop.aero'),
+                'name' => env('BACKUP_MAIL_FROM_NAME', 'Backup ' . env('APP_NAME')),
             ],
         ],
 
@@ -187,14 +188,6 @@ return [
             'icon' => null,
 
         ],
-
-        'discord' => [
-            'webhook_url' => '',
-
-            'username' => null,
-
-            'avatar_url' => null,
-        ],
     ],
 
     /*
@@ -208,7 +201,7 @@ return [
             'disks' => ['storagebox'],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => env('BACKUP_MAX_STORAGE'),
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => env('BACKUP_MAX_STORAGE', 5000),
             ],
         ],
 
@@ -267,7 +260,7 @@ return [
              * After cleaning up the backups remove the oldest backup until
              * this amount of megabytes has been reached.
              */
-            'delete_oldest_backups_when_using_more_megabytes_than' => env('BACKUP_MAX_STORAGE'),
+            'delete_oldest_backups_when_using_more_megabytes_than' => env('BACKUP_MAX_STORAGE', 5000),
         ],
     ],
 
