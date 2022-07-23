@@ -12,17 +12,19 @@
         </div><!-- /.col -->
     </div>
     <div class="row m-2">
-        @include('partials.admin.stats-general')
+        @include('partials.stats-general')
     </div>
-    <div class="row m-2">
-        {{--        @include('partials.admin.stats-minutes')--}}
-    </div>
-    <div class="row m-2">
-        @include('partials.admin.deadlines')
-    </div>
-    <div class="row m-2">
-        @include('partials.admin.assets-global')
-    </div>
+    <!-- conditional showing data -->
+    @if(count($userMedicalGoingDue) > 0)
+        <div class="row m-2">
+            @include('partials.admin.deadlines-global')
+        </div>
+    @endif
+    @if(!empty($statistics['assetsOverhaulData']))
+        <div class="row m-2">
+            @include('partials.admin.assets-global')
+        </div>
+    @endif
 
 
 @endsection

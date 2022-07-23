@@ -291,5 +291,6 @@ return [
     'mark_as_read' => 'Mark as read',
     'notification_medical' => ': the medical expires at ',
     'notification_balance' => ': has a negative balance of -',
-    'no_deadline' => 'No due date available',
+    'deadline_medical' => 'Medical checks',
+    'no_deadline_medical' => 'No member with medical at risk',
 ];
