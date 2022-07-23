@@ -1,105 +1,20 @@
 @extends('layouts.pilot')
 @section('content')
-    <div class="row mt-2">
+    <div class="row m-2">
         <div class="col-sm-6">
             <h3 class="m-0 text-dark">{{ trans('cruds.dashboard.greeting') . auth()->user()->name }}</h3>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('pilot.welcome')}}">Home</a></li>
                 <li class="breadcrumb-item active">{{ trans('cruds.dashboard.title') }}</li>
             </ol>
         </div><!-- /.col -->
     </div>
-    <div class="row mt-2">
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
-                <div class="small-box bg-gradient-success">
-                    <div class="inner">
-                        <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
-
-                        <p>{{ trans('cruds.dashboard.grantotal') }}</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                    </div>
-                    <div class="small-box-footer">
-                        <i class="far fa-circle"></i>
-                    </div>
-                </div>
-            @else
-                <div class="small-box bg-gradient-danger">
-                    <div class="inner">
-                        <h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4>
-
-                        <p>{{ trans('cruds.dashboard.grantotal') }}</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-fw fa-tachometer-alt"></i>
-                    </div>
-                    <div class="small-box-footer">
-                        <i class="far fa-circle"></i>
-                    </div>
-                </div>
-            @endif
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <a href="{{ route('pilot.activities.index') }}">
-                <div class="small-box bg-gradient-info">
-                    <div class="inner">
-                        <h4>{{  number_format($statistics['activityAmountTotal'], 2, ',', '.') }} &euro;</h4>
-
-                        <p>{{ trans('cruds.dashboard.activityAmountTotal') }}</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa-fw fas fa-plane-departure"></i>
-                    </div>
-                    <div class="small-box-footer">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-gradient-warning">
-                <div class="inner">
-                    <h4>{{  number_format($statistics['incomeAmountTotal'], 2, ',', '.') }} &euro;</h4>
-
-                    <p>{{ trans('cruds.dashboard.incomeAmountTotal') }}</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-fw fa-money-bill-alt"></i>
-                </div>
-                <div class="small-box-footer">
-                    <i class="far fa-circle"></i>
-                </div>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-gradient-dark">
-                <div class="inner">
-                    <h4>{{ $statistics['activityHoursAndMinutes'] }}</h4>
-
-                    <p>{{ trans('cruds.dashboard.activityHoursAndMinutes') }}</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-fw fa-clock"></i>
-                </div>
-                <div class="small-box-footer">
-                    <i class="far fa-circle"></i>
-                </div>
-            </div>
-        </div>
-        <!-- ./col -->
+    <div class="row m-2">
+        @include('partials.stats-general')
     </div>
-    <div class="row mt-2 mb-4">
+    <div class="row m-2 mb-2">
         <div class="col-12">
             <div class="bg-light">
                 <div class="p-2 text-center text-success">
