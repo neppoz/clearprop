@@ -24,7 +24,7 @@
                     {{ trans('cruds.income.title') }}
                 </a>
             </li>
-            @if($user->instructor)
+            @if($user->is_instructor)
             <li class="nav-item">
                 <a class="nav-link" href="#instructor_activities" role="tab" data-toggle="pill">
                     {{ trans('cruds.activity.title_lessons') }}
@@ -159,14 +159,14 @@
                                 @endforeach
                             </td>
                         </tr>
-                        <tr>
-                            <th>
-                                {{ trans('cruds.user.fields.instructor') }}
-                            </th>
-                            <td>
-                                <input type="checkbox" disabled="disabled" {{ $user->instructor ? 'checked' : '' }}>
-                            </td>
-                        </tr>
+                        {{--                        <tr>--}}
+                        {{--                            <th>--}}
+                        {{--                                {{ trans('cruds.user.fields.instructor') }}--}}
+                        {{--                            </th>--}}
+                        {{--                            <td>--}}
+                        {{--                                <input type="checkbox" disabled="disabled" {{ $user->instructor ? 'checked' : '' }}>--}}
+                        {{--                            </td>--}}
+                        {{--                        </tr>--}}
                         <tr>
                             <th>
                                 {{ trans('cruds.user.fields.email_verified_at') }}
@@ -187,7 +187,7 @@
             <div class="tab-pane" role="tabpanel" id="user_incomes" aria-labelledby="user_incomes">
                 @includeIf('admin.users.relationships.userIncomes', ['user_id' => $user->id])
             </div>
-            @if($user->instructor)
+            @if($user->is_instructor)
             <div class="tab-pane" role="tabpanel" id="instructor_activities" aria-labelledby="instructor_activities">
                 @includeIf('admin.users.relationships.instructorActivities', ['user_id' => $user->id])
             </div>
