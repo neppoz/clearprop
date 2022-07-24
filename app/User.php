@@ -26,6 +26,9 @@ class User extends Authenticatable // implements MustVerifyEmail
     const IS_ADMIN = 1;
     const IS_MEMBER = 2;
     const IS_MANAGER = 3;
+    const IS_INSTRUCTOR = 4;
+    const IS_MECHANIC = 5;
+
     const LANG_SELECT = [
         'EN' => 'English',
         'DE' => 'German',
@@ -79,6 +82,16 @@ class User extends Authenticatable // implements MustVerifyEmail
         return $this->roles()->where('id', 3)->exists();
     }
 
+    public function getIsInstructorAttribute()
+    {
+        return $this->roles()->where('id', 4)->exists();
+    }
+
+    public function getIsMechanicAttribute()
+    {
+        return $this->roles()->where('id', 5)->exists();
+    }
+
     public function IsAdminByRole()
     {
         return $this->roles()->where('id', 1)->exists();
@@ -89,9 +102,14 @@ class User extends Authenticatable // implements MustVerifyEmail
         return $this->roles()->where('id', 3)->exists();
     }
 
-    public function IsInstructorByFlag()
+    public function IsInstructorByRole()
     {
-        return $this->attributes['instructor'] === 1;
+        return $this->roles()->where('id', 4)->exists();
+    }
+
+    public function IsMechanicByRole()
+    {
+        return $this->roles()->where('id', 5)->exists();
     }
 
     public function userActivities()
