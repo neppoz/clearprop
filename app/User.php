@@ -57,7 +57,6 @@ class User extends Authenticatable // implements MustVerifyEmail
         'factor_id',
         'license',
         'medical_due',
-        'instructor',
         'params',
         'remember_token',
         'email_verified_at',

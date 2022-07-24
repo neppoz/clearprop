@@ -136,9 +136,11 @@
                     <span class="btn btn-info btn-xs select-all" style="border-radius: 0">{{ trans('global.select_all') }}</span>
                     <span class="btn btn-info btn-xs deselect-all" style="border-radius: 0">{{ trans('global.deselect_all') }}</span>
                 </div>
-                <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]" id="roles" multiple required>
+                <select class="form-control select2 {{ $errors->has('roles') ? 'is-invalid' : '' }}" name="roles[]"
+                        id="roles" multiple required>
                     @foreach($roles as $id => $roles)
-                        <option value="{{ $id }}" {{ in_array($id, old('roles', [])) ? 'selected' : '' }}>{{ $roles }}</option>
+                        <option
+                            value="{{ $id }}" {{ in_array($id, old('roles', [])) ? 'selected' : '' }}>{{ $roles }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('roles'))
@@ -146,17 +148,17 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.roles_helper') }}</span>
             </div>
-            <div class="form-group">
-                <div class="form-check {{ $errors->has('instructor') ? 'is-invalid' : '' }}">
-                    <input type="hidden" name="instructor" value="0">
-                    <input class="form-check-input" type="checkbox" name="instructor" id="instructor" value="1" {{ old('instructor', 0) == 1 || old('instructor') === null ? 'checked' : '' }}>
-                    <label class="form-check-label" for="instructor">{{ trans('cruds.user.fields.instructor') }}</label>
-                </div>
-                @if($errors->has('instructor'))
-                    <span class="text-danger">{{ $errors->first('instructor') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.instructor_helper') }}</span>
-            </div>
+            {{--            <div class="form-group">--}}
+            {{--                <div class="form-check {{ $errors->has('instructor') ? 'is-invalid' : '' }}">--}}
+            {{--                    <input type="hidden" name="instructor" value="0">--}}
+            {{--                    <input class="form-check-input" type="checkbox" name="instructor" id="instructor" value="1" {{ old('instructor', 0) == 1 || old('instructor') === null ? 'checked' : '' }}>--}}
+            {{--                    <label class="form-check-label" for="instructor">{{ trans('cruds.user.fields.instructor') }}</label>--}}
+            {{--                </div>--}}
+            {{--                @if($errors->has('instructor'))--}}
+            {{--                    <span class="text-danger">{{ $errors->first('instructor') }}</span>--}}
+            {{--                @endif--}}
+            {{--                <span class="help-block">{{ trans('cruds.user.fields.instructor_helper') }}</span>--}}
+            {{--            </div>--}}
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
