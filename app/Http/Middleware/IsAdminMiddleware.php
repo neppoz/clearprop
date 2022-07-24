@@ -24,6 +24,13 @@ class IsAdminMiddleware
             return $next($request);
         }
 
+        if (auth()->user()->is_instructor) {
+            return $next($request);
+        }
+
+        if (auth()->user()->is_mechanic) {
+            return $next($request);
+        }
         try {
             return redirect('pilot');
         } catch (Throwable $e) {

@@ -9,27 +9,45 @@ class RolesTableSeeder extends Seeder
 {
     public function run()
     {
-        $roles = [
+        Role::updateOrCreate(
+            ['id' => '1'],
             [
-                'id'    => 1,
-                'title' => 'Admin',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id'    => 2,
-                'title' => 'Member',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-            [
-                'id'    => 3,
-                'title' => 'Manager',
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ],
-        ];
+                'id' => '1',
+                'title' => 'Admin'
+            ]
+        );
 
-        Role::insertOrIgnore($roles);
+        Role::updateOrCreate(
+            ['id' => '2'],
+            [
+                'id' => '2',
+                'title' => 'Member'
+            ]
+        );
+
+        Role::updateOrCreate(
+            ['id' => '3'],
+            [
+                'id' => '3',
+                'title' => 'Manager'
+            ]
+        );
+
+        Role::updateOrCreate(
+            ['id' => '4'],
+            [
+                'id' => '4',
+                'title' => 'Instructor'
+            ]
+        );
+
+        Role::updateOrCreate(
+            ['id' => '5'],
+            [
+                'id' => '5',
+                'title' => 'Mechanic'
+            ]
+        );
+
     }
 }

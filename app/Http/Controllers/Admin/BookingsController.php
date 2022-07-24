@@ -228,11 +228,13 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $instructors = User::where('instructor', '=', true)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $instructors = User::whereHas('roles', function ($role) {
+            $role->where('title', 'Instructor');
+        })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $booking->load('bookingUsers', 'plane', 'instructor', 'slot', 'created_by');
+        $booking->load('bookingUsers', 'plane', 'slot', 'created_by');
 
         return view('admin.bookings.edit', compact('users', 'planes', 'instructors', 'slots', 'booking'));
     }
