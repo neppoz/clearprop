@@ -19,7 +19,7 @@
                                     <input id="csv_file" type="file" class="form-control-file" name="csv_file" required>
 
                                     @if($errors->has('csv_file'))
-                                        <span class="help-block">
+                                        <span class="help-block text-secondary small">
                                             <strong>{{ $errors->first('csv_file') }}</strong>
                                         </span>
                                     @endif

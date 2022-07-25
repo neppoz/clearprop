@@ -11,28 +11,31 @@
             @csrf
             <div class="form-group">
                 <label class="required" for="name">{{ trans('cruds.factor.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name"
+                       id="name" value="{{ old('name', '') }}" required>
                 @if($errors->has('name'))
                     <span class="text-danger">{{ $errors->first('name') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.factor.fields.name_helper') }}</span>
+                <span class="help-block text-secondary small">{{ trans('cruds.factor.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.factor.fields.description') }}</label>
-                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{{ old('description') }}</textarea>
+                <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description"
+                          id="description">{{ old('description') }}</textarea>
                 @if($errors->has('description'))
                     <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.factor.fields.description_helper') }}</span>
+                <span
+                    class="help-block text-secondary small">{{ trans('cruds.factor.fields.description_helper') }}</span>
             </div>
             <div class="card">
                 <div class="card-body">
                     <table class="table" id="types_table">
                         <thead>
-                            <tr>
-                                <th>{{ trans('cruds.type.title_singular') }}</th>
-                                <th>{{ trans('cruds.type.price') }}</th>
-                            </tr>
+                        <tr>
+                            <th>{{ trans('cruds.type.title_singular') }}</th>
+                            <th>{{ trans('cruds.type.price') }}</th>
+                        </tr>
                         </thead>
                         <tbody>
                             <tr id="type0">
