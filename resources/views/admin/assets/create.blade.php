@@ -33,7 +33,8 @@
                     @if($errors->has('category'))
                         <span class="text-danger">{{ $errors->first('category') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.category_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.category_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="plane_id">{{ trans('cruds.asset.fields.plane') }}</label>
@@ -47,7 +48,7 @@
                     @if($errors->has('plane'))
                         <span class="text-danger">{{ $errors->first('plane') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.plane_helper') }}</span>
+                    <span class="help-block text-secondary small">{{ trans('cruds.asset.fields.plane_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="serial_number">{{ trans('cruds.asset.fields.serial_number') }}</label>
@@ -56,7 +57,8 @@
                     @if($errors->has('serial_number'))
                         <span class="text-danger">{{ $errors->first('serial_number') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.serial_number_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.serial_number_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="name">{{ trans('cruds.asset.fields.name') }}</label>
@@ -65,7 +67,7 @@
                     @if($errors->has('name'))
                         <span class="text-danger">{{ $errors->first('name') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.name_helper') }}</span>
+                    <span class="help-block text-secondary small">{{ trans('cruds.asset.fields.name_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="start_hours">{{ trans('cruds.asset.fields.start_hours') }}</label>
@@ -74,7 +76,8 @@
                     @if($errors->has('start_hours'))
                         <span class="text-danger">{{ $errors->first('start_hours') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.start_hours_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.start_hours_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="start_date">{{ trans('cruds.asset.fields.start_date') }}</label>
@@ -83,7 +86,8 @@
                     @if($errors->has('start_date'))
                         <span class="text-danger">{{ $errors->first('start_date') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.start_date_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.start_date_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="end_hours">{{ trans('cruds.asset.fields.end_hours') }}</label>
@@ -92,7 +96,8 @@
                     @if($errors->has('end_hours'))
                         <span class="text-danger">{{ $errors->first('end_hours') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.end_hours_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.end_hours_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="end_date">{{ trans('cruds.asset.fields.end_date') }}</label>
@@ -101,7 +106,8 @@
                     @if($errors->has('end_date'))
                         <span class="text-danger">{{ $errors->first('end_date') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.end_date_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.end_date_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="photos">{{ trans('cruds.asset.fields.photos') }}</label>
@@ -111,7 +117,7 @@
                     @if($errors->has('photos'))
                         <span class="text-danger">{{ $errors->first('photos') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.photos_helper') }}</span>
+                    <span class="help-block text-secondary small">{{ trans('cruds.asset.fields.photos_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="status_id">{{ trans('cruds.asset.fields.status') }}</label>
@@ -125,7 +131,7 @@
                     @if($errors->has('status'))
                         <span class="text-danger">{{ $errors->first('status') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.status_helper') }}</span>
+                    <span class="help-block text-secondary small">{{ trans('cruds.asset.fields.status_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="location_id">{{ trans('cruds.asset.fields.location') }}</label>
@@ -139,7 +145,8 @@
                     @if($errors->has('location'))
                         <span class="text-danger">{{ $errors->first('location') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.location_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.location_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="notes">{{ trans('cruds.asset.fields.notes') }}</label>
@@ -148,7 +155,7 @@
                     @if($errors->has('notes'))
                         <span class="text-danger">{{ $errors->first('notes') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.notes_helper') }}</span>
+                    <span class="help-block text-secondary small">{{ trans('cruds.asset.fields.notes_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="assigned_to_id">{{ trans('cruds.asset.fields.assigned_to') }}</label>
@@ -162,7 +169,8 @@
                     @if($errors->has('assigned_to'))
                         <span class="text-danger">{{ $errors->first('assigned_to') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.asset.fields.assigned_to_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.assigned_to_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-danger" type="submit">

@@ -38,7 +38,8 @@
                             @if($errors->has('license'))
                                 <span class="text-danger">{{ $errors->first('license') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.license_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.license_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required"
@@ -49,7 +50,8 @@
                             @if($errors->has('medical_due'))
                                 <span class="text-danger">{{ $errors->first('medical_due') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="taxno">{{ trans('cruds.user.fields.taxno') }}</label>
@@ -58,7 +60,8 @@
                             @if($errors->has('taxno'))
                                 <span class="text-danger">{{ $errors->first('taxno') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.taxno_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.taxno_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="phone_1">{{ trans('cruds.user.fields.phone_1') }}</label>
@@ -68,7 +71,8 @@
                             @if($errors->has('phone_1'))
                                 <span class="text-danger">{{ $errors->first('phone_1') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label for="phone_2">{{ trans('cruds.user.fields.phone_2') }}</label>
@@ -77,7 +81,8 @@
                             @if($errors->has('phone_2'))
                                 <span class="text-danger">{{ $errors->first('phone_2') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.phone_2_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_2_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="address">{{ trans('cruds.user.fields.address') }}</label>
@@ -87,7 +92,8 @@
                             @if($errors->has('address'))
                                 <span class="text-danger">{{ $errors->first('address') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.address_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.address_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="city">{{ trans('cruds.user.fields.city') }}</label>
@@ -96,7 +102,8 @@
                             @if($errors->has('city'))
                                 <span class="text-danger">{{ $errors->first('city') }}</span>
                             @endif
-                            <span class="help-block">{{ trans('cruds.user.fields.city_helper') }}</span>
+                            <span
+                                class="help-block text-secondary small">{{ trans('cruds.user.fields.city_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="lang">{{ trans('cruds.user.fields.lang') }}</label>

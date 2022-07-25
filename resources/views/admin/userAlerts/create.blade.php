@@ -30,7 +30,8 @@
                     @if($errors->has('alert_text'))
                         <span class="text-danger">{{ $errors->first('alert_text') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.userAlert.fields.alert_text_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.alert_text_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="alert_link">{{ trans('cruds.userAlert.fields.alert_link') }}</label>
@@ -39,7 +40,8 @@
                     @if($errors->has('alert_link'))
                         <span class="text-danger">{{ $errors->first('alert_link') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.userAlert.fields.alert_link_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.alert_link_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="users">{{ trans('cruds.userAlert.fields.user') }}</label>
@@ -59,7 +61,8 @@
                     @if($errors->has('users'))
                         <span class="text-danger">{{ $errors->first('users') }}</span>
                     @endif
-                    <span class="help-block">{{ trans('cruds.userAlert.fields.user_helper') }}</span>
+                    <span
+                        class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.user_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-danger" type="submit">
