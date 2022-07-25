@@ -119,8 +119,8 @@
             </div><!-- /.col -->
         </div>
         <div class="row mt-2 mb-2">
-            <div class="col-12">
-                @foreach($bookingDates as $date => $bookings)
+            @foreach($bookingDates as $date => $bookings)
+                <div class="col-sm-12 col-md-6 col-lg-4">
                     @foreach($bookings as $booking)
                         <div class="card card-dark">
                             <div class="h5 card-header">
@@ -176,8 +176,8 @@
                             @endif
                         </div>
                     @endforeach
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
     @endif
     <!-- conditional data -->
@@ -191,8 +191,6 @@
             @include('partials.admin.assets-global')
         </div>
     @endif
-
-
 @endsection
 
 @section('scripts')
