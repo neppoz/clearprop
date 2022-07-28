@@ -249,7 +249,7 @@ class BookingsController extends Controller
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);
         }
 
-        return redirect()->route('admin.bookings.index');
+        return redirect()->route('admin.home');
     }
 
     public function show(Booking $booking)
