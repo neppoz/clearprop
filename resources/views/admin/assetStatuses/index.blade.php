@@ -22,9 +22,9 @@
                         <th width="10">
 
                         </th>
-                        <th>
-                            {{ trans('cruds.assetStatus.fields.id') }}
-                        </th>
+                        {{--                        <th>--}}
+                        {{--                            {{ trans('cruds.assetStatus.fields.id') }}--}}
+                        {{--                        </th>--}}
                         <th>
                             {{ trans('cruds.assetStatus.fields.name') }}
                         </th>
@@ -39,9 +39,9 @@
                             <td>
 
                             </td>
-                            <td>
-                                {{ $assetStatus->id ?? '' }}
-                            </td>
+                            {{--                            <td>--}}
+                            {{--                                {{ $assetStatus->id ?? '' }}--}}
+                            {{--                            </td>--}}
                             <td>
                                 {{ $assetStatus->name ?? '' }}
                             </td>
@@ -49,15 +49,14 @@
                                 @can('asset_status_show')
                                     <a class="btn btn-xs btn-primary"
                                        href="{{ route('admin.asset-statuses.show', $assetStatus->id) }}">
-                                        {{ trans('global.view') }}
+                                        <i class="fas fa-search"></i>
                                     </a>
                                 @endcan
 
                                 @can('asset_status_edit')
                                     <a class="btn btn-xs btn-info"
                                        href="{{ route('admin.asset-statuses.edit', $assetStatus->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
+                                        <i class="fas fa-edit"></i></a>
                                 @endcan
 
                                 @can('asset_status_delete')

@@ -314,21 +314,22 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('permission_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.permissions.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
-                                        <i class="fa-fw nav-icon fas fa-unlock-alt">
+                            {{--                            @can('permission_access')--}}
+                            {{--                                <li class="nav-item">--}}
+                            {{--                                    <a href="{{ route("admin.permissions.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">--}}
+                            {{--                                        <i class="fa-fw nav-icon fas fa-unlock-alt">--}}
 
-                                        </i>
-                                        <p>
-                                            <span>{{ trans('cruds.permission.title') }}</span>
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
+                            {{--                                        </i>--}}
+                            {{--                                        <p>--}}
+                            {{--                                            <span>{{ trans('cruds.permission.title') }}</span>--}}
+                            {{--                                        </p>--}}
+                            {{--                                    </a>--}}
+                            {{--                                </li>--}}
+                            {{--                            @endcan--}}
                             @can('role_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.roles.index") }}" class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
+                                    <a href="{{ route("admin.roles.index") }}"
+                                       class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
                                         <i class="fa-fw nav-icon fas fa-briefcase">
 
                                         </i>

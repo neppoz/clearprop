@@ -66,21 +66,21 @@
                             <td>
                                 @can('income_category_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.income-categories.show', $incomeCategory->id) }}">
-                                        {{ trans('global.view') }}
+                                        <i class="fas fa-search"></i>
                                     </a>
                                 @endcan
 
                                 @can('income_category_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.income-categories.edit', $incomeCategory->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
+                                        <i class="fas fa-edit"></i></a>
                                 @endcan
 
                                 @can('income_category_delete')
                                     <form action="{{ route('admin.income-categories.destroy', $incomeCategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <button type="submit" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i>
+                                        </button>
                                     </form>
                                 @endcan
 
