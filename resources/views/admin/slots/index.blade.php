@@ -68,14 +68,13 @@
                             <td>
                                 @can('slot_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.slots.show', $slot->id) }}">
-                                        {{ trans('global.view') }}
+                                        <i class="fas fa-search"></i>
                                     </a>
                                 @endcan
 
                                 @can('slot_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.slots.edit', $slot->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
+                                        <i class="fas fa-edit"></i></a>
                                 @endcan
 
                                 @can('slot_delete')
@@ -84,8 +83,8 @@
                                           style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger"
-                                               value="{{ trans('global.delete') }}">
+                                        <button type="submit" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i>
+                                        </button>
                                     </form>
                                 @endcan
 

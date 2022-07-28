@@ -80,21 +80,21 @@
                             <td>
                                 @can('type_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.types.show', $type->id) }}">
-                                        {{ trans('global.view') }}
+                                        <i class="fas fa-search"></i>
                                     </a>
                                 @endcan
 
                                 @can('type_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.types.edit', $type->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
+                                        <i class="fas fa-edit"></i></a>
                                 @endcan
 
                                 @can('type_delete')
                                     <form action="{{ route('admin.types.destroy', $type->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
+                                        <button type="submit" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i>
+                                        </button>
                                     </form>
                                 @endcan
 

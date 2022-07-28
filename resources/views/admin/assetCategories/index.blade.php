@@ -34,9 +34,9 @@
                         <th width="10">
 
                         </th>
-                        <th>
-                            {{ trans('cruds.assetCategory.fields.id') }}
-                        </th>
+                        {{--                        <th>--}}
+                        {{--                            {{ trans('cruds.assetCategory.fields.id') }}--}}
+                        {{--                        </th>--}}
                         <th>
                             {{ trans('cruds.assetCategory.fields.name') }}
                         </th>
@@ -51,9 +51,9 @@
                             <td>
 
                             </td>
-                            <td>
-                                {{ $assetCategory->id ?? '' }}
-                            </td>
+                            {{--                            <td>--}}
+                            {{--                                {{ $assetCategory->id ?? '' }}--}}
+                            {{--                            </td>--}}
                             <td>
                                 {{ $assetCategory->name ?? '' }}
                             </td>
