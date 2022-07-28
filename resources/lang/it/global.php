@@ -290,6 +290,7 @@ return [
     'mark_as_read' => 'Segna come letta',
     'notification_medical' => ': scade la visita medica il ',
     'notification_balance' => ': ha un credito negativo di -',
-    'deadline_medical' => 'Visite mediche',
-    'no_deadline_medical' => 'Nessuna scadenza delle visite mediche prevista',
+    'deadline_medicals' => 'Visite mediche',
+    'deadline_assets' => 'Gestione risorse',
+    'deadline_users' => 'Gestione soci',
 ];
