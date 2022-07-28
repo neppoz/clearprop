@@ -190,20 +190,30 @@
         @endif
     </div>
     <!-- conditional data -->
-    <div class="row m-2">
-        @if(count($userMedicalGoingDue) > 0)
-            <div class="row m-2">
+    @if((auth()->user()->is_admin OR auth()->user()->is_manager OR auth()->user()->is_instructor) AND (count($userMedicalGoingDue) > 0))
+        <div class="row m-2">
+            <div class="col">
+                <h4 class="text-dark">{{trans('global.deadline_users')}}</h4>
+            </div><!-- /.col -->
+        </div>
+        <div class="row m-2">
+            <div class="col-sm-12 col-md-6 col-lg-4">
                 @include('partials.admin.deadlines-global')
             </div>
-        @endif
-    </div>
-    <div class="row m-2">
-        @if(!empty($statistics['assetsOverhaulData']))
-            <div class="row m-2">
+        </div>
+    @endif
+    @if((auth()->user()->is_admin OR auth()->user()->is_manager OR auth()->user()->is_instructor) AND (count($statistics['assetsOverhaulData']) > 0))
+        <div class="row m-2">
+            <div class="col">
+                <h4 class="text-dark">{{trans('global.deadline_assets')}}</h4>
+            </div><!-- /.col -->
+        </div>
+        <div class="row m-2">
+            <div class="col-sm-12 col-md-6 col-lg-6">
                 @include('partials.admin.assets-global')
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
 @endsection
 
 @section('scripts')

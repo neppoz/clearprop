@@ -1,17 +1,16 @@
-<div class="col-12">
-    <div class="card card-outline card-warning collapsed-card">
-        <div class="card-header">
-            <h3 class="card-title">{{trans('global.deadline_medical')}}</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-plus"></i>
-                    <i class="fas fa-user-doctor"></i>
-                </button>
-            </div>
+<div class="card card-outline card-warning collapsed-card">
+    <div class="card-header">
+        <h3 class="card-title">{{trans('global.deadline_medicals')}}</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-plus"></i>
+                <i class="fas fa-user-doctor"></i>
+            </button>
         </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table m-0">
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table m-0">
                     <tbody>
                     @forelse($userMedicalGoingDue as $user)
                         <tr>
@@ -36,7 +35,6 @@
             </div>
         </div>
     </div>
-</div>
 
 @section('scripts')
     @parent
