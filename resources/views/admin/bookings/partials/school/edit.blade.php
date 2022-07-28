@@ -99,7 +99,7 @@
 <div class="form-group">
     <label class="required">{{ trans('cruds.booking.fields.status') }}</label>
     @foreach(App\Booking::STATUS_RADIO as $key => $label)
-        <div class="form-check {{ $errors->has('status') ? 'is-invalid' : '' }}">
+        <div class="form-check  form-check-inline icheck-primary {{ $errors->has('status') ? 'is-invalid' : '' }}">
             <input class="form-check-input" type="radio" id="status_{{ $key }}" name="status"
                    value="{{ $key }}"
                    {{ old('status', $booking->status) === (string) $key ? 'checked' : '' }} required>

@@ -21,17 +21,17 @@
                         </p>
                     </a>
                 </li>
-                @can('booking_access')
-                    <li class="nav-item">
-                        <a href="{{ route("admin.bookings.index") }}"
-                           class="nav-link {{ request()->is("admin/bookings") || request()->is("admin/bookings/*") ? "active" : "" }}">
-                            <i class="fa-fw nav-icon far fa-calendar-alt"></i>
-                            <p>
-                                {{ trans('cruds.planning.title') }}
-                            </p>
-                        </a>
-                    </li>
-                @endcan
+                {{--                @can('booking_access')--}}
+                {{--                    <li class="nav-item">--}}
+                {{--                        <a href="{{ route("admin.bookings.index") }}"--}}
+                {{--                           class="nav-link {{ request()->is("admin/bookings") || request()->is("admin/bookings/*") ? "active" : "" }}">--}}
+                {{--                            <i class="fa-fw nav-icon far fa-calendar-alt"></i>--}}
+                {{--                            <p>--}}
+                {{--                                {{ trans('cruds.planning.title') }}--}}
+                {{--                            </p>--}}
+                {{--                        </a>--}}
+                {{--                    </li>--}}
+                {{--                @endcan--}}
                 @can('activity_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.activities.index") }}"
