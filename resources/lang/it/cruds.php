@@ -12,7 +12,7 @@ return [
         'activityAmountTotal' => 'Attività di volo',
         'activityHoursAndMinutes' => 'Minuti volati in totale',
         'show_all_reservations' => 'Visualizza tutte le prenotazioni',
-        'personal_title' => 'Calendario prenotazioni',
+        'reservation_title' => 'Calendario prenotazioni',
         'personal_request' => 'Prenotazione',
         'slot_title' => 'Appuntamenti',
         'slot_title_singular' => 'Appuntamento',
