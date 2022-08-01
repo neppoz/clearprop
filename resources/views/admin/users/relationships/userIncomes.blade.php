@@ -47,7 +47,7 @@
 @parent
 <script>
     $(function () {
-@if (auth()->user()->IsAdminByRole())
+@if (auth()->user()->can('activity_all_users_access'))
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
   let dtDom = 'lBfrtip<"actions">'
 @can('income_delete')

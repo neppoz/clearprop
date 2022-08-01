@@ -57,16 +57,14 @@ class BookingsController extends Controller
                         . " [" . $model::STATUS_RADIO[$model->status]
                         . " - " . $model->instructor->name . "] ");
                 }
-                if (auth()->user()->is_pilot or auth()->user()->is_manager) {
-                    $url = route($source['route'], $model->id);
-                    $textColor = [];
-                }
                 if (auth()->user()->id === $model->user_id) {
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
+                } else {
+                    $textColor = [];
                 }
                 // Complex logic: checking if instructor, requires instructor, status is open and/or it is assigned to him
-                if ((auth()->user()->IsInstructorByRole() && $model->instructor_needed === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
+                if ((Gate::allows('booking_all_users_edit') && $model->instructor_needed === 1 && $model->status === 0) or (auth()->user()->id === $model->instructor_id)) {
                     $url = route($source['route'], $model->id);
                     $textColor = ['text-primary'];
                 }

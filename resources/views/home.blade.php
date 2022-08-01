@@ -172,12 +172,12 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                @if($booking->bookingUsers->contains('id', auth()->user()->id))
+                                @if(auth()->user()->can('booking_edit') && $booking->bookingUsers->contains('id', auth()->user()->id))
                                     <a class="btn btn-sm btn-outline-success float-right"
                                        href="{{route(Route::getCurrentRoute()->uri().'.bookings.edit', $booking->id)}}">
                                         <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>
                                 @endif
-                                @if(auth()->user()->is_admin OR auth()->user()->is_manager OR auth()->user()->is_instructor)
+                                @if(auth()->user()->can('booking_all_users_edit'))
                                     <a class="btn btn-sm btn-outline-success float-right"
                                        href="{{route(Route::getCurrentRoute()->uri().'.bookings.edit', $booking->id)}}">
                                         <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>
@@ -190,7 +190,7 @@
         @endif
     </div>
     <!-- conditional data -->
-    @if((auth()->user()->is_admin OR auth()->user()->is_manager OR auth()->user()->is_instructor) AND (count($userMedicalGoingDue) > 0))
+    @if(auth()->user()->can('user_management_access') AND (count($userMedicalGoingDue) > 0))
         <div class="row m-2">
             <div class="col">
                 <h4 class="text-dark">{{trans('global.deadline_users')}}</h4>
@@ -202,7 +202,7 @@
             </div>
         </div>
     @endif
-    @if((auth()->user()->is_admin OR auth()->user()->is_manager OR auth()->user()->is_instructor) AND (count($statistics['assetsOverhaulData']) > 0))
+    @if(auth()->user()->can('asset_show') AND (count($statistics['assetsOverhaulData']) > 0))
         <div class="row m-2">
             <div class="col">
                 <h4 class="text-dark">{{trans('global.deadline_assets')}}</h4>

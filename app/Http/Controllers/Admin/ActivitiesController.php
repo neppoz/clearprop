@@ -112,7 +112,7 @@ class ActivitiesController extends Controller
         $copilots = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $instructors = User::whereHas('roles', function ($role) {
-            $role->where('title', 'Instructor');
+            $role->where('role_id', User::IS_INSTRUCTOR);
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -151,7 +151,7 @@ class ActivitiesController extends Controller
         $copilots = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $instructors = User::whereHas('roles', function ($role) {
-            $role->where('title', 'Instructor');
+            $role->where('role_id', User::IS_INSTRUCTOR);
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');

@@ -27,13 +27,6 @@ class BookingNotificationService
             }
         }
 
-        $managers = User::wherehas('roles', function ($q) {
-            $q->where('role_id', User::IS_MANAGER);
-        })->get();
-        foreach ($managers as $manager) {
-            Notification::send($manager, new BookingConfirmedNotification($booking));
-        }
-
         return true;
     }
 

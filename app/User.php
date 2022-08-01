@@ -91,26 +91,6 @@ class User extends Authenticatable // implements MustVerifyEmail
         return $this->roles()->where('id', 5)->exists();
     }
 
-    public function IsAdminByRole()
-    {
-        return $this->roles()->where('id', 1)->exists();
-    }
-
-    public function IsManagerByRole()
-    {
-        return $this->roles()->where('id', 3)->exists();
-    }
-
-    public function IsInstructorByRole()
-    {
-        return $this->roles()->where('id', 4)->exists();
-    }
-
-    public function IsMechanicByRole()
-    {
-        return $this->roles()->where('id', 5)->exists();
-    }
-
     public function userActivities()
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');

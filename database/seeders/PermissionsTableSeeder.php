@@ -453,6 +453,19 @@ class PermissionsTableSeeder extends Seeder
                 'id' => 111,
                 'title' => 'assets_history_access',
             ],
+            [
+                'id' => 112,
+                'title' => 'activity_all_users_access',
+            ],
+            [
+                'id' => 113,
+                'title' => 'booking_all_users_edit',
+            ],
+            [
+                'id' => 114,
+                'title' => 'user_self_to_admin',
+            ],
+
         ];
 
         Permission::insertOrIgnore($permissions);
