@@ -14,7 +14,7 @@ use Throwable;
 
 class UserCheckService
 {
-    public function medicalCheckPassed(User $user)
+    public function medicalCheckPassed(User $user): bool
     {
         if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
             if (empty($user->medical_due)) {
@@ -27,7 +27,7 @@ class UserCheckService
         return true;
     }
 
-    public function balanceCheckPassed(User $user)
+    public function balanceCheckPassed(User $user): bool
     {
         if (Parameter::where('slug', 'check.balance')->value('value') == Parameter::CHECK_BALANCE_ENABLED) {
             $activities = Activity::where('user_id', $user->id)
@@ -51,7 +51,7 @@ class UserCheckService
         return true;
     }
 
-    public function activityCheckPassed(User $user, Plane $plane)
+    public function activityCheckPassed(User $user, Plane $plane): bool
     {
         if (Parameter::where('slug', 'check.activities')->value('value') == Parameter::CHECK_ACTIVITIES_ENABLED) {
             $activities = Activity::where('user_id', $user->id)
@@ -68,5 +68,17 @@ class UserCheckService
             return true;
         }
         return true;
+    }
+
+    public function ratingCheckPassed(User $user, Plane $plane): bool
+    {
+        if (Parameter::where('slug', 'check.ratings')->value('value') == Parameter::CHECK_RATINGS_ENABLED) {
+            if ($user->planes()->where('plane_id', $plane->id)->exists()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }

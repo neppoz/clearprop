@@ -25,20 +25,14 @@ class RatingsController extends Controller
             $medicalCheckPassed = (new UserCheckService())->medicalCheckPassed($user);
             $balanceCheckPassed = (new UserCheckService())->balanceCheckPassed($user);
             $activityCheckPassed = (new UserCheckService())->activityCheckPassed($user, $plane);
-
-            if ($user->planes()->where('plane_id', $plane->id)->exists()) {
-                $ratingCheckPassed = true;
-            } else {
-                $ratingCheckPassed = false;
-            }
-
+            $ratingCheckPassed = (new UserCheckService())->ratingCheckPassed($user, $plane);
         }
 
         return response()->json([
-            'ratingCheckPassed' => $ratingCheckPassed ?? 'false',
             'medicalCheckPassed' => $medicalCheckPassed ?? 'false',
             'balanceCheckPassed' => $balanceCheckPassed ?? 'false',
-            'activityCheckPassed' => $activityCheckPassed ?? 'false'
+            'activityCheckPassed' => $activityCheckPassed ?? 'false',
+            'ratingCheckPassed' => $ratingCheckPassed ?? 'false'
         ]);
     }
 }

@@ -14,6 +14,7 @@ class Parameter extends Model
     const CHECK_MEDICAL_ENABLED = 1;
     const CHECK_BALANCE_ENABLED = 1;
     const CHECK_ACTIVITIES_ENABLED = 1;
+    const CHECK_RATINGS_ENABLED = 1;
 
     protected $dates = [
         'created_at',
