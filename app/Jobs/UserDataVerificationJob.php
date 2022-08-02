@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 use Throwable;
 
-class UserDataVerificationJob //implements ShouldQueue
+class UserDataVerificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
