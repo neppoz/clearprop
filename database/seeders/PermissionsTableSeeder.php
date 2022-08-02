@@ -465,7 +465,14 @@ class PermissionsTableSeeder extends Seeder
                 'id' => 114,
                 'title' => 'user_self_to_admin',
             ],
-
+            [
+                'id' => 115,
+                'title' => 'notification_all_users_medical',
+            ],
+            [
+                'id' => 116,
+                'title' => 'notification_all_users_balance',
+            ],
         ];
 
         Permission::insertOrIgnore($permissions);

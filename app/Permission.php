@@ -11,6 +11,9 @@ class Permission extends Model
 
     public $table = 'permissions';
 
+    const notification_all_users_medical = 115;
+    const notification_all_users_balance = 116;
+
     protected $dates = [
         'created_at',
         'updated_at',
