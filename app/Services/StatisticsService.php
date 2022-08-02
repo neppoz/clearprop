@@ -9,6 +9,7 @@ use App\Expense;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StatisticsService
 {
@@ -66,14 +67,38 @@ class StatisticsService
 
     public function getActivitiesCurrentYear()
     {
-        return Activity::with(['user', 'type', 'plane'])
-            ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+        return Activity::with([
+            'user' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'type' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'plane' => function ($q) {
+                $q->withTrashed()->select('id', 'callsign');
+            },
+            'instructor' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+        ])->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
     public function getActivitiesByFilter($fromDate, $toDate)
     {
-        return Activity::with(['user', 'type', 'plane'])
-            ->whereBetween('event', [$fromDate, $toDate]);
+        return Activity::with([
+            'user' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'type' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'plane' => function ($q) {
+                $q->withTrashed()->select('id', 'callsign');
+            },
+            'instructor' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+        ])->whereBetween('event', [$fromDate, $toDate]);
     }
 
     public function getActivitiesAllTime()
@@ -104,9 +129,10 @@ class StatisticsService
                         'minutes' => 0
                     ];
                 }
-
                 $activitiesUserSummary[$line->user->name]['minutes'] += $line->minutes;
+
             }
+
         }
 
 
