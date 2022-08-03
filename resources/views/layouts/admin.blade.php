@@ -33,7 +33,7 @@
     @yield('styles')
 </head>
 
-<body class="sidebar-mini layout-fixed" style="height: auto;">
+<body class="sidebar-mini layout-fixed layout-navbar-fixed" style="height: auto;">
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <!-- Left navbar links -->
@@ -126,16 +126,17 @@
 
     @include('partials.menu')
     <div class="content-wrapper" style="min-height: 917px;">
-        <!-- Main content -->
-        <section class="content" style="padding-top: 20px">
-            @if(session('message'))
-                <div class="row mb-2">
-                    <div class="col-lg-12">
-                        <div class="alert alert-success" role="alert">{{ session('message') }}</div>
+        <div class="container-fluid">
+            <!-- Main content -->
+            <section class="content" style="padding-top: 20px">
+                @if(session('message'))
+                    <div class="row mb-2">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success" role="alert">{{ session('message') }}</div>
+                        </div>
                     </div>
-                </div>
-            @endif
-            @if($errors->count() > 0)
+                @endif
+                @if($errors->count() > 0)
                     <div class="alert alert-danger">
                         <ul class="list-unstyled">
                             @foreach($errors->all() as $error)
@@ -148,18 +149,19 @@
             </section>
             <!-- /.content -->
         </div>
-
-        <footer class="main-footer">
-            @include('partials.footer')
-        </footer>
-        <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+
+    <footer class="main-footer">
+        @include('partials.footer')
+    </footer>
+    <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
