@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-6">
+<div class="col-12 col-sm-6 col-md-3">
     <!-- small box -->
     @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])
         <div class="small-box bg-gradient-success">
@@ -31,7 +31,7 @@
     @endif
 </div>
 <!-- ./col -->
-<div class="col-lg-3 col-6">
+<div class="col-12 col-sm-6 col-md-3">
     <!-- small box -->
     <a href="{{ route('pilot.activities.index') }}">
         <div class="small-box bg-gradient-info">
@@ -50,7 +50,8 @@
     </a>
 </div>
 <!-- ./col -->
-<div class="col-lg-3 col-6">
+<div class="clearfix hidden-md-up"></div>
+<div class="col-12 col-sm-6 col-md-3">
     <!-- small box -->
     <div class="small-box bg-gradient-warning">
         <div class="inner">
@@ -67,7 +68,7 @@
     </div>
 </div>
 <!-- ./col -->
-<div class="col-lg-3 col-6">
+<div class="col-12 col-sm-6 col-md-3">
     <!-- small box -->
     <div class="small-box bg-gradient-dark">
         <div class="inner">

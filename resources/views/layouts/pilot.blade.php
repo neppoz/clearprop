@@ -33,7 +33,7 @@
     @yield('styles')
 </head>
 
-<body class="sidebar-mini layout-fixed" style="height: auto;">
+<body class="sidebar-mini layout-fixed layout-navbar-fixed" style="height: auto;">
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
         <!-- Left navbar links -->
@@ -100,19 +100,6 @@
                             </a>
                         </li>
                     @endcan
-                    {{--                    @can('booking_access')--}}
-                    {{--                        <li class="nav-item">--}}
-                    {{--                            <a href="{{ route("pilot.bookings.index") }}"--}}
-                    {{--                               class="nav-link {{ request()->is('/bookings') || request()->is('/bookings/*') ? 'active' : '' }}">--}}
-                    {{--                                <i class="fa-fw nav-icon far fa-calendar-alt">--}}
-
-                    {{--                                </i>--}}
-                    {{--                                <p>--}}
-                    {{--                                    <span>{{ trans('cruds.booking.title') }}</span>--}}
-                    {{--                                </p>--}}
-                    {{--                            </a>--}}
-                    {{--                        </li>--}}
-                    {{--                    @endcan--}}
                     @can('profile_password_edit')
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'active' : '' }}"
@@ -144,27 +131,29 @@
     </aside>
 
     <div class="content-wrapper" style="min-height: 917px;">
-        <!-- Main content -->
-        <section class="content" style="padding-top: 20px">
-            @if(session('message'))
-                <div class="row mb-2">
-                    <div class="col-lg-12">
-                        <div class="alert alert-success" role="alert">{{ session('message') }}</div>
+        <div class="container-fluid">
+            <!-- Main content -->
+            <section class="content" style="padding-top: 20px">
+                @if(session('message'))
+                    <div class="row mb-2">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success" role="alert">{{ session('message') }}</div>
+                        </div>
                     </div>
-                </div>
-            @endif
-            @if($errors->count() > 0)
-                <div class="alert alert-danger">
-                    <ul class="list-unstyled">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @yield('content')
-        </section>
-        <!-- /.content -->
+                @endif
+                @if($errors->count() > 0)
+                    <div class="alert alert-danger">
+                        <ul class="list-unstyled">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @yield('content')
+            </section>
+            <!-- /.content -->
+        </div>
     </div>
 
     <footer class="main-footer">

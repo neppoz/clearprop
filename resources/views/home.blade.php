@@ -34,14 +34,8 @@
     </div>
     <div class="row m-2">
         @if(count($checkinDates) > 0)
-            <div class="row mt-1 mb-4">
-                <div class="col-sm-6">
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                </div><!-- /.col -->
-            </div>
             <div class="row mt-1">
-                <div class="col-12 col-sm-12 col-md-12">
+                <div class="col-12 col-sm-6 col-md-4">
                     <div class="card card-primary card-outline">
                         <div class="card-header"></div>
                         <div class="card-body p-1">
@@ -124,7 +118,7 @@
     <div class="row m-2">
         @if(count($bookingDates) > 0)
             @foreach($bookingDates as $date => $bookings)
-                <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="col-12 col-sm-6 col-md-4">
                     @foreach($bookings as $booking)
                         <div class="card card-dark">
                             <div class="h5 card-header">
@@ -190,30 +184,36 @@
         @endif
     </div>
     <!-- conditional data -->
-    @if(auth()->user()->can('user_management_access') AND (count($userMedicalGoingDue) > 0))
-        <div class="row m-2">
-            <div class="col">
-                <h4 class="text-dark">{{trans('global.deadline_users')}}</h4>
-            </div><!-- /.col -->
+    <div class="row m-2">
+        <div class="col-md-6">
+            @if(auth()->user()->can('user_management_access') AND (count($userMedicalGoingDue) > 0))
+                <div class="row m-2">
+                    <div class="col">
+                        <h4 class="text-dark">{{trans('global.deadline_users')}}</h4>
+                    </div><!-- /.col -->
+                </div>
+                <div class="row m-2">
+                    <div class="col">
+                        @include('partials.admin.deadlines-global')
+                    </div>
+                </div>
+            @endif
         </div>
-        <div class="row m-2">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                @include('partials.admin.deadlines-global')
-            </div>
+        <div class="col-md-6">
+            @if(auth()->user()->can('asset_show') AND (count($statistics['assetsOverhaulData']) > 0))
+                <div class="row m-2">
+                    <div class="col">
+                        <h4 class="text-dark">{{trans('global.deadline_assets')}}</h4>
+                    </div><!-- /.col -->
+                </div>
+                <div class="row m-2">
+                    <div class="col">
+                        @include('partials.admin.assets-global')
+                    </div>
+                </div>
+            @endif
         </div>
-    @endif
-    @if(auth()->user()->can('asset_show') AND (count($statistics['assetsOverhaulData']) > 0))
-        <div class="row m-2">
-            <div class="col">
-                <h4 class="text-dark">{{trans('global.deadline_assets')}}</h4>
-            </div><!-- /.col -->
-        </div>
-        <div class="row m-2">
-            <div class="col-sm-12 col-md-6 col-lg-6">
-                @include('partials.admin.assets-global')
-            </div>
-        </div>
-    @endif
+    </div>
 @endsection
 
 @section('scripts')
