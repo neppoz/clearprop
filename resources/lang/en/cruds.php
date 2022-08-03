@@ -349,8 +349,8 @@ return [
         ],
     ],
     'expenseManagement'  => [
-        'title'          => 'Finance Management',
-        'title_singular' => 'Finance Management',
+        'title' => 'Finance',
+        'title_singular' => 'Finance',
     ],
     'expenseCategory'    => [
         'title'          => 'Expense Categories',
