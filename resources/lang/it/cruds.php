@@ -286,7 +286,7 @@ return [
             'created_by_helper' => '',
             'pax' => 'pax',
             'pax_helper' => ' ',
-            'email' => 'Mandare email di conferma?',
+            'email' => 'Invia email di conferma',
             'email_helper' => 'Notam: Email di conferma verrà mandata quando selezionato.',
             'checkin' => 'Aperto al Check-In?',
             'checkin_seats' => 'Numero totale',

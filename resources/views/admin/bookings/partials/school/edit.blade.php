@@ -112,16 +112,11 @@
     <span class="help-block text-secondary small">{!! trans('cruds.booking.fields.status_helper') !!}</span>
 </div>
 <div class="form-group">
-    <div class="form-check {{ $errors->has('email') ? 'is-invalid' : '' }}">
-        <input type="hidden" name="email" value="0">
-        <input class="form-check-input" type="checkbox" name="email" id="email"
+    <div class="icheck-primary">
+        <input type="checkbox" name="email" id="email"
                value="1" {{ old('email', 0) == 1 ? 'checked' : '' }}>
-        <label class="form-check-label"
-               for="email">{{ trans('cruds.booking.fields.email') }}</label>
+        <label for="email">{{ trans('cruds.booking.fields.email') }}</label>
     </div>
-    @if($errors->has('email'))
-        <span class="text-danger">{{ $errors->first('email') }}</span>
-    @endif
     <span class="help-block text-secondary small">{{ trans('cruds.booking.fields.email_helper') }}</span>
 </div>
 <div class="form-group">
