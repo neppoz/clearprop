@@ -202,7 +202,7 @@ class BookingsController extends Controller
 
         $booking->delete();
 
-        return redirect()->route('admin.bookings.index');
+        return redirect()->route('admin.home');
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
