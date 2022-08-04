@@ -91,6 +91,11 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                @if(auth()->user()->can('slot_edit'))
+                                    <a class="btn btn-sm btn-outline-success float-right"
+                                       href="{{route(Route::getCurrentRoute()->uri().'.bookings.edit', $slot->id)}}">
+                                        <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>
+                                @endif
                             </div>
                         </div>
                     @endforeach
