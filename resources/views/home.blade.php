@@ -60,7 +60,7 @@
                     <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
                     <span>{!! trans('global.service_information_admins') !!}</span>
                     <span><a class="text-white"
-                             href="{{ route(Route::getCurrentRoute()->uri().".expense-reports.index") }}">{{trans('global.link_text_goto')}}</a></span>
+                             href="{{ route("admin.expense-reports.index") }}">{{trans('global.link_text_goto')}}</a></span>
                 </div>
             </div>
         </div>
@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="row text-center">
                                     <div class="col">
-                                        <form action="{{ route('pilot.bookings.book', $slot->id) }}"
+                                        <form action="{{ route('app.bookings.book', $slot->id) }}"
                                               method="POST"
                                               onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
                                               style="display: inline-block;">
@@ -162,7 +162,7 @@
                             <div class="card-footer">
                                 @if(auth()->user()->can('slot_edit'))
                                     <a class="btn btn-sm btn-outline-success float-right"
-                                       href="{{route(Route::getCurrentRoute()->uri().'.bookings.edit', $slot->id)}}">
+                                       href="{{route('app.bookings.edit', $slot->id)}}">
                                         <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>
                                 @endif
                             </div>

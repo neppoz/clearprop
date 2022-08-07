@@ -52,7 +52,8 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("admin.activities.update", [$activity->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("app.activities.update", [$activity->id]) }}"
+              enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">

@@ -6,7 +6,7 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item active">{{ trans('cruds.activity.title') }}</li>
             </ol>
         </div><!-- /.col -->
@@ -17,14 +17,14 @@
             @can('activity_create')
                 <div class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
+                        <a class="btn btn-success" href="{{ route("app.activities.create") }}">
                             <i class="fas fa-edit"></i>
                             {{ trans('global.new') }} {{ trans('cruds.activity.title_singular') }}
                         </a>
+                    </div>
                 </div>
-            </div>
-        @endcan
-    </div>
+            @endcan
+        </div>
 
         <div class="card-body">
             <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
@@ -88,17 +88,17 @@
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
             let deleteButton = {
                 text: deleteButtonTrans,
-                url: "{{ route('admin.activities.massDestroy') }}",
+                url: "{{ route('app.activities.massDestroy') }}",
                 className: 'btn-danger',
                 action: function (e, dt, node, config) {
                     var ids = $.map(dt.rows({selected: true}).data(), function (entry) {
                         return entry.id
-      });
+                    });
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+                    if (ids.length === 0) {
+                        alert('{{ trans('global.datatables.zero_selected') }}')
 
-        return
+                        return
       }
 
       if (confirm('{{ trans('global.areYouSure') }}')) {
@@ -124,7 +124,7 @@
                 serverSide: true,
                 retrieve: true,
                 aaSorting: [],
-                ajax: "{{ route('admin.activities.index') }}",
+                ajax: "{{ route('app.activities.index') }}",
                 responsive: {
                     details: {
                         renderer: function (api, rowIdx, columns) {

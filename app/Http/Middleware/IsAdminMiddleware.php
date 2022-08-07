@@ -16,27 +16,27 @@ class IsAdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->is_admin) {
-            return $next($request);
-        }
-
-        if (auth()->user()->is_manager) {
-            return $next($request);
-        }
-
-        if (auth()->user()->is_instructor) {
-            return $next($request);
-        }
-
-        if (auth()->user()->is_mechanic) {
-            return $next($request);
-        }
-        try {
-            return redirect('pilot');
-        } catch (Throwable $e) {
-            report($e);
-            abort(403);
-        }
+//        if (auth()->user()->is_admin) {
+//            return $next($request);
+//        }
+//
+//        if (auth()->user()->is_manager) {
+//            return $next($request);
+//        }
+//
+//        if (auth()->user()->is_instructor) {
+//            return $next($request);
+//        }
+//
+//        if (auth()->user()->is_mechanic) {
+//            return $next($request);
+//        }
+//        try {
+//            return redirect('pilot');
+//        } catch (Throwable $e) {
+//            report($e);
+//            abort(403);
+//        }
 
         return $next($request);
     }

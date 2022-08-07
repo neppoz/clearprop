@@ -1,12 +1,36 @@
 <?php
 
+use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\BookingsController;
+use App\Http\Controllers\HomeController;
+
 Auth::routes(['register' => false, 'verify' => true, 'reset' => true]);
 Route::redirect('/', '/login');
 Route::get('/home', function () {
-    return redirect()->route('admin.home');
+    return redirect()->route('app.home');
 });
 
-// Change password
+// Main routes
+Route::group(['prefix' => 'app', 'as' => 'app.', 'middleware' => ['auth']], function () {
+
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    // Activities
+    Route::get('activities/userActivities/{user_id}', [ActivitiesController::class, 'getActivitiesByUser'])->name('activities.getActivitiesByUser');
+    Route::get('activities/instructorActivities/{user_id}', [ActivitiesController::class, 'getActivitiesByUserAsInstructor'])->name('activities.getActivitiesByUserAsInstructor');
+    Route::get('activities/planeActivities/{plane_id}', [ActivitiesController::class, 'getActivitiesByPlane'])->name('activities.getActivitiesByPlane');
+    Route::delete('activities/destroy', [ActivitiesController::class, 'massDestroy'])->name('activities.massDestroy');
+    Route::resource('activities', ActivitiesController::class);
+
+//    // Bookings
+    Route::post('bookings/book/{id}', [BookingsController::class, 'book'])->name('bookings.book');
+    Route::post('bookings/revoke/{id}', [BookingsController::class, 'revoke'])->name('bookings.revoke');
+    Route::delete('bookings/destroy', [BookingsController::class, 'massDestroy'])->name('bookings.massDestroy');
+    Route::resource('bookings', BookingsController::class);
+
+});
+
+// Change profile
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
     Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
     Route::post('password', 'ChangePasswordController@update')->name('password.update');
@@ -14,22 +38,23 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
     Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
 });
 
+
 // Frontend
 Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth', 'verified']], function () {
-    Route::get('/', 'HomeController@index')->name('welcome');
+//    Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    // Bookings
-    Route::post('bookings/book/{id}', 'BookingsController@book')->name('bookings.book');
-    Route::post('bookings/revoke/{id}', 'BookingsController@revoke')->name('bookings.revoke');
-    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
-    Route::resource('bookings', 'BookingsController');
+//    // Bookings
+//    Route::post('bookings/book/{id}', 'BookingsController@book')->name('bookings.book');
+//    Route::post('bookings/revoke/{id}', 'BookingsController@revoke')->name('bookings.revoke');
+//    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
+//    Route::resource('bookings', 'BookingsController');
 
     // Ratings
     Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
     // Activities
-    Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
-    Route::resource('activities', 'ActivitiesController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
+//    Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
+//    Route::resource('activities', 'ActivitiesController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
 
     // Billings
     Route::resource('billing', 'BillingController');
@@ -42,8 +67,9 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 });
 
 // Admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin', 'verified']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'verified']], function () {
+//Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin', 'verified']], function () {
+//    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -78,12 +104,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('types/destroy', 'TypesController@massDestroy')->name('types.massDestroy');
     Route::resource('types', 'TypesController');
 
-    // Activities
-    Route::get('activities/userActivities/{user_id}', 'ActivitiesController@getActivitiesByUser')->name('activities.getActivitiesByUser');
-    Route::get('activities/instructorActivities/{user_id}', 'ActivitiesController@getActivitiesByUserAsInstructor')->name('activities.getActivitiesByUserAsInstructor');
-    Route::get('activities/planeActivities/{plane_id}', 'ActivitiesController@getActivitiesByPlane')->name('activities.getActivitiesByPlane');
-    Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
-    Route::resource('activities', 'ActivitiesController');
+//    // Activities
+//    Route::get('activities/userActivities/{user_id}', [ActivitiesController::getActivitiesByUser])->name('activities.getActivitiesByUser');
+//    Route::get('activities/instructorActivities/{user_id}', [ActivitiesController::getActivitiesByUserAsInstructor])->name('activities.getActivitiesByUserAsInstructor');
+//    Route::get('activities/planeActivities/{plane_id}', [ActivitiesController::getActivitiesByPlane])->name('activities.getActivitiesByPlane');
+//    Route::delete('activities/destroy', [ActivitiesController::massDestroy])->name('activities.massDestroy');
+//    Route::resource('activities', [ActivitiesController::class]);
 
     // Bookings
     Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');

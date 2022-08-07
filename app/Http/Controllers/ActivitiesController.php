@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Plane;
@@ -98,7 +98,7 @@ class ActivitiesController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.activities.index');
+        return view('app.activities.index');
     }
 
     public function create()
@@ -117,7 +117,7 @@ class ActivitiesController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.activities.create', compact('users', 'copilots', 'instructors', 'planes'));
+        return view('app.activities.create', compact('users', 'copilots', 'instructors', 'planes'));
     }
 
     public function store(StoreActivityRequest $request)
@@ -137,7 +137,7 @@ class ActivitiesController extends Controller
             event(new ActivityCostCalculation($activity_copilot));
         }
 
-        return redirect()->route('admin.activities.index');
+        return redirect()->route('app.activities.index');
     }
 
     public function edit(Activity $activity)
@@ -158,7 +158,7 @@ class ActivitiesController extends Controller
 
         $activity->load('user', 'copilot', 'instructor', 'plane', 'type');
 
-        return view('admin.activities.edit', compact('users', 'types', 'copilots', 'instructors', 'planes', 'activity'));
+        return view('app.activities.edit', compact('users', 'types', 'copilots', 'instructors', 'planes', 'activity'));
     }
 
     public function update(UpdateActivityRequest $request, Activity $activity)
@@ -166,7 +166,7 @@ class ActivitiesController extends Controller
         $activity->update($request->all());
         event(new ActivityCostCalculation($activity));
 
-        return redirect()->route('admin.activities.index');
+        return redirect()->route('app.activities.index');
     }
 
     public function show(Activity $activity)
@@ -175,7 +175,7 @@ class ActivitiesController extends Controller
 
         $activity->load('user', 'copilot', 'instructor', 'plane', 'type');
 
-        return view('admin.activities.show', compact('activity'));
+        return view('app.activities.show', compact('activity'));
     }
 
     public function destroy(Activity $activity)

@@ -1,18 +1,23 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="../../index3.html" class="brand-link">
+        {{--        <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
         <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user (optional) -->
-
+        <!-- Sidebar user -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info">
+                <a href="{{route('profile.password.edit')}}" class="d-block">{{auth()->user()->name}}</a>
+            </div>
+        </div>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route("admin.home") }}" class="nav-link">
+                    <a href="{{ route("app.home") }}" class="nav-link">
                         <p>
                             <i class="fas fa-fw nav-icon fa-tachometer-alt">
 
@@ -23,8 +28,8 @@
                 </li>
                 @can('activity_access')
                     <li class="nav-item">
-                        <a href="{{ Request::route()->getPrefix() . "/activities" }}"
-                           class="nav-link {{ request()->is('admin/activities') || request()->is('admin/activities/*') ? 'active' : '' }}">
+                        <a href="{{ route("app.activities.index")  }}"
+                           class="nav-link {{ request()->is('app/activities') || request()->is('app/activities/*') ? 'active' : '' }}">
                             <i class="fa-fw nav-icon fas fa-plane-departure">
 
                             </i>
@@ -49,7 +54,7 @@
                 @endcan
                 @can('user_access')
                     <li class="nav-item">
-                        <a href="{{  Request::route()->getPrefix() . "/users" }}"
+                        <a href="{{route("admin.users.index")}}"
                            class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
                             <i class="fa-fw nav-icon fas fa-user">
 
