@@ -6,9 +6,13 @@ use App\Activity;
 use App\Asset;
 use App\Income;
 use App\Expense;
+use App\Parameter;
+use App\User;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Gate;
 use Illuminate\Support\Facades\Log;
 
 class StatisticsService
@@ -31,6 +35,44 @@ class StatisticsService
         $assetsOverhaulData = $this->getAssetsOverhaulData();
 
         return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
+    }
+
+    public function getUsersMedicalDue($request)
+    {
+        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
+            if (Gate::allows('user_edit')) {
+                $userMedicalGoingDue = User::withoutGlobalScopes()
+                    ->whereNotNull('medical_due');
+
+                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->count();
+                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+
+                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
+            }
+
+            if (Gate::denies('user_edit')) {
+                $userMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
+
+                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
+                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+
+                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
+            }
+        }
+
+        return false;
+    }
+
+    public function getCurrentUserMedicalDue($request)
+    {
+        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
+            $currentUserMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
+
+            $currentUserMedicalDueInFuture = $currentUserMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
+            $currentUserMedicalIsAlreadyDue = $currentUserMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+
+            return ['currentUserMedicalDueInFuture' => $currentUserMedicalDueInFuture ?? 0, 'currentUserMedicalIsAlreadyDue' => $currentUserMedicalIsAlreadyDue ?? 0];
+        }
     }
 
     public function getAssetsOverhaulData()

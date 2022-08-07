@@ -271,7 +271,7 @@ return [
     'new' => 'Nuova',
     'planeNotAvailable' => 'Esiste già una prenotazione per queste date. Scegli uno slot libero',
     'confirm' => 'Conferma',
-    'info' => 'Info',
+    'info' => 'Informazione',
     'more_info' => 'Visualizza',
     'is_needed' => 'è obbligatorio',
     'instructor_is_needed' => 'Istruttore richiesto',
@@ -286,6 +286,7 @@ return [
     'payment-success' => 'Grazie per il pagamento!',
     'my_profile' => 'Dati personali',
     'change_profile_data' => 'Dati personali',
+    'message_update_profile' => 'Aggiorna i tuoi dati',
     'all_notifications' => 'Vedi elementi letti',
     'mark_as_read' => 'Segna come letta',
     'notification_medical' => ': scade la visita medica il ',
@@ -293,4 +294,10 @@ return [
     'deadline_medicals' => 'Visite mediche',
     'deadline_assets' => 'Gestione risorse',
     'deadline_users' => 'Gestione soci',
+
+    'service_information_admins' => 'Le statistiche generali ora si trovano nella pagina del report cassa.',
+    'service_information_members' => 'Le statistiche generali ora si trovano nel tuo profilo. ',
+    'link_text_goto' => 'Visualizza qui',
+    'message_update_profile' => 'Aggiorna il tuo profilo',
+
 ];

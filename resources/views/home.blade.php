@@ -1,37 +1,106 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="row m-2">
-        <div class="col-sm-6">
-            <h3 class="m-0 text-dark">{{ trans('cruds.dashboard.greeting') . auth()->user()->name }}</h3>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a
-                        href="{{route(Route::current()->getName())}}">{{trans('global.home')}}</a></li>
-                <li class="breadcrumb-item active">{{ trans('cruds.dashboard.title') }}</li>
-            </ol>
-        </div><!-- /.col -->
-    </div>
-    <div class="row m-2">
-        @include('partials.stats-general')
-    </div>
-    <div class="row m-2">
-        <div class="col">
-            <h4 class="text-dark">{{ trans('cruds.dashboard.reservation_title') }}</h4>
-        </div><!-- /.col -->
-    </div>
-    <div class="row m-2">
-        <div class="col-12">
-            <div class="bg-light">
-                <div class="p-2 text-center text-success">
-                    <a class="btn btn-default" href="{{Request::route()->getPrefix() . "/bookings/create" }}">
-                        <i class="fas fa-paper-plane text-black-50"></i>
-                        {{ trans('cruds.dashboard.create_request') }}
-                    </a>
+
+    {{--    <div class="row m-2">--}}
+    {{--        @can('user_edit' && ($userMedicalGoingDue[$userMedicalDueInFuture] > 0 OR $userMedicalGoingDue[$userMedicalIsAlreadyDue] > 0))--}}
+    {{--            <div class="col">--}}
+    {{--                <div class="alert alert-warning alert-dismissible">--}}
+    {{--                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>--}}
+    {{--                <h5><i class="icon fas fa-exclamation-circle"></i> Invalid medical</h5>--}}
+    {{--                {{$userMedicalGoingDue[$userMedicalDueInFuture]}} members will be invalidated in less than a month.<br>--}}
+    {{--                {{$userMedicalGoingDue[$userMedicalIsAlreadyDue]}} members have no valid medical today.<br>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        @endcan--}}
+    {{--    </div>--}}
+    {{--    <div class="row m-2 mb-3">--}}
+    {{--        <div class="col-12 col-sm-12 col-md-4">--}}
+    {{--            <h3 class="m-0 text-dark">{{ trans('cruds.dashboard.greeting') . auth()->user()->name }}</h3>--}}
+    {{--        </div><!-- /.col -->--}}
+    {{--        <div class="col-12 col-sm-6 col-md-4">--}}
+    {{--                @if($statistics['incomeAmountTotal'] > $statistics['activityAmountTotal'])--}}
+    {{--                    <div class="info-box shadow-sm">--}}
+    {{--                        <span class="info-box-icon bg-success"><i class="fas fa-piggy-bank"></i></span>--}}
+    {{--                        <div class="info-box-content">--}}
+    {{--                            <span class="info-box-text"><h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4></span>--}}
+    {{--                            <span class="info-box-number">{{ trans('cruds.dashboard.grantotal') }}</span>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                @else--}}
+    {{--                    <div class="info-box shadow-sm">--}}
+    {{--                        <span class="info-box-icon bg-danger"><i class="fas fa-piggy-bank"></i></span>--}}
+    {{--                        <div class="info-box-content">--}}
+    {{--                            <span class="info-box-text"><h4>{{  number_format($statistics['granTotal'], 2, ',', '.') }}  &euro;</h4></span>--}}
+    {{--                            <span class="info-box-number">{{ trans('cruds.dashboard.grantotal') }}</span>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                @endif--}}
+    {{--            </div>--}}
+    {{--        <div class="col-12 col-sm-6 col-md-4">--}}
+    {{--            <div class="info-box shadow-sm">--}}
+    {{--                <span class="info-box-icon bg-primary"><i class="fas fa-plane"></i></span>--}}
+    {{--                <div class="info-box-content">--}}
+    {{--                    <span class="info-box-text"><h4>{{ $statistics['activityHoursAndMinutes'] }}</h4></span>--}}
+    {{--                    <span class="info-box-number">{{ trans('cruds.dashboard.activityHoursAndMinutes') }}</span>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="row m-2">--}}
+    {{--        @include('partials.stats-top-dashboard')--}}
+    {{--    </div>--}}
+    {{--    <div class="row m-2">--}}
+    {{--        @include('partials.stats-general')--}}
+    {{--    </div>--}}
+    @can('expense_report_access')
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12">
+                <div class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
+                    <span>{!! trans('global.service_information_admins') !!}</span>
+                    <span><a class="text-white"
+                             href="{{ route(Route::getCurrentRoute()->uri().".expense-reports.index") }}">{{trans('global.link_text_goto')}}</a></span>
                 </div>
             </div>
         </div>
+    @endcan
+    @if(auth()->user()->is_member)
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-exclamation-circle"></i>{{ trans('global.caution') }}</h5>
+                    <span>{!! trans('global.medicalCheck') !!}</span>
+                    <span><a class="text-danger"
+                             href="{{ route('profile.password.edit') }}">{{trans('global.message_update_profile')}}</a></span>
+                </div>
+            </div>
+        </div>
+    @endif
+    <div class="row m-2 mb-3">
+        <div class="col-6">
+            <h5 class="text-dark">{{ trans('cruds.dashboard.reservation_title') }}</h5>
+        </div>
+        <div class="col-6">
+            <a class="btn btn-default float-right" href="{{Request::route()->getPrefix() . "/bookings/create" }}">
+                <i class="fas fa-paper-plane text-success"></i>
+                <span class="font-weight-normal">{{ trans('cruds.dashboard.create_request') }}</span>
+            </a>
+        </div>
     </div>
+    {{--    <div class="row m-2">--}}
+    {{--        <div class="col-12">--}}
+    {{--            <div class="bg-light">--}}
+    {{--                <div class="p-2 text-center text-success">--}}
+    {{--                    <a class="btn btn-default" href="{{Request::route()->getPrefix() . "/bookings/create" }}">--}}
+    {{--                        <i class="fas fa-paper-plane text-black-50"></i>--}}
+    {{--                        {{ trans('cruds.dashboard.create_request') }}--}}
+    {{--                    </a>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
     <div class="row m-2">
         @if(count($checkinDates) > 0)
             @foreach($checkinDates as $date => $slots)
@@ -172,31 +241,31 @@
         @endif
     </div>
     <!-- conditional data -->
-    <div class="row m-2">
-        <div class="col-md-6">
-            @if(auth()->user()->can('user_management_access') AND (count($userMedicalGoingDue) > 0))
-                <div class="row m-2">
-                    <div class="col">
-                        <h4 class="text-dark">{{trans('global.deadline_users')}}</h4>
-                    </div><!-- /.col -->
-                </div>
-                <div class="row m-2">
-                    <div class="col">
-                        @include('partials.admin.deadlines-global')
-                    </div>
-                </div>
-            @endif
-        </div>
-        <div class="col-md-6">
-            @if(auth()->user()->can('asset_show') AND (count($statistics['assetsOverhaulData']) > 0))
-                <div class="row m-2">
-                    <div class="col">
-                        <h4 class="text-dark">{{trans('global.deadline_assets')}}</h4>
-                    </div><!-- /.col -->
-                </div>
-                <div class="row m-2">
-                    <div class="col">
-                        @include('partials.admin.assets-global')
+    {{--    <div class="row m-2">--}}
+    {{--        <div class="col-md-6">--}}
+    {{--            @if(auth()->user()->can('user_management_access') AND (count($userMedicalGoingDue) > 0))--}}
+    {{--                <div class="row m-2">--}}
+    {{--                    <div class="col">--}}
+    {{--                        <h4 class="text-dark">{{trans('global.deadline_users')}}</h4>--}}
+    {{--                    </div><!-- /.col -->--}}
+    {{--                </div>--}}
+    {{--                <div class="row m-2">--}}
+    {{--                    <div class="col">--}}
+    {{--                        @include('partials.admin.deadlines-global')--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--            @endif--}}
+    {{--        </div>--}}
+    <div class="col-md-6">
+        @if(auth()->user()->can('asset_show') AND (count($statistics['assetsOverhaulData']) > 0))
+            <div class="row m-2">
+                <div class="col">
+                    <h4 class="text-dark">{{trans('global.deadline_assets')}}</h4>
+                </div><!-- /.col -->
+            </div>
+            <div class="row m-2">
+                <div class="col">
+                    @include('partials.admin.assets-global')
                     </div>
                 </div>
             @endif

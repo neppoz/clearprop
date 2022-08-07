@@ -125,7 +125,7 @@
     </nav>
 
     @include('partials.menu')
-    <div class="content-wrapper" style="min-height: 917px;">
+    <div class="content-wrapper" style="min-height: 917px; background-color: #eeeeee">
         <div class="container-fluid">
             <!-- Main content -->
             <section class="content" style="padding-top: 20px">

@@ -271,7 +271,7 @@ return [
     'new' => 'New',
     'planeNotAvailable' => 'Sorry, there is another reservation in place. Please select a free slot',
     'confirm' => 'Confirm',
-    'info' => 'Info',
+    'info' => 'Information',
     'more_info' => 'More info',
     'is_needed' => 'is needed',
     'instructor_is_needed' => 'Instructor request',
@@ -286,7 +286,8 @@ return [
     'payment-processing' => 'Processing payment for you ..',
     'payment-success' => 'Thank you for your payment!',
     'my_profile' => 'Personal data',
-    'change_profile_data' => 'My data',
+    'change_profile_data' => 'My profile',
+
     'all_notifications' => 'See already read elements',
     'mark_as_read' => 'Mark as read',
     'notification_medical' => ': the medical expires at ',
@@ -294,4 +295,10 @@ return [
     'deadline_medicals' => 'Medical checks',
     'deadline_assets' => 'Resources',
     'deadline_users' => 'Members',
+
+
+    'service_information_admins' => 'The general statistics where moved to the report page.',
+    'service_information_members' => 'The general statistics where moved to your profile page.',
+    'link_text_goto' => 'Click here',
+    'message_update_profile' => 'Update your profile',
 ];

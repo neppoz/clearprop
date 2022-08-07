@@ -14,15 +14,9 @@ class HomeController
     public function index(Request $request)
     {
         $statistics = (new StatisticsService())->dashboard($request);
-        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
-            $userMedicalGoingDue = User::whereNotNull('medical_due')
-                ->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(40)])
-                ->orWhere('medical_due', '<', [Carbon::now(), Carbon::now()])
-                ->orderBy('medical_due', 'desc')
-                ->get();
-        } else {
-            $userMedicalGoingDue = '';
-        }
+        $currentUserMedicalGoingDue = (new StatisticsService())->getCurrentUserMedicalDue($request);
+//        $userMedicalGoingDue = (new StatisticsService())->getUsersMedicalDue($request);
+//        debug($userMedicalGoingDue);
 
         $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
             ->where('reservation_start', '>=', Carbon::parse(today()))
@@ -46,7 +40,7 @@ class HomeController
                 return $booking->slot->title . ' - ' . Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
             });
 
-        return view('home', compact('statistics', 'bookingDates', 'checkinDates', 'userMedicalGoingDue'));
+        return view('home', compact('statistics', 'bookingDates', 'checkinDates', 'currentUserMedicalGoingDue'));
     }
 
 }

@@ -9,7 +9,7 @@ return [
         'grantotal' => 'Balance',
         'incomeAmountTotal' => 'Incomes',
         'activityAmountTotal' => 'Activities',
-        'activityHoursAndMinutes' => 'Total time',
+        'activityHoursAndMinutes' => 'Total airtime',
         'show_all_reservations' => 'Show all reservations',
         'reservation_title' => 'Upcoming reservations',
         'personal_request' => 'My reservation',
