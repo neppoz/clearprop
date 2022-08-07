@@ -7,7 +7,7 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item"><a
                         href="{{route('admin.bookings.index')}}">{{trans('cruds.planning.title')}}</a></li>
                 <li class="breadcrumb-item active">{{ trans('global.edit') }}</li>
