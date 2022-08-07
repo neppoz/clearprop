@@ -10,7 +10,7 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item"><a
-                        href="{{route('admin.bookings.index')}}">{{trans('cruds.booking.title')}}</a></li>
+                        href="{{route('app.bookings.index')}}">{{trans('cruds.booking.title')}}</a></li>
                 <li class="breadcrumb-item active">{{ trans('global.create') }}</li>
             </ol>
         </div><!-- /.col -->
@@ -19,7 +19,7 @@
         <div class="card-header"></div>
 
         <div class="card-body">
-            <form method="POST" action="{{ route("admin.bookings.store") }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route("app.bookings.store") }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label class="required" for="mode_id">{{ trans('cruds.booking.fields.mode') }}</label>

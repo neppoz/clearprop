@@ -43,7 +43,7 @@ class BookingsController extends Controller
                 $deleteGate = 'booking_delete';
                 $crudRoutePart = 'bookings';
 
-                return view('admin.bookings.partials.datatablesActions', compact(
+                return view('app.bookings.partials.datatablesActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
@@ -128,7 +128,7 @@ class BookingsController extends Controller
         //$instructors = User::where('instructor', true)->get();
         $planes = Plane::get();
 
-        return view('admin.bookings.index', compact('users', 'planes', 'modes'));
+        return view('app.bookings.index', compact('users', 'planes', 'modes'));
     }
 
     public function create(Request $request)
@@ -139,7 +139,7 @@ class BookingsController extends Controller
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.bookings.create', compact('modes', 'planes'));
+        return view('app.bookings.create', compact('modes', 'planes'));
 
     }
 
@@ -171,7 +171,7 @@ class BookingsController extends Controller
 
         $booking->load('bookingUsers', 'plane', 'slot', 'created_by');
 
-        return view('admin.bookings.edit', compact('users', 'planes', 'instructors', 'slots', 'booking'));
+        return view('app.bookings.edit', compact('users', 'planes', 'instructors', 'slots', 'booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
@@ -184,7 +184,7 @@ class BookingsController extends Controller
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);
         }
 
-        return redirect()->route('admin.home');
+        return redirect()->route('app.home');
     }
 
     public function show(Booking $booking)
@@ -193,7 +193,7 @@ class BookingsController extends Controller
 
         $booking->load('user', 'plane', 'created_by');
 
-        return view('admin.bookings.show', compact('booking'));
+        return view('app.bookings.show', compact('booking'));
     }
 
     public function destroy(Booking $booking)
@@ -202,7 +202,7 @@ class BookingsController extends Controller
 
         $booking->delete();
 
-        return redirect()->route('admin.home');
+        return redirect()->route('app.home');
     }
 
     public function massDestroy(MassDestroyBookingRequest $request)
@@ -210,5 +210,25 @@ class BookingsController extends Controller
         Booking::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function book(Request $request)
+    {
+        $booking = Booking::findOrFail($request->id);
+
+        (new BookingCheckService())->decrementSeats($booking);
+
+        return redirect()->route('app.home');
+
+    }
+
+    public function revoke(Request $request)
+    {
+        $booking = Booking::findOrFail($request->id);
+
+        (new BookingCheckService())->incrementSeats($booking);
+
+        return redirect()->route('app.home');
+
     }
 }

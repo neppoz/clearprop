@@ -3,9 +3,11 @@
 use App\Http\Controllers\ActivitiesController;
 use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RatingsController;
 
 Auth::routes(['register' => false, 'verify' => true, 'reset' => true]);
 Route::redirect('/', '/login');
+Route::redirect('/pilot', '/home');
 Route::get('/home', function () {
     return redirect()->route('app.home');
 });
@@ -28,6 +30,9 @@ Route::group(['prefix' => 'app', 'as' => 'app.', 'middleware' => ['auth']], func
     Route::delete('bookings/destroy', [BookingsController::class, 'massDestroy'])->name('bookings.massDestroy');
     Route::resource('bookings', BookingsController::class);
 
+    // Ratings
+    Route::get('ratings/getRatingsForUser', [RatingsController::class, 'getRatingsForUser'])->name('ratings.getRatingsForUser');
+
 });
 
 // Change profile
@@ -49,8 +54,8 @@ Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'mi
 //    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
 //    Route::resource('bookings', 'BookingsController');
 
-    // Ratings
-    Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
+//    // Ratings
+//    Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
     // Activities
 //    Route::delete('activities/destroy', 'ActivitiesController@massDestroy')->name('activities.massDestroy');
@@ -111,9 +116,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 //    Route::delete('activities/destroy', [ActivitiesController::massDestroy])->name('activities.massDestroy');
 //    Route::resource('activities', [ActivitiesController::class]);
 
-    // Bookings
-    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
-    Route::resource('bookings', 'BookingsController');
+//    // Bookings
+//    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');
+//    Route::resource('bookings', 'BookingsController');
 
     // Parameters
     Route::delete('parameters/destroy', 'ParametersController@massDestroy')->name('parameters.massDestroy');
@@ -147,8 +152,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('slots/destroy', 'SlotsController@massDestroy')->name('slots.massDestroy');
     Route::resource('slots', 'SlotsController');
 
-    // Ratings
-    Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
+//    // Ratings
+//    Route::get('ratings/getRatingsForUser', 'RatingsController@getRatingsForUser')->name('ratings.getRatingsForUser');
 
     // Asset Categories
     Route::delete('asset-categories/destroy', 'AssetCategoryController@massDestroy')->name('asset-categories.massDestroy');

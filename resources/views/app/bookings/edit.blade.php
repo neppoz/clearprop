@@ -9,7 +9,7 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item"><a
-                        href="{{route('admin.bookings.index')}}">{{trans('cruds.planning.title')}}</a></li>
+                        href="{{route('app.bookings.index')}}">{{trans('cruds.planning.title')}}</a></li>
                 <li class="breadcrumb-item active">{{ trans('global.edit') }}</li>
             </ol>
         </div><!-- /.col -->
@@ -24,7 +24,7 @@
                 <div class="col-6">
                     <div class="float-right">
                         @can('booking_delete')
-                            <form action="{{ route('admin.bookings.destroy', $booking->id) }}" method="POST"
+                            <form action="{{ route('app.bookings.destroy', $booking->id) }}" method="POST"
                                   onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -96,14 +96,14 @@
 
         <div class="card-body">
             @can('booking_edit')
-                <form method="POST" action="{{ route("admin.bookings.update", $booking->id) }}"
+                <form method="POST" action="{{ route("app.bookings.update", $booking->id) }}"
                       enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
-                    @includeWhen($booking->mode_id === 1, 'admin.bookings.partials.charter.edit')
-                    @includeWhen($booking->mode_id === 2, 'admin.bookings.partials.school.edit')
-                    @includeWhen($booking->mode_id === 3, 'admin.bookings.partials.promotion.edit')
-                    @includeWhen($booking->mode_id === 4, 'admin.bookings.partials.maintenance.edit')
+                    @includeWhen($booking->mode_id === 1, 'app.bookings.partials.charter.edit')
+                    @includeWhen($booking->mode_id === 2, 'app.bookings.partials.school.edit')
+                    @includeWhen($booking->mode_id === 3, 'app.bookings.partials.promotion.edit')
+                    @includeWhen($booking->mode_id === 4, 'app.bookings.partials.maintenance.edit')
                 </form>
             @endcan
         </div>
