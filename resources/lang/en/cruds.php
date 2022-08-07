@@ -529,8 +529,8 @@ return [
         ],
     ],
     'assetManagement' => [
-        'title' => 'Asset management',
-        'title_singular' => 'Asset management',
+        'title' => 'Assets',
+        'title_singular' => 'Asset',
     ],
     'assetCategory' => [
         'title' => 'Assets categories',

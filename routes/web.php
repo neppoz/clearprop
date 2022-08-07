@@ -22,7 +22,7 @@ Route::group(['prefix' => 'app', 'as' => 'app.', 'middleware' => ['auth']], func
     Route::delete('activities/destroy', [ActivitiesController::class, 'massDestroy'])->name('activities.massDestroy');
     Route::resource('activities', ActivitiesController::class);
 
-//    // Bookings
+    // Bookings
     Route::post('bookings/book/{id}', [BookingsController::class, 'book'])->name('bookings.book');
     Route::post('bookings/revoke/{id}', [BookingsController::class, 'revoke'])->name('bookings.revoke');
     Route::delete('bookings/destroy', [BookingsController::class, 'massDestroy'])->name('bookings.massDestroy');
