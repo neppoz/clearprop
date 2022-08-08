@@ -11,6 +11,7 @@ use App\Services\BookingNotificationService;
 use App\Services\BookingCheckService;
 use App\Booking;
 use App\Plane;
+use App\Services\BookingStatusService;
 use App\User;
 use App\Slot;
 use Gate;
@@ -152,10 +153,12 @@ class BookingsController extends Controller
     public function store(StoreBookingRequest $request)
     {
         if ((new BookingCheckService())->availabilityCheckPassed($request)) {
-            dd($request->all());
+
             $booking = Booking::create($request->all());
 
-            return redirect()->route('app.home', $booking->id);
+            (new BookingStatusService())->createStatus($booking);
+
+            return redirect()->route('app.home');
         }
 
         return back()->withToastError(trans('global.planeNotAvailable'));

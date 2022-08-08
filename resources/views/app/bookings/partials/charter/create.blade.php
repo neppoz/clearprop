@@ -6,10 +6,9 @@
     <form method="POST" action="{{ route("app.bookings.store") }}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="mode_id" id="mode_id" value="{{$mode_id}}" readonly>
-        <input type="hidden" name="status" id="status" value="0" readonly>
         <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
-
         @include('app.bookings.partials.formPlane')
+        @include('app.bookings.partials.formAlerts')
         <div class="form-group">
             <div>
                 <label class="required"
@@ -28,24 +27,6 @@
             @endif
             <div
                 class="help-block text-secondary small">{!! trans('cruds.booking.fields.instructor_needed_helper') !!}</div>
-        </div>
-        <div class="form-group">
-            <div class="alert alert-warning alert-dismissible" id="warning-medical" style="display: none">
-                <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
-                {!! trans('global.medicalCheck') !!}
-            </div>
-            <div class="alert alert-warning alert-dismissible" id="warning-activity" style="display: none">
-                <h5><i class="icon fas fa-info"></i>{{ trans('global.caution') }}</h5>
-                {!! trans('global.activityCheck') !!}
-            </div>
-            <div class="alert alert-info alert-dismissible" id="info-balance" style="display: none">
-                <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
-                {{ trans('global.balanceCheck') }}
-            </div>
-            <div class="alert alert-info alert-dismissible" id="info-rating" style="display: none">
-                <h5><i class="icon fas fa-info"></i>{{ trans('global.info') }}</h5>
-                {{ trans('global.ratingCheck') }}
-            </div>
         </div>
         @include('app.bookings.partials.formReservationStartStop')
         <div class="form-group">
