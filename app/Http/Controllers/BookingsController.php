@@ -152,10 +152,10 @@ class BookingsController extends Controller
     public function store(StoreBookingRequest $request)
     {
         if ((new BookingCheckService())->availabilityCheckPassed($request)) {
-
+            dd($request->all());
             $booking = Booking::create($request->all());
 
-            return redirect()->route('app.bookings.edit', $booking->id);
+            return redirect()->route('app.home', $booking->id);
         }
 
         return back()->withToastError(trans('global.planeNotAvailable'));

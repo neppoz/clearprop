@@ -111,7 +111,7 @@
                 plane = $("#plane_id").val();
                 if ($(plane)) {
                     $.ajax({
-                        url: "{{ route('admin.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
+                        url: "{{ route('app.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
                         method: 'GET',
                         success: function (data) {
                             formChecks(data);
