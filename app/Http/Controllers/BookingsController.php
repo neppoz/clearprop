@@ -141,7 +141,11 @@ class BookingsController extends Controller
 
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('app.bookings.create', compact('mode_id', 'mode_name', 'users', 'planes'));
+        $instructors = User::whereHas('roles', function ($role) {
+            $role->where('role_id', User::IS_INSTRUCTOR);
+        })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('app.bookings.create', compact('mode_id', 'mode_name', 'planes', 'users', 'instructors'));
 
     }
 

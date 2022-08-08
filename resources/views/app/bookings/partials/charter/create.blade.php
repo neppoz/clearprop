@@ -7,41 +7,29 @@
         @csrf
         <input type="hidden" name="mode_id" id="mode_id" value="{{$mode_id}}" readonly>
         <input type="hidden" name="status" id="status" value="0" readonly>
-
-        @can('booking_charter_create')
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.activity.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id"
-                        id="user_id" required>
-                    @foreach($users as $id => $user)
-                        <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $user }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block text-secondary small">{{ trans('cruds.activity.fields.user_helper') }}</span>
-            </div>
-        @endcan
-        @can('bookings_create')
-            <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
-        @endcan
+        <input type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" readonly>
 
         <div class="form-group">
             <label class="required" for="plane_id">{{ trans('cruds.booking.fields.plane') }}</label>
-            <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id"
-                    id="plane_id" required>
-                @foreach($planes as $id => $plane)
-                    <option
-                        value="{{ $id }}" {{ old('plane_id') == $id ? 'selected' : '' }}>{{ $plane }}</option>
-                @endforeach
-            </select>
-            @if($errors->has('plane'))
-                <span class="text-danger">{{ $errors->first('plane') }}</span>
-            @endif
-            <span
-                class="help-block text-secondary small">{{ trans('cruds.booking.fields.plane_helper') }}</span>
-        </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-plane"></i>
+              </span>
+                </div>
+                <select class="form-control select2 {{ $errors->has('plane') ? 'is-invalid' : '' }}" name="plane_id"
+                        id="plane_id" required>
+                    @foreach($planes as $id => $plane)
+                        <option
+                            value="{{ $id }}" {{ old('plane_id') == $id ? 'selected' : '' }}>{{ $plane }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('plane'))
+                    <span class="text-danger">{{ $errors->first('plane') }}</span>
+                @endif
+                <span
+                    class="help-block text-secondary small">{{ trans('cruds.booking.fields.plane_helper') }}</span>
+            </div>
         <div class="form-group">
             <div>
                 <label class="required"
@@ -141,7 +129,7 @@
     @parent
     <script>
         $(document).ready(function () {
-            let user;
+            let user = $('#user_id').val();
             let plane;
             let warning_medical = $("#warning-medical");
             let warning_activity = $("#warning-activity");
@@ -152,27 +140,6 @@
 
             instructor_needed_val_0.prop("checked", false);
             instructor_needed_val_1.prop("checked", false);
-
-            @can('booking_charter_create')
-            $("#user_id").change(function () {
-                user = $(this).val();
-                instructor_needed_val_0.prop("checked", false);
-                instructor_needed_val_1.prop("checked", false);
-                if ($(plane)) {
-                    $.ajax({
-                        url: "{{ route('app.ratings.getRatingsForUser') }}?user_id=" + user + "&plane_id=" + plane,
-                        method: 'GET',
-                        success: function (data) {
-                            formChecks(data);
-                        }
-                    });
-                }
-            });
-            @endcan
-
-                @can('bookings_create')
-                user = $('#user_id').val();
-            @endcan
 
             $("#plane_id").change(function () {
                 plane = $(this).val();

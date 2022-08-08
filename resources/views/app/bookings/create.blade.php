@@ -3,12 +3,10 @@
     <div class="row">
         <div class="col">
             <div class="card card-primary card-outline">
-
                 @if($mode_id == 1)
                     @if(auth()->user()->can('booking_charter_create'))
                         @include('app.bookings.partials.charter.admin-create')
-                    @endif
-                    @if(auth()->user()->can('booking_create'))
+                    @elseif(auth()->user()->can('booking_create'))
                         @include('app.bookings.partials.charter.create')
                     @endif
                 @endif
