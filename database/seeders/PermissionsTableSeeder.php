@@ -473,6 +473,22 @@ class PermissionsTableSeeder extends Seeder
                 'id' => 116,
                 'title' => 'notification_all_users_balance',
             ],
+            [
+                'id' => 117,
+                'title' => 'booking_charter_create',
+            ],
+            [
+                'id' => 118,
+                'title' => 'booking_school_create',
+            ],
+            [
+                'id' => 119,
+                'title' => 'booking_maintenance_create',
+            ],
+            [
+                'id' => 120,
+                'title' => 'booking_promotion_create',
+            ],
         ];
 
         Permission::insertOrIgnore($permissions);

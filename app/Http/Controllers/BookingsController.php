@@ -125,7 +125,6 @@ class BookingsController extends Controller
 
         $users = User::get();
         $modes = Mode::get();
-        //$instructors = User::where('instructor', true)->get();
         $planes = Plane::get();
 
         return view('app.bookings.index', compact('users', 'planes', 'modes'));
@@ -135,11 +134,14 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $modes = Mode::where('active', 1)->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $mode_id = $request->mode_id ?? 1;
+        $mode_name = $reqest->mode_name ?? 'Charter';
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('app.bookings.create', compact('modes', 'planes'));
+        $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('app.bookings.create', compact('mode_id', 'mode_name', 'users', 'planes'));
 
     }
 
@@ -149,7 +151,7 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            return redirect()->route('admin.bookings.edit', $booking->id);
+            return redirect()->route('app.bookings.edit', $booking->id);
         }
 
         return back()->withToastError(trans('global.planeNotAvailable'));

@@ -67,7 +67,7 @@
     @endcan
     @if(auth()->user()->is_member)
         <div class="row">
-            <div class="col">
+            <div class="col-12 col-sm-12 col-md-12">
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fas fa-exclamation-circle"></i>{{ trans('global.caution') }}</h5>
@@ -79,16 +79,50 @@
         </div>
     @endif
     <div class="row m-2 mb-3">
-        <div class="col-6">
+        <div class="col-6 col-sm-6 col-md-6">
             <h5 class="text-dark">{{ trans('cruds.dashboard.reservation_title') }}</h5>
         </div>
-        <div class="col-6">
-            <a class="btn btn-default float-right" href="{{Request::route()->getPrefix() . "/bookings/create" }}">
-                <i class="fas fa-paper-plane text-success"></i>
-                <span class="font-weight-normal">{{ trans('cruds.dashboard.create_request') }}</span>
-            </a>
+        <div class="col-6 col-sm-6 col-md-6">
+            <div class="btn-group float-right">
+                <button type="button"
+                        class="btn btn-success">{{ trans('cruds.dashboard.create_booking_action') }}</button>
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="false">
+                    <span class="sr-only">Charter Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu" style="">
+                    @can('booking_create')
+                        <a class="dropdown-item"
+                           href="{{route('app.bookings.create', ['mode_id' =>1]) }}">{{ trans('cruds.dashboard.create_charter_booking') }}</a>
+                    @endcan
+                    <div class="dropdown-divider"></div>
+                    @can('booking_school_create')
+                        <a class="dropdown-item"
+                           href="{{route('app.bookings.create', ['mode_id' => 2]) }}">{{ trans('cruds.dashboard.create_school_booking') }}</a>
+                    @endcan
+                    @can('booking_maintenance_create')
+                        <a class="dropdown-item"
+                           href="{{route('app.bookings.create', ['mode_id' =>4]) }}">{{ trans('cruds.dashboard.create_maintenance_booking') }}</a>
+                    @endcan
+                </div>
+            </div>
         </div>
     </div>
+
+
+    {{--        @can('booking_school_create')--}}
+    {{--                <a class="btn btn-default float-right" href="{{route('app.bookings.create.school') }}">--}}
+    {{--                    <i class="fas fa-paper-plane text-success"></i>--}}
+    {{--                    <span class="font-weight-normal">{{ trans('cruds.dashboard.create_school_booking') }}</span>--}}
+    {{--                </a>--}}
+    {{--        @endcan--}}
+    {{--        @can('booking_maintenance_create')--}}
+    {{--                <a class="btn btn-default float-right" href="{{route('app.bookings.create.maintenance') }}">--}}
+    {{--                    <i class="fas fa-paper-plane text-success"></i>--}}
+    {{--                    <span class="font-weight-normal">{{ trans('cruds.dashboard.create_charter_booking') }}</span>--}}
+    {{--                </a>--}}
+    {{--        @endcan--}}
+
     {{--    <div class="row m-2">--}}
     {{--        <div class="col-12">--}}
     {{--            <div class="bg-light">--}}

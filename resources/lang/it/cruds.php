@@ -17,7 +17,10 @@ return [
         'slot_title' => 'Appuntamenti',
         'slot_title_singular' => 'Appuntamento',
         'book_slot' => ' Prenota il tuo posto ',
-        'create_request' => 'Crea prenotazione',
+        'create_booking_action' => 'Crea prenotazione',
+        'create_charter_booking' => 'Charter',
+        'create_school_booking' => 'Scuola',
+        'create_maintenance_booking' => 'Manutenzione',
         'edit_request' => 'Modifica richiesta',
     ],
     'userManagement'     => [

@@ -16,7 +16,10 @@ return [
         'slot_title' => 'Appointments',
         'slot_title_singular' => 'Appointment',
         'book_slot' => ' Book your seat now ',
-        'create_request' => 'Create reservation',
+        'create_booking_action' => 'Create reservation',
+        'create_charter_booking' => 'Charter',
+        'create_school_booking' => 'School',
+        'create_maintenance_booking' => 'Maintenance',
         'edit_request' => 'Edit request',
     ],
     'userManagement'     => [
