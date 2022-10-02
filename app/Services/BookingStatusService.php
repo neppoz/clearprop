@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Notification;
 
 class BookingStatusService
 {
-    public function createStatus($booking)
+    public function createStatus($request, $booking)
     {
         try {
             if ($booking->instructor_needed == true) {
@@ -21,7 +21,7 @@ class BookingStatusService
                 $booking->status = 1;
             }
 
-            $booking->bookingUsers()->attach(auth()->user()->id);
+            $booking->bookingUsers()->attach($request->user_id);
             $booking->created_by_id = auth()->user()->id;
             $booking->save();
 

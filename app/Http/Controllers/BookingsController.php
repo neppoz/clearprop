@@ -156,7 +156,7 @@ class BookingsController extends Controller
 
             $booking = Booking::create($request->all());
 
-            (new BookingStatusService())->createStatus($booking);
+            (new BookingStatusService())->createStatus($request, $booking);
 
             return redirect()->route('app.home');
         }
