@@ -186,9 +186,12 @@ class BookingsController extends Controller
     public function update(UpdateBookingRequest $request, Booking $booking)
     {
         $booking->update($request->all());
-        $booking->bookingUsers()->sync($request->input('users', []));
-        $booking->bookingInstructors()->sync($request->input('instructors', []));
-
+        if ($request->input('users') == true) {
+            $booking->bookingUsers()->sync($request->input('users', []));
+        }
+        if ($request->input('instructors') == true) {
+            $booking->bookingInstructors()->sync($request->input('instructors', []));
+        }
         if ($request->input('email') == true) {
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);
         }

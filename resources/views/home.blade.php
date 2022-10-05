@@ -259,12 +259,11 @@
                             <div class="card-footer">
                                 @if(auth()->user()->can('booking_edit') && $booking->bookingUsers->contains('id', auth()->user()->id))
                                     <a class="btn btn-sm btn-outline-success float-right"
-                                       href="{{route(Route::getCurrentRoute()->uri().'.bookings.edit', $booking->id)}}">
+                                       href="{{route('app.bookings.edit', $booking->id)}}">
                                         <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>
-                                @endif
-                                @if(auth()->user()->can('booking_all_users_edit'))
+                                @elseif(auth()->user()->can('booking_all_users_edit'))
                                     <a class="btn btn-sm btn-outline-success float-right"
-                                       href="{{route(Route::getCurrentRoute()->uri().'.bookings.edit', $booking->id)}}">
+                                       href="{{route('app.bookings.edit', $booking->id)}}">
                                         <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>
                                 @endif
                             </div>
