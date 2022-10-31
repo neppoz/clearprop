@@ -79,62 +79,35 @@
         </div>
     @endif
     <div class="row m-2 mb-3">
-        <div class="col-6 col-sm-6 col-md-6">
+        <div class="col-12">
             <h5 class="text-dark">{{ trans('cruds.dashboard.reservation_title') }}</h5>
         </div>
-        <div class="col-6 col-sm-6 col-md-6">
-            <div class="btn-group float-right">
-                <button type="button"
-                        class="btn btn-success">{{ trans('cruds.dashboard.create_booking_action') }}</button>
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
-                        aria-expanded="false">
-                    <span class="sr-only">Charter Dropdown</span>
-                </button>
-                <div class="dropdown-menu" role="menu" style="">
-                    @can('booking_create')
-                        <a class="dropdown-item"
-                           href="{{route('app.bookings.create', ['mode_id' =>1]) }}">{{ trans('cruds.dashboard.create_charter_booking') }}</a>
-                    @endcan
-                    <div class="dropdown-divider"></div>
-                    @can('booking_school_create')
-                        <a class="dropdown-item"
-                           href="{{route('app.bookings.create', ['mode_id' => 2]) }}">{{ trans('cruds.dashboard.create_school_booking') }}</a>
-                    @endcan
-                    @can('booking_maintenance_create')
-                        <a class="dropdown-item"
-                           href="{{route('app.bookings.create', ['mode_id' =>4]) }}">{{ trans('cruds.dashboard.create_maintenance_booking') }}</a>
-                    @endcan
-                </div>
+    </div>
+    <div class="row m-2 mb-3">
+        <div class="col-12">
+            <div class="btn-group mr-1">
+                @can('booking_create')
+                    <a class="btn btn-primary btn-block btn-flat"
+                       href="{{route('app.bookings.create', ['mode_id' =>1]) }}"><i
+                            class="fa fa-plus"></i> {{ trans('cruds.dashboard.create_charter_booking') }}</a>
+                @endcan
+            </div>
+            <div class="btn-group mr-1">
+                @can('booking_school_create')
+                    <a class="btn btn-secondary btn-block btn-flat"
+                       href="{{route('app.bookings.create', ['mode_id' => 2]) }}"><i
+                            class="fa fa-plus"></i> {{ trans('cruds.dashboard.create_school_booking') }}</a>
+                @endcan
+            </div>
+            <div class="btn-group mr-1">
+                @can('booking_maintenance_create')
+                    <a class="btn btn-danger btn-block btn-flat"
+                       href="{{route('app.bookings.create', ['mode_id' =>4]) }}"><i
+                            class="fa fa-plus"></i> {{ trans('cruds.dashboard.create_maintenance_booking') }}</a>
+                @endcan
             </div>
         </div>
     </div>
-
-
-    {{--        @can('booking_school_create')--}}
-    {{--                <a class="btn btn-default float-right" href="{{route('app.bookings.create.school') }}">--}}
-    {{--                    <i class="fas fa-paper-plane text-success"></i>--}}
-    {{--                    <span class="font-weight-normal">{{ trans('cruds.dashboard.create_school_booking') }}</span>--}}
-    {{--                </a>--}}
-    {{--        @endcan--}}
-    {{--        @can('booking_maintenance_create')--}}
-    {{--                <a class="btn btn-default float-right" href="{{route('app.bookings.create.maintenance') }}">--}}
-    {{--                    <i class="fas fa-paper-plane text-success"></i>--}}
-    {{--                    <span class="font-weight-normal">{{ trans('cruds.dashboard.create_charter_booking') }}</span>--}}
-    {{--                </a>--}}
-    {{--        @endcan--}}
-
-    {{--    <div class="row m-2">--}}
-    {{--        <div class="col-12">--}}
-    {{--            <div class="bg-light">--}}
-    {{--                <div class="p-2 text-center text-success">--}}
-    {{--                    <a class="btn btn-default" href="{{Request::route()->getPrefix() . "/bookings/create" }}">--}}
-    {{--                        <i class="fas fa-paper-plane text-black-50"></i>--}}
-    {{--                        {{ trans('cruds.dashboard.create_request') }}--}}
-    {{--                    </a>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
     <div class="row m-2">
         @if(count($checkinDates) > 0)
             @foreach($checkinDates as $date => $slots)

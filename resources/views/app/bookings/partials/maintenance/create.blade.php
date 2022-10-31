@@ -11,7 +11,7 @@
         @include('app.bookings.partials.formReservationStartStop')
         @include('app.bookings.partials.formDescription')
         <div class="form-group">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn btn-success" type="submit">
                 {{ trans('global.save') }}
             </button>
         </div>

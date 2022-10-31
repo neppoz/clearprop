@@ -11,7 +11,7 @@ return [
         'activityAmountTotal' => 'Activities',
         'activityHoursAndMinutes' => 'Total airtime',
         'show_all_reservations' => 'Show all reservations',
-        'reservation_title' => 'Upcoming reservations',
+        'reservation_title' => 'Reservations',
         'personal_request' => 'My reservation',
         'slot_title' => 'Appointments',
         'slot_title_singular' => 'Appointment',
