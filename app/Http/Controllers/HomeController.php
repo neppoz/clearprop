@@ -18,7 +18,7 @@ class HomeController extends Controller
 //        $userMedicalGoingDue = (new StatisticsService())->getUsersMedicalDue($request);
 
         $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
-            ->where('reservation_start', '>=', Carbon::parse(today()))
+            ->where('reservation_stop', '>=', Carbon::parse(today()))
             ->orderBy('reservation_start', 'asc')
             ->get()
             ->groupBy(function ($booking) {
@@ -29,7 +29,7 @@ class HomeController extends Controller
             ->whereDoesntHave('bookingUsers', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })
-            ->where('reservation_start', '>=', Carbon::parse(today()))
+            ->where('reservation_stop', '>=', Carbon::parse(today()))
             ->where('checkin', 1)
             ->where('seats_available', '>', 0)
             ->where('status', 1)

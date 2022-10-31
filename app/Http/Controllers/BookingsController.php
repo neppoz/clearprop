@@ -136,7 +136,7 @@ class BookingsController extends Controller
         abort_if(Gate::denies('booking_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $mode_id = $request->mode_id ?? 1;
-        $mode_name = $reqest->mode_name ?? 'Charter';
+        $mode_name = Mode::findOrFail($mode_id);
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
 

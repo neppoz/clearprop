@@ -1,6 +1,6 @@
 <div class="card-header">
     {{ trans('global.create') }} {{ trans('cruds.booking.title_singular') }} <span
-        class="badge badge-secondary">{{$mode_name}}</span>
+        class="badge badge-secondary">{{$mode_name->name}}</span>
 </div>
 <div class="card-body">
     <form method="POST" action="{{ route("app.bookings.store") }}" enctype="multipart/form-data">
