@@ -458,10 +458,6 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'activity_all_users_access',
             ],
             [
-                'id' => 113,
-                'title' => 'booking_all_users_edit',
-            ],
-            [
                 'id' => 114,
                 'title' => 'user_self_to_admin',
             ],
@@ -488,6 +484,30 @@ class PermissionsTableSeeder extends Seeder
             [
                 'id' => 120,
                 'title' => 'booking_promotion_create',
+            ],
+            [
+                'id' => 121,
+                'title' => 'booking_charter_edit',
+            ],
+            [
+                'id' => 122,
+                'title' => 'booking_school_edit',
+            ],
+            [
+                'id' => 123,
+                'title' => 'booking_maintenance_edit',
+            ],
+            [
+                'id' => 124,
+                'title' => 'booking_promotion_edit',
+            ],
+            [
+                'id' => 125,
+                'title' => 'booking_charter_admin_create',
+            ],
+            [
+                'id' => 126,
+                'title' => 'booking_charter_admin_edit',
             ],
         ];
 

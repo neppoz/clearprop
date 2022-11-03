@@ -4,9 +4,9 @@
         <div class="col">
             <div class="card card-primary card-outline">
                 @if($mode_id == 1)
-                    @if(auth()->user()->can('booking_charter_create'))
+                    @if(auth()->user()->can('booking_charter_admin_create'))
                         @include('app.bookings.partials.charter.admin-create')
-                    @elseif(auth()->user()->can('booking_create'))
+                    @elseif(auth()->user()->can('booking_charter_create'))
                         @include('app.bookings.partials.charter.create')
                     @endif
                 @endif
