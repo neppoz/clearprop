@@ -168,6 +168,9 @@ class BookingsController extends Controller
     {
         abort_if(Gate::denies('booking_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $mode_id = $booking->mode_id;
+        $mode_name = Mode::findOrFail($mode_id);
+
         $users = User::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $planes = Plane::all()->pluck('callsign', 'id')->prepend(trans('global.pleaseSelect'), '');
@@ -180,7 +183,7 @@ class BookingsController extends Controller
 
         $booking->load('bookingUsers', 'plane', 'slot', 'created_by');
 
-        return view('app.bookings.edit', compact('users', 'planes', 'instructors', 'slots', 'booking'));
+        return view('app.bookings.edit', compact('mode_id', 'mode_name', 'users', 'planes', 'instructors', 'slots', 'booking'));
     }
 
     public function update(UpdateBookingRequest $request, Booking $booking)
