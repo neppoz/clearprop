@@ -14,10 +14,13 @@ class BookingStatusService
     {
         try {
             if ($booking->instructor_needed == true) {
-                // set status to pending
+                // set status to pending by default in this condition
                 $booking->status = 0;
+            }
+            if ($request->input('status') != null) {
+                $booking->status = $request->status;
             } else {
-                // Auto-Confirmation, status 1
+                // Auto-Confirmation, status 1 if no valid input
                 $booking->status = 1;
             }
 

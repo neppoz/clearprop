@@ -20,9 +20,6 @@ class UpdateBookingRequest extends FormRequest
     public function rules()
     {
         return [
-            'plane_id' => [
-                'required',
-                'integer'],
             'status' => [
                 'required',
                 'integer'],

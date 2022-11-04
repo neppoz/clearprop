@@ -158,6 +158,10 @@ class BookingsController extends Controller
 
             (new BookingStatusService())->createStatus($request, $booking);
 
+            if ($request->input('email') == true) {
+                (new BookingNotificationService())->sendNotificationsConfirmed($booking);
+            }
+
             return redirect()->route('app.home');
         }
 
@@ -195,6 +199,7 @@ class BookingsController extends Controller
         if ($request->input('instructors') == true) {
             $booking->bookingInstructors()->sync($request->input('instructors', []));
         }
+        (new BookingStatusService())->createStatus($request, $booking);
         if ($request->input('email') == true) {
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);
         }
