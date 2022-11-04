@@ -1,5 +1,4 @@
-<input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}"
-       readonly>
+<input type="hidden" name="plane_id" id="plane_id" value="{{ old('plane_id', $booking->plane_id) }}" readonly>
 <input type="hidden" name="status" id="status" value="{{ old('status', $booking->status) }}" readonly>
 <div class="form-group">
     <label for="description">{{ trans('cruds.booking.fields.description') }}</label>
@@ -12,9 +11,11 @@
     <span
         class="help-block text-secondary small">{{ trans('cruds.booking.fields.description_helper') }}</span>
 </div>
+
 <div class="form-group">
     <button class="btn btn-success" type="submit">
         <i class="fas fa-edit"></i>
         {{ trans('global.update') }} {{ strtolower(trans('cruds.booking.title_singular')) }}
     </button>
 </div>
+
