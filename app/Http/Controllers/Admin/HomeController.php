@@ -25,7 +25,7 @@ class HomeController
         }
 
         $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
-            ->where('reservation_start', '>=', Carbon::parse(today()))
+            ->where('reservation_stop', '>=', Carbon::parse(today()))
             ->orderBy('reservation_start', 'asc')
             ->get()
             ->groupBy(function ($booking) {
