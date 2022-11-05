@@ -36,7 +36,7 @@ class HomeController
             ->whereDoesntHave('bookingUsers', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })
-            ->where('reservation_start', '>=', Carbon::parse(today()))
+            ->where('reservation_stop', '>=', Carbon::parse(today()))
             ->where('checkin', 1)
             ->where('seats_available', '>', 0)
             ->where('status', 1)
