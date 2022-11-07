@@ -7,12 +7,12 @@
         <div class="col-6">
             <div class="float-right">
                 @can('booking_charter_admin_edit')
-                    <form action="{{ route('app.bookings.destroy', $booking->id) }}" method="POST"
-                          onsubmit="return confirm('{{ trans('global.areYouSure') }}');">
+                    <form action="{{ route('app.bookings.destroy', $booking->id) }}" method="POST">
+                        @csrf
                         <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="submit" class="btn btn-outline-danger"
-                               value="{{ trans('global.delete_reservation') }}">
+                        <button type="submit" class="btn btn-outline-danger" id="show_confirm" data-toggle="tooltip"
+                                title="{{ trans('global.delete_reservation') }}">
+                            {{ trans('global.delete_reservation') }}</button>
                     </form>
                 @endcan
             </div>
@@ -176,6 +176,7 @@
 
 @section('scripts')
     @parent
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
             let user_select = $("#users");
@@ -223,6 +224,23 @@
                 }
             }
 
+            $('#show_confirm').click(function (event) {
+                var form = $(this).closest("form");
+                var name = $(this).data("name");
+                event.preventDefault();
+                Swal.fire({
+                    title: '{{ trans('global.areYouSure') }}',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '{{ trans('global.yesDelete') }}'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+            });
         });
     </script>
 @endsection
