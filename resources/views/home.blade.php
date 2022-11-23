@@ -208,10 +208,32 @@
                                         <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}</span>
                                     </div>
                                     <div class="col-4 h6">
-                                    <span
-                                        class="font-weight-bold text-{{$booking->mode_id == 4 ? 'danger' : 'black'}}">{{ $booking->plane->callsign ?? '' }}</span><br>
-                                        <span
-                                            class="badge badge-{{$booking->mode_id == 4 ? 'danger' : 'secondary'}}">{{$booking->mode->name ?? ''}}</span><br>
+                                        @switch($booking->mode_id)
+                                            @case('1')
+                                            <span
+                                                class="font-weight-bold text-primary">{{ $booking->plane->callsign ?? '' }}</span>
+                                            <br>
+                                            <span class="badge badge-primary">{{$booking->mode->name ?? ''}}</span><br>
+                                            @break
+                                            @case('2')
+                                            <span
+                                                class="font-weight-bold text-secondary">{{ $booking->plane->callsign ?? '' }}</span>
+                                            <br>
+                                            <span class="badge badge-secondary">{{$booking->mode->name ?? ''}}</span>
+                                            <br>
+                                            @break
+                                            @case('4')
+                                            <span
+                                                class="font-weight-bold text-danger">{{ $booking->plane->callsign ?? '' }}</span>
+                                            <br>
+                                            <span class="badge badge-danger">{{$booking->mode->name ?? ''}}</span><br>
+                                            @break
+                                            @default
+                                            <span
+                                                class="font-weight-bold text-black">{{ $booking->plane->callsign ?? '' }}</span>
+                                            <br>
+                                            <span class="badge badge-black">{{$booking->mode->name ?? ''}}</span><br>
+                                        @endswitch
                                     </div>
                                     <div class="col-5">
                                         @foreach($booking->bookingInstructors as $instructorBookings)

@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
-    <a href="{{route("home")}}" class="brand-link">
+    <a href="{{route('app.home')}}" class="brand-link">
         {{--        <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
         <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
     </a>

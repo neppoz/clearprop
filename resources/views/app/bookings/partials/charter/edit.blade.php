@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-6">
             {{ trans('cruds.booking.title_singular') }} <span
-                class="badge badge-secondary">{{$mode_name->name}}</span>
+                class="badge badge-primary">{{$mode_name->name}}</span>
         </div>
         <div class="col-6">
             <div class="float-right">

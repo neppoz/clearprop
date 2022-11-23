@@ -146,7 +146,9 @@ class BookingsController extends Controller
             $role->where('role_id', User::IS_INSTRUCTOR);
         })->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('app.bookings.create', compact('mode_id', 'mode_name', 'planes', 'users', 'instructors'));
+        $slots = Slot::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('app.bookings.create', compact('mode_id', 'mode_name', 'planes', 'users', 'instructors', 'slots'));
 
     }
 
@@ -155,9 +157,18 @@ class BookingsController extends Controller
         if ((new BookingCheckService())->availabilityCheckPassed($request)) {
 
             $booking = Booking::create($request->all());
-
-            (new BookingStatusService())->createStatus($request, $booking);
-
+            if ($request->input('users') == true) {
+                $booking->bookingUsers()->sync($request->input('users', []));
+            }
+            if ($request->input('instructors') == true) {
+                $booking->bookingInstructors()->sync($request->input('instructors', []));
+            }
+            try {
+                (new BookingStatusService())->createStatus($request, $booking);
+            } catch (\Throwable $exception) {
+                report($exception);
+                return back()->withToastError($exception->getMessage());
+            }
             if ($request->input('email') == true) {
                 (new BookingNotificationService())->sendNotificationsConfirmed($booking);
             }
@@ -199,7 +210,12 @@ class BookingsController extends Controller
         if ($request->input('instructors') == true) {
             $booking->bookingInstructors()->sync($request->input('instructors', []));
         }
-        (new BookingStatusService())->createStatus($request, $booking);
+        try {
+            (new BookingStatusService())->createStatus($request, $booking);
+        } catch (\Throwable $exception) {
+            report($exception);
+            return back()->withToastError($exception->getMessage());
+        }
         if ($request->input('email') == true) {
             (new BookingNotificationService())->sendNotificationsConfirmed($booking);
         }
