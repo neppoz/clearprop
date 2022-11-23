@@ -295,7 +295,7 @@ return [
             'checkin_helper' => 'Notam: Specify maximum',
             'seats_taken' => 'Occupied seats',
             'seats_taken_helper' => '',
-            'seats_available' => 'Available seats',
+            'seats_available' => 'Available seats:',
             'seats_available_helper' => '',
         ],
     ],
