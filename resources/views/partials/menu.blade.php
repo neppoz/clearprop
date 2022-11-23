@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="{{route("home")}}" class="brand-link">
         {{--        <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
         <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
     </a>
@@ -130,21 +130,16 @@
                                         </p>
                                     </a>
                                 </li>
-                            @endcan
+                                @endcan
                         </ul>
                     </li>
                 @endcan
                 @can('asset_management_access')
-                    <li class="nav-item has-treeview
-                        {{ request()->is("admin/assets") ? "menu-open" : "" }}
-                    {{ request()->is("admin/planes") ? "menu-open" : "" }}
-                        ">
+                    <li class="nav-item has-treeview {{ request()->is("admin/assets") ? "menu-open" : "" }} {{ request()->is("admin/planes") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-book">
-
-                            </i>
+                            <i class="fa-fw nav-icon fas fa-book"></i>
                             <p>
-                                {{ trans('cruds.assetManagement.title') }}
+                                <span>{{ trans('cruds.assetManagement.title') }}</span>
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
