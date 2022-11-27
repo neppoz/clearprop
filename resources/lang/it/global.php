@@ -49,6 +49,7 @@ return [
     'year' => 'Anno',
     'yes' => 'Sì',
     'yesDelete' => 'Sì, cancella',
+    'yesConfirm' => 'Sì, conferma',
     'youAreLoggedIn' => 'Sei loggato!',
     'yourAccountNeedsAdminApproval' => 'Your accounts needs an administrator approval in order to log in',
     'submit' => 'Invia',

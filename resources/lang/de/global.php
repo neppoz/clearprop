@@ -49,6 +49,7 @@ return [
     'year' => 'Jahr',
     'yes' => 'Ja',
     'yesDelete' => 'Ja, löschen',
+    'yesConfirm' => 'Ja, bestätigen',
     'youAreLoggedIn' => 'Sie sind angemeldet!',
     'yourAccountNeedsAdminApproval' => 'Ihr Benutzeraccount benötigt die Freigabe durch den Administator',
     'submit' => 'Senden',

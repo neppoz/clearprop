@@ -109,80 +109,11 @@
         </div>
     </div>
     <div class="row m-2">
-        {{--        @if(count($checkinDates) > 0)--}}
-        {{--            @foreach($checkinDates as $date => $slots)--}}
-        {{--                <div class="col-12 col-sm-6 col-md-4">--}}
-        {{--                    @foreach($slots as $slot)--}}
-        {{--                        <div class="card card-primary card-outline">--}}
-        {{--                            <div class="card-header">--}}
-        {{--                                <div class="float-left">--}}
-        {{--                                    <span class="font-weight-normal">{{$slot->slot->title ?? ''}}</span>--}}
-        {{--                                </div>--}}
-        {{--                                <div class="float-lg-right">--}}
-        {{--                                    <span--}}
-        {{--                                        class="font-weight-bolder">{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->isoFormat('ddd DD MMM') }}</span>--}}
-        {{--                                </div>--}}
-        {{--                            </div>--}}
-        {{--                            <div class="card-body">--}}
-        {{--                                <div class="row">--}}
-        {{--                                    <div class="col-3 text-lg">--}}
-        {{--                                        <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_start)->format('H:i') }}</span><br>--}}
-        {{--                                        <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $slot->reservation_stop)->format('H:i') }}</span>--}}
-        {{--                                    </div>--}}
-        {{--                                    <div class="col-4 h6">--}}
-        {{--                                        <span--}}
-        {{--                                            class="font-weight-bold text-{{$slot->mode_id == 4 ? 'danger' : 'black'}}">{{ $slot->plane->callsign ?? '' }}</span><br>--}}
-        {{--                                    </div>--}}
-        {{--                                    <div class="col-5">--}}
-        {{--                                        @foreach($slot->bookingInstructors as $instructorBookings)--}}
-        {{--                                            <span--}}
-        {{--                                                class="text text-black">{{ $instructorBookings->name ?? '' }}</span>--}}
-        {{--                                            <br>--}}
-        {{--                                        @endforeach--}}
-        {{--                                        @foreach($slot->bookingUsers as $bookingUser)--}}
-        {{--                                            <span--}}
-        {{--                                                class="text text-black">{{ $bookingUser->name ?? '' }}</span>--}}
-        {{--                                            <br>--}}
-        {{--                                        @endforeach--}}
-        {{--                                    </div>--}}
-        {{--                                </div>--}}
-        {{--                                <div class="row text-center mt-2">--}}
-        {{--                                    <div--}}
-        {{--                                        class="col font-weight-lighter text-black-50 small">{{ trans('cruds.booking.fields.seats_available') . ': +' . $slot->seats_available ?? ''}}</div>--}}
-        {{--                                    <br>--}}
-        {{--                                </div>--}}
-        {{--                                <div class="row text-center">--}}
-        {{--                                    <div class="col">--}}
-        {{--                                        <form action="{{ route('app.bookings.book', $slot->id) }}"--}}
-        {{--                                              method="POST"--}}
-        {{--                                              onsubmit="return confirm('{{ trans('global.areYouSure') }}');"--}}
-        {{--                                              style="display: inline-block;">--}}
-        {{--                                            <input type="hidden" name="_method" value="POST">--}}
-        {{--                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-        {{--                                            <button type="submit" class="btn btn-outline-success btn-block">--}}
-        {{--                                                <i class="fas fa-check-circle"></i>{{ trans('cruds.dashboard.book_slot') }}--}}
-        {{--                                            </button>--}}
-        {{--                                        </form>--}}
-        {{--                                    </div>--}}
-        {{--                                </div>--}}
-        {{--                            </div>--}}
-        {{--                            <div class="card-footer">--}}
-        {{--                                @if(auth()->user()->can('slot_edit'))--}}
-        {{--                                    <a class="btn btn-sm btn-outline-success float-right"--}}
-        {{--                                       href="{{route('app.bookings.edit', $slot->id)}}">--}}
-        {{--                                        <i class="fas fa-edit"></i>{{trans('global.edit')}}</a>--}}
-        {{--                                @endif--}}
-        {{--                            </div>--}}
-        {{--                        </div>--}}
-        {{--                    @endforeach--}}
-        {{--                </div>--}}
-        {{--            @endforeach--}}
-        {{--        @endif--}}
         @if(count($bookingDates) > 0)
             @foreach($bookingDates as $date => $bookings)
                 <div class="col-12 col-sm-6 col-md-4">
                     @foreach($bookings as $booking)
-                        <div class="card h-100 card-dark">
+                        <div class="card card-dark">
                             <div class="h5 card-header">
                                 <div class="float-left">
                                     @if((Carbon\Carbon::createFromFormat('d/m/Y H:i',$booking->reservation_start))->isSameDay(Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)))
@@ -205,7 +136,7 @@
                                         <i class="fas fa-plane-arrival"></i><br>
                                         <span>{{ Carbon\Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_stop)->format('H:i') }}</span>
                                     </div>
-                                    <div class="col-4 h6">
+                                    <div class="col-3 h6">
                                         @switch($booking->mode_id)
                                             @case('1')
                                             <span
@@ -236,37 +167,52 @@
                                     <div class="col-5">
                                         @foreach($booking->bookingInstructors as $instructorBookings)
                                             <span
-                                                class="text {{ $instructorBookings->id == auth()->user()->id ? 'text-primary' : 'text-black'}}">{{ $instructorBookings->name ?? '' }}</span>
+                                                class="{{ $instructorBookings->id == auth()->user()->id ? 'font-weight-bold' : 'font-weight-light'}}">{{ $instructorBookings->name ?? '' }}</span>
                                             <br>
                                         @endforeach
                                         @foreach($booking->bookingUsers as $userBookings)
                                             <span
-                                                class="text {{ $userBookings->id == auth()->user()->id ? 'text-primary' : 'text-black'}}">{{ $userBookings->name ?? '' }}</span>
+                                                class="{{ $userBookings->id == auth()->user()->id ? 'font-weight-bold' : 'font-weight-light'}}">{{ $userBookings->name ?? '' }}</span>
                                             <br>
+                                            @if($loop->last)
+                                                @if($booking->checkin == 1 && $booking->seats_available > 0 && $booking->status == 1 && $userBookings->id != auth()->user()->id)
+                                                    <div
+                                                        class="pt-2 font-weight-bold text-secondary small">{{ trans('cruds.booking.fields.seats_available')}} {{$booking->seats_available}}</div>
+                                                    <form action="{{ route('app.bookings.book', $booking->id) }}"
+                                                          method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="_method" value="POST">
+                                                        <button type="submit" class="btn btn-outline-success btn-block"
+                                                                id="show_confirm_book" data-toggle="tooltip"
+                                                                title="{{ trans('cruds.dashboard.book_slot') }}">
+                                                            <i class="fas fa-check-circle"></i>{{ trans('cruds.dashboard.book_slot') }}
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                @if($booking->checkin == 1 && $booking->status == 1 && $userBookings->id == auth()->user()->id)
+                                                    <div
+                                                        class="pt-2 font-weight-bold text-secondary small">{{ trans('cruds.booking.fields.seats_available')}} {{$booking->seats_available}}</div>
+                                                    <form action="{{ route('app.bookings.revoke', $booking->id) }}"
+                                                          method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="_method" value="POST">
+                                                        <button type="submit" class="btn btn-outline-danger btn-block"
+                                                                id="show_revoke_book" data-toggle="tooltip"
+                                                                title="{{ trans('cruds.dashboard.book_slot') }}">
+                                                            <i class="fas fa-trash"></i> {{ trans('cruds.dashboard.revoke_slot') }}
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
                                         @endforeach
                                         <span
                                             class="font-weight-lighter text-black-50 small">{{$booking->description ?? ''}}</span>
-                                        @if($booking->checkin == 1 && $booking->seats_available > 0)
-                                            <hr>
-                                            <div
-                                                class="font-weight-bold text-secondary small">{{ trans('cruds.booking.fields.seats_available')}} {{$booking->seats_available}}</div>
-                                            <form action="{{ route('app.bookings.book', $booking->id) }}"
-                                                  method="POST"
-                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                  style="display: inline-block;">
-                                                <input type="hidden" name="_method" value="POST">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="btn btn-outline-success btn-block">
-                                                    <i class="fas fa-check-circle"></i>{{ trans('cruds.dashboard.book_slot') }}
-                                                </button>
-                                            </form>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer">
                                 <div class="row">
-                                    <div class="col-6 text-center float-left">
+                                    <div class="col-6 float-left">
                                         @if(!empty($booking->slot->title))
                                             <span class="text-black small">{{$booking->slot->title}}</span>
                                         @endif
@@ -325,5 +271,43 @@
 
 @section('scripts')
     @parent
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            $('#show_confirm_book').click(function (event) {
+                var form = $(this).closest("form");
+                var name = $(this).data("name");
+                event.preventDefault();
+                Swal.fire({
+                    title: '{{ trans('global.areYouSure') }}',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#5cb85c',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '{{ trans('global.yesConfirm') }}'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+            });
+            $('#show_revoke_book').click(function (event) {
+                var form = $(this).closest("form");
+                var name = $(this).data("name");
+                event.preventDefault();
+                Swal.fire({
+                    title: '{{ trans('global.areYouSure') }}',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '{{ trans('global.yesDelete') }}'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+            });
+        });
+    </script>
 @endsection

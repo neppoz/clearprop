@@ -49,6 +49,7 @@ return [
     'year' => 'Year',
     'yes' => 'Yes',
     'yesDelete' => 'Yes, delete',
+    'yesConfirm' => 'Yes, confirm',
     'youAreLoggedIn' => 'You are logged in!',
     'yourAccountNeedsAdminApproval' => 'Your accounts needs an administrator approval in order to log in',
     'submit' => 'Submit',
