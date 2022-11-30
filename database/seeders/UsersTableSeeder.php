@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'Super Admin',
-                'email' => 'support@clearprop.aero',
+                'email' => 'admin@clearprop.aero',
                 'email_verified_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'password' => Hash::make('BoldPilot'),
                 'remember_token' => null,
