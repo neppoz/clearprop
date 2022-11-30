@@ -11,3 +11,19 @@ With ClearProp you can:
 - manage assets (aka your airplanes), a sort of minimal CAMO
 - remindes and notifications (webapp and email)
 
+## Requirements and deploy
+ClearProp is a Laravel application compattible with php8.0 and newer versions. To deploy do the following:
+
+1. Clone the repo on your server
+
+    `git clone https://github.com/neppoz/clearprop.git`
+
+2. Install the app
+
+    `composer install --no-interaction --prefer-dist --optimize-autoloader`
+
+    `php artisan migrate:fresh --seed`
+
+3. Configure your .env file with your server details. Eventually copy the .env.example file
+
+    `cp .env.examle .env`
