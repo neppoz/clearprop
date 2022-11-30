@@ -4,7 +4,7 @@
             @can('income_create')
                 <div class="row">
                     <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
+                        <a class="btn btn-success" href="{{ route("app.activities.create") }}">
                             <i class="fas fa-edit"></i>
                             {{ trans('global.new') }}
                         </a>

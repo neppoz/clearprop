@@ -1,16 +1,16 @@
 <div class="m-3">
     <div class="card">
         <div class="card-header">
-        @can('activity_create')
-            <div class="row">
-                <div class="col-lg-12">
-                    <a class="btn btn-success" href="{{ route("admin.activities.create") }}">
-                        <i class="fas fa-edit"></i>
-                        {{ trans('global.new') }}
-                    </a>
+            @can('activity_create')
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a class="btn btn-success" href="{{ route("app.activities.create") }}">
+                            <i class="fas fa-edit"></i>
+                            {{ trans('global.new') }}
+                        </a>
+                    </div>
                 </div>
-            </div>
-        @endcan
+            @endcan
         </div>
 
         <div class="card-body">
@@ -44,27 +44,27 @@
     </div>
 </div>
 @section('scripts')
-@parent
-<script>
-    $(function () {
-@if (auth()->user()->can('activity_all_users_access'))
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-  let dtDom = 'lBfrtip<"actions">'
-@can('activity_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.activities.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
+    @parent
+    <script>
+        $(function () {
+            @if (auth()->user()->can('activity_all_users_access'))
+            let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+            let dtDom = 'lBfrtip<"actions">'
+            @can('activity_delete')
+            let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+            let deleteButton = {
+                text: deleteButtonTrans,
+                url: "{{ route('app.activities.massDestroy') }}",
+                className: 'btn-danger',
+                action: function (e, dt, node, config) {
+                    var ids = $.map(dt.rows({selected: true}).nodes(), function (entry) {
+                        return $(entry).data('entry-id')
+                    });
 
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
+                    if (ids.length === 0) {
+                        alert('{{ trans('global.datatables.zero_selected') }}')
 
-        return
+                        return
       }
 
       if (confirm('{{ trans('global.areYouSure') }}')) {
@@ -82,27 +82,27 @@
 
 @else
     let dtButtons = []
-    let dtDom = 'Brtp'
-@endif
+            let dtDom = 'Brtp'
+            @endif
 
-let dtOverrideGlobals = {
-    dom: dtDom,
-    buttons: dtButtons,
-    processing: true,
-    serverSide: true,
-    retrieve: true,
-    aaSorting: [],
-    ajax: "{{ route('admin.activities.getActivitiesByUserAsInstructor', $user_id) }}",
-    responsive: {
-        details: {
-            renderer: function ( api, rowIdx, columns ) {
-                var data = $.map( columns, function ( col, i ) {
-                    return col.hidden ?
-                        '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-                            '<td class="font-weight-bold">'+col.title+':'+'</td> '+
-                            '<td>'+col.data+'</td>'+
-                        '</tr>' :
-                        '';
+            let dtOverrideGlobals = {
+                dom: dtDom,
+                buttons: dtButtons,
+                processing: true,
+                serverSide: true,
+                retrieve: true,
+                aaSorting: [],
+                ajax: "{{ route('app.activities.getActivitiesByUserAsInstructor', $user_id) }}",
+                responsive: {
+                    details: {
+                        renderer: function (api, rowIdx, columns) {
+                            var data = $.map(columns, function (col, i) {
+                                return col.hidden ?
+                                    '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                                    '<td class="font-weight-bold">' + col.title + ':' + '</td> ' +
+                                    '<td>' + col.data + '</td>' +
+                                    '</tr>' :
+                                    '';
                 } ).join('');
 
                 return data ?
