@@ -30,6 +30,14 @@ ClearProp is a Laravel application compattible with php8.0 and newer versions. T
 
     `cp .env.examle .env`
     
+4. Login with default credentials
+
+    User: admin@clearprop.aero
+    
+    Pass: BoldPilot
+    
+    
+    
 ## Join the development team!
 We are developing ClearProp for free and in our spare time. Your contribution is appreciated and welcome to maintain the project.
 
