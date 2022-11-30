@@ -15,11 +15,15 @@ With ClearProp you can:
 ClearProp is a Laravel application compattible with php8.0 and newer versions. To deploy do the following:
 
 1. Clone the repo on your server
-`git clone https://github.com/neppoz/clearprop.git`
+
+    `git clone https://github.com/neppoz/clearprop.git`
 
 2. Install the app
-`composer install --no-interaction --prefer-dist --optimize-autoloader`
-`php artisan migrate:fresh --seed`
+
+    `composer install --no-interaction --prefer-dist --optimize-autoloader`
+
+    `php artisan migrate:fresh --seed`
 
 3. Configure your .env file with your server details. Eventually copy the .env.example file
-`cp .env.examle .env`
+
+    `cp .env.examle .env`
