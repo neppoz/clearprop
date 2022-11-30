@@ -109,12 +109,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('types/destroy', 'TypesController@massDestroy')->name('types.massDestroy');
     Route::resource('types', 'TypesController');
 
-//    // Activities
-//    Route::get('activities/userActivities/{user_id}', [ActivitiesController::getActivitiesByUser])->name('activities.getActivitiesByUser');
-//    Route::get('activities/instructorActivities/{user_id}', [ActivitiesController::getActivitiesByUserAsInstructor])->name('activities.getActivitiesByUserAsInstructor');
-//    Route::get('activities/planeActivities/{plane_id}', [ActivitiesController::getActivitiesByPlane])->name('activities.getActivitiesByPlane');
-//    Route::delete('activities/destroy', [ActivitiesController::massDestroy])->name('activities.massDestroy');
-//    Route::resource('activities', [ActivitiesController::class]);
+    // Activities
+    Route::get('activities/userActivities/{user_id}', [ActivitiesController::class, 'getActivitiesByUser'])->name('activities.getActivitiesByUser');
+    Route::get('activities/instructorActivities/{user_id}', [ActivitiesController::class, 'getActivitiesByUserAsInstructor'])->name('activities.getActivitiesByUserAsInstructor');
+    Route::get('activities/planeActivities/{plane_id}', [ActivitiesController::class, 'getActivitiesByPlane'])->name('activities.getActivitiesByPlane');
+    Route::delete('activities/destroy', [ActivitiesController::class, 'massDestroy'])->name('activities.massDestroy');
+    Route::resource('activities', ActivitiesController::class);
 
 //    // Bookings
 //    Route::delete('bookings/destroy', 'BookingsController@massDestroy')->name('bookings.massDestroy');

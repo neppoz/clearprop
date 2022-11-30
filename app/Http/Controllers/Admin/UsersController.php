@@ -64,9 +64,6 @@ class UsersController extends Controller
         } else {
             $roles = Role::pluck('title', 'id');
         }
-//        $roles = Role::when(auth()->user()->can, function ($q) {
-//            $q->where('id', '<>', 1);
-//        })->pluck('title', 'id');
 
         $user->load('factor', 'planes', 'roles');
 

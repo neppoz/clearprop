@@ -1,16 +1,25 @@
 @extends('layouts.admin')
 @section('content')
 
-<div class="card card-primary card-outline card-outline-tabs">
-    <div class="card-header p-0 border-bottom-0">
-        <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-            <li class="nav-item">
-                <a class="nav-link active show" href="#user" role="tab" aria-controls="user" data-toggle="pill" aria-selected="true">
-                    {{ trans('global.general') }}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#user_activities" role="tab" aria-controls="user_activities" data-toggle="pill" aria-selected="false">
+    <div class="row m-2 mb-3">
+        <div class="col-12 col-sm-12 col-md-4">
+            <h3 class="m-0 text-dark">{{ $user->name }}</h3>
+            <h6 class="m-0 text-dark">{{ trans('cruds.user.fields.email') }} : {{ $user->email }}</h6>
+            <h6 class="m-0 text-dark">{{ trans('cruds.user.fields.id') }} : {{ $user->id }}</h6>
+        </div>
+    </div>
+    <div class="card card-primary card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+            <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active show" href="#user" role="tab" aria-controls="user" data-toggle="pill"
+                       aria-selected="true">
+                        {{ trans('global.general') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#user_activities" role="tab" aria-controls="user_activities"
+                       data-toggle="pill" aria-selected="false">
                     {{ trans('cruds.activity.title') }}
                 </a>
             </li>
@@ -21,7 +30,7 @@
             </li> --}}
             <li class="nav-item">
                 <a class="nav-link" href="#user_incomes" role="tab" aria-controls="user_incomes" data-toggle="pill" aria-selected="false">
-                    {{ trans('cruds.income.title') }}
+                    {{ trans('global.subscription-payments') }}
                 </a>
             </li>
             @if($user->is_instructor)
@@ -43,30 +52,6 @@
             <div class="tab-pane fade show active" role="tabpanel" id="user" aria-labelledby="user">
                 <table class="table table-bordered table-striped">
                     <tbody>
-                        <tr>
-                            <th>
-                                {{ trans('cruds.user.fields.id') }}
-                            </th>
-                            <td>
-                                {{ $user->id }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                {{ trans('cruds.user.fields.name') }}
-                            </th>
-                            <td>
-                                {{ $user->name }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                {{ trans('cruds.user.fields.email') }}
-                            </th>
-                            <td>
-                                {{ $user->email }}
-                            </td>
-                        </tr>
                         <tr>
                             <th>
                                 {{ trans('cruds.user.fields.lang') }}
@@ -159,14 +144,6 @@
                                 @endforeach
                             </td>
                         </tr>
-                        {{--                        <tr>--}}
-                        {{--                            <th>--}}
-                        {{--                                {{ trans('cruds.user.fields.instructor') }}--}}
-                        {{--                            </th>--}}
-                        {{--                            <td>--}}
-                        {{--                                <input type="checkbox" disabled="disabled" {{ $user->instructor ? 'checked' : '' }}>--}}
-                        {{--                            </td>--}}
-                        {{--                        </tr>--}}
                         <tr>
                             <th>
                                 {{ trans('cruds.user.fields.email_verified_at') }}
@@ -181,9 +158,6 @@
             <div class="tab-pane" role="tabpanel" id="user_activities" aria-labelledby="user_activities">
                 @includeIf('admin.users.relationships.userActivities', ['user_id' => $user->id])
             </div>
-            {{-- <div class="tab-pane" role="tabpanel" id="user_bookings" aria-labelledby="user_bookings">
-                @includeIf('admin.users.relationships.userBookings', ['bookings' => $user->userBookings])
-            </div> --}}
             <div class="tab-pane" role="tabpanel" id="user_incomes" aria-labelledby="user_incomes">
                 @includeIf('admin.users.relationships.userIncomes', ['user_id' => $user->id])
             </div>
