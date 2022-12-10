@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Booking;
 use App\Parameter;
 use App\Services\StatisticsService;
-use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Stripe\Collection;
-use function PHPUnit\Framework\isNull;
 
 class HomeController extends Controller
 {
