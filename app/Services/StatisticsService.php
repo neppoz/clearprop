@@ -7,9 +7,11 @@ use App\Asset;
 use App\Income;
 use App\Expense;
 use App\Parameter;
+use App\Traits\CurrentUserTrait;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Gate;
@@ -17,7 +19,90 @@ use Illuminate\Support\Facades\Log;
 
 class StatisticsService
 {
-    public function dashboard(Request $request)
+    public function getGlobalActivityStatistics(): array
+    {
+        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->get();
+
+        return [
+            'id' => 'global',
+            'name' => trans('cruds.dashboard.statistics.global'),
+            'sum' => $getActivityDataWithoutScope->sum('minutes') ?? 0,
+            'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
+            'count' => $getActivityDataWithoutScope->count() ?? 0,
+        ];
+    }
+
+    public function getActivityStatisticsCurrentYear()
+    {
+        return Activity::whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+    }
+
+    public function getInstructorActivityStatistics(): array
+    {
+        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('instructor_id', Auth::id())->get();
+
+        return [
+            'id' => 'instructor',
+            'name' => trans('cruds.dashboard.statistics.instructor'),
+            'sum' => $getActivityDataWithoutScope->sum('minutes') ?? 0,
+            'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
+            'count' => $getActivityDataWithoutScope->count() ?? 0,
+        ];
+    }
+
+    public function getPersonalActivityStatistics(): array
+    {
+        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
+
+        return [
+            'id' => 'personal',
+            'name' => trans('cruds.dashboard.statistics.personal'),
+            'sum' => $getActivityDataWithoutScope->sum('minutes') ?? 0,
+            'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
+            'count' => $getActivityDataWithoutScope->count() ?? 0,
+        ];
+    }
+
+    public function dashboard()
+    {
+//        $assetsOverhaulData = $this->getAssetsOverhaulData();
+        $getActivityDataWithoutScope = $this->getActivitiesCurrentYear()->withoutGlobalScope('user_id')->get();
+        $getActivitySumTotalOfAllMembers = $getActivityDataWithoutScope->sum('minutes');
+        $getActivitySumAsCommand = $getActivityDataWithoutScope->where('user_id', Auth::id())->sum('minutes');
+        $getActivitySumAsCopilot = $getActivityDataWithoutScope->where('copilot_id', Auth::id())->sum('minutes');
+        $getActivitySumAsInstructor = $getActivityDataWithoutScope->where('instructor_id', Auth::id())->sum('minutes');
+        $getActivitySumTotalPersonal = $getActivitySumAsCommand + $getActivitySumAsCopilot + $getActivitySumAsInstructor;
+
+
+        debug("Airtime Total: " . $getActivitySumTotalOfAllMembers);
+        debug("Airtime as PIC: " . $getActivitySumAsCommand);
+        debug("Airtime as Copilot: " . $getActivitySumAsCopilot);
+        debug("Airtime as Instructor: " . $getActivitySumAsInstructor);
+        debug("Airtime Total: " . $getActivitySumTotalPersonal);
+
+
+        return compact('getActivitySumTotalOfAllMembers', 'getActivitySumAsCommand', 'getActivitySumAsCopilot', 'getActivitySumAsInstructor', 'getActivitySumTotalPersonal');
+    }
+
+    public function getActivitiesCurrentYear(): \Illuminate\Database\Eloquent\Builder
+    {
+        return Activity::with([
+            'user' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'type' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'plane' => function ($q) {
+                $q->withTrashed()->select('id', 'callsign');
+            },
+            'instructor' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+        ])->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+    }
+
+    public function dashboard_v1(Request $request)
     {
         // Call the function
         $activity_lines = $this->getActivitiesCurrentYear();
@@ -37,42 +122,12 @@ class StatisticsService
         return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
     }
 
-    public function getUsersMedicalDue($request)
+    public function getDepositIncomesCurrentYear()
     {
-        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
-            if (Gate::allows('user_edit')) {
-                $userMedicalGoingDue = User::withoutGlobalScopes()
-                    ->whereNotNull('medical_due');
-
-                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->count();
-                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
-
-                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
-            }
-
-            if (Gate::denies('user_edit')) {
-                $userMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
-
-                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
-                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
-
-                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
-            }
-        }
-
-        return false;
-    }
-
-    public function getCurrentUserMedicalDue($request)
-    {
-        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
-            $currentUserMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
-
-            $currentUserMedicalDueInFuture = $currentUserMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
-            $currentUserMedicalIsAlreadyDue = $currentUserMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
-
-            return ['currentUserMedicalDueInFuture' => $currentUserMedicalDueInFuture ?? 0, 'currentUserMedicalIsAlreadyDue' => $currentUserMedicalIsAlreadyDue ?? 0];
-        }
+        return Income::whereHas('income_category', function ($q) {
+            $q->where('deposit', '=', 1);
+        })
+            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
     public function getAssetsOverhaulData()
@@ -107,40 +162,30 @@ class StatisticsService
 
     }
 
-    public function getActivitiesCurrentYear()
+    public function getUsersMedicalDue($request)
     {
-        return Activity::with([
-            'user' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'type' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'plane' => function ($q) {
-                $q->withTrashed()->select('id', 'callsign');
-            },
-            'instructor' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-        ])->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-    }
+        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
+            if (Gate::allows('user_edit')) {
+                $userMedicalGoingDue = User::withoutGlobalScopes()
+                    ->whereNotNull('medical_due');
 
-    public function getActivitiesByFilter($fromDate, $toDate)
-    {
-        return Activity::with([
-            'user' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'type' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'plane' => function ($q) {
-                $q->withTrashed()->select('id', 'callsign');
-            },
-            'instructor' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-        ])->whereBetween('event', [$fromDate, $toDate]);
+                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->count();
+                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+
+                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
+            }
+
+            if (Gate::denies('user_edit')) {
+                $userMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
+
+                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
+                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+
+                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
+            }
+        }
+
+        return false;
     }
 
     public function getActivitiesAllTime()
@@ -167,7 +212,7 @@ class StatisticsService
             foreach ($act as $line) {
                 if (!isset($activitiesUserSummary[$line->user->name])) {
                     $activitiesUserSummary[$line->user->name] = [
-                        'name'   => $line->user->name,
+                        'name' => $line->user->name,
                         'minutes' => 0
                     ];
                 }
@@ -186,7 +231,7 @@ class StatisticsService
             foreach ($act as $line) {
                 if (!isset($activitiesTypeSummary[$line->type->name])) {
                     $activitiesTypeSummary[$line->type->name] = [
-                        'name'   => $line->type->name,
+                        'name' => $line->type->name,
                         'minutes' => 0,
                     ];
                 }
@@ -203,7 +248,7 @@ class StatisticsService
             foreach ($act as $line) {
                 if (!isset($activitiesPlaneSummary[$line->plane->callsign])) {
                     $activitiesPlaneSummary[$line->plane->callsign] = [
-                        'callsign'   => $line->plane->callsign,
+                        'callsign' => $line->plane->callsign,
                         'minutes' => 0,
                     ];
                 }
@@ -220,7 +265,7 @@ class StatisticsService
             foreach ($act as $line) {
                 if (!isset($activitiesInstructorSummary[$line->instructor->name])) {
                     $activitiesInstructorSummary[$line->instructor->name] = [
-                        'name'   => $line->instructor->name,
+                        'name' => $line->instructor->name,
                         'minutes' => 0
                     ];
                 }
@@ -239,12 +284,22 @@ class StatisticsService
         ];
     }
 
-    public function getDepositIncomesCurrentYear()
+    public function getActivitiesByFilter($fromDate, $toDate)
     {
-        return Income::whereHas('income_category', function ($q) {
-            $q->where('deposit', '=', 1);
-        })
-            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+        return Activity::with([
+            'user' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'type' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+            'plane' => function ($q) {
+                $q->withTrashed()->select('id', 'callsign');
+            },
+            'instructor' => function ($q) {
+                $q->withTrashed()->select('id', 'name');
+            },
+        ])->whereBetween('event', [$fromDate, $toDate]);
     }
 
     public function getIncomesCurrentYear(Request $request)
@@ -253,22 +308,10 @@ class StatisticsService
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getIncomesByFilter($fromDate, $toDate)
-    {
-        return Income::with('income_category')
-            ->whereBetween('entry_date', [$fromDate, $toDate]);
-    }
-
     public function getExpensesCurrentYear(Request $request)
     {
         return Expense::with('expense_category')
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-    }
-
-    public function getExpensesByFilter($fromDate, $toDate)
-    {
-        return Expense::with('expense_category')
-            ->whereBetween('entry_date', [$fromDate, $toDate]);
     }
 
     public function getExpenseReport($fromDate, $toDate)
@@ -360,6 +403,18 @@ class StatisticsService
             'toSelectedDate' => $toDate
 
         ];
+    }
+
+    public function getExpensesByFilter($fromDate, $toDate)
+    {
+        return Expense::with('expense_category')
+            ->whereBetween('entry_date', [$fromDate, $toDate]);
+    }
+
+    public function getIncomesByFilter($fromDate, $toDate)
+    {
+        return Income::with('income_category')
+            ->whereBetween('entry_date', [$fromDate, $toDate]);
     }
 
 }

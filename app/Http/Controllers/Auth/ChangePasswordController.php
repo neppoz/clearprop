@@ -29,6 +29,6 @@ class ChangePasswordController extends Controller
     {
         auth()->user()->update($request->all());
 
-        return redirect()->route('admin.home')->withMessage(trans('global.update_success'));
+        return redirect()->route('app.home')->withMessage(trans('global.update_success'));
     }
 }

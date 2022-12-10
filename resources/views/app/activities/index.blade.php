@@ -1,76 +1,80 @@
 @extends('layouts.admin')
-@section('content')
-    <div class="row m-2">
+@section('content-header')
+    <div class="row mb-2">
         <div class="col-sm-6">
-            <h3 class="m-0 text-dark">{{ trans('cruds.activity.title') }}</h3>
-        </div><!-- /.col -->
+            <h2 class="m-0">{{ trans('cruds.activity.title') }}</h2>
+        </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item active">{{ trans('cruds.activity.title') }}</li>
             </ol>
-        </div><!-- /.col -->
-    </div>
-
-    <div class="card card-primary card-outline">
-        <div class="card-header">
-            @can('activity_create')
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("app.activities.create") }}">
-                            <i class="fas fa-edit"></i>
-                            {{ trans('global.new') }} {{ trans('cruds.activity.title_singular') }}
-                        </a>
-                    </div>
-                </div>
-            @endcan
-        </div>
-
-        <div class="card-body">
-            <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
-                <thead>
-                <tr>
-                    <th>
-                        <i class="fas fa-eye"></i>
-                    </th>
-                    <th data-priority="1">
-                        {{ trans('cruds.activity.fields.event') }}
-                    </th>
-                    <th class="min-tablet-l">
-                        {{ trans('cruds.activity.fields.type') }}
-                    </th>
-                    @can('activity_all_users_access')
-                        <th>
-                            {{ trans('cruds.activity.fields.user') }}
-                        </th>
-                    @endcan
-                    <th>
-                        {{ trans('cruds.activity.fields.plane') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.counter_start') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.counter_stop') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.minutes') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.activity.fields.amount') }}
-                    </th>
-                    <th data-priority="2">
-                        &nbsp;
-                    </th>
-                </tr>
-                </thead>
-            </table>
         </div>
     </div>
-
-
-
 @endsection
+
+@section('content')
+    <div class="row">
+        <div class="col">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    @can('activity_create')
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <a class="btn btn-success" href="{{ route("app.activities.create") }}">
+                                    <i class="fas fa-edit"></i>
+                                    {{ trans('global.new') }} {{ trans('cruds.activity.title_singular') }}
+                                </a>
+                            </div>
+                        </div>
+                    @endcan
+                </div>
+
+                <div class="card-body">
+                    <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
+                        <thead>
+                        <tr>
+                            <th>
+                                <i class="fas fa-eye"></i>
+                            </th>
+                            <th data-priority="1">
+                                {{ trans('cruds.activity.fields.event') }}
+                            </th>
+                            <th class="min-tablet-l">
+                                {{ trans('cruds.activity.fields.type') }}
+                            </th>
+                            @can('activity_all_users_access')
+                                <th>
+                                    {{ trans('cruds.activity.fields.user') }}
+                                </th>
+                            @endcan
+                            <th>
+                                {{ trans('cruds.activity.fields.plane') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.activity.fields.counter_start') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.activity.fields.counter_stop') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.activity.fields.minutes') }}
+                            </th>
+                            <th>
+                                {{ trans('cruds.activity.fields.amount') }}
+                            </th>
+                            <th data-priority="2">
+                                &nbsp;
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section('scripts')
     @parent
     <script>
@@ -99,19 +103,19 @@
                         alert('{{ trans('global.datatables.zero_selected') }}')
 
                         return
-      }
+                    }
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-            url: config.url,
-            data: {ids: ids, _method: 'DELETE'}
-        })
-            .done(function () {
-                location.reload()
-            })
-      }
+                    if (confirm('{{ trans('global.areYouSure') }}')) {
+                        $.ajax({
+                            headers: {'x-csrf-token': _token},
+                            method: 'POST',
+                            url: config.url,
+                            data: {ids: ids, _method: 'DELETE'}
+                        })
+                            .done(function () {
+                                location.reload()
+                            })
+                    }
                 }
             }
             dtButtons.push(deleteButton)

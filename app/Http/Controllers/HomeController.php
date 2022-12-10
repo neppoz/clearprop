@@ -8,14 +8,38 @@ use App\Services\StatisticsService;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Stripe\Collection;
+use function PHPUnit\Framework\isNull;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $statistics = (new StatisticsService())->dashboard($request);
-//        $currentUserMedicalGoingDue = (new StatisticsService())->getCurrentUserMedicalDue($request);
-//        $userMedicalGoingDue = (new StatisticsService())->getUsersMedicalDue($request);
+        $collectionActivityStatistics = new \Illuminate\Support\Collection();
+        if (\Gate::allows('dashboard_global_activity_access')) {
+            $getGlobalActivityStatistics = (new StatisticsService())->getGlobalActivityStatistics();
+            $collectionActivityStatistics->push($getGlobalActivityStatistics);
+        }
+        if (\Gate::allows('dashboard_instructor_activity_access')) {
+            $getInstructorActivityStatistics = (new StatisticsService())->getInstructorActivityStatistics();
+            $collectionActivityStatistics->push($getInstructorActivityStatistics);
+        }
+        if (\Gate::allows('dashboard_personal_activity_access')) {
+            $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
+            $collectionActivityStatistics->push($getPersonalActivityStatistics);
+        }
+
+        $currentUserMedicalBeyondDueDate = false;
+        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
+            $currentUserMedical = Auth::user()->medical_due;
+            if (!empty($currentUserMedical)) {
+                $currentUserMedical = Carbon::createFromFormat('d/m/Y', $currentUserMedical);
+                if ($currentUserMedical <= Carbon::today()) {
+                    $currentUserMedicalBeyondDueDate = true;
+                }
+            }
+        }
 
         $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
             ->where('reservation_stop', '>=', Carbon::parse(today()))
@@ -25,21 +49,7 @@ class HomeController extends Controller
                 return Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('ddd DD MMM');
             });
 
-//        $checkinDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot'])
-//            ->whereDoesntHave('bookingUsers', function ($query) {
-//                $query->where('user_id', auth()->user()->id);
-//            })
-//            ->where('reservation_stop', '>=', Carbon::parse(today()))
-//            ->where('checkin', 1)
-//            ->where('seats_available', '>', 0)
-//            ->where('status', 1)
-//            ->orderBy('reservation_start', 'asc')
-//            ->get()
-//            ->groupBy(function ($booking) {
-//                return $booking->slot->title . ' - ' . Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('dddd, DD MMMM YYYY');
-//            });
-
-        return view('home', compact('statistics', 'bookingDates'));
+        return view('home', compact('bookingDates', 'collectionActivityStatistics', 'currentUserMedicalBeyondDueDate'));
     }
 
 }

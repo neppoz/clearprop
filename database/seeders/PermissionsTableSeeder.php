@@ -509,6 +509,18 @@ class PermissionsTableSeeder extends Seeder
                 'id' => 126,
                 'title' => 'booking_charter_admin_edit',
             ],
+            [
+                'id' => 127,
+                'title' => 'dashboard_global_activity_access',
+            ],
+            [
+                'id' => 128,
+                'title' => 'dashboard_personal_activity_access',
+            ],
+            [
+                'id' => 129,
+                'title' => 'dashboard_instructor_activity_access',
+            ],
         ];
 
         Permission::insertOrIgnore($permissions);

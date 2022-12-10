@@ -38,7 +38,7 @@
                                 <span class="text-danger">{{ $errors->first('license') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.license_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.license_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required"
@@ -50,7 +50,7 @@
                                 <span class="text-danger">{{ $errors->first('medical_due') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="taxno">{{ trans('cruds.user.fields.taxno') }}</label>
@@ -60,7 +60,7 @@
                                 <span class="text-danger">{{ $errors->first('taxno') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.taxno_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.taxno_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="phone_1">{{ trans('cruds.user.fields.phone_1') }}</label>
@@ -71,7 +71,7 @@
                                 <span class="text-danger">{{ $errors->first('phone_1') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label for="phone_2">{{ trans('cruds.user.fields.phone_2') }}</label>
@@ -81,7 +81,7 @@
                                 <span class="text-danger">{{ $errors->first('phone_2') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_2_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_2_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="address">{{ trans('cruds.user.fields.address') }}</label>
@@ -92,7 +92,7 @@
                                 <span class="text-danger">{{ $errors->first('address') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.address_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.address_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="city">{{ trans('cruds.user.fields.city') }}</label>
@@ -102,7 +102,7 @@
                                 <span class="text-danger">{{ $errors->first('city') }}</span>
                             @endif
                             <span
-                                class="help-block text-secondary small">{{ trans('cruds.user.fields.city_helper') }}</span>
+                                    class="help-block text-secondary small">{{ trans('cruds.user.fields.city_helper') }}</span>
                         </div>
                         <div class="form-group">
                             <label class="required" for="lang">{{ trans('cruds.user.fields.lang') }}</label>
@@ -110,7 +110,7 @@
                                     name="lang" id="lang" required>
                                 @foreach(config('panel.available_languages') as $langLocale => $langName)
                                     <option
-                                        value="{{ $langLocale }}" {{ ($langLocale ? auth()->user()->lang : old('lang')) == $langLocale ? 'selected' : ''}}>{{ $langName }}</option>
+                                            value="{{ $langLocale }}" {{ ($langLocale ? auth()->user()->lang : old('lang')) == $langLocale ? 'selected' : ''}}>{{ $langName }}</option>
                                 @endforeach
                             </select>
                             @if($errors->has('lang'))

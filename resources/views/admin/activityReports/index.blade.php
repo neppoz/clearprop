@@ -1,18 +1,20 @@
 @extends('layouts.admin')
-@section('content')
-    <div class="row m-2">
+@section('content-header')
+    <div class="row mb-2">
         <div class="col-sm-6">
-            <h3 class="m-0 text-dark">{{ trans('cruds.activityReport.title') }}</h3>
-        </div><!-- /.col -->
+            <h2 class="m-0">{{ trans('cruds.activityReport.title') }}</h2>
+        </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item active">{{ trans('cruds.activityReport.title') }}</li>
             </ol>
-        </div><!-- /.col -->
+        </div>
     </div>
+@endsection
 
-    <div class="row m-2">
+@section('content')
+    <div class="row">
         <div class="col-sm-12">
             <div class="card card-primary card-outline">
                 <div class="card-body">
@@ -55,7 +57,7 @@
         </div>
     </div>
 
-    <div class="row m-2">
+    <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
@@ -131,7 +133,7 @@
         </div>
     </div>
 
-    <div class="row m-2">
+    <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
@@ -144,16 +146,16 @@
                             <table class="table table-bordered table-striped">
                                 <tr>
                                     <th class="w-50">{{ trans('cruds.activityReport.reports.activityByInstructor') }}</th>
-                        <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
-                        <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
-                    </tr>
-                    @foreach($activitiesInstructorSummary ?? '' as $act)
-                        <tr>
-                            <td class="w-50">{{ $act['name'] }}</td>
-                            <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
-                            <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
-                        </tr>
-                    @endforeach
+                                    <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
+                                    <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
+                                </tr>
+                                @foreach($activitiesInstructorSummary ?? '' as $act)
+                                    <tr>
+                                        <td class="w-50">{{ $act['name'] }}</td>
+                                        <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
+                                        <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
+                                    </tr>
+                                @endforeach
                             </table>
                         </div>
                     </div>
@@ -162,33 +164,33 @@
         </div>
     </div>
 
-    <div class="row m-2">
+    <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
                     {{ trans('cruds.activityReport.reports.activityReportByUser') }}
-    </div>
+                </div>
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <th class="w-50">{{ trans('cruds.activityReport.reports.activityByUser') }}</th>
-                        <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
-                        <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
-                    </tr>
-                    @foreach($activitiesUserSummary ?? '' as $act)
-                        <tr>
-                            <td class="w-50">{{ $act['name'] }}</td>
-                            <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
-                            <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
-                        </tr>
-                    @endforeach
-                </table>
-            </div>
-        </div>
-    </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th class="w-50">{{ trans('cruds.activityReport.reports.activityByUser') }}</th>
+                                    <th class="w-25">{{ trans('cruds.activityReport.reports.activityByMinutes') }}</th>
+                                    <th class="w-25">{{ trans('cruds.activityReport.reports.activityTotalTime') }}</th>
+                                </tr>
+                                @foreach($activitiesUserSummary ?? '' as $act)
+                                    <tr>
+                                        <td class="w-50">{{ $act['name'] }}</td>
+                                        <td class="w-25">{{ number_format($act['minutes'], 0) }}</td>
+                                        <td class="w-25">{{ sprintf("%02d", intval($act['minutes']/60)).':'. sprintf("%02d", $act['minutes']%60)}}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
