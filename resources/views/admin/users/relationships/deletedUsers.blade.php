@@ -1,29 +1,33 @@
 <div class="table-responsive">
-    <table class=" table table-bordered table-striped table-hover datatable datatable-instructorActivity">
+    <table class=" table table-bordered table-striped table-hover datatable datatable-deleted_users">
         <thead>
         <tr>
-            <th>
-                <i class="fas fa-eye"></i>
-            </th>
-            <th data-priority="1">
-                {{ trans('cruds.activity.fields.event') }}
-            </th>
-            <th class="min-tablet-l">
-                {{ trans('cruds.activity.fields.user') }}
+            <th width="10">
+
             </th>
             <th>
-                {{ trans('cruds.activity.fields.plane') }}
+                {{ trans('cruds.user.fields.id') }}
             </th>
             <th>
-                {{ trans('cruds.activity.fields.minutes') }}
+                {{ trans('cruds.user.fields.name') }}
             </th>
             <th>
-                {{ trans('cruds.activity.fields.amount') }}
+                {{ trans('cruds.user.fields.email') }}
+            </th>
+            <th>
+                {{ trans('cruds.user.fields.created_at') }}
+            </th>
+            <th>
+                {{ trans('cruds.user.fields.updated_at') }}
+            </th>
+            <th>
+                {{ trans('cruds.user.fields.deleted_at') }}
             </th>
         </tr>
         </thead>
     </table>
 </div>
+
 @section('scripts')
     @parent
     <script>
@@ -35,7 +39,7 @@
                 serverSide: false,
                 retrieve: true,
                 aaSorting: [],
-                ajax: "{{ route('app.activities.getActivitiesByUserAsInstructor', $user_id) }}",
+                ajax: "{{ route('admin.users.getDeletedUsers') }}",
                 responsive: {
                     details: {
                         renderer: function (api, rowIdx, columns) {
@@ -55,26 +59,18 @@
                     }
                 },
                 columns: [
-                    {
-                        "orderable": false,
-                        'searchable': false,
-                        "data": null,
-                        "defaultContent": '',
-                    },
-                    {type: 'date', data: 'event', name: 'event'},
-                    {data: 'user_name', name: 'user.name'},
-                    {data: 'plane_callsign', name: 'plane.callsign'},
-                    {data: 'minutes', name: 'minutes'},
-                    {data: 'amount', name: 'amount'},
+                    {data: 'placeholder', name: 'placeholder'},
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {type: 'date', data: 'created_at', name: 'created_at'},
+                    {type: 'date', data: 'updated_at', name: 'updated_at'},
+                    {type: 'date', data: 'deleted_at', name: 'deleted_at'},
                 ],
                 order: [[1, 'desc']],
                 pageLength: 25,
-                createdRow: (row, data, dataIndex, cells) => {
-                    $(cells[0]).css('background-color', data.split_color)
-                    $(cells[5]).css('color', data.warmup_color)
-                }
             };
-            $('.datatable-instructorActivity').DataTable(dtOverrideGlobals);
+            $('.datatable-Income').DataTable(dtOverrideGlobals);
             $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
                 $($.fn.dataTable.tables(true)).DataTable()
                     .columns.adjust();

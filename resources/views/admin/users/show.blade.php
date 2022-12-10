@@ -182,17 +182,21 @@
                             </div>
                         @endif
                         <div class="tab-pane" role="tabpanel" id="actions" aria-labelledby="actions">
-                            {{ trans('cruds.activityReport.title') }}
-                            <form method="POST" action="{{ route("admin.users.individualReport", $user) }}"
-                                  enctype="multipart/form-data">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button class="btn btn-warning"
-                                                type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
+                            <div class="callout callout-warning">
+                                <h5>{{ trans('cruds.activityReport.title') }}</h5>
+                                <p>{{ trans('cruds.activityReport.description_text') }}<strong>{{$user->email}}</strong>
+                                </p>
+                                <form method="POST" action="{{ route("admin.users.individualReport", $user) }}"
+                                      enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <button class="btn btn-warning"
+                                                    type="submit">{{ trans('cruds.activityReport.fields.generateReport') }}</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

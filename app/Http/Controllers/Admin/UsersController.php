@@ -13,6 +13,7 @@ use App\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends Controller
 {
@@ -103,4 +104,42 @@ class UsersController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+
+    public function getDeletedUsers(Request $request)
+    {
+        abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        if ($request->ajax()) {
+            try {
+                $query = User::onlyTrashed()->select(sprintf('%s.*', (new User)->table));
+
+                $table = Datatables::of($query);
+
+                $table->addColumn('placeholder', '&nbsp;');
+                //                $table->addColumn('actions', '&nbsp;');
+                //                $table->editColumn('actions', function ($row) {
+                //                    $viewGate = 'activity_show';
+                //                    $editGate = 'activity_edit';
+                //                    $deleteGate = 'activity_delete';
+                //                    $crudRoutePart = 'activities';
+                //
+                //                    return view('partials.datatablesAdminActions', compact(
+                //                        'viewGate',
+                //                        'editGate',
+                //                        'deleteGate',
+                //                        'crudRoutePart',
+                //                        'row'
+                //                    ));
+                //                });
+
+                return $table->make(true);
+            } catch (\Throwable $exception) {
+                report($exception);
+                return back()->withToastError($exception->getMessage());
+            }
+        }
+        return false;
+    }
+
 }

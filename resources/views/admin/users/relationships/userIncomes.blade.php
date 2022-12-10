@@ -1,45 +1,27 @@
-<div class="m-3">
-    <div class="card">
-        <div class="card-header">
-            @can('income_create')
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("admin.incomes.create") }}">
-                            <i class="fas fa-edit"></i>
-                            {{ trans('global.new') }}
-                        </a>
-                    </div>
-                </div>
-            @endcan
-        </div>
-
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-Income">
-                    <thead>
-                        <tr>
-                            <th>
-                                <i class="fas fa-eye"></i>
-                            </th>
-                            <th data-priority="1">
-                                {{ trans('cruds.income.fields.entry_date') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.income.fields.income_category') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.income.fields.amount') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.income.fields.description') }}
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
+<div class="table-responsive">
+    <table class=" table table-bordered table-striped table-hover datatable datatable-Income">
+        <thead>
+        <tr>
+            <th>
+                <i class="fas fa-eye"></i>
+            </th>
+            <th data-priority="1">
+                {{ trans('cruds.income.fields.entry_date') }}
+            </th>
+            <th>
+                {{ trans('cruds.income.fields.income_category') }}
+            </th>
+            <th>
+                {{ trans('cruds.income.fields.amount') }}
+            </th>
+            <th>
+                {{ trans('cruds.income.fields.description') }}
+            </th>
+        </tr>
+        </thead>
+    </table>
 </div>
+
 @section('scripts')
     @parent
     <script>

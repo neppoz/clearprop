@@ -16,122 +16,151 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    @can('user_create')
-                        <div style="margin-bottom: 10px;" class="row">
-                            <div class="col-lg-12">
-                                <a class="btn btn-success" href="{{ route('admin.users.create') }}">
-                                    <i class="fas fa-edit"></i>
-                                    {{ trans('global.new') }} {{ trans('cruds.user.title_singular') }}
-                                </a>
-                            </div>
+            <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active show" href="#active_users" role="tab" aria-controls="active_users"
+                               data-toggle="pill"
+                               aria-selected="true">
+                                Active
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#deleted_users" role="tab" aria-controls="deleted_users"
+                               data-toggle="pill" aria-selected="false">
+                                Inactive
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="row p-4">
+                        <div class="col">
+                            @can('user_create')
+                                <div style="margin-bottom: 10px;" class="row">
+                                    <div class="col-lg-12">
+                                        <a class="btn btn-success" href="{{ route('admin.users.create') }}">
+                                            <i class="fas fa-edit"></i>
+                                            {{ trans('global.new') }} {{ trans('cruds.user.title_singular') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            @endcan
                         </div>
-                    @endcan
+                    </div>
                 </div>
 
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered table-striped table-hover datatable datatable-User">
-                            <thead>
-                            <tr>
-                                <th width="10">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" role="tabpanel" id="active_users"
+                             aria-labelledby="active_users">
+                            <div class="table-responsive">
+                                <table class=" table table-bordered table-striped table-hover datatable datatable-active_users">
+                                    <thead>
+                                    <tr>
+                                        <th width="10">
 
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.id') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.name') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.email') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.lang') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.factor') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.plane') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.user.fields.roles') }}
-                                </th>
-                                <th>
-                                    &nbsp;
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($users as $key => $user)
-                                <tr data-entry-id="{{ $user->id }}">
-                                    <td>
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.id') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.name') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.email') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.lang') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.factor') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.plane') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.user.fields.roles') }}
+                                        </th>
+                                        <th>
+                                            &nbsp;
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($users as $key => $user)
+                                        <tr data-entry-id="{{ $user->id }}">
+                                            <td>
 
-                                    </td>
-                                    <td>
-                                        {{ $user->id ?? '' }}
-                                    </td>
-                                    <td>
-                                        {{ $user->name ?? '' }}
-                                    </td>
-                                    <td>
-                                        {{ $user->email ?? '' }}
-                                    </td>
-                                    <td>
-                                        {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
-                                    </td>
-                                    <td>
-                                        {{ $user->factor->name ?? '' }}
-                                    </td>
-                                    <td>
-                                        @foreach($user->planes as $key => $item)
-                                            <span class="badge badge-info">{{ $item->callsign }}</span>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @foreach($user->roles as $key => $roles)
-                                            {{ $roles->title }}
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @can('user_show')
-                                            <a class="btn btn-xs btn-primary"
-                                               href="{{ route('admin.users.show', $user->id) }}">
-                                                <i class="fas fa-search"></i>
-                                            </a>
-                                        @endcan
+                                            </td>
+                                            <td>
+                                                {{ $user->id ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ $user->name ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ $user->email ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ $user->factor->name ?? '' }}
+                                            </td>
+                                            <td>
+                                                @foreach($user->planes as $key => $item)
+                                                    <span class="badge badge-info">{{ $item->callsign }}</span>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach($user->roles as $key => $roles)
+                                                    {{ $roles->title }}
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @can('user_show')
+                                                    <a class="btn btn-xs btn-primary"
+                                                       href="{{ route('admin.users.show', $user->id) }}">
+                                                        <i class="fas fa-search"></i>
+                                                    </a>
+                                                @endcan
 
-                                        @can('user_edit')
-                                            <a class="btn btn-xs btn-info"
-                                               href="{{ route('admin.users.edit', $user->id) }}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endcan
+                                                @can('user_edit')
+                                                    <a class="btn btn-xs btn-info"
+                                                       href="{{ route('admin.users.edit', $user->id) }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                @endcan
 
-                                        @can('user_delete')
-                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
-                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                  style="display: inline-block;">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                <button type="submit" class="btn btn-xs btn-danger"><i
-                                                            class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        @endcan
+                                                @can('user_delete')
+                                                    <form action="{{ route('admin.users.destroy', $user->id) }}"
+                                                          method="POST"
+                                                          onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                          style="display: inline-block;">
+                                                        <input type="hidden" name="_method" value="DELETE">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                        <button type="submit" class="btn btn-xs btn-danger"><i
+                                                                    class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endcan
 
-                                    </td>
+                                            </td>
 
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="deleted_users" aria-labelledby="deleted_users">
+                            @includeIf('admin.users.relationships.deletedUsers')
+                        </div>
                     </div>
                 </div>
             </div>
-        </div><!-- /.col -->
+        </div>
+    </div>
     </div>
 @endsection
 

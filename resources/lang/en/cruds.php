@@ -337,6 +337,7 @@ return [
         'title' => 'Activity report',
         'title_singular' => 'Activity report',
         'title_generate' => 'Member Email',
+        'description_text' => 'Generate the activity report of this member and send it to: ',
         'fields' => [
             'activityfrom' => 'from',
             'activityfrom_helper' => 'Begin report',
@@ -344,7 +345,7 @@ return [
             'activityto_helper' => 'End report',
             'reportname' => 'Name of the report',
             'reportname_helper' => 'Ex.: 2020-02-01_Reportname_Pilotname',
-            'generateReport' => 'Send email',
+            'generateReport' => 'Generate and send now',
         ],
         'reports' => [
             'activityReportTotal' => 'Total',

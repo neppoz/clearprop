@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingsController;
@@ -85,6 +86,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('roles', 'RolesController');
 
     // Users
+    Route::get('users/deletedUsers', [UsersController::class, 'getDeletedUsers'])->name('users.getDeletedUsers');
     Route::post('users/report', 'UsersReportController@index')->name('users.report');
     Route::post('users/individualReport/{user}', 'UsersReportController@individualReport')->name('users.individualReport');
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');

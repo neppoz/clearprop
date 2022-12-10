@@ -1,53 +1,36 @@
-<div class="m-3">
-    <div class="card">
-        <div class="card-header">
-            @can('activity_create')
-                <div class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route("app.activities.create") }}">
-                            <i class="fas fa-edit"></i>
-                            {{ trans('global.new') }}
-                        </a>
-                    </div>
-                </div>
-            @endcan
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-Activity">
-                    <thead>
-                        <tr>
-                            <th>
-                                <i class="fas fa-eye"></i>
-                            </th>
-                            <th data-priority="1">
-                                {{ trans('cruds.activity.fields.event') }}
-                            </th>
-                            <th class="min-tablet-l">
-                                {{ trans('cruds.activity.fields.type') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.plane') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.counter_start') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.counter_stop') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.minutes') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.amount') }}
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
+<div class="table-responsive">
+    <table class=" table table-bordered table-striped table-hover datatable datatable-Activity">
+        <thead>
+        <tr>
+            <th>
+                <i class="fas fa-eye"></i>
+            </th>
+            <th data-priority="1">
+                {{ trans('cruds.activity.fields.event') }}
+            </th>
+            <th class="min-tablet-l">
+                {{ trans('cruds.activity.fields.type') }}
+            </th>
+            <th>
+                {{ trans('cruds.activity.fields.plane') }}
+            </th>
+            <th>
+                {{ trans('cruds.activity.fields.counter_start') }}
+            </th>
+            <th>
+                {{ trans('cruds.activity.fields.counter_stop') }}
+            </th>
+            <th>
+                {{ trans('cruds.activity.fields.minutes') }}
+            </th>
+            <th>
+                {{ trans('cruds.activity.fields.amount') }}
+            </th>
+        </tr>
+        </thead>
+    </table>
 </div>
+
 @section('scripts')
     @parent
     <script>
@@ -70,29 +53,29 @@
                                     '<td>' + col.data + '</td>' +
                                     '</tr>' :
                                     '';
-                } ).join('');
+                            }).join('');
 
-                return data ?
-                    $('<table/>').append( data ) :
-                    false;
-            }
-        }
-    },
-    columns: [
-        {
-            "orderable":      false,
-            'searchable':     false,
-            "data":           null,
-            "defaultContent": '',
-        },
-        { type: 'date', data: 'event', name: 'event' },
-        { data: 'type_name', name: 'type.name' },
-        { data: 'plane_callsign', name: 'plane.callsign' },
-        { data: 'counter_start', name: 'counter_start' },
-        { data: 'counter_stop', name: 'counter_stop' },
-        {data: 'minutes', name: 'minutes'},
-        {data: 'amount', name: 'amount'},
-    ],
+                            return data ?
+                                $('<table/>').append(data) :
+                                false;
+                        }
+                    }
+                },
+                columns: [
+                    {
+                        "orderable": false,
+                        'searchable': false,
+                        "data": null,
+                        "defaultContent": '',
+                    },
+                    {type: 'date', data: 'event', name: 'event'},
+                    {data: 'type_name', name: 'type.name'},
+                    {data: 'plane_callsign', name: 'plane.callsign'},
+                    {data: 'counter_start', name: 'counter_start'},
+                    {data: 'counter_stop', name: 'counter_stop'},
+                    {data: 'minutes', name: 'minutes'},
+                    {data: 'amount', name: 'amount'},
+                ],
                 order: [[1, 'desc'], [4, 'desc'], [5, 'desc']],
                 pageLength: 25,
                 createdRow: (row, data, dataIndex, cells) => {
