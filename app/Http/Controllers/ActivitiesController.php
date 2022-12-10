@@ -35,12 +35,12 @@ class ActivitiesController extends Controller
             $table->addColumn('warmup_color', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'activity_show';
-                $editGate      = 'activity_edit';
-                $deleteGate    = 'activity_delete';
+                $viewGate = 'activity_show';
+                $editGate = 'activity_edit';
+                $deleteGate = 'activity_delete';
                 $crudRoutePart = 'activities';
 
-                return view('partials.datatablesActions', compact(
+                return view('partials.datatablesAppActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
@@ -212,9 +212,9 @@ class ActivitiesController extends Controller
                 $table->addColumn('warmup_color', '&nbsp;');
 
                 $table->editColumn('actions', function ($row) {
-                    $viewGate      = 'activity_show';
-                    $editGate      = 'activity_edit';
-                    $deleteGate    = 'activity_delete';
+                    $viewGate = 'activity_show';
+                    $editGate = 'activity_edit';
+                    $deleteGate = 'activity_delete';
                     $crudRoutePart = 'activities';
 
                     return view('partials.datatablesActions', compact(
@@ -299,9 +299,9 @@ class ActivitiesController extends Controller
                 $table->addColumn('warmup_color', '&nbsp;');
 
                 $table->editColumn('actions', function ($row) {
-                    $viewGate      = 'activity_show';
-                    $editGate      = 'activity_edit';
-                    $deleteGate    = 'activity_delete';
+                    $viewGate = 'activity_show';
+                    $editGate = 'activity_edit';
+                    $deleteGate = 'activity_delete';
                     $crudRoutePart = 'activities';
 
                     return view('partials.datatablesActions', compact(
@@ -367,6 +367,7 @@ class ActivitiesController extends Controller
         }
         return false;
     }
+
     public function getActivitiesByPlane(Request $request)
     {
         abort_if(Gate::denies('activity_access', 'plane_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -385,9 +386,9 @@ class ActivitiesController extends Controller
                 $table->addColumn('warmup_color', '&nbsp;');
 
                 $table->editColumn('actions', function ($row) {
-                    $viewGate      = 'activity_show';
-                    $editGate      = 'activity_edit';
-                    $deleteGate    = 'activity_delete';
+                    $viewGate = 'activity_show';
+                    $editGate = 'activity_edit';
+                    $deleteGate = 'activity_delete';
                     $crudRoutePart = 'activities';
 
                     return view('partials.datatablesActions', compact(

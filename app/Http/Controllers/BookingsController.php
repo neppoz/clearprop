@@ -44,7 +44,7 @@ class BookingsController extends Controller
                 $deleteGate = 'booking_delete';
                 $crudRoutePart = 'bookings';
 
-                return view('app.bookings.partials.datatablesActions', compact(
+                return view('app.bookings.partials.datatablesAppActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
