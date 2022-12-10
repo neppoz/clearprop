@@ -217,7 +217,7 @@ class ActivitiesController extends Controller
                     $deleteGate = 'activity_delete';
                     $crudRoutePart = 'activities';
 
-                    return view('partials.datatablesActions', compact(
+                    return view('partials.datatablesAdminActions', compact(
                         'viewGate',
                         'editGate',
                         'deleteGate',
@@ -304,7 +304,7 @@ class ActivitiesController extends Controller
                     $deleteGate = 'activity_delete';
                     $crudRoutePart = 'activities';
 
-                    return view('partials.datatablesActions', compact(
+                    return view('partials.datatablesAdminActions', compact(
                         'viewGate',
                         'editGate',
                         'deleteGate',
@@ -391,7 +391,7 @@ class ActivitiesController extends Controller
                     $deleteGate = 'activity_delete';
                     $crudRoutePart = 'activities';
 
-                    return view('partials.datatablesActions', compact(
+                    return view('partials.datatablesAdminActions', compact(
                         'viewGate',
                         'editGate',
                         'deleteGate',
