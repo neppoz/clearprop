@@ -235,6 +235,7 @@ return [
             'engine_warmup_helper' => '',
             'warmup_start' => 'Warmup Start',
             'warmup_start_helper' => '',
+            'counter' => 'Counter',
             'counter_start' => 'Counter Start',
             'counter_start_helper' => '',
             'counter_stop' => 'Counter Stop',

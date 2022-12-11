@@ -271,7 +271,7 @@ return [
     'balanceCheck_for_admin' => 'Il pilota selezionato ha un credito residuo inferiore al limite impostato.',
     'ratingCheck_for_admin' => 'Non esiste un rating per la combinazione pilota/aeroplano.',
     'general' => 'General',
-    'new' => 'Nuova',
+    'new' => 'Nuovo',
     'planeNotAvailable' => 'Esiste già una prenotazione per queste date. Scegli uno slot libero',
     'confirm' => 'Conferma',
     'info' => 'Informazione',

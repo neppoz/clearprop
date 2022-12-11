@@ -15,60 +15,63 @@
 
 @section('content')
     <div class="row">
-        <div class="col">
+        <div class="col-12">
             <div class="card card-primary card-outline">
-                <div class="card-header">
-                    @can('activity_create')
-                        <div class="row">
-                            <div class="col-lg-12">
+                <div class="card-header d-flex p-0 border-none">
+                    <h3 class="card-title p-3">
+                        <i class="fas fa-plane-departure mr-1"></i>
+                    </h3>
+                    <ul class="nav nav-pills ml-auto p-2">
+                        @can('activity_create')
+                            <li class="nav-item">
                                 <a class="btn btn-success" href="{{ route("app.activities.create") }}">
                                     <i class="fas fa-edit"></i>
-                                    {{ trans('global.new') }} {{ trans('cruds.activity.title_singular') }}
+                                    {{ trans('global.create') }}
                                 </a>
-                            </div>
-                        </div>
-                    @endcan
+                            </li>
+                        @endcan
+                    </ul>
                 </div>
 
                 <div class="card-body">
-                    <table class=" table row-border table-striped table-hover ajaxTable datatable datatable-Activity">
-                        <thead>
-                        <tr>
-                            <th>
-                                <i class="fas fa-eye"></i>
-                            </th>
-                            <th data-priority="1">
-                                {{ trans('cruds.activity.fields.event') }}
-                            </th>
-                            <th class="min-tablet-l">
-                                {{ trans('cruds.activity.fields.type') }}
-                            </th>
-                            @can('activity_all_users_access')
+
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Activity">
+                            <thead>
+                            <tr>
                                 <th>
-                                    {{ trans('cruds.activity.fields.user') }}
+                                    <i class="fas fa-eye"></i>
                                 </th>
-                            @endcan
-                            <th>
-                                {{ trans('cruds.activity.fields.plane') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.counter_start') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.counter_stop') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.minutes') }}
-                            </th>
-                            <th>
-                                {{ trans('cruds.activity.fields.amount') }}
-                            </th>
-                            <th data-priority="2">
-                                &nbsp;
-                            </th>
-                        </tr>
-                        </thead>
-                    </table>
+                                <th data-priority="1">
+                                    {{ trans('cruds.activity.fields.event') }}
+                                </th>
+                                <th class="min-tablet-l">
+                                    {{ trans('cruds.activity.fields.type') }}
+                                </th>
+                                @can('activity_all_users_access')
+                                    <th>
+                                        {{ trans('cruds.activity.fields.user') }}
+                                    </th>
+                                @endcan
+                                <th>
+                                    {{ trans('cruds.activity.fields.plane') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.activity.fields.counter') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.activity.fields.minutes') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.activity.fields.amount') }}
+                                </th>
+                                <th data-priority="2">
+                                    &nbsp;
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,14 +82,8 @@
     @parent
     <script>
         $(function () {
-
-            @can('activity_edit')
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             let dtDom = 'lBfrtip<"actions">'
-            @else
-            let dtButtons = []
-            let dtDom = 'Brtp'
-            @endcan
 
             @can('activity_delete')
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
@@ -164,13 +161,12 @@
                     {
                         data: 'plane_callsign', name: 'plane.callsign'
                     },
-                    {data: 'counter_start', name: 'counter_start'},
-                    {data: 'counter_stop', name: 'counter_stop'},
+                    {data: 'counter', name: 'counter', orderable: false},
                     {data: 'minutes', name: 'minutes'},
                     {data: 'amount', name: 'amount'},
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
                 ],
-                order: [[1, 'desc'], [4, 'desc'], [5, 'desc']],
+                order: [[1, 'desc']],
                 pageLength: 25,
                 createdRow: (row, data, dataIndex, cells) => {
                     $(cells[0]).css('background-color', data.split_color)

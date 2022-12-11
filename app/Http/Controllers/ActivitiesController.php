@@ -71,12 +71,8 @@ class ActivitiesController extends Controller
             $table->editColumn('plane.model', function ($row) {
                 return $row->plane ? (is_string($row->plane) ? $row->plane : $row->plane->model) : '';
             });
-
-            $table->editColumn('counter_start', function ($row) {
-                return $row->counter_start ? $row->counter_start : "";
-            });
-            $table->editColumn('counter_stop', function ($row) {
-                return $row->counter_stop ? $row->counter_stop : "";
+            $table->editColumn('counter', function ($row) {
+                return $row->counter_start . " / " . $row->counter_stop ? $row->counter_start . " / " . $row->counter_stop : "";
             });
 
             $table->editColumn('amount', function ($row) {
