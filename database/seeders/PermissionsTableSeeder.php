@@ -526,6 +526,18 @@ class PermissionsTableSeeder extends Seeder
                 'id' => 130,
                 'title' => 'user_undelete',
             ],
+            [
+                'id' => 131,
+                'title' => 'profile_global_finance_access',
+            ],
+            [
+                'id' => 132,
+                'title' => 'profile_instructor_finance_access',
+            ],
+            [
+                'id' => 133,
+                'title' => 'profile_personal_finance_access',
+            ],
         ];
 
         Permission::insertOrIgnore($permissions);

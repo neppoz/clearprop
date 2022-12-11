@@ -9,6 +9,9 @@
     <div class="sidebar">
         <!-- Sidebar user -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                {{--<img src="" class="img-circle elevation-2" alt="User Image">--}}
+            </div>
             <div class="info">
                 <a href="{{route('profile.password.edit')}}" class="d-block">{{auth()->user()->name}}</a>
             </div>
@@ -123,14 +126,15 @@
                             @endcan
                             @can('income_category_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.income-categories.index") }}" class="nav-link {{ request()->is('admin/income-categories') || request()->is('admin/income-categories/*') ? 'active' : '' }}">
+                                    <a href="{{ route("admin.income-categories.index") }}"
+                                       class="nav-link {{ request()->is('admin/income-categories') || request()->is('admin/income-categories/*') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             <span>{{ trans('cruds.incomeCategory.title') }}</span>
                                         </p>
                                     </a>
                                 </li>
-                                @endcan
+                            @endcan
                         </ul>
                     </li>
                 @endcan
@@ -181,7 +185,7 @@
                     {{ request()->is('admin/asset-categories*') ? 'menu-open' : '' }}
                     {{ request()->is('admin/asset-statuses*') ? 'menu-open' : '' }}
                     {{ request()->is('admin/asset-locations*') ? 'menu-open' : '' }}
-                        ">
+                            ">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-cog">
 
@@ -284,7 +288,8 @@
                     </li>
                 @endcan
                 <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                    <a href="#" class="nav-link"
+                       onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         <p>
                             <i class="fas fa-fw nav-icon fa-sign-out-alt">
 

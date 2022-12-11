@@ -16,9 +16,7 @@ return [
             'totalAirtime' => 'Total airtime',
             'loggedMissions' => 'Logged missions',
             'avgdurationpermission' => 'Avg. per mission',
-
         ],
-
         'show_all_reservations' => 'Show all reservations',
         'reservation_title' => 'Reservations',
         'personal_request' => 'My reservation',
@@ -31,6 +29,20 @@ return [
         'create_school_booking' => 'School',
         'create_maintenance_booking' => 'Maintenance',
         'edit_request' => 'Edit request',
+    ],
+    'profile' => [
+        'title_singular' => 'My account',
+        'finance_stats' => 'Finance',
+        'personal_data' => 'Personal information',
+        'finance' => [
+            'personal' => 'Personal',
+            'instructor' => 'You as Instructor',
+            'global' => 'Global',
+        ],
+        'balance_sum' => 'Total balance',
+        'activity_sum' => 'Activity spending',
+        'payment_sum' => 'Activity payments',
+
     ],
     'userManagement' => [
         'title' => 'Member management',

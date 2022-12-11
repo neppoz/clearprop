@@ -63,26 +63,48 @@ class StatisticsService
         ];
     }
 
-    public function dashboard()
+    public function getPersonalFinanceStatistics(): array
     {
-//        $assetsOverhaulData = $this->getAssetsOverhaulData();
-        $getActivityDataWithoutScope = $this->getActivitiesCurrentYear()->withoutGlobalScope('user_id')->get();
-        $getActivitySumTotalOfAllMembers = $getActivityDataWithoutScope->sum('minutes');
-        $getActivitySumAsCommand = $getActivityDataWithoutScope->where('user_id', Auth::id())->sum('minutes');
-        $getActivitySumAsCopilot = $getActivityDataWithoutScope->where('copilot_id', Auth::id())->sum('minutes');
-        $getActivitySumAsInstructor = $getActivityDataWithoutScope->where('instructor_id', Auth::id())->sum('minutes');
-        $getActivitySumTotalPersonal = $getActivitySumAsCommand + $getActivitySumAsCopilot + $getActivitySumAsInstructor;
-
-
-        debug("Airtime Total: " . $getActivitySumTotalOfAllMembers);
-        debug("Airtime as PIC: " . $getActivitySumAsCommand);
-        debug("Airtime as Copilot: " . $getActivitySumAsCopilot);
-        debug("Airtime as Instructor: " . $getActivitySumAsInstructor);
-        debug("Airtime Total: " . $getActivitySumTotalPersonal);
-
-
-        return compact('getActivitySumTotalOfAllMembers', 'getActivitySumAsCommand', 'getActivitySumAsCopilot', 'getActivitySumAsInstructor', 'getActivitySumTotalPersonal');
+        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
+        $getPaymentDataWithoutScope = $this->getPaymentsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
+        debug($getActivityDataWithoutScope);
+        return [
+            'id' => 'personal',
+            'name' => trans('cruds.profile.finance.personal'),
+            'sum_activity' => $getActivityDataWithoutScope->sum('amount') ?? 0,
+            'sum_payments' => $getPaymentDataWithoutScope->sum('amount') ?? 0,
+            'sum_balance' => ($getPaymentDataWithoutScope->sum('amount') ?? 0) + -abs(($getActivityDataWithoutScope->sum('amount') ?? 0)),
+        ];
     }
+
+    public function getPaymentsCurrentYear()
+    {
+        return Income::whereHas('income_category', function ($q) {
+            $q->where('deposit', '=', 1);
+        })
+            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+    }
+
+//    public function dashboard()
+//    {
+////        $assetsOverhaulData = $this->getAssetsOverhaulData();
+//        $getActivityDataWithoutScope = $this->getActivitiesCurrentYear()->withoutGlobalScope('user_id')->get();
+//        $getActivitySumTotalOfAllMembers = $getActivityDataWithoutScope->sum('minutes');
+//        $getActivitySumAsCommand = $getActivityDataWithoutScope->where('user_id', Auth::id())->sum('minutes');
+//        $getActivitySumAsCopilot = $getActivityDataWithoutScope->where('copilot_id', Auth::id())->sum('minutes');
+//        $getActivitySumAsInstructor = $getActivityDataWithoutScope->where('instructor_id', Auth::id())->sum('minutes');
+//        $getActivitySumTotalPersonal = $getActivitySumAsCommand + $getActivitySumAsCopilot + $getActivitySumAsInstructor;
+//
+//
+//        debug("Airtime Total: " . $getActivitySumTotalOfAllMembers);
+//        debug("Airtime as PIC: " . $getActivitySumAsCommand);
+//        debug("Airtime as Copilot: " . $getActivitySumAsCopilot);
+//        debug("Airtime as Instructor: " . $getActivitySumAsInstructor);
+//        debug("Airtime Total: " . $getActivitySumTotalPersonal);
+//
+//
+//        return compact('getActivitySumTotalOfAllMembers', 'getActivitySumAsCommand', 'getActivitySumAsCopilot', 'getActivitySumAsInstructor', 'getActivitySumTotalPersonal');
+//    }
 
     public function getActivitiesCurrentYear(): \Illuminate\Database\Eloquent\Builder
     {
@@ -102,25 +124,25 @@ class StatisticsService
         ])->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function dashboard_v1(Request $request)
-    {
-        // Call the function
-        $activity_lines = $this->getActivitiesCurrentYear();
-
-        $activityAmountTotal = $activity_lines->sum('amount');
-        $activityMinutesTotal = $activity_lines->sum('minutes');
-        $activityHoursAndMinutes = sprintf("%02d", intval($activityMinutesTotal / 60)) . 'h : ' . sprintf("%02d", $activityMinutesTotal % 60) . 'm';
-
-        // Call the function
-        $income_lines = $this->getDepositIncomesCurrentYear();
-        $incomeAmountTotal = $income_lines->sum('amount');
-        $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
-
-        // Call the function
-        $assetsOverhaulData = $this->getAssetsOverhaulData();
-
-        return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
-    }
+//    public function dashboard_v1(Request $request)
+//    {
+//        // Call the function
+//        $activity_lines = $this->getActivitiesCurrentYear();
+//
+//        $activityAmountTotal = $activity_lines->sum('amount');
+//        $activityMinutesTotal = $activity_lines->sum('minutes');
+//        $activityHoursAndMinutes = sprintf("%02d", intval($activityMinutesTotal / 60)) . 'h : ' . sprintf("%02d", $activityMinutesTotal % 60) . 'm';
+//
+//        // Call the function
+//        $income_lines = $this->getDepositIncomesCurrentYear();
+//        $incomeAmountTotal = $income_lines->sum('amount');
+//        $granTotal = $incomeAmountTotal + -abs($activityAmountTotal);
+//
+//        // Call the function
+//        $assetsOverhaulData = $this->getAssetsOverhaulData();
+//
+//        return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
+//    }
 
     public function getDepositIncomesCurrentYear()
     {
