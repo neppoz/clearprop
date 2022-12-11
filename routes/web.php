@@ -87,6 +87,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Users
     Route::get('users/deletedUsers', [UsersController::class, 'getDeletedUsers'])->name('users.getDeletedUsers');
+    Route::post('users/undelete/{user_id}', [UsersController::class, 'undelete'])->name('users.undelete');
     Route::post('users/report', 'UsersReportController@index')->name('users.report');
     Route::post('users/individualReport/{user}', 'UsersReportController@individualReport')->name('users.individualReport');
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');

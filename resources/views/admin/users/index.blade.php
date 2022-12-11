@@ -54,16 +54,16 @@
                         <div class="tab-pane fade show active" role="tabpanel" id="active_users"
                              aria-labelledby="active_users">
                             <div class="table-responsive">
-                                <table class=" table table-bordered table-striped table-hover datatable datatable-active_users">
+                                <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-active_users">
                                     <thead>
                                     <tr>
-                                        <th width="10">
-
-                                        </th>
                                         <th>
+                                            <i class="fas fa-eye"></i>
+                                        </th>
+                                        <th data-priority="1">
                                             {{ trans('cruds.user.fields.id') }}
                                         </th>
-                                        <th>
+                                        <th class="min-tablet-l">
                                             {{ trans('cruds.user.fields.name') }}
                                         </th>
                                         <th>
@@ -75,81 +75,11 @@
                                         <th>
                                             {{ trans('cruds.user.fields.factor') }}
                                         </th>
-                                        <th>
-                                            {{ trans('cruds.user.fields.plane') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.user.fields.roles') }}
-                                        </th>
-                                        <th>
+                                        <th data-priority="2">
                                             &nbsp;
                                         </th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    @foreach($users as $key => $user)
-                                        <tr data-entry-id="{{ $user->id }}">
-                                            <td>
-
-                                            </td>
-                                            <td>
-                                                {{ $user->id ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->name ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->email ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ App\User::LANG_SELECT[$user->lang] ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $user->factor->name ?? '' }}
-                                            </td>
-                                            <td>
-                                                @foreach($user->planes as $key => $item)
-                                                    <span class="badge badge-info">{{ $item->callsign }}</span>
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @foreach($user->roles as $key => $roles)
-                                                    {{ $roles->title }}
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @can('user_show')
-                                                    <a class="btn btn-xs btn-primary"
-                                                       href="{{ route('admin.users.show', $user->id) }}">
-                                                        <i class="fas fa-search"></i>
-                                                    </a>
-                                                @endcan
-
-                                                @can('user_edit')
-                                                    <a class="btn btn-xs btn-info"
-                                                       href="{{ route('admin.users.edit', $user->id) }}">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                @endcan
-
-                                                @can('user_delete')
-                                                    <form action="{{ route('admin.users.destroy', $user->id) }}"
-                                                          method="POST"
-                                                          onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                                          style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <button type="submit" class="btn btn-xs btn-danger"><i
-                                                                    class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                @endcan
-
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -161,14 +91,21 @@
             </div>
         </div>
     </div>
-    </div>
 @endsection
 
 @section('scripts')
     @parent
     <script>
         $(function () {
+
+            @can('user_edit')
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+            let dtDom = 'lBfrtip<"actions">'
+            @else
+            let dtButtons = []
+            let dtDom = 'Brtp'
+            @endcan
+
             @can('user_delete')
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
             let deleteButton = {
@@ -202,18 +139,54 @@
             dtButtons.push(deleteButton)
             @endcan
 
-            $.extend(true, $.fn.dataTable.defaults, {
-                orderCellsTop: true,
-                order: [[1, 'desc']],
-                pageLength: 100,
-            });
-            let table = $('.datatable-User:not(.ajaxTable)').DataTable({buttons: dtButtons})
+            let dtOverrideGlobals = {
+                dom: dtDom,
+                buttons: dtButtons,
+                processing: true,
+                serverSide: true,
+                retrieve: true,
+                aaSorting: [],
+                ajax: "{{ route('admin.users.index') }}",
+                responsive: {
+                    details: {
+                        renderer: function (api, rowIdx, columns) {
+                            var data = $.map(columns, function (col, i) {
+                                return col.hidden ?
+                                    '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                                    '<td class="font-weight-bold">' + col.title + ':' + '</td> ' +
+                                    '<td>' + col.data + '</td>' +
+                                    '</tr>' :
+                                    '';
+                            }).join('');
+
+                            return data ?
+                                $('<table/>').append(data) :
+                                false;
+                        }
+                    }
+                },
+                columns: [
+                    {
+                        "orderable": false,
+                        'searchable': false,
+                        "data": null,
+                        "defaultContent": '',
+                    },
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'lang', name: 'lang'},
+                    {data: 'factor_name', name: 'factor.name'},
+                    {data: 'actions', name: '{{ trans('global.actions') }}'}
+                ],
+                order: [[2, 'asc']],
+                pageLength: 25
+            };
+            $('.datatable-active_users').DataTable(dtOverrideGlobals);
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 $($.fn.dataTable.tables(true)).DataTable()
                     .columns.adjust();
             });
-
-        })
-
+        });
     </script>
 @endsection

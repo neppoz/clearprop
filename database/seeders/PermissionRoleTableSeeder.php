@@ -13,7 +13,7 @@ class PermissionRoleTableSeeder extends Seeder
         $all_permissions = Permission::all();
         Role::findOrFail(\App\User::IS_ADMIN)->permissions()->sync($all_permissions->pluck('id'));
 
-        $manager_permissions = [1, 35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 108, 112, 115, 116, 117, 118, 119, 120, 125, 126, 127, 128];
+        $manager_permissions = [1, 35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 108, 112, 115, 116, 117, 118, 119, 120, 125, 126, 127, 128, 130];
         Role::findOrFail(\App\User::IS_MANAGER)->permissions()->syncWithoutDetaching($manager_permissions);
 
         $user_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 117, 121, 128];

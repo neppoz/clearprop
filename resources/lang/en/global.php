@@ -62,6 +62,7 @@ return [
         'print' => 'Print',
         'colvis' => 'Column visibility',
         'delete' => 'Delete selected',
+        'undelete' => 'Activate now!',
         'zero_selected' => 'No rows selected',
     ],
     'action' => 'Action',
