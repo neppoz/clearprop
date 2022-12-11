@@ -16,25 +16,21 @@ class User extends Authenticatable // implements MustVerifyEmail
 {
     use SoftDeletes, Notifiable, HasApiTokens;
 
-    public $table = 'users';
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
     const IS_ADMIN = 1;
     const IS_MEMBER = 2;
     const IS_MANAGER = 3;
     const IS_INSTRUCTOR = 4;
     const IS_MECHANIC = 5;
-
     const LANG_SELECT = [
         'EN' => 'English',
         'DE' => 'German',
         'IT' => 'Italian',
     ];
-
+    public $table = 'users';
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     protected $dates = [
         'created_at',
         'updated_at',
@@ -66,14 +62,14 @@ class User extends Authenticatable // implements MustVerifyEmail
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
     public function getIsAdminAttribute()
     {
         return $this->roles()->where('id', 1)->exists();
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     public function getIsManagerAttribute()
@@ -148,11 +144,6 @@ class User extends Authenticatable // implements MustVerifyEmail
         $this->attributes['medical_due'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
     public function getEmailVerifiedAtAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
@@ -176,5 +167,20 @@ class User extends Authenticatable // implements MustVerifyEmail
     public function userUserAlerts()
     {
         return $this->belongsToMany(UserAlert::class);
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+    }
+
+    public function getDeletedAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
