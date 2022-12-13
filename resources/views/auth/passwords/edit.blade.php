@@ -203,7 +203,7 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                            <button class="btn btn-primary float-right" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>
@@ -236,7 +236,7 @@
                                    type="password" name="password_confirmation" id="password_confirmation" required>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                            <button class="btn btn-danger float-right" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>

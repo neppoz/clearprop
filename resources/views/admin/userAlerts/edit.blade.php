@@ -12,7 +12,7 @@
                 @method('PUT')
                 @csrf
                 <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-primary float-right" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>

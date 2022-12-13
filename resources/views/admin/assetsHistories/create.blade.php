@@ -10,7 +10,7 @@
             <form method="POST" action="{{ route("admin.assets-histories.store") }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-primary float-right" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>

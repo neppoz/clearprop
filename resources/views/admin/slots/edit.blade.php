@@ -31,7 +31,7 @@
                             id="users" multiple>
                         @foreach($users as $id => $user)
                             <option
-                                value="{{ $id }}" {{ (in_array($id, old('users', [])) || $slot->users->contains($id)) ? 'selected' : '' }}>{{ $user }}</option>
+                                    value="{{ $id }}" {{ (in_array($id, old('users', [])) || $slot->users->contains($id)) ? 'selected' : '' }}>{{ $user }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('users'))
@@ -40,7 +40,7 @@
                     <span class="help-block text-secondary small">{{ trans('cruds.slot.fields.user_helper') }}</span>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-primary float-right" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>

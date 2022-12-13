@@ -198,7 +198,7 @@
                         {{--                <span class="help-block text-secondary small">{{ trans('cruds.user.fields.instructor_helper') }}</span>--}}
                         {{--            </div>--}}
                         <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
+                            <button class="btn btn-primary float-right" type="submit">
                                 {{ trans('global.save') }}
                             </button>
                         </div>

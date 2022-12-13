@@ -48,7 +48,8 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label class="control-label"></label>
-                                <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
+                                <button class="btn btn-primary float-right"
+                                        type="submit">{{ trans('global.filterDate') }}</button>
                             </div>
                         </div>
                     </form>

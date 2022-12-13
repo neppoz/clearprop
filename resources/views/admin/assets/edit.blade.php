@@ -16,14 +16,14 @@
                             name="category_id" id="category_id">
                         @foreach($categories as $id => $category)
                             <option
-                                value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $asset->category->id ?? '') == $id ? 'selected' : '' }}>{{ $category }}</option>
+                                    value="{{ $id }}" {{ (old('category_id') ? old('category_id') : $asset->category->id ?? '') == $id ? 'selected' : '' }}>{{ $category }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('category'))
                         <span class="text-danger">{{ $errors->first('category') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.category_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.category_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="plane_id">{{ trans('cruds.asset.fields.plane') }}</label>
@@ -31,7 +31,7 @@
                             id="plane_id">
                         @foreach($planes as $id => $plane)
                             <option
-                                value="{{ $id }}" {{ (old('plane_id') ? old('plane_id') : $asset->plane->id ?? '') == $id ? 'selected' : '' }}>{{ $plane }}</option>
+                                    value="{{ $id }}" {{ (old('plane_id') ? old('plane_id') : $asset->plane->id ?? '') == $id ? 'selected' : '' }}>{{ $plane }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('plane'))
@@ -48,7 +48,7 @@
                         <span class="text-danger">{{ $errors->first('serial_number') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.serial_number_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.serial_number_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label class="required" for="name">{{ trans('cruds.asset.fields.name') }}</label>
@@ -68,7 +68,7 @@
                         <span class="text-danger">{{ $errors->first('start_hours') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.start_hours_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.start_hours_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="start_date">{{ trans('cruds.asset.fields.start_date') }}</label>
@@ -78,7 +78,7 @@
                         <span class="text-danger">{{ $errors->first('start_date') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.start_date_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.start_date_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="end_hours">{{ trans('cruds.asset.fields.end_hours') }}</label>
@@ -88,7 +88,7 @@
                         <span class="text-danger">{{ $errors->first('end_hours') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.end_hours_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.end_hours_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="end_date">{{ trans('cruds.asset.fields.end_date') }}</label>
@@ -98,7 +98,7 @@
                         <span class="text-danger">{{ $errors->first('end_date') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.end_date_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.end_date_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="photos">{{ trans('cruds.asset.fields.photos') }}</label>
@@ -116,7 +116,7 @@
                             name="status_id" id="status_id" required>
                         @foreach($statuses as $id => $status)
                             <option
-                                value="{{ $id }}" {{ (old('status_id') ? old('status_id') : $asset->status->id ?? '') == $id ? 'selected' : '' }}>{{ $status }}</option>
+                                    value="{{ $id }}" {{ (old('status_id') ? old('status_id') : $asset->status->id ?? '') == $id ? 'selected' : '' }}>{{ $status }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('status'))
@@ -130,14 +130,14 @@
                             name="location_id" id="location_id">
                         @foreach($locations as $id => $location)
                             <option
-                                value="{{ $id }}" {{ (old('location_id') ? old('location_id') : $asset->location->id ?? '') == $id ? 'selected' : '' }}>{{ $location }}</option>
+                                    value="{{ $id }}" {{ (old('location_id') ? old('location_id') : $asset->location->id ?? '') == $id ? 'selected' : '' }}>{{ $location }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('location'))
                         <span class="text-danger">{{ $errors->first('location') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.location_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.location_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="notes">{{ trans('cruds.asset.fields.notes') }}</label>
@@ -154,17 +154,17 @@
                             name="assigned_to_id" id="assigned_to_id">
                         @foreach($assigned_tos as $id => $assigned_to)
                             <option
-                                value="{{ $id }}" {{ (old('assigned_to_id') ? old('assigned_to_id') : $asset->assigned_to->id ?? '') == $id ? 'selected' : '' }}>{{ $assigned_to }}</option>
+                                    value="{{ $id }}" {{ (old('assigned_to_id') ? old('assigned_to_id') : $asset->assigned_to->id ?? '') == $id ? 'selected' : '' }}>{{ $assigned_to }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('assigned_to'))
                         <span class="text-danger">{{ $errors->first('assigned_to') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.asset.fields.assigned_to_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.asset.fields.assigned_to_helper') }}</span>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-primary float-right" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>
@@ -206,8 +206,13 @@
             init: function () {
                 @if(isset($asset) && $asset->photos)
                 var files =
-                {!! json_encode($asset->photos) !!}
-                    for (var i in files) {
+                        {!! json_encode($asset->photos) !!}
+                        for(
+                var i
+            in
+                files
+            )
+                {
                     var file = files[i]
                     this.options.addedfile.call(this, file)
                     file.previewElement.classList.add('dz-complete')
