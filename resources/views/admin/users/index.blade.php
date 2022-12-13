@@ -11,6 +11,16 @@
             </ol>
         </div>
     </div>
+    @can('user_create')
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-success float-right" href="{{ route('admin.users.create') }}">
+                    <i class="fas fa-edit"></i>
+                    {{ trans('global.create') }}
+                </a>
+            </div>
+        </div>
+    @endcan
 @endsection
 
 @section('content')
@@ -33,20 +43,6 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="row p-4">
-                        <div class="col">
-                            @can('user_create')
-                                <div style="margin-bottom: 10px;" class="row">
-                                    <div class="col-lg-12">
-                                        <a class="btn btn-success" href="{{ route('admin.users.create') }}">
-                                            <i class="fas fa-edit"></i>
-                                            {{ trans('global.new') }} {{ trans('cruds.user.title_singular') }}
-                                        </a>
-                                    </div>
-                                </div>
-                            @endcan
-                        </div>
-                    </div>
                 </div>
 
                 <div class="card-body">
@@ -97,14 +93,8 @@
     @parent
     <script>
         $(function () {
-
-            @can('user_edit')
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             let dtDom = 'lBfrtip<"actions">'
-            @else
-            let dtButtons = []
-            let dtDom = 'Brtp'
-            @endcan
 
             @can('user_delete')
             let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'

@@ -11,6 +11,16 @@
             </ol>
         </div>
     </div>
+    @can('activity_create')
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-success float-right" href="{{ route("app.activities.create") }}">
+                    <i class="fas fa-edit"></i>
+                    {{ trans('global.create') }}
+                </a>
+            </div>
+        </div>
+    @endcan
 @endsection
 
 @section('content')
@@ -21,16 +31,6 @@
                     <h3 class="card-title p-3">
                         <i class="fas fa-plane-departure mr-1"></i>
                     </h3>
-                    <ul class="nav nav-pills ml-auto p-2">
-                        @can('activity_create')
-                            <li class="nav-item">
-                                <a class="btn btn-success" href="{{ route("app.activities.create") }}">
-                                    <i class="fas fa-edit"></i>
-                                    {{ trans('global.create') }}
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
                 </div>
 
                 <div class="card-body">
