@@ -13,6 +13,7 @@ return [
     'edit' => 'Modifica',
     'emailVerificationSuccess' => 'Indirizzo email verificato con successo',
     'entries' => 'Inserimenti',
+    'filter' => 'Filtra',
     'filterDate' => 'Filtra per data',
     'forgot_password' => 'Dimenticato la tua password?',
     'home' => 'Home',
