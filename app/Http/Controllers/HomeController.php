@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Parameter;
+use App\Services\BookingDataService;
 use App\Services\StatisticsService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -37,15 +38,10 @@ class HomeController extends Controller
             }
         }
 
-        $bookingDates = Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
-            ->where('reservation_stop', '>=', Carbon::parse(today()))
-            ->orderBy('reservation_start', 'asc')
-            ->get()
-            ->groupBy(function ($booking) {
-                return Carbon::createFromFormat('d/m/Y H:i', $booking->reservation_start)->isoFormat('ddd DD MMM');
-            });
+        $bookingDates = (new BookingDataService())->getBookingDataForCards();
+        $bookingCalendarEvents = (new BookingDataService())->getBookingDataForCalendar();
 
-        return view('home', compact('bookingDates', 'collectionActivityStatistics', 'currentUserMedicalBeyondDueDate'));
+        return view('home', compact('bookingDates', 'bookingCalendarEvents', 'collectionActivityStatistics', 'currentUserMedicalBeyondDueDate'));
     }
 
 }
