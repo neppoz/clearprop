@@ -11,6 +11,7 @@
         "php": "^8.0.2",
         "bugsnag/bugsnag-laravel": "^2.17",
         "doctrine/dbal": "^2.9",
+        "fakerphp/faker": "^1.21",
         "fruitcake/laravel-cors": "^2.0",
         "grosv/laravel-passwordless-login": "^1.2",
         "guzzlehttp/guzzle": "^7.0.1",

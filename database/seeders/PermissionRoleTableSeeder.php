@@ -19,7 +19,7 @@ class PermissionRoleTableSeeder extends Seeder
         $user_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 117, 121, 128, 133];
         Role::findOrFail(\App\User::IS_MEMBER)->permissions()->syncWithoutDetaching($user_permissions);
 
-        $instructor_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 108, 112, 113, 117, 118, 119, 120, 121, 122, 123, 124, 128, 129, 132, 133];
+        $instructor_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 108, 112, 117, 118, 119, 120, 121, 122, 123, 124, 128, 129, 132, 133];
         Role::findOrFail(\App\User::IS_INSTRUCTOR)->permissions()->syncWithoutDetaching($instructor_permissions);
 
         $mechanic_permissions = [35, 37, 39, 40, 41, 42, 43, 83, 84, 85, 86, 87, 88, 89, 108, 117, 119, 123, 128, 133];
