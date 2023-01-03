@@ -1,103 +1,103 @@
 {
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
-    "license": "MIT",
-    "require": {
-        "php": "^8.0.2",
-        "bugsnag/bugsnag-laravel": "^2.17",
-        "doctrine/dbal": "^2.9",
-        "fakerphp/faker": "^1.21",
-        "fruitcake/laravel-cors": "^2.0",
-        "grosv/laravel-passwordless-login": "^1.2",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^9.0",
-        "laravel/horizon": "^5.7",
-        "laravel/passport": "^10.0",
-        "laravel/sanctum": "^2.4",
-        "laravel/slack-notification-channel": "^2.0",
-        "laravel/tinker": "^2.6",
-        "laravel/ui": "^3.0",
-        "laraveldaily/laravel-charts": "^0.1.25",
-        "league/flysystem-sftp-v3": "^3.0",
-        "livewire/livewire": "^2.3",
-        "niklasravnsborg/laravel-pdf": "^4.0",
-        "nuovo/spreadsheet-reader": "^0.5.11",
-        "predis/predis": "^1.1",
-        "realrashid/sweet-alert": "^5.0",
-        "spatie/browsershot": "^3.44",
-        "spatie/laravel-backup": "^8.1",
-        "spatie/laravel-medialibrary": "^9.12.2",
-        "spatie/laravel-stripe-webhooks": "^3.0",
-        "spatie/valuestore": "^1.2",
-        "stripe/stripe-php": "^7.57",
-        "verumconsilium/laravel-browsershot": "^1.1",
-        "yajra/laravel-datatables-oracle": "^9.7"
-    },
-    "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
-        "barryvdh/laravel-ide-helper": "^2.7",
-        "spatie/laravel-ignition": "^1.0",
-        "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5",
-        "spatie/laravel-web-tinker": "^1.7"
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
-        },
-        "classmap": [
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "scripts": {
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@php artisan horizon:publish --ansi",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
-        ],
-        "clear-all": [
-            "@php artisan clear-compiled",
-            "@php artisan cache:clear",
-            "@php artisan route:clear",
-            "@php artisan view:clear",
-            "@php artisan config:clear",
-            "composer dumpautoload -o",
-            "npm run dev"
-        ]
+  "name": "laravel/laravel",
+  "type": "project",
+  "description": "The Laravel Framework.",
+  "keywords": [
+    "framework",
+    "laravel"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^8.0.2",
+    "bugsnag/bugsnag-laravel": "^2.17",
+    "doctrine/dbal": "^2.9",
+    "fakerphp/faker": "^1.21",
+    "fruitcake/laravel-cors": "^2.0",
+    "grosv/laravel-passwordless-login": "^1.2",
+    "guzzlehttp/guzzle": "^7.0.1",
+    "laravel/framework": "^9.0",
+    "laravel/horizon": "^5.7",
+    "laravel/passport": "^10.0",
+    "laravel/sanctum": "^2.4",
+    "laravel/slack-notification-channel": "^2.0",
+    "laravel/tinker": "^2.6",
+    "laravel/ui": "^3.0",
+    "laraveldaily/laravel-charts": "^0.1.25",
+    "league/flysystem-sftp-v3": "^3.0",
+    "livewire/livewire": "^2.3",
+    "niklasravnsborg/laravel-pdf": "^4.0",
+    "nuovo/spreadsheet-reader": "^0.5.11",
+    "predis/predis": "^1.1",
+    "realrashid/sweet-alert": "^5.0",
+    "spatie/browsershot": "^3.44",
+    "spatie/laravel-backup": "^8.1",
+    "spatie/laravel-medialibrary": "^9.12.2",
+    "spatie/laravel-stripe-webhooks": "^3.0",
+    "spatie/valuestore": "^1.2",
+    "stripe/stripe-php": "^7.57",
+    "verumconsilium/laravel-browsershot": "^1.1",
+    "yajra/laravel-datatables-oracle": "^9.7"
+  },
+  "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.2",
+    "barryvdh/laravel-ide-helper": "^2.7",
+    "spatie/laravel-ignition": "^1.0",
+    "mockery/mockery": "^1.0",
+    "nunomaduro/collision": "^6.1",
+    "phpunit/phpunit": "^9.5",
+    "spatie/laravel-web-tinker": "^1.7"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": []
     }
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/"
+    },
+    "classmap": [
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi"
+    ],
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "@php artisan key:generate --ansi"
+    ],
+    "post-update-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "@php artisan horizon:publish --ansi"
+    ],
+    "clear-all": [
+      "@php artisan clear-compiled",
+      "@php artisan cache:clear",
+      "@php artisan route:clear",
+      "@php artisan view:clear",
+      "@php artisan config:clear",
+      "@php artisan ide-helper:generate",
+      "@php artisan ide-helper:meta",
+      "composer dumpautoload -o",
+      "npm run dev"
+    ]
+  }
 }
