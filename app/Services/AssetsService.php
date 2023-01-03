@@ -22,7 +22,7 @@ class AssetsService
                         Carbon::createFromFormat(config('panel.date_format'), $asset->end_date)->format('Y-m-d')
                     ])->sum('minutes');
                 $asset->current_running_hours = round(($runningHoursByAsset / 60));
-                debug('Asset ID: ' . $asset->id . ' RunningHH: ' . $asset->current_running_hours);
+                //debug('Asset ID: ' . $asset->id . ' RunningHH: ' . $asset->current_running_hours);
                 $asset->save();
             }
 

@@ -43,7 +43,7 @@ class BookingDataService
                 'description' => $bookingDateItem->description,
             ];
         }
-        debug(json_encode($collectionBookingEvents));
+        //debug(json_encode($collectionBookingEvents));
         return json_encode($collectionBookingEvents);
     }
 

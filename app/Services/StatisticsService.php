@@ -67,7 +67,7 @@ class StatisticsService
     {
         $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
         $getPaymentDataWithoutScope = $this->getPaymentsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
-        debug($getActivityDataWithoutScope);
+        //debug($getActivityDataWithoutScope);
         return [
             'id' => 'personal',
             'name' => trans('cruds.profile.finance.personal'),

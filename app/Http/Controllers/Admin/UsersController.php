@@ -24,7 +24,7 @@ class UsersController extends Controller
         if ($request->ajax()) {
             $query = User::with(['factor'])
                 ->select(sprintf('%s.*', (new User)->table));
-            debug($query);
+            //debug($query);
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
