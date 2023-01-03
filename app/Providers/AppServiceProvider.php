@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
+
         $this->app->singleton('valuestore', function () {
             return \Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
         });
