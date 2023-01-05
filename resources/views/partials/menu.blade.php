@@ -1,18 +1,26 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 917px;">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="{{route('app.home')}}" class="brand-link">
+        {{--        <img src="{{ url('/images/ClearProp_textdown.svg') }}" alt="ClearProp Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
         <span class="brand-text font-weight-light">{{ trans('panel.site_title') }}</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user (optional) -->
-
+        <!-- Sidebar user -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                {{--<img src="" class="img-circle elevation-2" alt="User Image">--}}
+            </div>
+            <div class="info">
+                <a href="{{route('profile.password.edit')}}" class="d-block">{{auth()->user()->name}}</a>
+            </div>
+        </div>
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route("admin.home") }}" class="nav-link">
+                    <a href="{{ route("app.home") }}" class="nav-link">
                         <p>
                             <i class="fas fa-fw nav-icon fa-tachometer-alt">
 
@@ -23,8 +31,8 @@
                 </li>
                 @can('activity_access')
                     <li class="nav-item">
-                        <a href="{{ Request::route()->getPrefix() . "/activities" }}"
-                           class="nav-link {{ request()->is('admin/activities') || request()->is('admin/activities/*') ? 'active' : '' }}">
+                        <a href="{{ route("app.activities.index")  }}"
+                           class="nav-link {{ request()->is('app/activities') || request()->is('app/activities/*') ? 'active' : '' }}">
                             <i class="fa-fw nav-icon fas fa-plane-departure">
 
                             </i>
@@ -49,7 +57,7 @@
                 @endcan
                 @can('user_access')
                     <li class="nav-item">
-                        <a href="{{  Request::route()->getPrefix() . "/users" }}"
+                        <a href="{{route("admin.users.index")}}"
                            class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
                             <i class="fa-fw nav-icon fas fa-user">
 
@@ -118,7 +126,8 @@
                             @endcan
                             @can('income_category_access')
                                 <li class="nav-item">
-                                    <a href="{{ route("admin.income-categories.index") }}" class="nav-link {{ request()->is('admin/income-categories') || request()->is('admin/income-categories/*') ? 'active' : '' }}">
+                                    <a href="{{ route("admin.income-categories.index") }}"
+                                       class="nav-link {{ request()->is('admin/income-categories') || request()->is('admin/income-categories/*') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
                                             <span>{{ trans('cruds.incomeCategory.title') }}</span>
@@ -130,16 +139,11 @@
                     </li>
                 @endcan
                 @can('asset_management_access')
-                    <li class="nav-item has-treeview
-                        {{ request()->is("admin/assets") ? "menu-open" : "" }}
-                    {{ request()->is("admin/planes") ? "menu-open" : "" }}
-                        ">
+                    <li class="nav-item has-treeview {{ request()->is("admin/assets") ? "menu-open" : "" }} {{ request()->is("admin/planes") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
-                            <i class="fa-fw nav-icon fas fa-book">
-
-                            </i>
+                            <i class="fa-fw nav-icon fas fa-book"></i>
                             <p>
-                                {{ trans('cruds.assetManagement.title') }}
+                                <span>{{ trans('cruds.assetManagement.title') }}</span>
                                 <i class="right fa fa-fw fa-angle-left nav-icon"></i>
                             </p>
                         </a>
@@ -157,7 +161,7 @@
                             @endcan
                             @can('plane_access')
                                 <li class="nav-item">
-                                    <a href="{{  Request::route()->getPrefix() . "/planes" }}"
+                                    <a href="{{  route("admin.planes.index") }}"
                                        class="nav-link {{ request()->is('admin/planes') || request()->is('admin/planes/*') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>
@@ -181,7 +185,7 @@
                     {{ request()->is('admin/asset-categories*') ? 'menu-open' : '' }}
                     {{ request()->is('admin/asset-statuses*') ? 'menu-open' : '' }}
                     {{ request()->is('admin/asset-locations*') ? 'menu-open' : '' }}
-                        ">
+                            ">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-cog">
 
@@ -284,7 +288,8 @@
                     </li>
                 @endcan
                 <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                    <a href="#" class="nav-link"
+                       onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         <p>
                             <i class="fas fa-fw nav-icon fa-sign-out-alt">
 

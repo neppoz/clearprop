@@ -32,7 +32,7 @@ class ActivityCostCalculationListener
     /**
      * Handle the event.
      *
-     * @param  ActivityCostCalculation  $event
+     * @param ActivityCostCalculation $event
      * @return void
      */
     public function handle(ActivityCostCalculation $event)
@@ -72,26 +72,26 @@ class ActivityCostCalculationListener
         /** industrial minutes calculation */
         if ($plane->counter_type === '100') {
             $regular_value = ($event->activity->counter_stop) - ($event->activity->counter_start);
-            $regular_minutes = round($regular_value * 100/5*3, 2);
+            $regular_minutes = round($regular_value * 100 / 5 * 3, 2);
 
             $event->activity->rate = $rate;
-            $event->activity->amount = $regular_minutes*$rate;
+            $event->activity->amount = $regular_minutes * $rate;
             $event->activity->minutes = $regular_minutes;
             $event->activity->warmup_minutes = 0;
 
-            debug('CalcWithoutWarmup:Industrial -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
+            //debug('CalcWithoutWarmup:Industrial -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
         }
 
         /** Rolling hours and minutes with a decimal */
         if ($plane->counter_type === '060') {
-            $regular_minutes = ((intval($event->activity->counter_stop)*60) + explode('.', number_format($event->activity->counter_stop, 2))[1]) - ((intval($event->activity->counter_start)*60) + explode('.', number_format($event->activity->counter_start, 2))[1]);
+            $regular_minutes = ((intval($event->activity->counter_stop) * 60) + explode('.', number_format($event->activity->counter_stop, 2))[1]) - ((intval($event->activity->counter_start) * 60) + explode('.', number_format($event->activity->counter_start, 2))[1]);
 
             $event->activity->rate = $rate;
-            $event->activity->amount = $regular_minutes*$rate;
+            $event->activity->amount = $regular_minutes * $rate;
             $event->activity->minutes = $regular_minutes;
             $event->activity->warmup_minutes = 0;
 
-            debug('CalcWithoutWarmup:HH,min -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
+            //debug('CalcWithoutWarmup:HH,min -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
         }
 
         return;
@@ -104,18 +104,18 @@ class ActivityCostCalculationListener
         if ($plane->counter_type === '100') {
             $warmup_value = ($event->activity->counter_start) - ($event->activity->warmup_start);
             $regular_value = ($event->activity->counter_stop) - ($event->activity->counter_start);
-            $warmup_minutes = round($warmup_value * 100/5*3, 2);
-            $regular_minutes = round($regular_value * 100/5*3, 2);
+            $warmup_minutes = round($warmup_value * 100 / 5 * 3, 2);
+            $regular_minutes = round($regular_value * 100 / 5 * 3, 2);
 
             $event->activity->rate = $rate;
 
             if ($plane->warmup_type == 0) {
-                $event->activity->amount = $regular_minutes*$rate;
-                debug('CalcWithWarmup:Industrial -> Warmup minutes: '.$warmup_minutes. ' Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
+                $event->activity->amount = $regular_minutes * $rate;
+                //debug('CalcWithWarmup:Industrial -> Warmup minutes: '.$warmup_minutes. ' Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
             }
             if ($plane->warmup_type == 1) {
-                $event->activity->amount = ($regular_minutes+$warmup_minutes)*$rate;
-                debug('CalcWithWarmup:Industrial -> Warmup minutes: '.$warmup_minutes. ' Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.($regular_minutes+$warmup_minutes)*$rate);
+                $event->activity->amount = ($regular_minutes + $warmup_minutes) * $rate;
+                //debug('CalcWithWarmup:Industrial -> Warmup minutes: '.$warmup_minutes. ' Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.($regular_minutes+$warmup_minutes)*$rate);
             }
 
             $event->activity->minutes = $regular_minutes;
@@ -123,17 +123,17 @@ class ActivityCostCalculationListener
         }
         /** Rolling hours and minutes with a decimal */
         if ($plane->counter_type === '060') {
-            $warmup_minutes = ((intval($event->activity->counter_start)*60) + explode('.', number_format($event->activity->counter_start, 2))[1]) - ((intval($event->activity->warmup_start)*60) + explode('.', number_format($event->activity->warmup_start, 2))[1]);
-            $regular_minutes = ((intval($event->activity->counter_stop)*60) + explode('.', number_format($event->activity->counter_stop, 2))[1]) - ((intval($event->activity->counter_start)*60) + explode('.', number_format($event->activity->counter_start, 2))[1]);
+            $warmup_minutes = ((intval($event->activity->counter_start) * 60) + explode('.', number_format($event->activity->counter_start, 2))[1]) - ((intval($event->activity->warmup_start) * 60) + explode('.', number_format($event->activity->warmup_start, 2))[1]);
+            $regular_minutes = ((intval($event->activity->counter_stop) * 60) + explode('.', number_format($event->activity->counter_stop, 2))[1]) - ((intval($event->activity->counter_start) * 60) + explode('.', number_format($event->activity->counter_start, 2))[1]);
 
             $event->activity->rate = $rate;
             if ($plane->warmup_type == 0) {
-                $event->activity->amount = $regular_minutes*$rate;
-                debug('CalcWithWarmup:HH,min -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
+                $event->activity->amount = $regular_minutes * $rate;
+                //debug('CalcWithWarmup:HH,min -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.$regular_minutes*$rate);
             }
             if ($plane->warmup_type == 1) {
-                $event->activity->amount = ($regular_minutes+$warmup_minutes)*$rate;
-                debug('CalcWithWarmup:HH,min -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.($regular_minutes+$warmup_minutes)*$rate);
+                $event->activity->amount = ($regular_minutes + $warmup_minutes) * $rate;
+                //debug('CalcWithWarmup:HH,min -> Regular minutes: '.$regular_minutes.' Rate: '.$rate.' Amount:'.($regular_minutes+$warmup_minutes)*$rate);
             }
 
             $event->activity->minutes = $regular_minutes;

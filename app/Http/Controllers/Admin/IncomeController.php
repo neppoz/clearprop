@@ -28,12 +28,12 @@ class IncomeController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'income_show';
-                $editGate      = 'income_edit';
-                $deleteGate    = 'income_delete';
+                $viewGate = 'income_show';
+                $editGate = 'income_edit';
+                $deleteGate = 'income_delete';
                 $crudRoutePart = 'incomes';
 
-                return view('partials.datatablesActions', compact(
+                return view('partials.datatablesAdminActions', compact(
                     'viewGate',
                     'editGate',
                     'deleteGate',
@@ -147,12 +147,12 @@ class IncomeController extends Controller
                 $table->addColumn('actions', '&nbsp;');
 
                 $table->editColumn('actions', function ($row) {
-                    $viewGate      = 'income_show';
-                    $editGate      = 'income_edit';
-                    $deleteGate    = 'income_delete';
+                    $viewGate = 'income_show';
+                    $editGate = 'income_edit';
+                    $deleteGate = 'income_delete';
                     $crudRoutePart = 'incomes';
 
-                    return view('partials.datatablesActions', compact(
+                    return view('partials.datatablesAdminActions', compact(
                         'viewGate',
                         'editGate',
                         'deleteGate',
@@ -188,5 +188,6 @@ class IncomeController extends Controller
                 return back()->withToastError($exception->getMessage());
             }
         }
+        return false;
     }
 }

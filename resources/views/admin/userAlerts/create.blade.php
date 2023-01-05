@@ -8,9 +8,9 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item"><a
-                        href="{{route('admin.user-alerts.index')}}">{{trans('cruds.userAlert.title')}}</a></li>
+                            href="{{route('admin.user-alerts.index')}}">{{trans('cruds.userAlert.title')}}</a></li>
                 <li class="breadcrumb-item active">{{ trans('global.create') }}</li>
             </ol>
         </div><!-- /.col -->
@@ -31,7 +31,7 @@
                         <span class="text-danger">{{ $errors->first('alert_text') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.alert_text_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.alert_text_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="alert_link">{{ trans('cruds.userAlert.fields.alert_link') }}</label>
@@ -41,7 +41,7 @@
                         <span class="text-danger">{{ $errors->first('alert_link') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.alert_link_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.alert_link_helper') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="users">{{ trans('cruds.userAlert.fields.user') }}</label>
@@ -55,17 +55,17 @@
                             id="users" multiple>
                         @foreach($users as $id => $user)
                             <option
-                                value="{{ $id }}" {{ in_array($id, old('users', [])) ? 'selected' : '' }}>{{ $user }}</option>
+                                    value="{{ $id }}" {{ in_array($id, old('users', [])) ? 'selected' : '' }}>{{ $user }}</option>
                         @endforeach
                     </select>
                     @if($errors->has('users'))
                         <span class="text-danger">{{ $errors->first('users') }}</span>
                     @endif
                     <span
-                        class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.user_helper') }}</span>
+                            class="help-block text-secondary small">{{ trans('cruds.userAlert.fields.user_helper') }}</span>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-danger" type="submit">
+                    <button class="btn btn-primary float-right" type="submit">
                         {{ trans('global.save') }}
                     </button>
                 </div>

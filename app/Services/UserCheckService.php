@@ -42,7 +42,7 @@ class UserCheckService
                 ->get('amount');
 
             $balance = ($incomes->sum('amount') - abs($activities->sum('amount')));
-            debug("Incomes: " . $incomes->sum('amount') . "\t Activities: " . $activities->sum('amount'));
+            //debug("Incomes: " . $incomes->sum('amount') . "\t Activities: " . $activities->sum('amount'));
             if ($balance <= Parameter::where('slug', 'check.balance.limit.amount')->value('value')) {
                 return false;
             }

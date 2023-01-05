@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -22,20 +22,20 @@
                                         <span class="text-danger">{{ $errors->first('license') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.license_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.license_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="required"
                                            for="medical_due">{{ trans('cruds.user.fields.medical_due') }}</label>
                                     <input
-                                        class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}"
-                                        type="text" name="medical_due" id="medical_due"
-                                        value="{{ old('medical_due', $user->medical_due) }}" required>
+                                            class="form-control date {{ $errors->has('medical_due') ? 'is-invalid' : '' }}"
+                                            type="text" name="medical_due" id="medical_due"
+                                            value="{{ old('medical_due', $user->medical_due) }}" required>
                                     @if($errors->has('medical_due'))
                                         <span class="text-danger">{{ $errors->first('medical_due') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.medical_due_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="required" for="taxno">{{ trans('cruds.user.fields.taxno') }}</label>
@@ -46,7 +46,7 @@
                                         <span class="text-danger">{{ $errors->first('taxno') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.taxno_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.taxno_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="required"
@@ -58,7 +58,7 @@
                                         <span class="text-danger">{{ $errors->first('phone_1') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_1_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="phone_2">{{ trans('cruds.user.fields.phone_2') }}</label>
@@ -69,7 +69,7 @@
                                         <span class="text-danger">{{ $errors->first('phone_2') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_2_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.phone_2_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="required"
@@ -81,7 +81,7 @@
                                         <span class="text-danger">{{ $errors->first('address') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.address_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.address_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <label class="required" for="city">{{ trans('cruds.user.fields.city') }}</label>
@@ -92,11 +92,11 @@
                                         <span class="text-danger">{{ $errors->first('city') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.city_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.city_helper') }}</span>
                                 </div>
                                 <div class="form-group">
                                     <div
-                                        class="form-check {{ $errors->has('privacy_confirmed_at') ? 'is-invalid' : '' }}">
+                                            class="form-check {{ $errors->has('privacy_confirmed_at') ? 'is-invalid' : '' }}">
                                         <input type="hidden" name="privacy_confirmed_at" value="0">
                                         <input class="form-check-input" type="checkbox" name="privacy_confirmed_at"
                                                id="privacy_confirmed_at" value="{{ now() }}"
@@ -108,7 +108,7 @@
                                         <span class="text-danger">{{ $errors->first('instructor') }}</span>
                                     @endif
                                     <span
-                                        class="help-block text-secondary small">{{ trans('cruds.user.fields.instructor_helper') }}</span>
+                                            class="help-block text-secondary small">{{ trans('cruds.user.fields.instructor_helper') }}</span>
                                 </div>
                                 <div class="form-group row mb-0">
                                     <div class="col-md-6 offset-md-4">

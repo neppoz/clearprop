@@ -175,6 +175,16 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/constant_time_encoding" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fruitcake/php-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem-sftp-v3" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/fakerphp/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/codeStyles" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/inspectionProfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/9c" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/92" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/ce" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/fd" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/testing/disks" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

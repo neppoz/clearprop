@@ -1,4 +1,4 @@
-@forelse($statistics['assetsOverhaulData'] as $plane => $assets)
+@forelse($statistics as $plane => $assets)
     <div class="card card-primary card-outline collapsed-card">
         <div class="card-header">
             <h3 class="card-title">{{ $plane }}</h3>
@@ -17,7 +17,7 @@
                                 <div class="progress-group">
                                     <strong>{{ $asset->name }}</strong>
                                     <span class="float-right"><span
-                                            class="text-bold text-{{ $asset->progressBarColor ?? 'primary' }}">{{ $asset->start_hours + $asset->current_running_hours ?? 'N/A ' }}</span>/{{ $asset->end_hours ?? 'N/A ' }} <small><strong>h</strong></small></span>
+                                                class="text-bold text-{{ $asset->progressBarColor ?? 'primary' }}">{{ $asset->start_hours + $asset->current_running_hours ?? 'N/A ' }}</span>/{{ $asset->end_hours ?? 'N/A ' }} <small><strong>h</strong></small></span>
                                     <div class="progress progress-sm">
                                         <div class="progress-bar bg-{{ $asset->progressBarColor ?? 'primary' }}"
                                              style="width: {{ $asset->progressBarInPercent }}%"></div>

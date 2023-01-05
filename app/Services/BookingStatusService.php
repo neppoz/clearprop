@@ -10,28 +10,23 @@ use Illuminate\Support\Facades\Notification;
 
 class BookingStatusService
 {
-    public function createStatus($booking)
+    public function createStatus($request, $booking)
     {
-        try {
-            if ($booking->instructor_needed == true) {
-                // set status to pending
-                $booking->status = 0;
-            } else {
-                // Auto-Confirmation, status 1
-                $booking->status = 1;
-            }
-
-            $booking->bookingUsers()->attach(auth()->user()->id);
-            $booking->created_by_id = auth()->user()->id;
-            $booking->save();
-
-            return true;
-
-        } catch (\Throwable $exception) {
-            report($exception);
-            return back()->withToastError($exception->getMessage());
+        if ($request->input('status') != null) {
+            $booking->status = $request->status;
+        } else {
+            // Auto-Confirmation, status 1 if no valid input
+            $booking->status = 1;
         }
+        if ($booking->instructor_needed == true) {
+            // set status to pending by default in this condition
+            $booking->status = 0;
+        }
+        $booking->bookingUsers()->attach($request->user_id);
+        $booking->created_by_id = auth()->user()->id;
+        $booking->save();
 
+        return true;
     }
 
     public function sendNotificationsConfirmed($booking) {

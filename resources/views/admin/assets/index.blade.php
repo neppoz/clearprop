@@ -1,124 +1,135 @@
 @extends('layouts.admin')
-@section('content')
-    <div class="row m-2">
+@section('content-header')
+    <div class="row mb-2">
         <div class="col-sm-6">
-            <h3 class="m-0 text-dark">{{ trans('cruds.asset.title') }}</h3>
-        </div><!-- /.col -->
+            <h2 class="m-0">{{ trans('cruds.asset.title') }}</h2>
+        </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('app.home')}}">Home</a></li>
                 <li class="breadcrumb-item active">{{ trans('cruds.asset.title') }}</li>
             </ol>
-        </div><!-- /.col -->
+        </div>
     </div>
+    @can('asset_create')
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-success float-right" href="{{ route('admin.assets.create') }}">
+                    <i class="fas fa-edit"></i>
+                    {{ trans('global.create') }}
+                </a>
+            </div>
+        </div>
+    @endcan
+@endsection
 
-    <div class="card card-primary card-outline">
-        <div class="card-header">
-            @can('asset_create')
-                <div style="margin-bottom: 10px;" class="row">
-                    <div class="col-lg-12">
-                        <a class="btn btn-success" href="{{ route('admin.assets.create') }}">
-                            <i class="fas fa-edit"></i>
-                            {{ trans('global.create') }}
-                        </a>
+@section('content')
+    @if(count($statistics) > 0)
+        <div class="row">
+            <div class="col">
+                @include('partials.admin.assets-global')
+            </div>
+        </div>
+    @endif
+    <div class="row">
+        <div class="col">
+            <div class="card card-primary card-outline">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered table-striped table-hover datatable datatable-Asset">
+                            <thead>
+                            <tr>
+                                <th width="10">
+
+                                </th>
+                                <th>
+                                    {{ trans('cruds.asset.fields.name') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.asset.fields.current_running_hours') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.asset.fields.end_hours') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.asset.fields.end_date') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.asset.fields.status') }}
+                                </th>
+                                <th>
+                                    {{ trans('cruds.asset.fields.plane') }}
+                                </th>
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($assets as $key => $asset)
+                                <tr data-entry-id="{{ $asset->id }}">
+                                    <td>
+
+                                    </td>
+                                    <td>
+                                        {{ $asset->name ?? '' }}
+                                    </td>
+                                    <td>
+                                        {{ $asset->current_running_hours ?? '' }}
+                                    </td>
+                                    <td>
+                                        {{ $asset->end_hours ?? '' }}
+                                    </td>
+                                    <td>
+                                        {{ $asset->end_date ?? '' }}
+                                    </td>
+                                    <td>
+                                        {{ $asset->status->name ?? '' }}
+                                    </td>
+                                    <td>
+                                        {{ $asset->plane->callsign ?? '' }}
+                                    </td>
+                                    <td>
+                                        @can('asset_show')
+                                            <a class="btn btn-xs btn-primary"
+                                               href="{{ route('admin.assets.show', $asset->id) }}">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        @endcan
+
+                                        @can('asset_edit')
+                                            <a class="btn btn-xs btn-info"
+                                               href="{{ route('admin.assets.edit', $asset->id) }}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endcan
+
+                                        @can('asset_delete')
+                                            <form action="{{ route('admin.assets.destroy', $asset->id) }}" method="POST"
+                                                  onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
+                                                  style="display: inline-block;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <button type="submit" class="btn btn-xs btn-danger"><i
+                                                            class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
+
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            @endcan
-        </div>
-
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class=" table table-bordered table-striped table-hover datatable datatable-Asset">
-                    <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.asset.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.asset.fields.current_running_hours') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.asset.fields.end_hours') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.asset.fields.end_date') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.asset.fields.status') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.asset.fields.plane') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($assets as $key => $asset)
-                        <tr data-entry-id="{{ $asset->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $asset->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $asset->current_running_hours ?? '' }}
-                            </td>
-                            <td>
-                                {{ $asset->end_hours ?? '' }}
-                            </td>
-                            <td>
-                                {{ $asset->end_date ?? '' }}
-                            </td>
-                            <td>
-                                {{ $asset->status->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $asset->plane->callsign ?? '' }}
-                            </td>
-                            <td>
-                                @can('asset_show')
-                                    <a class="btn btn-xs btn-primary"
-                                       href="{{ route('admin.assets.show', $asset->id) }}">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                @endcan
-
-                                @can('asset_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.assets.edit', $asset->id) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                @endcan
-
-                                @can('asset_delete')
-                                    <form action="{{ route('admin.assets.destroy', $asset->id) }}" method="POST"
-                                          onsubmit="return confirm('{{ trans('global.areYouSure') }}');"
-                                          style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 
-
-
 @endsection
+
 @section('scripts')
     @parent
     <script>

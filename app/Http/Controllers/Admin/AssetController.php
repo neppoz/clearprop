@@ -13,6 +13,7 @@ use App\AssetLocation;
 use App\AssetStatus;
 use App\Plane;
 use App\Services\AssetsService;
+use App\Services\StatisticsService;
 use App\User;
 use Gate;
 use Illuminate\Http\Request;
@@ -29,8 +30,9 @@ class AssetController extends Controller
         abort_if(Gate::denies('asset_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $assets = Asset::all();
+        $statistics = (new StatisticsService())->getAssetsOverhaulData();
 
-        return view('admin.assets.index', compact('assets'));
+        return view('admin.assets.index', compact('assets', 'statistics'));
     }
 
     public function create()

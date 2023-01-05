@@ -2,27 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Booking;
+use App\Parameter;
+use App\Services\BookingDataService;
+use App\Services\StatisticsService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        $collectionActivityStatistics = new \Illuminate\Support\Collection();
+        if (\Gate::allows('dashboard_global_activity_access')) {
+            $getGlobalActivityStatistics = (new StatisticsService())->getGlobalActivityStatistics();
+            $collectionActivityStatistics->push($getGlobalActivityStatistics);
+        }
+        if (\Gate::allows('dashboard_instructor_activity_access')) {
+            $getInstructorActivityStatistics = (new StatisticsService())->getInstructorActivityStatistics();
+            $collectionActivityStatistics->push($getInstructorActivityStatistics);
+        }
+        if (\Gate::allows('dashboard_personal_activity_access')) {
+            $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
+            $collectionActivityStatistics->push($getPersonalActivityStatistics);
+        }
+
+        $currentUserMedicalBeyondDueDate = false;
+        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
+            $currentUserMedical = Auth::user()->medical_due;
+            if (!empty($currentUserMedical)) {
+                $currentUserMedical = Carbon::createFromFormat('d/m/Y', $currentUserMedical);
+                if ($currentUserMedical <= Carbon::today()) {
+                    $currentUserMedicalBeyondDueDate = true;
+                }
+            }
+        }
+
+        $bookingDates = (new BookingDataService())->getBookingDataForCards();
+        $bookingCalendarEvents = (new BookingDataService())->getBookingDataForCalendar();
+
+        return view('home', compact('bookingDates', 'bookingCalendarEvents', 'collectionActivityStatistics', 'currentUserMedicalBeyondDueDate'));
     }
+
 }
