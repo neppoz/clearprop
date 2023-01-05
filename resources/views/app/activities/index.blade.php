@@ -161,7 +161,7 @@
                     {
                         data: 'plane_callsign', name: 'plane.callsign'
                     },
-                    {data: 'counter', name: 'counter', orderable: false},
+                    {data: 'counter', name: 'counter', orderable: false, searchable: false},
                     {data: 'minutes', name: 'minutes'},
                     {data: 'amount', name: 'amount'},
                     {data: 'actions', name: '{{ trans('global.actions') }}'}
