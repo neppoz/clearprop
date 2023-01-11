@@ -6,14 +6,22 @@ use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingsController;
 
-Auth::routes(['register' => false, 'verify' => true, 'reset' => true]);
+Auth::routes([
+    'login' => true,
+    'logout' => true,
+    'register' => false,
+    'reset' => true,   // for resetting passwords
+    'confirm' => false,  // for additional password confirmations
+    'verify' => false,  // for email verification
+]);
+
+// Main routes
 Route::redirect('/', '/login');
 Route::redirect('/pilot', '/home');
 Route::get('/home', function () {
     return redirect()->route('app.home');
 });
 
-// Main routes
 Route::group(['prefix' => 'app', 'as' => 'app.', 'middleware' => ['auth']], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -43,7 +51,6 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
     Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
     Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
 });
-
 
 // Frontend
 Route::group(['prefix' => 'pilot', 'as' => 'pilot.', 'namespace' => 'Pilot', 'middleware' => ['auth', 'verified']], function () {
@@ -182,3 +189,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
