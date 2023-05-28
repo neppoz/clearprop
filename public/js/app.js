@@ -2202,9 +2202,7 @@
              * includes Vue and other libraries. It is a great starting point when
              * building robust, powerful web applications using Vue and Laravel.
              */
-            __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-            __webpack_require__(/*! ./calendar */ "./resources/js/calendar.js"); // window.Vue = require('vue');
+            __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // window.Vue = require('vue');
 
             /**
              * The following block of code may be used to automatically register your
@@ -2257,21 +2255,6 @@
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
-
-            /***/
-        }),
-
-        /***/ "./resources/js/calendar.js":
-        /*!**********************************!*\
-  !*** ./resources/js/calendar.js ***!
-  \**********************************/
-        /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-            "use strict";
-            __webpack_require__.r(__webpack_exports__);
-
-
-            //italian language and config
 
             /***/
         }),
