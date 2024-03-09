@@ -10,11 +10,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable // implements MustVerifyEmail
 {
-    use SoftDeletes, Notifiable, HasApiTokens;
+    use SoftDeletes, Notifiable;
 
     const IS_ADMIN = 1;
     const IS_MEMBER = 2;

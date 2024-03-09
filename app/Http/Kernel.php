@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 class Kernel extends HttpKernel
 {
@@ -13,14 +12,10 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \Fruitcake\Cors\HandleCors::class,
     ];
 
     protected $middlewareGroups = [
         'api' => [
-            EnsureFrontendRequestsAreStateful::class,
-            'throttle:60,1',
-            'bindings',
             \App\Http\Middleware\AuthGates::class,
         ],
         'web' => [
@@ -32,8 +27,6 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AuthGates::class,
             \App\Http\Middleware\SetLocale::class,
-            \RealRashid\SweetAlert\ToSweetAlert::class,
-
         ],
     ];
 
@@ -46,7 +39,6 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-//        'admin' => \App\Http\Middleware\IsAdminMiddleware::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 }
