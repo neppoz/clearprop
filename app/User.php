@@ -10,8 +10,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Filament\Panel;
+use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable // implements MustVerifyEmail
+class User extends Authenticatable implements FilamentUser
 {
     use SoftDeletes, Notifiable;
 
@@ -61,57 +63,62 @@ class User extends Authenticatable // implements MustVerifyEmail
         'deleted_at',
     ];
 
-    public function getIsAdminAttribute()
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function getIsAdminAttribute(): bool
     {
         return $this->roles()->where('id', 1)->exists();
     }
 
-    public function roles()
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    public function getIsManagerAttribute()
+    public function getIsManagerAttribute(): bool
     {
         return $this->roles()->where('id', 3)->exists();
     }
 
-    public function getIsInstructorAttribute()
+    public function getIsInstructorAttribute(): bool
     {
         return $this->roles()->where('id', 4)->exists();
     }
 
-    public function getIsMechanicAttribute()
+    public function getIsMechanicAttribute(): bool
     {
         return $this->roles()->where('id', 5)->exists();
     }
 
-    public function userActivities()
+    public function userActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');
     }
 
-    public function userBookings()
+    public function userBookings(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Booking::class, 'booking_user');
     }
 
-    public function instructorBookings()
+    public function instructorBookings(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Booking::class, 'booking_instructor');
     }
 
-    public function copilotActivities()
+    public function copilotActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'copilot_id', 'id');
     }
 
-    public function instructorActivities()
+    public function instructorActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'instructor_id', 'id');
     }
 
-    public function userIncomes()
+    public function userIncomes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Income::class, 'user_id', 'id');
     }
@@ -128,12 +135,12 @@ class User extends Authenticatable // implements MustVerifyEmail
         $this->notify(new ResetPassword($token));
     }
 
-    public function factor()
+    public function factor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Factor::class, 'factor_id');
     }
 
-    public function getMedicalDueAttribute($value)
+    public function getMedicalDueAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
@@ -143,7 +150,7 @@ class User extends Authenticatable // implements MustVerifyEmail
         $this->attributes['medical_due'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
     }
 
-    public function getEmailVerifiedAtAttribute($value)
+    public function getEmailVerifiedAtAttribute($value): ?string
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
     }
@@ -158,27 +165,27 @@ class User extends Authenticatable // implements MustVerifyEmail
         $this->attributes['taxno'] = strtoupper($value);
     }
 
-    public function planes()
+    public function planes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Plane::class);
     }
 
-    public function userUserAlerts()
+    public function userUserAlerts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(UserAlert::class);
     }
 
-    public function getCreatedAtAttribute($value)
+    public function getCreatedAtAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    public function getDeletedAtAttribute($value)
+    public function getDeletedAtAttribute($value): ?string
     {
         return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
     }
 
-    protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
     }
