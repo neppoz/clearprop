@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -38,10 +39,27 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-
 //                Widgets\AccountWidget::class,
 //                Widgets\FilamentInfoWidget::class,
             ])
+            ->plugin(
+                FilamentFullCalendarPlugin::make()
+                    ->schedulerLicenseKey('')
+                    ->selectable()
+                    ->editable(true)
+                    ->timezone(config('app.timezone'))
+                    ->locale(app()->getLocale())
+                    ->config([
+                        'initialView' => "timeGridWeek",
+                        'allDaySlot' => false,
+                        'slotMinTime' => "07:00:00",
+                        'slotMaxTime' => "20:00:00",
+                        'slotDuration' => "01:00:00",
+                        'height' => "auto",
+                        'slotLabelFormat' => 'HH:mm',
+                        'displayEventTime' => false,
+                    ])
+            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

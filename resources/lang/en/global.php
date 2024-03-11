@@ -265,7 +265,7 @@ return [
     'caution' => 'Attention',
     'activityCheck' => 'Your are below the safety limits. Only reservation with instructor possible.',
     'balanceCheck' => 'You have exceeded your credit! Sorry, no reservation possible.',
-    'medicalCheck' => 'Your medical is invalid. Only reservation with instructor possible.',
+    'medicalCheck' => 'Your medical is invalid!',
     'ratingCheck' => 'You have no rating for this plane. Only reservation with instructor possible.',
     'medicalCheck_for_admin' => 'The Pilot you selected has no valid medical. Only reservation with instructor possible.',
     'activityCheck_for_admin' => 'The Pilot you selected is below the safety limits.',
@@ -304,5 +304,5 @@ return [
     'service_information_admins' => 'The general statistics where moved to the report page.',
     'service_information_members' => 'The general statistics where moved to your profile page.',
     'link_text_goto' => 'Click here',
-    'message_update_profile' => 'Update your data',
+    'message_update_profile' => 'Please update your data here',
 ];

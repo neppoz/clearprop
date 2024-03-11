@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class BookingDataService
 {
-    public function getBookingDataForCalendar()
+    public function getBookingDataForCalendar(): bool|string
     {
         $collectionBookingEvents = [];
 
@@ -43,12 +43,10 @@ class BookingDataService
                 'description' => $bookingDateItem->description,
             ];
         }
-        //debug(json_encode($collectionBookingEvents));
         return json_encode($collectionBookingEvents);
     }
 
-    public
-    function getBookingDataForCards()
+    public function getBookingDataForCards(): \Illuminate\Database\Eloquent\Collection|array
     {
         return Booking::with(['plane', 'bookingUsers', 'bookingInstructors', 'slot', 'mode'])
             ->where('reservation_stop', '>=', Carbon::parse(today()))

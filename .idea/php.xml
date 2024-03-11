@@ -210,6 +210,9 @@
       <path value="$PROJECT_DIR$/vendor/filament/filament" />
       <path value="$PROJECT_DIR$/vendor/filament/notifications" />
       <path value="$PROJECT_DIR$/vendor/filament/widgets" />
+      <path value="$PROJECT_DIR$/vendor/saade/filament-fullcalendar" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/vendor/maximebf/debugbar" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
