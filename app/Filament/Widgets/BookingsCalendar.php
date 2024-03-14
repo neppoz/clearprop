@@ -4,13 +4,11 @@ namespace App\Filament\Widgets;
 
 use App\Booking;
 use App\Filament\Resources\BookingResource;
-use App\Services\BookingDataService;
 use Carbon\Carbon;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
-use JetBrains\PhpStorm\ArrayShape;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class BookingsCalendar extends FullCalendarWidget
@@ -39,7 +37,7 @@ class BookingsCalendar extends FullCalendarWidget
      */
     public function fetchEvents(array $fetchInfo): array
     {
-        $data = Booking::query()
+        return Booking::query()
             ->where('reservation_start', '>=', $fetchInfo['start'])
             ->where('reservation_stop', '<=', $fetchInfo['end'])
             ->get()
@@ -54,8 +52,6 @@ class BookingsCalendar extends FullCalendarWidget
                     'shouldOpenUrlInNewTab' => true
                 ]
             )->all();
-
-        return $data;
     }
 
     private function getBookingColor(mixed $mode_id): string

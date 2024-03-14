@@ -32,6 +32,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
             ])
+            ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -52,9 +53,9 @@ class AppPanelProvider extends PanelProvider
                     ->config([
                         'initialView' => "timeGridWeek",
                         'allDaySlot' => false,
-                        'slotMinTime' => "07:00:00",
-                        'slotMaxTime' => "20:00:00",
-                        'slotDuration' => "01:00:00",
+                        'slotMinTime' => "06:00:00",
+                        'slotMaxTime' => "21:00:00",
+                        'slotDuration' => "00:30:00",
                         'height' => "auto",
                         'slotLabelFormat' => 'HH:mm',
                         'displayEventTime' => false,

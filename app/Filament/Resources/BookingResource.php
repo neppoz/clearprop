@@ -4,7 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookingResource\Pages;
 use App\Filament\Resources\BookingResource\RelationManagers;
-use App\Booking;
+use App\Models\Reservation;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,9 +16,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BookingResource extends Resource
 {
-    protected static ?string $model = Booking::class;
+    protected static ?string $model = Reservation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $modelLabel = 'Reservation';
+
+    protected static ?string $navigationLabel = 'Reservation';
 
     public static function form(Form $form): Form
     {
@@ -31,7 +36,22 @@ class BookingResource extends Resource
     {
         return $table
             ->columns([
-                //
+//                Tables\Columns\TextColumn::make('plane_id')
+//                    ->badge(),
+//                Tables\Columns\TextColumn::make(Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), 'reservation_start')->format('Y-m-d H:i:s'))
+//                    ->searchable()
+//                    ->sortable()
+//                    ->date(),
+//                Tables\Columns\TextColumn::make('reservation_stop')
+//                    ->searchable()
+//                    ->sortable()
+//                    ->date(),
+//                Tables\Columns\TextColumn::make('description')
+//                    ->searchable()
+//                    ->sortable()
+//                    ->toggleable(),
+//                Tables\Columns\TextColumn::make('mode_id')
+//                    ->badge(),
             ])
             ->filters([
                 //
