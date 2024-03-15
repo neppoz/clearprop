@@ -2,59 +2,74 @@
 
 namespace App\Filament\Widgets;
 
-use App\Filament\Resources\BookingResource;
+use App\Filament\Resources\ReservationResource;
 use App\Models\Reservation;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 
 class LatestReservations extends BaseWidget
 {
-    protected static ?int $sort = 0;
+    protected static ?int $sort = 3;
     protected int|string|array $columnSpan = 'full';
 
 
     public function table(Table $table): Table
     {
         return $table
-            ->query(BookingResource::getEloquentQuery())
+            ->query(ReservationResource::getEloquentQuery())
             ->defaultPaginationPageOption(5)
             ->defaultSort('reservation_start', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('plane.callsign')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('reservation_start')
-                    ->searchable()
-                    ->sortable()
-                    ->date(),
-//                Tables\Columns\TextColumn::make('reservation_start')
-//                    ->searchable()
-//                    ->sortable(),
-                Tables\Columns\TextColumn::make('reservation_stop')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('mode.name')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable()
-                    ->badge()
-                    ->color(fn(string $state): string => match ($state) {
-                        'Charter' => 'primary',
-                        'School' => 'gray',
-                        'Maintenance' => 'danger',
-                    }),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable()
-                    ->wrap(),
+                Split::make([
+                    Stack::make([
+                        Tables\Columns\TextColumn::make('plane.callsign')
+                            ->searchable(),
+                        Tables\Columns\TextColumn::make('mode.name')
+                            ->label('')
+                            ->badge()
+                            ->color(fn(string $state): string => match ($state) {
+                                'Charter' => 'primary',
+                                'School' => 'gray',
+                                'Maintenance' => 'danger',
+                            }),
+                    ]),
+                    Stack::make([
+                        Tables\Columns\TextColumn::make('reservation_start')
+                            ->label('From')
+                            ->searchable()
+                            ->dateTime('D d/m/y'),
+                        Tables\Columns\TextColumn::make('reservation_start')
+                            ->weight('medium')
+                            ->searchable()
+                            ->dateTime('H:i'),
+                    ]),
+                    Stack::make([
+                        Tables\Columns\TextColumn::make('reservation_stop')
+                            ->label('To')
+                            ->searchable()
+                            ->dateTime('D d/m/y'),
+                        Tables\Columns\TextColumn::make('reservation_stop')
+                            ->weight('medium')
+                            ->searchable()
+                            ->dateTime('H:i'),
+
+                    ]),
+                    Stack::make([
+                        Tables\Columns\TextColumn::make('created_by.name')
+                            ->weight('medium')
+                            ->searchable(),
+                        Tables\Columns\TextColumn::make('description')
+                            ->color('gray')
+                            ->searchable(),
+                    ])
+                ])
             ])
             ->actions([
-                Tables\Actions\Action::make('open')
-                    ->url(fn(Reservation $record): string => BookingResource::getUrl('edit', ['record' => $record])),
+                Tables\Actions\EditAction::make()
+                    ->url(fn(Reservation $record): string => ReservationResource::getUrl('edit', ['record' => $record])),
             ]);
     }
 }
