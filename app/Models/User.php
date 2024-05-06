@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Activity;
+use App\Role;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Hash;
