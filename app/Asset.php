@@ -10,9 +10,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use \DateTimeInterface;
 
-class Asset extends Model implements HasMedia
+class Asset extends Model
 {
-    use SoftDeletes, InteractsWithMedia;
+    use SoftDeletes;
 
     public $table = 'assets';
 
@@ -51,12 +51,6 @@ class Asset extends Model implements HasMedia
     {
         parent::boot();
         Asset::observe(new \App\Observers\AssetsHistoryObserver);
-    }
-
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
-        $this->addMediaConversion('preview')->fit('crop', 120, 120);
     }
 
     public function category()
