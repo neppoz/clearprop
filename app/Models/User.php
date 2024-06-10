@@ -9,6 +9,7 @@ use DateTimeInterface;
 use Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -70,9 +71,16 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
+    public function scopeInstructors(Builder $query)
+    {
+        $query->whereHas('roles', function ($role) {
+            $role->where('role_id', User::IS_INSTRUCTOR);
+        });
+    }
+
     public function getIsAdminAttribute(): bool
     {
-        return $this->roles()->where('id', 1)->exists();
+        return $this->roles()->where('id', self::IS_ADMIN)->exists();
     }
 
     public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -82,17 +90,17 @@ class User extends Authenticatable implements FilamentUser
 
     public function getIsManagerAttribute(): bool
     {
-        return $this->roles()->where('id', 3)->exists();
+        return $this->roles()->where('id', self::IS_MANAGER)->exists();
     }
 
     public function getIsInstructorAttribute(): bool
     {
-        return $this->roles()->where('id', 4)->exists();
+        return $this->roles()->where('id', self::IS_INSTRUCTOR)->exists();
     }
 
     public function getIsMechanicAttribute(): bool
     {
-        return $this->roles()->where('id', 5)->exists();
+        return $this->roles()->where('id', self::IS_MECHANIC)->exists();
     }
 
     public function userActivities(): \Illuminate\Database\Eloquent\Relations\HasMany

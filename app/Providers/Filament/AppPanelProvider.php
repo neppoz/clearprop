@@ -25,8 +25,8 @@ class AppPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('panel')
-            ->path('panel')
+            ->id('admin-panel')
+            ->path('admin-panel')
             ->login()
             ->passwordReset()
             ->colors([
@@ -59,6 +59,7 @@ class AppPanelProvider extends PanelProvider
                         'height' => "auto",
                         'slotLabelFormat' => 'HH:mm',
                         'displayEventTime' => false,
+                        'firstDay' => 1,
                     ])
             )
             ->middleware([

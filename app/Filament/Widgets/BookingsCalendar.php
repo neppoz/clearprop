@@ -39,9 +39,12 @@ class BookingsCalendar extends FullCalendarWidget
     private function getBookingColor(mixed $mode_id): string
     {
         return match ($mode_id) {
-            2 => 'gray',
-            4 => 'danger',
-            default => 'primary',
+            /* tailwind colors, only hex values supported
+            https://tailwindcss.com/docs/customizing-colors#color-palette-reference
+            */
+            2 => '#64748b',
+            4 => '#f43f5e',
+            default => '#3b82f6',
         };
     }
 }

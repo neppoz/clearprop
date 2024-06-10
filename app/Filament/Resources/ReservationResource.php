@@ -6,8 +6,18 @@ use App\Filament\Resources\ReservationResource\Pages;
 use App\Filament\Resources\ReservationResource\RelationManagers;
 use App\Models\Reservation;
 use App\Models\Shop\Order;
+use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,35 +34,78 @@ class ReservationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DateTimePicker::make('reservation_start')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('reservation_stop')
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('mode_id')
-                    ->relationship('mode', 'name')
-                    ->required()
-                    ->default(1),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\Select::make('slot_id')
-                    ->relationship('slot', 'title'),
-                Forms\Components\Toggle::make('checkin'),
-                Forms\Components\TextInput::make('seats')
-                    ->numeric(),
-                Forms\Components\TextInput::make('seats_taken')
-                    ->numeric(),
-                Forms\Components\TextInput::make('seats_available')
-                    ->numeric(),
-                Forms\Components\Toggle::make('instructor_needed'),
-                Forms\Components\Select::make('plane_id')
-                    ->relationship('plane', 'id')
-                    ->required(),
-                Forms\Components\Select::make('created_by_id')
-                    ->relationship('created_by', 'name'),
+                Section::make()
+                    ->schema([
+                        Radio::make('mode_id')
+                            ->options([
+                                Reservation::IS_CHARTER => 'Charter',
+                                Reservation::IS_SCHOOL => 'School',
+                                Reservation::IS_MAINTENANCE => 'Maintenance'
+                            ])
+                            ->label('Select type')
+                            ->inline()
+                            ->live()
+                            ->required(),
+                        Select::make('plane_id')
+                            ->label('Aircraft')
+                            ->relationship('plane', 'callsign')
+                            ->required(),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->schema([
+                        DatePicker::make('reservation_start_date')
+                            ->label('From')
+                            ->firstDayOfWeek(1)
+                            ->displayFormat('d/m/Y')
+                            ->minDate(today()),
+                        TimePicker::make('reservation_start_time')
+                            ->label('Time from')
+                            ->minutesStep(15)
+                            ->seconds(false),
+                        DatePicker::make('reservation_stop_date')
+                            ->label('To')
+                            ->firstDayOfWeek(1)
+                            ->displayFormat('d/m/Y')
+                            ->minDate(today()),
+                        TimePicker::make('reservation_stop_time')
+                            ->label('Time to')
+                            ->minutesStep(15)
+                            ->seconds(false),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->schema([
+                        Select::make('pilot_id')
+                            ->label('Pilot')
+                            ->options(User::all()->pluck('name', 'id'))
+                            ->searchable()
+//                            ->afterStateUpdated(fn(Get $get) => self::getUserRatings($get('user_id')))
+                            ->live(onBlur: true)
+                            ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
+                        Select::make('instructor')
+                            ->label('Instructor')
+                            ->options(User::instructors()->pluck('name', 'id'))
+                            ->live(onBlur: true)
+                            ->required(fn(Get $get): bool => $get('type') == Reservation::IS_SCHOOL),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->schema([
+                        ToggleButtons::make('status')
+                            ->label('Reservation confirmed?')
+                            ->boolean()
+                            ->colors([
+                                '0' => 'info',
+                                '1' => 'success',
+                            ])
+                            ->inline()
+                            ->required(),
+                        Textarea::make('description')
+                            ->label('Notes')
+                            ->rows(5)
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -83,25 +136,6 @@ class ReservationResource extends Resource
                         'School' => 'gray',
                         'Maintenance' => 'danger',
                     }),
-//                Tables\Columns\TextColumn::make('status')
-//                    ->numeric()
-//                    ->sortable(),
-//                Tables\Columns\TextColumn::make('slot.title')
-//                    ->numeric()
-//                    ->sortable(),
-//                Tables\Columns\IconColumn::make('checkin')
-//                    ->boolean(),
-//                Tables\Columns\TextColumn::make('seats')
-//                    ->numeric()
-//                    ->sortable(),
-//                Tables\Columns\TextColumn::make('seats_taken')
-//                    ->numeric()
-//                    ->sortable(),
-//                Tables\Columns\TextColumn::make('seats_available')
-//                    ->numeric()
-//                    ->sortable(),
-//                Tables\Columns\IconColumn::make('instructor_needed')
-//                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_by.name')
                     ->numeric()
                     ->sortable(),

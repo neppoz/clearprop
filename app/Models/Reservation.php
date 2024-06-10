@@ -9,17 +9,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservation extends Model
 {
+    use SoftDeletes;
+
     const STATUS_RADIO = [
         '0' => 'pending',
         '1' => 'confirmed',
     ];
 
-    use SoftDeletes;
-
     const INSTRUCTOR_NEEDED_RADIO = [
         '0' => 'no',
         '1' => 'yes',
     ];
+
+    const IS_CHARTER = 1;
+    const IS_SCHOOL = 2;
+    const IS_MAINTENANCE = 4;
+
     /**
      * The table associated with the model.
      *
