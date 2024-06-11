@@ -60,12 +60,12 @@ class Reservation extends Model
 
     public function bookingUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'booking_user');
+        return $this->belongsToMany(User::class, 'booking_user', 'booking_id', 'user_id');
     }
 
     public function bookingInstructors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'booking_instructor');
+        return $this->belongsToMany(User::class, 'booking_instructor', 'booking_id', 'user_id');
     }
 
     public function mode(): \Illuminate\Database\Eloquent\Relations\BelongsTo

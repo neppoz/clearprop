@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/clearprop.iml" filepath="$PROJECT_DIR$/.idea/clearprop.iml" />
-      <module fileurl="file://$USER_HOME$/Herd/filament-demo/.idea/filament-demo.iml" filepath="$USER_HOME$/Herd/filament-demo/.idea/filament-demo.iml" />
     </modules>
   </component>
 </project>

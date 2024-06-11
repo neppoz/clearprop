@@ -22,6 +22,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ReservationResource extends Resource
@@ -59,34 +60,44 @@ class ReservationResource extends Resource
                             ->firstDayOfWeek(1)
                             ->displayFormat('d/m/Y')
                             ->minDate(today()),
-                        TimePicker::make('reservation_start_time')
-                            ->label('Time from')
-                            ->minutesStep(15)
-                            ->seconds(false),
+                        Select::make('reservation_start_time_hour')
+                            ->label('Hour')
+                            ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
+                            ->required(),
+                        Select::make('reservation_start_time_minute')
+                            ->label('Minute')
+                            ->options(['00' => '00', '30' => '30'])
+                            ->required(),
                         DatePicker::make('reservation_stop_date')
                             ->label('To')
                             ->firstDayOfWeek(1)
                             ->displayFormat('d/m/Y')
                             ->minDate(today()),
-                        TimePicker::make('reservation_stop_time')
-                            ->label('Time to')
-                            ->minutesStep(15)
-                            ->seconds(false),
+                        Select::make('reservation_stop_time_hour')
+                            ->label('Hour')
+                            ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
+                            ->required(),
+                        Select::make('reservation_stop_time_minute')
+                            ->label('Minute')
+                            ->options(['00' => '00', '30' => '30'])
+                            ->required(),
                     ])
-                    ->columns(2),
+                    ->columns(3),
                 Section::make()
                     ->schema([
-                        Select::make('pilot_id')
+                        Select::make('bookingUsers')
                             ->label('Pilot')
                             ->options(User::all()->pluck('name', 'id'))
-                            ->searchable()
+//                            ->searchable()
 //                            ->afterStateUpdated(fn(Get $get) => self::getUserRatings($get('user_id')))
-                            ->live(onBlur: true)
+//                            ->live(onBlur: true)
+                            ->relationship(name: 'bookingUsers', titleAttribute: 'name')
                             ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
-                        Select::make('instructor')
+                        Select::make('bookingInstructors')
                             ->label('Instructor')
                             ->options(User::instructors()->pluck('name', 'id'))
-                            ->live(onBlur: true)
+//                            ->live(onBlur: true)
+                            ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
                             ->required(fn(Get $get): bool => $get('type') == Reservation::IS_SCHOOL),
                     ])
                     ->columns(2),
@@ -114,18 +125,9 @@ class ReservationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('plane.callsign')
+                    ->label('Aircraft')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('reservation_start')
-                    ->label('From')
-                    ->searchable()
-                    ->sortable()
-                    ->dateTime('D d/m - H:i'),
-                Tables\Columns\TextColumn::make('reservation_stop')
-                    ->label('To')
-                    ->searchable()
-                    ->sortable()
-                    ->dateTime('D d/m - H:i'),
                 Tables\Columns\TextColumn::make('mode.name')
                     ->searchable()
                     ->sortable()
@@ -136,9 +138,20 @@ class ReservationResource extends Resource
                         'School' => 'gray',
                         'Maintenance' => 'danger',
                     }),
+                Tables\Columns\TextColumn::make('reservation_start')
+                    ->label('From')
+                    ->searchable()
+                    ->sortable()
+                    ->dateTime('D d/m - H:i'),
+                Tables\Columns\TextColumn::make('reservation_stop')
+                    ->label('To')
+                    ->searchable()
+                    ->sortable()
+                    ->dateTime('D d/m - H:i'),
                 Tables\Columns\TextColumn::make('created_by.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

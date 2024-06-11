@@ -35,9 +35,11 @@ class CreateReservation extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['reservation_start'] = $data['reservation_start_date'] . ' ' . $data['reservation_start_time'] . ':00';
-        $data['reservation_stop'] = $data['reservation_stop_date'] . ' ' . $data['reservation_stop_time'] . ':00';
+        $data['reservation_start'] = $data['reservation_start_date'] . ' ' . $data['reservation_start_time_hour'] . ':' . $data['reservation_start_time_minute'] . ':00';
+        $data['reservation_stop'] = $data['reservation_stop_date'] . ' ' . $data['reservation_stop_time_hour'] . ':' . $data['reservation_stop_time_minute'] . ':00';
         $data['created_by_id'] = auth()->id();
+        debug($data['reservation_start']);
+        debug($data['reservation_stop']);
         return $data;
     }
 

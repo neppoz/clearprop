@@ -53,8 +53,8 @@ class AppPanelProvider extends PanelProvider
                     ->config([
                         'initialView' => "timeGridWeek",
                         'allDaySlot' => false,
-                        'slotMinTime' => "06:00:00",
-                        'slotMaxTime' => "21:00:00",
+                        'slotMinTime' => "07:00:00",
+                        'slotMaxTime' => "19:00:00",
                         'slotDuration' => "00:30:00",
                         'height' => "auto",
                         'slotLabelFormat' => 'HH:mm',
