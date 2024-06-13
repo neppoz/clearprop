@@ -379,7 +379,7 @@ class StatisticsService
         }
 
         /* Overdue payment members */
-        $overdueMembers = DB::select(DB::raw("
+        $overdueMembers = DB::select("
         SELECT
             u.id,
             u.name,
@@ -407,12 +407,12 @@ class StatisticsService
                     AND ic.deposit = 1 AND i.deleted_at is null
             GROUP BY i.user_id) i ON u.id = i.user_id
         ORDER BY total ASC
-        "), array(
+        ", array(
             'activityfrom' => $fromDate,
             'activityto' => $toDate,
             'incomefrom' => $fromDate,
             'incometo' => $toDate
-        ));
+        ), true);
 
         return [
             'expensesSummary' => $expensesSummary,
