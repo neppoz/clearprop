@@ -40,27 +40,17 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-//                Widgets\AccountWidget::class,
-//                Widgets\FilamentInfoWidget::class,
+                Widgets\AccountWidget::class,
+                Widgets\FilamentInfoWidget::class,
             ])
             ->plugin(
                 FilamentFullCalendarPlugin::make()
-                    ->schedulerLicenseKey('')
-                    ->selectable()
-                    ->editable(true)
+                    ->schedulerLicenseKey('CC-Attribution-NonCommercial-NoDerivatives')
+                    ->selectable(false)
+                    ->editable(false)
                     ->timezone(config('app.timezone'))
                     ->locale(app()->getLocale())
-                    ->config([
-                        'initialView' => "timeGridWeek",
-                        'allDaySlot' => false,
-                        'slotMinTime' => "07:00:00",
-                        'slotMaxTime' => "19:00:00",
-                        'slotDuration' => "00:30:00",
-                        'height' => "auto",
-                        'slotLabelFormat' => 'HH:mm',
-                        'displayEventTime' => false,
-                        'firstDay' => 1,
-                    ])
+                    ->plugins(['resourceTimeline', 'timeline'], true)
             )
             ->middleware([
                 EncryptCookies::class,

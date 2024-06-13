@@ -33,91 +33,96 @@ class ReservationResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Section::make()
-                    ->schema([
-                        Radio::make('mode_id')
-                            ->options([
-                                Reservation::IS_CHARTER => 'Charter',
-                                Reservation::IS_SCHOOL => 'School',
-                                Reservation::IS_MAINTENANCE => 'Maintenance'
-                            ])
-                            ->label('Select type')
-                            ->inline()
-                            ->live()
-                            ->required(),
-                        Select::make('plane_id')
-                            ->label('Aircraft')
-                            ->relationship('plane', 'callsign')
-                            ->required(),
-                    ])
-                    ->columns(2),
-                Section::make()
-                    ->schema([
-                        DatePicker::make('reservation_start_date')
-                            ->label('From')
-                            ->firstDayOfWeek(1)
-                            ->displayFormat('d/m/Y')
-                            ->minDate(today()),
-                        Select::make('reservation_start_time_hour')
-                            ->label('Hour')
-                            ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
-                            ->required(),
-                        Select::make('reservation_start_time_minute')
-                            ->label('Minute')
-                            ->options(['00' => '00', '30' => '30'])
-                            ->required(),
-                        DatePicker::make('reservation_stop_date')
-                            ->label('To')
-                            ->firstDayOfWeek(1)
-                            ->displayFormat('d/m/Y')
-                            ->minDate(today()),
-                        Select::make('reservation_stop_time_hour')
-                            ->label('Hour')
-                            ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
-                            ->required(),
-                        Select::make('reservation_stop_time_minute')
-                            ->label('Minute')
-                            ->options(['00' => '00', '30' => '30'])
-                            ->required(),
-                    ])
-                    ->columns(3),
-                Section::make()
-                    ->schema([
-                        Select::make('bookingUsers')
-                            ->label('Pilot')
-                            ->options(User::all()->pluck('name', 'id'))
+        /* This is not standard. Calling the form in the function, so we can use it in the Widget as well. */
+        return $form->schema((new ReservationResource)->getReusableForm());
+    }
+
+    public function getReusableForm(): array
+    {
+        return [
+            Section::make()
+                ->schema([
+                    Radio::make('mode_id')
+                        ->options([
+                            Reservation::IS_CHARTER => 'Charter',
+                            Reservation::IS_SCHOOL => 'School',
+                            Reservation::IS_MAINTENANCE => 'Maintenance'
+                        ])
+                        ->label('Select type')
+                        ->inline()
+                        ->live()
+                        ->required(),
+                    Select::make('plane_id')
+                        ->label('Aircraft')
+                        ->relationship('plane', 'callsign')
+                        ->required(),
+                ])
+                ->columns(2),
+            Section::make()
+                ->schema([
+                    DatePicker::make('reservation_start_date')
+                        ->label('From')
+                        ->firstDayOfWeek(1)
+                        ->displayFormat(config('panel.date_format'))
+                        ->minDate(today()),
+                    Select::make('reservation_start_time_hour')
+                        ->label('Hour')
+                        ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
+                        ->required(),
+                    Select::make('reservation_start_time_minute')
+                        ->label('Minute')
+                        ->options(['00' => '00', '30' => '30'])
+                        ->required(),
+                    DatePicker::make('reservation_stop_date')
+                        ->label('To')
+                        ->firstDayOfWeek(1)
+                        ->displayFormat('d/m/Y')
+                        ->minDate(today()),
+                    Select::make('reservation_stop_time_hour')
+                        ->label('Hour')
+                        ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
+                        ->required(),
+                    Select::make('reservation_stop_time_minute')
+                        ->label('Minute')
+                        ->options(['00' => '00', '30' => '30'])
+                        ->required(),
+                ])
+                ->columns(3),
+            Section::make()
+                ->schema([
+                    Select::make('bookingUsers')
+                        ->label('Pilot')
+                        ->options(User::all()->pluck('name', 'id'))
 //                            ->searchable()
 //                            ->afterStateUpdated(fn(Get $get) => self::getUserRatings($get('user_id')))
 //                            ->live(onBlur: true)
-                            ->relationship(name: 'bookingUsers', titleAttribute: 'name')
-                            ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
-                        Select::make('bookingInstructors')
-                            ->label('Instructor')
-                            ->options(User::instructors()->pluck('name', 'id'))
+                        ->relationship(name: 'bookingUsers', titleAttribute: 'name')
+                        ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
+                    Select::make('bookingInstructors')
+                        ->label('Instructor')
+                        ->options(User::instructors()->pluck('name', 'id'))
 //                            ->live(onBlur: true)
-                            ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
-                            ->required(fn(Get $get): bool => $get('type') == Reservation::IS_SCHOOL),
-                    ])
-                    ->columns(2),
-                Section::make()
-                    ->schema([
-                        ToggleButtons::make('status')
-                            ->label('Reservation confirmed?')
-                            ->boolean()
-                            ->colors([
-                                '0' => 'info',
-                                '1' => 'success',
-                            ])
-                            ->inline()
-                            ->required(),
-                        Textarea::make('description')
-                            ->label('Notes')
-                            ->rows(5)
-                    ])
-                    ->columns(2),
-            ]);
+                        ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
+                        ->required(fn(Get $get): bool => $get('type') == Reservation::IS_SCHOOL),
+                ])
+                ->columns(2),
+            Section::make()
+                ->schema([
+                    ToggleButtons::make('status')
+                        ->label('Reservation confirmed?')
+                        ->boolean()
+                        ->colors([
+                            '0' => 'info',
+                            '1' => 'success',
+                        ])
+                        ->inline()
+                        ->required(),
+                    Textarea::make('description')
+                        ->label('Notes')
+                        ->rows(5)
+                ])
+                ->columns(2),
+        ];
     }
 
     public static function table(Table $table): Table
@@ -160,10 +165,6 @@ class ReservationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -195,7 +196,8 @@ class ReservationResource extends Resource
     }
 
     /** @return Builder<Order> */
-    public static function getEloquentQuery(): Builder
+    public
+    static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
     }
