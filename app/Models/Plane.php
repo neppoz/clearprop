@@ -13,11 +13,14 @@ class Plane extends Model
         '0' => 'No',
         '1' => 'Yes',
     ];
+
     const COUNTER_TYPE_SELECT = [
         '100' => 'Industrial minutes (100/hour)',
         '060' => 'Hours and minutes (hh,mm)',
     ];
+
     public $table = 'planes';
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -44,7 +47,7 @@ class Plane extends Model
 
     public function planeBookings(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Booking::class, 'plane_id', 'id');
+        return $this->hasMany(Reservation::class, 'plane_id', 'id');
     }
 
     public function planeUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

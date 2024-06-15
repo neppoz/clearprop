@@ -38,7 +38,7 @@ class ActivityOverview extends BaseWidget
                 $loggedMissions = $activityStatistics['count'];
             }
             if (!empty($avgDurationPerMission)) {
-                $avgDurationPerMission = sprintf("%02d", intval($activityStatistics['avg'] / 60)) . 'h : ' . sprintf("%02d", intval($activityStatistics['avg'] % 60)) . 'm';
+                $avgDurationPerMission = sprintf("%02d", intval($activityStatistics['avg'] / 60)) . 'h : ' . sprintf("%02d", intval($activityStatistics['avg']) % 60) . 'm';
             }
         }
 
