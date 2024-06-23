@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ActivityResource\Pages;
 
 use App\Filament\Resources\ActivityResource;
+use App\Models\Activity;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -17,5 +18,12 @@ class EditActivity extends EditRecord
             Actions\ForceDeleteAction::make(),
             Actions\RestoreAction::make(),
         ];
+    }
+
+    protected function afterSave(): void
+    {
+        /** @var Activity $activity */
+        $activity = $this->record;
+        (new ActivityResource())->calculateCosts($activity);
     }
 }

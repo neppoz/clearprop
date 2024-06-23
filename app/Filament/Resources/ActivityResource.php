@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
+use App\Services\ActivityCostService;
+use App\Services\AssetsService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -14,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Throwable;
 
 class ActivityResource extends Resource
 {
@@ -243,4 +246,25 @@ class ActivityResource extends Resource
             ]);
     }
 
+    public static function calculatingRecords()
+    {
+
+    }
+
+    public function calculateCosts(?Activity $record)
+    {
+        /** Calculate costs */
+        try {
+            (new ActivityCostService)->calculateCosts($record);
+        } catch (Throwable $exception) {
+            report($exception);
+        }
+
+        /** Update Asset hours */
+        try {
+            (new AssetsService())->calculateAssetsRunningHours($record->plane_id);
+        } catch (Throwable $exception) {
+            report($exception);
+        }
+    }
 }
