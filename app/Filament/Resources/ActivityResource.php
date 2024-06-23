@@ -82,14 +82,17 @@ class ActivityResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('warmup_start')
                             ->numeric()
+                            ->inputMode('decimal')
                             ->visible(fn(Get $get): bool => $get('engine_warmup'))
                             ->required(fn(Get $get): bool => $get('engine_warmup')),
                         Forms\Components\TextInput::make('counter_start')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->inputMode('decimal'),
                         Forms\Components\TextInput::make('counter_stop')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->inputMode('decimal'),
                     ])
                     ->columnSpan(['lg' => fn(?Activity $record) => $record === null ? 3 : 2]),
                 Forms\Components\Section::make()
