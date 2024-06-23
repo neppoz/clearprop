@@ -7,6 +7,8 @@ use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,51 +25,111 @@ class ActivityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('event_start'),
-                Forms\Components\TextInput::make('event_stop'),
-                Forms\Components\Toggle::make('engine_warmup'),
-                Forms\Components\TextInput::make('warmup_start')
-                    ->numeric(),
-                Forms\Components\TextInput::make('counter_start')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('counter_stop')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('warmup_minutes')
-                    ->numeric(),
-                Forms\Components\TextInput::make('rate')
-                    ->numeric(),
-                Forms\Components\TextInput::make('minutes')
-                    ->numeric(),
-                Forms\Components\TextInput::make('amount')
-                    ->numeric(),
-                Forms\Components\TextInput::make('departure')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('arrival')
-                    ->maxLength(255),
-                Forms\Components\Toggle::make('split_cost')
-                    ->required(),
-                Forms\Components\DatePicker::make('event')
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\Select::make('plane_id')
-                    ->relationship('plane', 'id')
-                    ->required(),
-                Forms\Components\Select::make('type_id')
-                    ->relationship('type', 'name')
-                    ->required(),
-                Forms\Components\Select::make('copilot_id')
-                    ->relationship('copilot', 'name'),
-                Forms\Components\Select::make('instructor_id')
-                    ->relationship('instructor', 'name'),
-                Forms\Components\Select::make('created_by_id')
-                    ->relationship('created_by', 'name'),
-            ]);
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\DatePicker::make('event')
+                            ->required(),
+                        Forms\Components\Select::make('plane_id')
+                            ->label('Aircraft')
+                            ->relationship('plane', 'callsign')
+                            ->required(),
+                        Forms\Components\Select::make('type_id')
+                            ->label('Type')
+                            ->relationship('type', 'name')
+                            ->required(),
+                    ])
+                    ->columns(3),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Toggle::make('split_cost')
+                            ->inline()
+                            ->default(false)
+                            ->live(onBlur: true)
+                            ->columnSpanFull(),
+                        Forms\Components\Select::make('user_id')
+                            ->label('Pilot')
+                            ->relationship('user', 'name')
+                            ->required(),
+                        Forms\Components\Select::make('copilot_id')
+                            ->relationship('copilot', 'name')
+                            ->required(fn(Get $get): bool => $get('split_cost')),
+                        Forms\Components\Select::make('instructor_id')
+                            ->disabled(fn(Get $get): bool => $get('split_cost'))
+                            ->relationship('instructor', 'name'),
+
+                    ])
+                    ->columns(3),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('departure')
+                            ->maxLength(255),
+                        Forms\Components\TimePicker::make('event_start')
+                            ->label('Engine On')
+                            ->seconds(false),
+                        Forms\Components\TextInput::make('arrival')
+                            ->maxLength(255),
+                        Forms\Components\TimePicker::make('event_stop')
+                            ->label('Engine Off')
+                            ->seconds(false),
+                    ])
+                    ->columns(2),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Toggle::make('engine_warmup')
+                            ->inline()
+                            ->default(false)
+                            ->live(onBlur: true)
+                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('warmup_start')
+                            ->numeric()
+                            ->visible(fn(Get $get): bool => $get('engine_warmup'))
+                            ->required(fn(Get $get): bool => $get('engine_warmup')),
+                        Forms\Components\TextInput::make('counter_start')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('counter_stop')
+                            ->required()
+                            ->numeric(),
+                    ])
+                    ->columnSpan(['lg' => fn(?Activity $record) => $record === null ? 3 : 2]),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('warmup_minutes')
+                            ->label('Warmup minutes')
+                            ->visible(fn(Get $get): bool => $get('engine_warmup'))
+                            ->content(fn(Activity $record): ?string => $record->warmup_minutes),
+                        Forms\Components\Placeholder::make('minutes')
+                            ->label('Minutes')
+                            ->content(fn(Activity $record): ?string => $record->minutes),
+                        Forms\Components\Placeholder::make('cost_minute')
+                            ->label('Cost p.m')
+                            ->content(fn(Activity $record): ?string => $record->rate . ' €'),
+                        Forms\Components\Placeholder::make('amount')
+                            ->label('Amount')
+                            ->content(fn(Activity $record): ?string => $record->amount . ' €'),
+                    ])
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn(?Activity $record) => $record === null),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Textarea::make('description'),
+                    ])
+                    ->columnSpan(['lg' => fn(?Activity $record) => $record === null ? 3 : 2]),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('Created at')
+                            ->content(fn(Activity $record): ?string => $record->created_at?->diffForHumans()),
+
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('Last modified at')
+                            ->content(fn(Activity $record): ?string => $record->updated_at?->diffForHumans()),
+                    ])
+                    ->columnSpan(['lg' => 1])
+                    ->hidden(fn(?Activity $record) => $record === null),
+
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table
@@ -75,60 +137,51 @@ class ActivityResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('event')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('plane.id')
-                    ->numeric()
-                    ->sortable(),
+                    ->date('D d/m/Y')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('plane.callsign')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('departure')
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('event_start')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('arrival')
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('event_stop')
                     ->toggleable(isToggledHiddenByDefault: true),
-//                Tables\Columns\IconColumn::make('engine_warmup')
-//                    ->boolean()
-//                    ->toggleable(isToggledHiddenByDefault: true),
-
-//                Tables\Columns\TextColumn::make('warmup_start')
-//                    ->numeric()
-//                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\IconColumn::make('split_cost')
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('copilot.name')
-                    ->numeric()
                     ->sortable()
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('counter_start')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('counter_stop')
-                    ->numeric()
-                    ->sortable(),
-//                Tables\Columns\TextColumn::make('rate')
-//                    ->numeric()
-//                    ->sortable(),
+                Tables\Columns\TextColumn::make('instructor.name')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('full_counter')
+                    ->numeric(2)
+                    ->searchable([
+                        'counter_start', 'counter_stop'])
+                    ->sortable([
+                        'counter_start', 'counter_stop'])
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('warmup_minutes')
                     ->numeric()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('minutes')
                     ->numeric()
-                    ->sortable(),
+                    ->alignEnd(),
+                // TODO: Adding status, example in filament-demo
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -141,20 +194,13 @@ class ActivityResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
-
-//                Tables\Columns\TextColumn::make('type.name')
-//                    ->numeric()
-//                    ->sortable(),
-
-//                Tables\Columns\TextColumn::make('instructor.name')
-//                    ->numeric()
-//                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_by.name')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
+            ->persistSortInSession()
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
@@ -193,4 +239,5 @@ class ActivityResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
 }

@@ -15,7 +15,9 @@ class Activity extends Model
         '0' => 'No split',
         '1' => '50-50',
     ];
+
     public $table = 'activities';
+
     protected $dates = [
         'event',
         'created_at',
@@ -74,6 +76,12 @@ class Activity extends Model
     {
         return $this->belongsTo(Plane::class, 'plane_id');
     }
+
+    public function getFullCounterAttribute(): string
+    {
+        return $this->counter_start . ' / ' . $this->counter_stop;
+    }
+
 //
 //    public function getEventAttribute($value)
 //    {
