@@ -18,7 +18,7 @@ class BookingsCalendar extends FullCalendarWidget
     {
         return [
             'initialView' => "timelineWeek",
-            'aspectRatio' => '1.5',
+            'aspectRatio' => 1.2,
             'dayHeaders' => true,
             'headerToolbar' => [
                 'left' => 'prev,next',
@@ -43,7 +43,7 @@ class BookingsCalendar extends FullCalendarWidget
                     'hour12' => false,
                 ]
             ],
-            'displayEventTime' => false,
+            'displayEventTime' => true,
             'firstDay' => 1,
             'eventTimeFormat' => [
                 'hour' => '2-digit',
@@ -70,6 +70,7 @@ class BookingsCalendar extends FullCalendarWidget
             ->get()
             ->map(
                 fn(Reservation $reservation) => [
+//                    'overlap' => 'false',
                     'title' => $reservation->plane->callsign,
                     'description' => $reservation->description,
                     'start' => $reservation->reservation_start,

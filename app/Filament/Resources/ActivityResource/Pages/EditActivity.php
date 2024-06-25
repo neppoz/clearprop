@@ -20,6 +20,12 @@ class EditActivity extends EditRecord
         ];
     }
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        dd($data);
+        return $data;
+    }
+
     protected function afterSave(): void
     {
         /** @var Activity $activity */
