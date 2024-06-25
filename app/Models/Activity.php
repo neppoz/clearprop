@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ActivityStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -23,6 +24,10 @@ class Activity extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    protected $casts = [
+        'status' => ActivityStatus::class,
     ];
 
     protected $fillable = [
