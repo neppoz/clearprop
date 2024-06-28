@@ -14,10 +14,10 @@ class CreateUserPlanePricesTable extends Migration
     public function up()
     {
         Schema::create('user_plane_prices', function (Blueprint $table) {
-            $table->id();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('plane_id');
             $table->decimal('base_price_per_minute', 10, 2);
+            $table->enum('rating_status', ['student', 'review', 'rated'])->default('review');
             $table->timestamps();
             $table->softDeletes(); // Optional: Soft Delete Feld
         });

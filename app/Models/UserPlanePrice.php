@@ -2,13 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\RatingStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserPlanePrice extends Model
 {
-    use HasFactory, SoftDeletes;
+    use SoftDeletes;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    public $table = 'user_plane_prices';
+
+    protected $casts = [
+        'status' => RatingStatus::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
