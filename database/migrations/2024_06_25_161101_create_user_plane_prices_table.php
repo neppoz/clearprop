@@ -13,13 +13,18 @@ class CreateUserPlanePricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_aircraft_prices', function (Blueprint $table) {
+        Schema::create('user_plane_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('plane_id')->constrained()->onDelete('cascade');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('plane_id');
             $table->decimal('base_price_per_minute', 10, 2);
             $table->timestamps();
             $table->softDeletes(); // Optional: Soft Delete Feld
+        });
+
+        Schema::table('user_plane_prices', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('plane_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
@@ -30,6 +35,6 @@ class CreateUserPlanePricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_aircraft_prices');
+        Schema::dropIfExists('user_plane_prices');
     }
 }

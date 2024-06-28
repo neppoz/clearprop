@@ -15,7 +15,7 @@ class CreateUserMinuteBalancesTable extends Migration
     {
         Schema::create('user_minute_balances', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedInteger('user_id');
             $table->decimal('minutes_purchased', 10, 2);
             $table->decimal('minutes_used', 10, 2)->default(0);
             $table->date('effective_date');
@@ -23,7 +23,7 @@ class CreateUserMinuteBalancesTable extends Migration
             $table->softDeletes();
 
             // Foreign key constraints
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
