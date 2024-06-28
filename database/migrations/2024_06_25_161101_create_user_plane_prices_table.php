@@ -24,7 +24,7 @@ class CreateUserPlanePricesTable extends Migration
 
         Schema::table('user_plane_prices', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('plane_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('plane_id')->references('id')->on('planes')->cascadeOnDelete();
         });
     }
 
