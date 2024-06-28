@@ -6,7 +6,7 @@ use App\Enums\RatingStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UserPlanePrice extends Model
+class PlaneUser extends Model
 {
     use SoftDeletes;
 
@@ -30,6 +30,7 @@ class UserPlanePrice extends Model
         'user_id',
         'plane_id',
         'base_price_per_minute',
+        'rating_status',
     ];
 
     /**
@@ -43,7 +44,7 @@ class UserPlanePrice extends Model
     /**
      * Get the aircraft associated with the price.
      */
-    public function aircraft(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function plane(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Plane::class);
     }

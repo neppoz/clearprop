@@ -50,8 +50,9 @@ class Plane extends Model
         return $this->hasMany(Reservation::class, 'plane_id', 'id');
     }
 
-    public function planeUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot('base_price_per_minute', 'rating_status');
     }
 }

@@ -13,11 +13,17 @@ class CreateActivity extends CreateRecord
 {
     protected static string $resource = ActivityResource::class;
 
-    protected function afterCreate(): void
-    {
-        /** @var Activity $activity */
-        $activity = $this->record;
-        (new ActivityResource())->calculateCosts($activity);
-    }
-
+//    protected function beforeCreate(): void
+//    {
+//        /** @var Activity $activity */
+//        $activity = $this->record;
+//        dd($activity);
+//        (new ActivityResource())->calculateCosts($activity);
+//    }
+//
+//    protected function afterValidate(): void
+//    {
+//        $activity = $this->record;
+//        debug($activity);
+//    }
 }

@@ -143,11 +143,11 @@ class User extends Authenticatable implements FilamentUser
     {
         $this->notify(new ResetPassword($token));
     }
-
-    public function factor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Factor::class, 'factor_id');
-    }
+//
+//    public function factor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+//    {
+//        return $this->belongsTo(Factor::class, 'factor_id');
+//    }
 
     public function getMedicalDueAttribute($value): ?string
     {
@@ -176,7 +176,8 @@ class User extends Authenticatable implements FilamentUser
 
     public function planes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Plane::class);
+        return $this->belongsToMany(Plane::class)
+            ->withPivot('base_price_per_minute', 'rating_status');
     }
 
     public function userUserAlerts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -184,18 +185,19 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsToMany(UserAlert::class);
     }
 
-    public function getCreatedAtAttribute($value): ?string
-    {
-        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
-    }
 
-    public function getDeletedAtAttribute($value): ?string
-    {
-        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
-    }
+//    public function getCreatedAtAttribute($value): ?string
+//    {
+//        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+//    }
+//
+//    public function getDeletedAtAttribute($value): ?string
+//    {
+//        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+//    }
 
-    protected function serializeDate(DateTimeInterface $date): string
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
+//    protected function serializeDate(DateTimeInterface $date): string
+//    {
+//        return $date->format('Y-m-d H:i:s');
+//    }
 }
