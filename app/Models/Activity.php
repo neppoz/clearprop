@@ -55,6 +55,7 @@ class Activity extends Model
         'updated_at',
         'deleted_at',
         'created_by_id',
+        'status',
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

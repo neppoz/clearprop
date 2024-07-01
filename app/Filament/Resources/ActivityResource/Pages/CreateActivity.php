@@ -13,17 +13,11 @@ class CreateActivity extends CreateRecord
 {
     protected static string $resource = ActivityResource::class;
 
-//    protected function beforeCreate(): void
-//    {
-//        /** @var Activity $activity */
-//        $activity = $this->record;
-//        dd($activity);
-//        (new ActivityResource())->calculateCosts($activity);
-//    }
-//
-//    protected function afterValidate(): void
-//    {
-//        $activity = $this->record;
-//        debug($activity);
-//    }
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        debug($data);
+        $data['rate'] = $data['base_price_per_minute'];
+
+        return $data;
+    }
 }

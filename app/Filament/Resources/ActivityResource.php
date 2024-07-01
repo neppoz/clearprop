@@ -2,16 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\ActivityStatus;
 use App\Filament\Resources\ActivityResource\Pages;
-
-//use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\User;
-use App\Models\PlaneUser;
-
-//use App\Services\ActivityCostService;
-use App\Services\AssetsService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -37,34 +32,39 @@ class ActivityResource extends Resource
                     ->schema([
                         Forms\Components\DatePicker::make('event')
                             ->required(),
-                        Forms\Components\Select::make('user_id')
-                            ->label('Pilot')
-                            ->live()
-                            ->relationship('user', 'name')
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
-                            ->required(),
                         Forms\Components\Select::make('plane_id')
                             ->label('Aircraft')
                             ->live()
                             ->relationship('plane', 'callsign')
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
+                        Forms\Components\Select::make('user_id')
+                            ->label('Pilot')
+                            ->live()
+                            ->relationship('user', 'name')
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->required(),
+                        Forms\Components\Select::make('instructor_id')
+//                            ->disabled(fn(Get $get): bool => $get('split_cost'))
+                            ->label('Instructor')
+                            ->live()
+                            ->relationship('instructor', 'name')
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                     ])
-                    ->columns(3),
+                    ->columns(2),
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Toggle::make('engine_warmup')
-                            ->inline()
+                            ->inline(false)
                             ->default(false)
-                            ->live()
-                            ->columnSpanFull(),
+                            ->live(),
                         Forms\Components\TextInput::make('warmup_start')
                             ->numeric()
                             ->inputMode('decimal')
                             ->live()
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
-                            ->visible(fn(Get $get): bool => $get('engine_warmup'))
-                            ->required(fn(Get $get): bool => $get('engine_warmup')),
+                            ->required(fn(Get $get): bool => $get('engine_warmup'))
+                            ->disabled(fn(Get $get): bool => !$get('engine_warmup')),
                         Forms\Components\TextInput::make('counter_start')
                             ->required()
                             ->numeric()
@@ -77,47 +77,45 @@ class ActivityResource extends Resource
                             ->inputMode('decimal')
                             ->live()
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
+                        Forms\Components\ToggleButtons::make('status')
+                            ->inline()
+                            ->options(ActivityStatus::class)
+                            ->required()
+                            ->columnSpan(2),
                     ])
-//                    ->columnSpan(['lg' => fn(?Activity $record) => $record === null ? 3 : 2]),
+                    ->columns(2)
                     ->columnSpan(['lg' => 2]),
                 Forms\Components\Section::make()
                     ->schema([
-                        Forms\Components\Placeholder::make('warmup_minutes')
-                            ->label('Warmup minutes')
-                            ->visible(fn(Get $get): bool => $get('engine_warmup')),
+                        Forms\Components\TextInput::make('warmup_minutes')
+                            ->label('Warmup min.')
+                            ->numeric()
+                            ->inputMode('integer')
+                            ->disabled(fn(Get $get): bool => !$get('engine_warmup'))
+                            ->readonly(),
                         Forms\Components\TextInput::make('minutes')
-                            ->label('Calculated minutes')
+                            ->label('Minutes')
                             ->numeric()
                             ->inputMode('integer')
                             ->readonly(),
                         Forms\Components\TextInput::make('base_price_per_minute')
-                            ->label('Base price minute')
+                            ->label('Base price')
                             ->numeric()
                             ->readonly(),
-                        Forms\Components\Placeholder::make('discount')
-                            ->label('Discount per minute'),
+                        Forms\Components\TextInput::make('instructor_price_per_minute')
+                            ->label('Instructor price')
+                            ->numeric()
+                            ->readonly(),
+                        Forms\Components\TextInput::make('discount')
+                            ->label('Discount'),
                         Forms\Components\TextInput::make('amount')
                             ->label('Total price')
                             ->numeric()
+                            ->inputMode('integer')
                             ->readonly(),
                     ])
+                    ->columns(2)
                     ->columnSpan(['lg' => 1]),
-                Forms\Components\Section::make()
-                    ->schema([
-                        Forms\Components\Toggle::make('split_cost')
-                            ->inline()
-                            ->default(false)
-                            ->live(onBlur: true)
-                            ->columnSpanFull(),
-                        Forms\Components\Select::make('copilot_id')
-                            ->relationship('copilot', 'name')
-                            ->required(fn(Get $get): bool => $get('split_cost')),
-                        Forms\Components\Select::make('instructor_id')
-                            ->disabled(fn(Get $get): bool => $get('split_cost'))
-                            ->relationship('instructor', 'name'),
-
-                    ])
-                    ->columns(2),
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\TextInput::make('departure')
@@ -131,25 +129,16 @@ class ActivityResource extends Resource
                             ->label('Engine Off')
                             ->seconds(false),
                     ])
-                    ->columns(2),
+                    ->columns(2)
+                    ->columnSpan(['lg' => 2]),
                 Forms\Components\Section::make()
                     ->schema([
-                        Forms\Components\Textarea::make('description'),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Notes')
+                            ->autosize()
+                            ->rows(5),
                     ])
-                    ->columnSpan(['lg' => fn(?Activity $record) => $record === null ? 3 : 2]),
-                Forms\Components\Section::make()
-                    ->schema([
-                        Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
-                            ->content(fn(Activity $record): ?string => $record->created_at?->diffForHumans()),
-
-                        Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
-                            ->content(fn(Activity $record): ?string => $record->updated_at?->diffForHumans()),
-                    ])
-                    ->columnSpan(['lg' => 1])
-                    ->hidden(fn(?Activity $record) => $record === null),
-
+                    ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
     }
@@ -166,6 +155,7 @@ class ActivityResource extends Resource
 
         /** Calculate minutes without warmup */
         if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId) && empty($selectedWarmupCounter)) {
+            $set('warmup_minutes', 0);
             /** industrial minutes calculation */
             if ($plane->counter_type === '100') {
                 $calculateCounterDiff = $selectedCounterStop - $selectedCounterStart;
@@ -182,7 +172,7 @@ class ActivityResource extends Resource
             }
             /** Rolling hours and minutes with a decimal */
             if ($plane->counter_type === '060') {
-                $calculateCounterDiff = ($selectedCounterStop * 60) - ($selectedCounterStart * 60);
+                $calculateCounterDiff = (intval($selectedCounterStop * 60)) + ($selectedCounterStop * 100 % 100) - (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100);
                 $minutes = round($calculateCounterDiff, 2);
                 $set('minutes', $minutes);
 
@@ -195,7 +185,7 @@ class ActivityResource extends Resource
         }
 
         /** Calculate minutes with warmup */
-        if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedWarmupCounter)) {
+        if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId && $selectedWarmupCounter)) {
             /** industrial minutes calculation */
             if ($plane->counter_type === '100') {
                 $calculateCounterWarmupDiff = $selectedCounterStart - $selectedWarmupCounter;
@@ -209,12 +199,12 @@ class ActivityResource extends Resource
                     $base_price_per_minute = $user->planes()->findOrFail($plane->id)->pivot->base_price_per_minute;
                     $set('base_price_per_minute', $base_price_per_minute);
                     if ($plane->warmup_type == 0) {
-                        $amount = $base_price_per_minute * $minutes;
+                        $amount = round($base_price_per_minute * $minutes);
                         $set('amount', $amount);
                     }
 
                     if ($plane->warmup_type == 1) {
-                        $amount = $base_price_per_minute * ($minutes + $warmup_minutes);
+                        $amount = round($base_price_per_minute * ($minutes + $warmup_minutes));
                         $set('amount', $amount);
                     }
 
@@ -223,10 +213,10 @@ class ActivityResource extends Resource
             }
             /** Rolling hours and minutes with a decimal */
             if ($plane->counter_type === '060') {
-                $calculateCounterWarmupDiff = ($selectedCounterStart * 60) - ($selectedWarmupCounter * 60);
+                $calculateCounterWarmupDiff = (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100) - (intval($selectedWarmupCounter * 60)) + ($selectedWarmupCounter * 100 % 100);
                 $warmup_minutes = round($calculateCounterWarmupDiff, 2);
                 $set('warmup_minutes', $warmup_minutes);
-                $calculateCounterDiff = ($selectedCounterStop * 60) - ($selectedCounterStart * 60);
+                $calculateCounterDiff = (intval($selectedCounterStop * 60)) + ($selectedCounterStop * 100 % 100) - (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100);
                 $minutes = round($calculateCounterDiff, 2);
                 $set('minutes', $minutes);
 
@@ -234,12 +224,12 @@ class ActivityResource extends Resource
                     $base_price_per_minute = $user->planes()->findOrFail($plane->id)->pivot->base_price_per_minute;
                     $set('base_price_per_minute', $base_price_per_minute);
                     if ($plane->warmup_type == 0) {
-                        $amount = $base_price_per_minute * $minutes;
+                        $amount = round($base_price_per_minute * $minutes);
                         $set('amount', $amount);
                     }
 
                     if ($plane->warmup_type == 1) {
-                        $amount = $base_price_per_minute * ($minutes + $warmup_minutes);
+                        $amount = round($base_price_per_minute * ($minutes + $warmup_minutes));
                         $set('amount', $amount);
                     }
 
@@ -283,6 +273,7 @@ class ActivityResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('full_counter')
+                    ->label('Counter')
                     ->numeric(2)
                     ->searchable([
                         'counter_start', 'counter_stop'])
@@ -292,10 +283,10 @@ class ActivityResource extends Resource
                 Tables\Columns\TextColumn::make('warmup_minutes')
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('minutes')
-                    ->numeric()
-                    ->alignEnd(),
-                // TODO: Adding status, example in filament-demo
+                    ->numeric(),
                 Tables\Columns\TextColumn::make('amount')
                     ->numeric()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -316,7 +307,7 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('id', 'desc')
+            ->defaultSort('event', 'desc')
             ->persistSortInSession()
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

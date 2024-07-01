@@ -20,10 +20,17 @@ class EditActivity extends EditRecord
         ];
     }
 
-    protected function afterSave(): void
+    protected function mutateFormDataBeforeFill(array $data): array
     {
-        /** @var Activity $activity */
-        $activity = $this->record;
-        (new ActivityResource())->calculateCosts($activity);
+        $data['base_price_per_minute'] = $data['rate'];
+
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['rate'] = $data['base_price_per_minute'];
+
+        return $data;
     }
 }
