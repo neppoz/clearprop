@@ -48,6 +48,7 @@ class Activity extends Model
         'event_stop',
         'warmup_minutes',
         'rate',
+        'instructor_price_per_minute',
         'minutes',
         'amount',
         'description',

@@ -45,23 +45,24 @@ class ActivityResource extends Resource
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
                         Forms\Components\Select::make('instructor_id')
-//                            ->disabled(fn(Get $get): bool => $get('split_cost'))
                             ->label('Instructor')
                             ->live()
                             ->relationship('instructor', 'name')
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                     ])
                     ->columns(2),
-                Forms\Components\Section::make()
+                Forms\Components\Section::make('Engine data')
+                    ->icon('heroicon-m-cog')
+                    ->iconColor('info')
                     ->schema([
                         Forms\Components\Toggle::make('engine_warmup')
                             ->inline(false)
                             ->default(false)
-                            ->live(),
+                            ->live(onBlur: true),
                         Forms\Components\TextInput::make('warmup_start')
                             ->numeric()
                             ->inputMode('decimal')
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => $get('engine_warmup'))
                             ->disabled(fn(Get $get): bool => !$get('engine_warmup')),
@@ -69,13 +70,13 @@ class ActivityResource extends Resource
                             ->required()
                             ->numeric()
                             ->inputMode('decimal')
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                         Forms\Components\TextInput::make('counter_stop')
                             ->required()
                             ->numeric()
                             ->inputMode('decimal')
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                         Forms\Components\ToggleButtons::make('status')
                             ->inline()
@@ -84,8 +85,11 @@ class ActivityResource extends Resource
                             ->columnSpan(2),
                     ])
                     ->columns(2)
-                    ->columnSpan(['lg' => 2]),
-                Forms\Components\Section::make()
+                    ->columnSpan(['lg' => 2])
+                    ->compact(),
+                Forms\Components\Section::make('Calculations')
+                    ->icon('heroicon-m-variable')
+                    ->iconColor('info')
                     ->schema([
                         Forms\Components\TextInput::make('warmup_minutes')
                             ->label('Warmup min.')
@@ -105,9 +109,11 @@ class ActivityResource extends Resource
                         Forms\Components\TextInput::make('instructor_price_per_minute')
                             ->label('Instructor price')
                             ->numeric()
+                            ->disabled(fn(Get $get): bool => !$get('instructor_id'))
                             ->readonly(),
                         Forms\Components\TextInput::make('discount')
-                            ->label('Discount'),
+                            ->label('Discount')
+                            ->disabled(),
                         Forms\Components\TextInput::make('amount')
                             ->label('Total price')
                             ->numeric()
@@ -115,7 +121,9 @@ class ActivityResource extends Resource
                             ->readonly(),
                     ])
                     ->columns(2)
-                    ->columnSpan(['lg' => 1]),
+                    ->columnSpan(['lg' => 1])
+                    ->collapsible()
+                    ->compact(),
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\TextInput::make('departure')
@@ -155,20 +163,14 @@ class ActivityResource extends Resource
 
         /** Calculate minutes without warmup */
         if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId) && empty($selectedWarmupCounter)) {
-            $set('warmup_minutes', 0);
+            $minutes = 0;
+            $warmup_minutes = 0;
+            $set('warmup_minutes', $warmup_minutes);
             /** industrial minutes calculation */
             if ($plane->counter_type === '100') {
                 $calculateCounterDiff = $selectedCounterStop - $selectedCounterStart;
                 $minutes = round($calculateCounterDiff * 100 / 5 * 3, 2);
                 $set('minutes', $minutes);
-
-                if ($user->planes()->where('plane_id', $plane->id)->exists()) {
-                    $base_price_per_minute = $user->planes()->findOrFail($plane->id)->pivot->base_price_per_minute;
-                    $set('base_price_per_minute', $base_price_per_minute);
-                    $amount = $base_price_per_minute * $minutes;
-                    $set('amount', $amount);
-                }
-
             }
             /** Rolling hours and minutes with a decimal */
             if ($plane->counter_type === '060') {
@@ -176,16 +178,15 @@ class ActivityResource extends Resource
                 $minutes = round($calculateCounterDiff, 2);
                 $set('minutes', $minutes);
 
-                if ($user->planes()->where('plane_id', $plane->id)->exists()) {
-                    $base_price_per_minute = $user->planes()->findOrFail($plane->id)->pivot->base_price_per_minute;
-                    $amount = $base_price_per_minute * $minutes;
-                    $set('amount', $amount);
-                }
             }
+            self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+
         }
 
         /** Calculate minutes with warmup */
         if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId && $selectedWarmupCounter)) {
+            $minutes = 0;
+            $warmup_minutes = 0;
             /** industrial minutes calculation */
             if ($plane->counter_type === '100') {
                 $calculateCounterWarmupDiff = $selectedCounterStart - $selectedWarmupCounter;
@@ -195,21 +196,6 @@ class ActivityResource extends Resource
                 $minutes = round($calculateCounterDiff * 100 / 5 * 3, 2);
                 $set('minutes', $minutes);
 
-                if ($user->planes()->where('plane_id', $plane->id)->exists()) {
-                    $base_price_per_minute = $user->planes()->findOrFail($plane->id)->pivot->base_price_per_minute;
-                    $set('base_price_per_minute', $base_price_per_minute);
-                    if ($plane->warmup_type == 0) {
-                        $amount = round($base_price_per_minute * $minutes);
-                        $set('amount', $amount);
-                    }
-
-                    if ($plane->warmup_type == 1) {
-                        $amount = round($base_price_per_minute * ($minutes + $warmup_minutes));
-                        $set('amount', $amount);
-                    }
-
-
-                }
             }
             /** Rolling hours and minutes with a decimal */
             if ($plane->counter_type === '060') {
@@ -220,23 +206,34 @@ class ActivityResource extends Resource
                 $minutes = round($calculateCounterDiff, 2);
                 $set('minutes', $minutes);
 
-                if ($user->planes()->where('plane_id', $plane->id)->exists()) {
-                    $base_price_per_minute = $user->planes()->findOrFail($plane->id)->pivot->base_price_per_minute;
-                    $set('base_price_per_minute', $base_price_per_minute);
-                    if ($plane->warmup_type == 0) {
-                        $amount = round($base_price_per_minute * $minutes);
-                        $set('amount', $amount);
-                    }
-
-                    if ($plane->warmup_type == 1) {
-                        $amount = round($base_price_per_minute * ($minutes + $warmup_minutes));
-                        $set('amount', $amount);
-                    }
-
-                }
             }
+            self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
         }
 
+    }
+
+    public static function calculateAmount(Get $get, Set $set, $user, $plane, $minutes, $warmup_minutes)
+    {
+        if ($user->planes()->where('plane_id', $plane->id)->exists()) {
+            $base_price_per_minute = $user->planes()->find($plane->id)->pivot->base_price_per_minute ?? 0;
+            $set('base_price_per_minute', $base_price_per_minute);
+            if ($get('instructor_id')) {
+                $instructor_price_per_minute = $user->planes()->find($plane->id)->pivot->instructor_price_per_minute;
+                $set('instructor_price_per_minute', $instructor_price_per_minute);
+            } else {
+                $instructor_price_per_minute = 0;
+            }
+
+            if ($plane->warmup_type == 0) {
+                $amount = round(($base_price_per_minute + $instructor_price_per_minute) * $minutes);
+                $set('amount', $amount);
+            }
+
+            if ($plane->warmup_type == 1) {
+                $amount = round(($base_price_per_minute + $instructor_price_per_minute) * ($minutes + $warmup_minutes));
+                $set('amount', $amount);
+            }
+        }
     }
 
     public static function table(Table $table): Table
@@ -347,6 +344,4 @@ class ActivityResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
-
-
 }
