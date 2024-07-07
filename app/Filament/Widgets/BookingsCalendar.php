@@ -3,8 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Filament\Resources\ReservationResource;
+use App\Models\Plane;
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Saade\FilamentFullCalendar\Actions;
 
@@ -17,18 +19,21 @@ class BookingsCalendar extends FullCalendarWidget
     public function config(): array
     {
         return [
-            'initialView' => "timelineWeek",
+            'initialView' => 'resourceTimelineDay',
+            'resourceAreaHeaderContent' => 'Callsign',
+            'resources' => $this->getResources(),
             'aspectRatio' => 1.2,
             'dayHeaders' => true,
+            'timeZone' => config('panel.timezone'),
+            'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i'),
             'headerToolbar' => [
                 'left' => 'prev,next',
                 'center' => 'title',
-                'right' => 'timelineDay,timelineWeek',
+                'right' => 'resourceTimelineDay,resourceTimelineWeek',
             ],
             'allDaySlot' => false,
-            'slotMinTime' => "07:00:00",
-            'slotMaxTime' => "19:00:00",
-            'slotDuration' => "00:30:00",
+            'slotMinTime' => $this->getSunrise(config('panel.latitude'), config('panel.longitude'), config('panel.timezone')),
+            'slotMaxTime' => $this->getSunset(config('panel.latitude'), config('panel.longitude'), config('panel.timezone')),
             'height' => "auto",
             'slotLabelFormat' => [
                 [
@@ -53,6 +58,45 @@ class BookingsCalendar extends FullCalendarWidget
         ];
     }
 
+    private function getResources(): array
+    {
+        return Plane::select('id', 'callsign as title')->get()->toArray();
+    }
+
+    private function getSunrise($latitude, $longitude, $timezone): string
+    {
+        $date = Carbon::now($timezone);
+        $sun_info = date_sun_info($date->timestamp, $latitude, $longitude);
+        $twilight_begin_minute = Carbon::createFromTimestamp($sun_info['civil_twilight_begin'], $timezone)->format('i');
+
+        if ($twilight_begin_minute < 15) {
+            $additionalMinutes = -$twilight_begin_minute; // Rundet nach unten zur vollen Stunde
+        } elseif ($twilight_begin_minute < 45) {
+            $additionalMinutes = 30 - $twilight_begin_minute; // Rundet zur nächsten halben Stunde
+        } else {
+            $additionalMinutes = 60 - $twilight_begin_minute; // Rundet nach oben zur nächsten vollen Stunde
+        }
+
+        return Carbon::createFromTimestamp($sun_info['civil_twilight_begin'], $timezone)->addMinutes($additionalMinutes)->format('H:i');
+    }
+
+    private function getSunset($latitude, $longitude, $timezone): string
+    {
+        $date = Carbon::now($timezone);
+        $sun_info = date_sun_info($date->timestamp, $latitude, $longitude);
+        $twilight_begin_minute = Carbon::createFromTimestamp($sun_info['civil_twilight_end'], $timezone)->format('i');
+
+        if ($twilight_begin_minute < 15) {
+            $additionalMinutes = -$twilight_begin_minute; // Rundet nach unten zur vollen Stunde
+        } elseif ($twilight_begin_minute < 45) {
+            $additionalMinutes = 30 - $twilight_begin_minute; // Rundet zur nächsten halben Stunde
+        } else {
+            $additionalMinutes = 60 - $twilight_begin_minute; // Rundet nach oben zur nächsten vollen Stunde
+        }
+
+        return Carbon::createFromTimestamp($sun_info['civil_twilight_end'], $timezone)->addMinutes($additionalMinutes)->format('H:i');
+    }
+
     public function resolveEventRecord(array $data): Reservation
     {
         return Reservation::find($data['id']);
@@ -70,8 +114,8 @@ class BookingsCalendar extends FullCalendarWidget
             ->get()
             ->map(
                 fn(Reservation $reservation) => [
-//                    'overlap' => 'false',
-                    'title' => $reservation->plane->callsign,
+                    'resourceId' => $reservation->plane_id,
+                    'title' => $this->getReservationTitle($reservation->id),
                     'description' => $reservation->description,
                     'start' => $reservation->reservation_start,
                     'end' => $reservation->reservation_stop,
@@ -79,6 +123,12 @@ class BookingsCalendar extends FullCalendarWidget
                     'url' => ReservationResource::getUrl(name: 'edit', parameters: ['record' => $reservation]),
                 ]
             )->all();
+    }
+
+    private function getReservationTitle($id)
+    {
+        $reservation = Reservation::find($id);
+        return $reservation->bookingUsers()->pluck('name');
     }
 
     private function getBookingColor(mixed $mode_id): string
