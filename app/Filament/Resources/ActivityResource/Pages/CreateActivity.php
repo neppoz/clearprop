@@ -13,9 +13,13 @@ class CreateActivity extends CreateRecord
 {
     protected static string $resource = ActivityResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        debug($data);
         $data['rate'] = $data['base_price_per_minute'];
 
         return $data;

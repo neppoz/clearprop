@@ -24,6 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 
 class ReservationResource extends Resource
 {
@@ -64,30 +65,20 @@ class ReservationResource extends Resource
                         ->label('From')
                         ->firstDayOfWeek(1)
                         ->displayFormat(config('panel.date_format'))
-                        ->minDate(today()),
-                    Select::make('reservation_start_time_hour')
-                        ->label('Hour')
-                        ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
                         ->required(),
-                    Select::make('reservation_start_time_minute')
-                        ->label('Minute')
-                        ->options(['00' => '00', '30' => '30'])
+                    TimePicker::make('reservation_start_time')
+                        ->seconds(false)
                         ->required(),
                     DatePicker::make('reservation_stop_date')
                         ->label('To')
                         ->firstDayOfWeek(1)
                         ->displayFormat('d/m/Y')
-                        ->minDate(today()),
-                    Select::make('reservation_stop_time_hour')
-                        ->label('Hour')
-                        ->options(['07' => '07', '08' => '08', '09' => '09', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19'])
                         ->required(),
-                    Select::make('reservation_stop_time_minute')
-                        ->label('Minute')
-                        ->options(['00' => '00', '30' => '30'])
+                    TimePicker::make('reservation_stop_time')
+                        ->seconds(false)
                         ->required(),
                 ])
-                ->columns(3),
+                ->columns(2),
             Section::make()
                 ->schema([
                     Select::make('bookingUsers')
@@ -96,6 +87,7 @@ class ReservationResource extends Resource
 //                            ->searchable()
 //                            ->afterStateUpdated(fn(Get $get) => self::getUserRatings($get('user_id')))
 //                            ->live(onBlur: true)
+                        // ToDo rating notification for admin
                         ->relationship(name: 'bookingUsers', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
                     Select::make('bookingInstructors')
@@ -195,9 +187,8 @@ class ReservationResource extends Resource
         ];
     }
 
-    /** @return Builder<Order> */
-    public
-    static function getEloquentQuery(): Builder
+    /** @return Builder<Reservation> */
+    public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
     }

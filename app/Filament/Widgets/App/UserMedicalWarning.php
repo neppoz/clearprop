@@ -11,8 +11,8 @@ class UserMedicalWarning extends Widget
 {
     protected static string $view = 'filament.widgets.user-medical-warning';
     protected static ?int $sort = 1;
+    protected static ?string $pollingInterval = null;
     protected int|string|array $columnSpan = 'full';
-
 
     public static function canView(): bool
     {

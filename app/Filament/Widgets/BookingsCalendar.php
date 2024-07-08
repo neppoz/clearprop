@@ -14,6 +14,7 @@ class BookingsCalendar extends FullCalendarWidget
 {
     protected static ?int $sort = 3;
 
+
     public Model|string|null $model = Reservation::class;
 
     public function config(): array
@@ -71,8 +72,6 @@ class BookingsCalendar extends FullCalendarWidget
 
         if ($twilight_begin_minute < 15) {
             $additionalMinutes = -$twilight_begin_minute; // Rundet nach unten zur vollen Stunde
-        } elseif ($twilight_begin_minute < 45) {
-            $additionalMinutes = 30 - $twilight_begin_minute; // Rundet zur nächsten halben Stunde
         } else {
             $additionalMinutes = 60 - $twilight_begin_minute; // Rundet nach oben zur nächsten vollen Stunde
         }
@@ -86,10 +85,8 @@ class BookingsCalendar extends FullCalendarWidget
         $sun_info = date_sun_info($date->timestamp, $latitude, $longitude);
         $twilight_begin_minute = Carbon::createFromTimestamp($sun_info['civil_twilight_end'], $timezone)->format('i');
 
-        if ($twilight_begin_minute < 15) {
+        if ($twilight_begin_minute < 30) {
             $additionalMinutes = -$twilight_begin_minute; // Rundet nach unten zur vollen Stunde
-        } elseif ($twilight_begin_minute < 45) {
-            $additionalMinutes = 30 - $twilight_begin_minute; // Rundet zur nächsten halben Stunde
         } else {
             $additionalMinutes = 60 - $twilight_begin_minute; // Rundet nach oben zur nächsten vollen Stunde
         }

@@ -31,6 +31,7 @@ class Reservation extends Model
      * @var string
      */
     public $table = 'bookings';
+
     protected $dates = [
         'created_at',
         'updated_at',
