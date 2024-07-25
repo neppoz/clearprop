@@ -36,7 +36,7 @@ enum ActivityStatus: string implements HasColor, HasIcon, HasLabel
     {
         return match ($this) {
             self::New => 'heroicon-m-sparkles',
-            self::Approved => 'heroicon-m-arrow-path',
+            self::Approved => 'heroicon-m-check',
             self::Cancelled => 'heroicon-m-x-circle',
         };
     }

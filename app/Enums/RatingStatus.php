@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasLabel;
 
 enum RatingStatus: string implements HasColor, HasIcon, HasLabel
 {
-    case student = 'new';
+    case student = 'student';
 
     case review = 'review';
 
@@ -37,7 +37,7 @@ enum RatingStatus: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::student => 'heroicon-m-sparkles',
             self::review => 'heroicon-m-arrow-path',
-            self::rated => 'heroicon-m-x-circle',
+            self::rated => 'heroicon-m-check',
         };
     }
 }

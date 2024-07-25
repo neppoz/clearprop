@@ -15,7 +15,7 @@ class PlaneUser extends Model
      *
      * @var string
      */
-    public $table = 'user_plane_prices';
+    public $table = 'plane_user';
 
     protected $casts = [
         'status' => RatingStatus::class,

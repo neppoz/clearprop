@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -68,9 +69,12 @@ class UserResource extends Resource
                                     ->unique(User::class, 'email', ignoreRecord: true),
                                 Forms\Components\TextInput::make('password')
                                     ->password()
-                                    ->maxLength(255),
-                                Forms\Components\TextInput::make('lang')
-                                    ->maxLength(255),
+                                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                                    ->dehydrated(fn($state) => filled($state))
+                                    ->required(fn(string $context): bool => $context === 'create'),
+                                Forms\Components\Select::make('lang')
+                                    ->options(User::LANG_SELECT)
+                                    ->required(),
                             ])
                             ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
                         Forms\Components\Section::make()
@@ -147,7 +151,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PlanesRelationManager::class,
         ];
     }
 
