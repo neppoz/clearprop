@@ -30,7 +30,7 @@ class ReservationResource extends Resource
 {
     protected static ?string $model = Reservation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
     public static function form(Form $form): Form
     {
@@ -82,6 +82,7 @@ class ReservationResource extends Resource
             Section::make()
                 ->schema([
                     Select::make('bookingUsers')
+                        ->searchable()
                         ->label('Pilot')
                         ->options(User::all()->pluck('name', 'id'))
 //                            ->searchable()
@@ -91,6 +92,7 @@ class ReservationResource extends Resource
                         ->relationship(name: 'bookingUsers', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
                     Select::make('bookingInstructors')
+                        ->searchable()
                         ->label('Instructor')
                         ->options(User::instructors()->pluck('name', 'id'))
 //                            ->live(onBlur: true)
@@ -120,6 +122,7 @@ class ReservationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginationPageOptions(['10', '25', '50'])
             ->columns([
                 Tables\Columns\TextColumn::make('plane.callsign')
                     ->label('Aircraft')
@@ -146,7 +149,7 @@ class ReservationResource extends Resource
                     ->sortable()
                     ->dateTime('D d/m - H:i'),
                 Tables\Columns\TextColumn::make('created_by.name')
-                    ->numeric()
+                    ->label('Created by')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
@@ -168,6 +171,12 @@ class ReservationResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('reservation_start')
+                    ->label('Date')
+                    ->date('D d/m/Y')()
+                    ->collapsible(),
             ]);
     }
 

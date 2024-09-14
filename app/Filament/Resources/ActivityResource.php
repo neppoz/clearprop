@@ -16,13 +16,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class ActivityResource extends Resource
 {
     protected static ?string $model = Activity::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
 
     public static function form(Form $form): Form
     {
@@ -39,12 +40,14 @@ class ActivityResource extends Resource
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
                         Forms\Components\Select::make('user_id')
+                            ->searchable()
                             ->label('Pilot')
                             ->live()
                             ->relationship('user', 'name')
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
                         Forms\Components\Select::make('instructor_id')
+                            ->searchable()
                             ->label('Instructor')
                             ->live()
                             ->relationship('instructor', 'name')
@@ -60,7 +63,7 @@ class ActivityResource extends Resource
                             ->default(false)
                             ->live(onBlur: true),
                         Forms\Components\TextInput::make('warmup_start')
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->inputMode('decimal')
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
@@ -68,13 +71,13 @@ class ActivityResource extends Resource
                             ->disabled(fn(Get $get): bool => !$get('engine_warmup')),
                         Forms\Components\TextInput::make('counter_start')
                             ->required()
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->inputMode('decimal')
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                         Forms\Components\TextInput::make('counter_stop')
                             ->required()
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->inputMode('decimal')
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
@@ -93,22 +96,22 @@ class ActivityResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('warmup_minutes')
                             ->label('Warmup min.')
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->inputMode('integer')
                             ->disabled(fn(Get $get): bool => !$get('engine_warmup'))
                             ->readonly(),
                         Forms\Components\TextInput::make('minutes')
                             ->label('Minutes')
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->inputMode('integer')
                             ->readonly(),
                         Forms\Components\TextInput::make('base_price_per_minute')
                             ->label('Base price')
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->readonly(),
                         Forms\Components\TextInput::make('instructor_price_per_minute')
                             ->label('Instructor price')
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->disabled(fn(Get $get): bool => !$get('instructor_id'))
                             ->readonly(),
                         Forms\Components\TextInput::make('discount')
@@ -116,7 +119,7 @@ class ActivityResource extends Resource
                             ->disabled(),
                         Forms\Components\TextInput::make('amount')
                             ->label('Total price')
-                            ->numeric()
+                            ->numeric(2, ',', '.')()
                             ->inputMode('integer')
                             ->readonly(),
                     ])
@@ -151,7 +154,7 @@ class ActivityResource extends Resource
             ->columns(3);
     }
 
-    protected function calculateMinutesAndCosts(Get $get, Set $set)
+    protected function calculateMinutesAndCosts(Get $get, Set $set): void
     {
         $selectedWarmupCounter = $get('warmup_start') ?? '';
         $selectedCounterStart = $get('counter_start') ?? '';
@@ -212,7 +215,7 @@ class ActivityResource extends Resource
 
     }
 
-    public static function calculateAmount(Get $get, Set $set, $user, $plane, $minutes, $warmup_minutes)
+    public static function calculateAmount(Get $get, Set $set, $user, $plane, $minutes, $warmup_minutes): void
     {
         if ($user->planes()->where('plane_id', $plane->id)->exists()) {
             $base_price_per_minute = $user->planes()->find($plane->id)->pivot->base_price_per_minute ?? 0;
@@ -239,8 +242,10 @@ class ActivityResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginationPageOptions(['10', '25', '50'])
             ->columns([
                 Tables\Columns\TextColumn::make('event')
+                    ->label('Date')
                     ->date('D d/m/Y')
                     ->sortable()
                     ->searchable(),
@@ -271,21 +276,27 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('full_counter')
                     ->label('Counter')
-                    ->numeric(2)
+                    ->numeric(2, ',', '.')(2)
                     ->searchable([
                         'counter_start', 'counter_stop'])
                     ->sortable([
                         'counter_start', 'counter_stop'])
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('warmup_minutes')
-                    ->numeric()
+                    ->numeric(2, ',', '.')()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
                 Tables\Columns\TextColumn::make('minutes')
-                    ->numeric(),
+                    ->label('Duration')
+                    ->numeric(2, ',', '.')()
+                    ->suffix(' min.')
+                    ->alignEnd(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->numeric()
+                    ->label('Amount')
+                    ->numeric(2, ',', '.')()
+                    ->suffix(' €')
+                    ->alignEnd()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -300,7 +311,7 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_by.name')
-                    ->numeric()
+                    ->numeric(2, ',', '.')()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -318,6 +329,15 @@ class ActivityResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('event')
+                    ->label('Date')
+                    ->date('D d/m/Y')()
+                    ->collapsible(),
+                Tables\Grouping\Group::make('status')
+                    ->label('Status')
+                    ->collapsible(),
             ]);
     }
 

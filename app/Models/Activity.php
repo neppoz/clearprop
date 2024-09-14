@@ -89,17 +89,6 @@ class Activity extends Model
         return $this->counter_start . ' / ' . $this->counter_stop;
     }
 
-//
-//    public function getEventAttribute($value)
-//    {
-//        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
-//    }
-//
-//    public function setEventAttribute($value)
-//    {
-//        $this->attributes['event'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-//    }
-
     public function created_by(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_id');
