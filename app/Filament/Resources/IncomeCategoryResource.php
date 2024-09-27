@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\IncomeCategoryResource\Pages;
-use App\Filament\Resources\IncomeCategoryResource\RelationManagers;
 use App\Models\IncomeCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
