@@ -30,8 +30,9 @@ class ReservationResource extends Resource
 {
     protected static ?string $model = Reservation::class;
 
+    protected static ?int $navigationSort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-
+    protected static bool $shouldCollapseNavigationGroup = true;
     public static function form(Form $form): Form
     {
         /* This is not standard. Calling the form in the function, so we can use it in the Widget as well. */
@@ -175,7 +176,7 @@ class ReservationResource extends Resource
             ->groups([
                 Tables\Grouping\Group::make('reservation_start')
                     ->label('Date')
-                    ->date('D d/m/Y')()
+                    ->date('D d/m/Y')
                     ->collapsible(),
             ]);
     }

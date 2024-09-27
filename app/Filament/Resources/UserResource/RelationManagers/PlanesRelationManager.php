@@ -26,11 +26,11 @@ class PlanesRelationManager extends RelationManager
                     ->disabled(),
                 Forms\Components\TextInput::make('base_price_per_minute')
                     ->label('Base price')
-                    ->numeric(2, ',', '.')()
+                    ->numeric(2, ',', '.')
                     ->required(),
                 Forms\Components\TextInput::make('instructor_price_per_minute')
                     ->label('Instructor price')
-                    ->numeric(2, ',', '.')()
+                    ->numeric(2, ',', '.')
                     ->required(),
                 Forms\Components\ToggleButtons::make('rating_status')
                     ->inline()
@@ -58,11 +58,11 @@ class PlanesRelationManager extends RelationManager
                         $action->getRecordSelect(),
                         Forms\Components\TextInput::make('base_price_per_minute')
                             ->label('Base price')
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->required(),
                         Forms\Components\TextInput::make('instructor_price_per_minute')
                             ->label('Instructor price')
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->required(),
                         Forms\Components\ToggleButtons::make('rating_status')
                             ->inline()

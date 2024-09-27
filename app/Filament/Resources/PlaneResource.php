@@ -16,11 +16,13 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PlaneResource extends Resource
 {
     protected static ?string $model = Plane::class;
+
+    protected static ?int $navigationSort = 98;
+
     protected static ?string $recordTitleAttribute = 'Aircrafts';
     protected static ?string $navigationLabel = 'Aircrafts';
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
-    protected static ?string $navigationGroup = 'Assets';
-
+    protected static bool $shouldCollapseNavigationGroup = true;
     public static function getModelLabel(): string
     {
         return 'Aircraft';

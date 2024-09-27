@@ -7,6 +7,7 @@ use App\Filament\Resources\ActivityResource\Pages;
 use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -22,9 +23,9 @@ use Throwable;
 class ActivityResource extends Resource
 {
     protected static ?string $model = Activity::class;
-
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
-
+    protected static bool $shouldCollapseNavigationGroup = true;
     public static function form(Form $form): Form
     {
         return $form
@@ -54,189 +55,113 @@ class ActivityResource extends Resource
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                     ])
                     ->columns(2),
-                Forms\Components\Section::make('Engine data')
+                Forms\Components\Section::make('Trip Info')
+                    ->icon('heroicon-m-globe-alt')
+                    ->iconColor('info')
+                    ->schema([
+                        Forms\Components\TextInput::make('departure')
+                            ->maxLength(255),
+                        Forms\Components\TimePicker::make('event_start')
+                            ->label('Engine ON')
+                            ->seconds(false)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
+                        Forms\Components\TextInput::make('arrival')
+                            ->maxLength(255),
+                        Forms\Components\TimePicker::make('event_stop')
+                            ->label('Engine OFF')
+                            ->seconds(false)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
+                    ])
+                    ->columns(2)
+                    ->collapsible()
+                    ->compact(),
+                Forms\Components\Section::make('Engine Info')
                     ->icon('heroicon-m-cog')
                     ->iconColor('info')
                     ->schema([
                         Forms\Components\Toggle::make('engine_warmup')
                             ->inline(false)
                             ->default(false)
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->live(onBlur: true),
                         Forms\Components\TextInput::make('warmup_start')
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => $get('engine_warmup'))
                             ->disabled(fn(Get $get): bool => !$get('engine_warmup')),
+                        Forms\Components\TextInput::make('warmup_minutes')
+                            ->label('Warmup min.')
+                            ->numeric(2, ',', '.')
+                            ->inputMode('integer')
+                            ->disabled(fn(Get $get): bool => !$get('engine_warmup'))
+                            ->readonly(),
                         Forms\Components\TextInput::make('counter_start')
-                            ->required()
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->required(fn(): bool => (new ActivityResource)->planeCounterType()),
                         Forms\Components\TextInput::make('counter_stop')
-                            ->required()
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
-                        Forms\Components\ToggleButtons::make('status')
-                            ->inline()
-                            ->options(ActivityStatus::class)
-                            ->required()
-                            ->columnSpan(2),
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->required(fn(): bool => (new ActivityResource)->planeCounterType()),
                     ])
-                    ->columns(2)
-                    ->columnSpan(['lg' => 2])
+                    ->columns(3)
+                    ->collapsible()
                     ->compact(),
                 Forms\Components\Section::make('Calculations')
                     ->icon('heroicon-m-variable')
                     ->iconColor('info')
                     ->schema([
-                        Forms\Components\TextInput::make('warmup_minutes')
-                            ->label('Warmup min.')
-                            ->numeric(2, ',', '.')()
-                            ->inputMode('integer')
-                            ->disabled(fn(Get $get): bool => !$get('engine_warmup'))
-                            ->readonly(),
                         Forms\Components\TextInput::make('minutes')
                             ->label('Minutes')
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->inputMode('integer')
                             ->readonly(),
                         Forms\Components\TextInput::make('base_price_per_minute')
                             ->label('Base price')
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->readonly(),
                         Forms\Components\TextInput::make('instructor_price_per_minute')
                             ->label('Instructor price')
-                            ->numeric(2, ',', '.')()
-                            ->disabled(fn(Get $get): bool => !$get('instructor_id'))
+                            ->numeric(2, ',', '.')
                             ->readonly(),
                         Forms\Components\TextInput::make('discount')
                             ->label('Discount')
                             ->disabled(),
                         Forms\Components\TextInput::make('amount')
                             ->label('Total price')
-                            ->numeric(2, ',', '.')()
+                            ->numeric(2, ',', '.')
                             ->inputMode('integer')
                             ->readonly(),
+                        Forms\Components\ToggleButtons::make('status')
+                            ->inline()
+                            ->options(ActivityStatus::class)
+                            ->required()
+                            ->columnSpan(2),
                     ])
-                    ->columns(2)
-                    ->columnSpan(['lg' => 1])
+                    ->columns(5)
                     ->collapsible()
                     ->compact(),
-                Forms\Components\Section::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('departure')
-                            ->maxLength(255),
-                        Forms\Components\TimePicker::make('event_start')
-                            ->label('Engine On')
-                            ->seconds(false),
-                        Forms\Components\TextInput::make('arrival')
-                            ->maxLength(255),
-                        Forms\Components\TimePicker::make('event_stop')
-                            ->label('Engine Off')
-                            ->seconds(false),
-                    ])
-                    ->columns(2)
-                    ->columnSpan(['lg' => 2]),
-                Forms\Components\Section::make()
+                Forms\Components\Section::make('Remarks')
+                    ->icon('heroicon-m-pencil')
+                    ->iconColor('info')
                     ->schema([
                         Forms\Components\Textarea::make('description')
-                            ->label('Notes')
+                            ->label('')
                             ->autosize()
                             ->rows(5),
                     ])
-                    ->columnSpan(['lg' => 1]),
+                    ->collapsible()
+                    ->compact(),
             ])
             ->columns(3);
-    }
-
-    protected function calculateMinutesAndCosts(Get $get, Set $set): void
-    {
-        $selectedWarmupCounter = $get('warmup_start') ?? '';
-        $selectedCounterStart = $get('counter_start') ?? '';
-        $selectedCounterStop = $get('counter_stop') ?? '';
-        $selectedPlaneId = $get('plane_id') ?? '';
-        $selectedUserId = $get('user_id') ?? '';
-        $plane = Plane::find($selectedPlaneId) ?? '';
-        $user = User::find($selectedUserId) ?? '';
-
-        /** Calculate minutes without warmup */
-        if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId) && empty($selectedWarmupCounter)) {
-            $minutes = 0;
-            $warmup_minutes = 0;
-            $set('warmup_minutes', $warmup_minutes);
-            /** industrial minutes calculation */
-            if ($plane->counter_type === '100') {
-                $calculateCounterDiff = $selectedCounterStop - $selectedCounterStart;
-                $minutes = round($calculateCounterDiff * 100 / 5 * 3, 2);
-                $set('minutes', $minutes);
-            }
-            /** Rolling hours and minutes with a decimal */
-            if ($plane->counter_type === '060') {
-                $calculateCounterDiff = (intval($selectedCounterStop * 60)) + ($selectedCounterStop * 100 % 100) - (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100);
-                $minutes = round($calculateCounterDiff, 2);
-                $set('minutes', $minutes);
-
-            }
-            self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
-
-        }
-
-        /** Calculate minutes with warmup */
-        if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId && $selectedWarmupCounter)) {
-            $minutes = 0;
-            $warmup_minutes = 0;
-            /** industrial minutes calculation */
-            if ($plane->counter_type === '100') {
-                $calculateCounterWarmupDiff = $selectedCounterStart - $selectedWarmupCounter;
-                $warmup_minutes = round($calculateCounterWarmupDiff * 100 / 5 * 3, 2);
-                $set('warmup_minutes', $warmup_minutes);
-                $calculateCounterDiff = $selectedCounterStop - $selectedCounterStart;
-                $minutes = round($calculateCounterDiff * 100 / 5 * 3, 2);
-                $set('minutes', $minutes);
-
-            }
-            /** Rolling hours and minutes with a decimal */
-            if ($plane->counter_type === '060') {
-                $calculateCounterWarmupDiff = (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100) - (intval($selectedWarmupCounter * 60)) + ($selectedWarmupCounter * 100 % 100);
-                $warmup_minutes = round($calculateCounterWarmupDiff, 2);
-                $set('warmup_minutes', $warmup_minutes);
-                $calculateCounterDiff = (intval($selectedCounterStop * 60)) + ($selectedCounterStop * 100 % 100) - (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100);
-                $minutes = round($calculateCounterDiff, 2);
-                $set('minutes', $minutes);
-
-            }
-            self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
-        }
-
-    }
-
-    public static function calculateAmount(Get $get, Set $set, $user, $plane, $minutes, $warmup_minutes): void
-    {
-        if ($user->planes()->where('plane_id', $plane->id)->exists()) {
-            $base_price_per_minute = $user->planes()->find($plane->id)->pivot->base_price_per_minute ?? 0;
-            $set('base_price_per_minute', $base_price_per_minute);
-            if ($get('instructor_id')) {
-                $instructor_price_per_minute = $user->planes()->find($plane->id)->pivot->instructor_price_per_minute;
-                $set('instructor_price_per_minute', $instructor_price_per_minute);
-            } else {
-                $instructor_price_per_minute = 0;
-            }
-
-            if ($plane->warmup_type == 0) {
-                $amount = round(($base_price_per_minute + $instructor_price_per_minute) * $minutes);
-                $set('amount', $amount);
-            }
-
-            if ($plane->warmup_type == 1) {
-                $amount = round(($base_price_per_minute + $instructor_price_per_minute) * ($minutes + $warmup_minutes));
-                $set('amount', $amount);
-            }
-        }
     }
 
     public static function table(Table $table): Table
@@ -250,17 +175,23 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('plane.callsign')
+                    ->label('Airplane')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('departure')
+                    ->label('Departure')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('event_start')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('OffBlock')
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('arrival')
+                    ->label('Arrival')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('event_stop')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('OnBlock')
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('User')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('split_cost')
@@ -276,28 +207,29 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('full_counter')
                     ->label('Counter')
-                    ->numeric(2, ',', '.')(2)
+                    ->numeric(2, ',', '.')
                     ->searchable([
                         'counter_start', 'counter_stop'])
                     ->sortable([
                         'counter_start', 'counter_stop'])
+                    ->toggleable(isToggledHiddenByDefault: false)
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('warmup_minutes')
-                    ->numeric(2, ',', '.')()
+                    ->numeric(2, ',', '.')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
                 Tables\Columns\TextColumn::make('minutes')
                     ->label('Duration')
-                    ->numeric(2, ',', '.')()
+                    ->numeric(decimalPlaces: 0)
                     ->suffix(' min.')
                     ->alignEnd(),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
-                    ->numeric(2, ',', '.')()
+                    ->numeric(2, ',', '.')
                     ->suffix(' €')
                     ->alignEnd()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -311,7 +243,6 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_by.name')
-                    ->numeric(2, ',', '.')()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -333,12 +264,114 @@ class ActivityResource extends Resource
             ->groups([
                 Tables\Grouping\Group::make('event')
                     ->label('Date')
-                    ->date('D d/m/Y')()
+                    ->date('D d/m/Y')
                     ->collapsible(),
                 Tables\Grouping\Group::make('status')
                     ->label('Status')
                     ->collapsible(),
             ]);
+    }
+
+    protected function planeCounterType(): bool
+    {
+        return true;
+    }
+    protected function calculateMinutesAndCosts(Get $get, Set $set): void
+    {
+        $selectedEngineOn = $get('event_start') ?? '';
+        $selectedEngineOff = $get('event_stop') ?? '';
+        $selectedWarmupCounter = $get('warmup_start') ?? '';
+        $selectedCounterStart = $get('counter_start') ?? '';
+        $selectedCounterStop = $get('counter_stop') ?? '';
+        $selectedPlaneId = $get('plane_id') ?? '';
+        $selectedUserId = $get('user_id') ?? '';
+        $plane = Plane::find($selectedPlaneId) ?? '';
+        $user = User::find($selectedUserId) ?? '';
+
+        if (!empty($selectedEngineOn && $selectedEngineOff && $selectedPlaneId && $selectedUserId)) {
+            if ($plane->counter_type === '000') {
+                /** Calculate minutes between OffBlock/OnBlock time */
+                $set('counter_start', 0);
+                $set('counter_stop', 0);
+                $warmup_minutes = 0;
+                $set('warmup_minutes', $warmup_minutes);
+                $minutes = Carbon::parse($selectedEngineOn)->diffInMinutes(Carbon::parse($selectedEngineOff));
+                $set('minutes', $minutes);
+                self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+            }
+        } else {
+            /** Calculate minutes without warmup */
+            if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId) && empty($selectedWarmupCounter)) {
+                $minutes = 0;
+                $warmup_minutes = 0;
+                $set('warmup_minutes', $warmup_minutes);
+                /** industrial minutes calculation */
+                if ($plane->counter_type === '100') {
+                    $calculateCounterDiff = $selectedCounterStop - $selectedCounterStart;
+                    $minutes = round($calculateCounterDiff * 100 / 5 * 3, 2);
+                    $set('minutes', $minutes);
+                }
+                /** Rolling hours and minutes with a decimal */
+                if ($plane->counter_type === '060') {
+                    $calculateCounterDiff = (intval($selectedCounterStop * 60)) + ($selectedCounterStop * 100 % 100) - (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100);
+                    $minutes = round($calculateCounterDiff, 2);
+                    $set('minutes', $minutes);
+
+                }
+                self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+            }
+            /** Calculate minutes with warmup */
+            if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId && $selectedWarmupCounter)) {
+                $minutes = 0;
+                $warmup_minutes = 0;
+                /** industrial minutes calculation */
+                if ($plane->counter_type === '100') {
+                    $calculateCounterWarmupDiff = $selectedCounterStart - $selectedWarmupCounter;
+                    $warmup_minutes = round($calculateCounterWarmupDiff * 100 / 5 * 3, 2);
+                    $set('warmup_minutes', $warmup_minutes);
+                    $calculateCounterDiff = $selectedCounterStop - $selectedCounterStart;
+                    $minutes = round($calculateCounterDiff * 100 / 5 * 3, 2);
+                    $set('minutes', $minutes);
+
+                }
+                /** Rolling hours and minutes with a decimal */
+                if ($plane->counter_type === '060') {
+                    $calculateCounterWarmupDiff = (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100) - (intval($selectedWarmupCounter * 60)) + ($selectedWarmupCounter * 100 % 100);
+                    $warmup_minutes = round($calculateCounterWarmupDiff, 2);
+                    $set('warmup_minutes', $warmup_minutes);
+                    $calculateCounterDiff = (intval($selectedCounterStop * 60)) + ($selectedCounterStop * 100 % 100) - (intval($selectedCounterStart * 60)) + ($selectedCounterStart * 100 % 100);
+                    $minutes = round($calculateCounterDiff, 2);
+                    $set('minutes', $minutes);
+
+                }
+                self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+            }
+        }
+    }
+
+    public static function calculateAmount(Get $get, Set $set, $user, $plane, $minutes, $warmup_minutes): void
+    {
+        if ($user->planes()->where('plane_id', $plane->id)->exists()) {
+            $base_price_per_minute = $user->planes()->find($plane->id)->pivot->base_price_per_minute ?? 0;
+            $set('base_price_per_minute', $base_price_per_minute);
+            if ($get('instructor_id')) {
+                $instructor_price_per_minute = $user->planes()->find($plane->id)->pivot->instructor_price_per_minute;
+                $set('instructor_price_per_minute', $instructor_price_per_minute);
+            } else {
+                $instructor_price_per_minute = 0;
+                $set('instructor_price_per_minute', $instructor_price_per_minute);
+            }
+
+            if ($plane->warmup_type == 0) {
+                $amount = round(($base_price_per_minute + $instructor_price_per_minute) * $minutes);
+                $set('amount', $amount);
+            }
+
+            if ($plane->warmup_type == 1) {
+                $amount = round(($base_price_per_minute + $instructor_price_per_minute) * ($minutes + $warmup_minutes));
+                $set('amount', $amount);
+            }
+        }
     }
 
     public static function getRelations(): array
@@ -364,4 +397,5 @@ class ActivityResource extends Resource
                 SoftDeletingScope::class,
             ]);
     }
+
 }

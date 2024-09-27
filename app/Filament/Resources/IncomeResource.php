@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\IncomeResource\Pages;
 use App\Filament\Resources\IncomeResource\RelationManagers;
 use App\Models\Income;
+use App\Models\IncomeCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,11 +17,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class IncomeResource extends Resource
 {
     protected static ?string $model = Income::class;
-
+    protected static ?string $label = 'Payments';
+    protected static ?string $recordTitleAttribute = 'Payments';
+    protected static ?string $navigationLabel = 'Payments';
     protected static ?string $navigationIcon = 'heroicon-o-arrow-left-end-on-rectangle';
-
-    protected static ?string $navigationGroup = 'Finance';
-
+    protected static ?int $navigationSort = 99;
     public static function form(Form $form): Form
     {
         return $form
@@ -41,11 +42,21 @@ class IncomeResource extends Resource
                             ->label('Name')
                             ->maxLength(255)
                             ->required(),
+                        Forms\Components\Radio::make('deposit')
+                            ->label('Deposit type')
+                            ->inline()
+                            ->options(IncomeCategory::DEPOSIT_RADIO)
+                            ->required(),
                     ])
                     ->editOptionForm([
                         Forms\Components\TextInput::make('name')
                             ->label('Name')
                             ->maxLength(255)
+                            ->required(),
+                        Forms\Components\Radio::make('deposit')
+                            ->label('Deposit type')
+                            ->inline()
+                            ->options(IncomeCategory::DEPOSIT_RADIO)
                             ->required(),
                     ])
                     ->required(),
@@ -70,8 +81,10 @@ class IncomeResource extends Resource
                     ->label('Description')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('income_category.name')
+                    ->label('Payment type')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('User')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
