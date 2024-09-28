@@ -48,10 +48,9 @@ class ActivityResource extends Resource
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
                         Forms\Components\Select::make('instructor_id')
-                            ->searchable()
                             ->label('Instructor')
-                            ->live(onBlur: true)
-                            ->relationship('instructor', 'name')
+                            ->searchable()
+                            ->options(User::instructors()->pluck('name', 'id'))
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),
                     ])
                     ->columns(2),

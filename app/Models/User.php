@@ -65,7 +65,7 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
-    public function scopeInstructors(Builder $query)
+    public function scopeInstructors(Builder $query): void
     {
         $query->whereHas('roles', function ($role) {
             $role->where('role_id', User::IS_INSTRUCTOR);
