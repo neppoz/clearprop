@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('activities', function (Blueprint $table) {
             $table->dropForeign('type_fk_1169396');
-            $table->integer('type_id')->nullable()->default(0)->change();
+            $table->unsignedInteger('type_id')->nullable()->default(0)->change();
         });
     }
 
