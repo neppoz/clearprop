@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('plane_user', function (Blueprint $table) {
-            $table->decimal('base_price_per_user', 10, 2)->default(0);
+            $table->decimal('base_price_per_minute', 10, 2)->default(0);
             $table->enum('rating_status', ['student', 'review', 'rated'])->default('review');
         });
     }

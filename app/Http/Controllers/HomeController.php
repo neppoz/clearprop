@@ -54,4 +54,10 @@ class HomeController extends Controller
         return view('home', compact('bookingDates', 'bookingCalendarEvents', 'collectionActivityStatistics', 'currentUserMedicalBeyondDueDate'));
     }
 
+    public function redirectToAdminPanel(): \Illuminate\Http\RedirectResponse
+    {
+        // Weiterleitung zur Filament Admin-Seite
+        return redirect('/adminPanel');
+    }
+
 }

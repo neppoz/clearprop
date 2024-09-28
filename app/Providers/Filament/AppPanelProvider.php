@@ -25,8 +25,8 @@ class AppPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('adminpanel')
-            ->path('adminpanel')
+            ->id('adminPanel')
+            ->path('adminPanel')
             ->login()
             ->passwordReset()
             ->colors([

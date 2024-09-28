@@ -24,7 +24,8 @@ Route::get('/home', function () {
 
 Route::group(['prefix' => 'app', 'as' => 'app.', 'middleware' => ['auth']], function () {
 
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'redirectToAdminPanel'])->name('home');
+//    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Activities
     Route::get('activities/userActivities/{user_id}', [ActivitiesController::class, 'getActivitiesByUser'])->name('activities.getActivitiesByUser');
@@ -188,16 +189,3 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
