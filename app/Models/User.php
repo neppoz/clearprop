@@ -30,17 +30,16 @@ class User extends Authenticatable implements FilamentUser
         'IT' => 'Italian',
     ];
     public $table = 'users';
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
-        'medical_due',
-        'email_verified_at',
-        'privacy_confirmed_at',
     ];
 
     protected $fillable = [
@@ -63,6 +62,15 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'medical_due' => 'date',
+            'email_verified_at' => 'datetime',
+            'privacy_confirmed_at' => 'datetime',
+        ];
     }
 
     public function scopeInstructors(Builder $query): void
@@ -144,7 +152,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(Factor::class, 'factor_id');
     }
 
-    public function setTaxnoAttribute($value)
+    public function setTaxnoAttribute($value): void
     {
         $this->attributes['taxno'] = strtoupper($value);
     }

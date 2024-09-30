@@ -21,6 +21,7 @@ class UserResource extends Resource
     protected static ?int $navigationSort = 5;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static bool $shouldCollapseNavigationGroup = true;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -50,8 +51,8 @@ class UserResource extends Resource
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('city')
                                     ->maxLength(255),
-
                                 Forms\Components\TextInput::make('taxno')
+                                    ->label('VAT Number')
                                     ->maxLength(255),
                             ])
                             ->columns(2),
@@ -80,6 +81,16 @@ class UserResource extends Resource
                             ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
                         Forms\Components\Section::make()
                             ->schema([
+                                Forms\Components\CheckboxList::make('roles')
+                                    ->label('Roles')
+                                    ->relationship('roles', 'title')
+                                    ->columns(2)
+                                    ->helperText('Select which roles you would like to assign to this user'),
+                            ])
+                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2])
+                            ->hidden(fn(?User $record) => $record === null),
+                        Forms\Components\Section::make()
+                            ->schema([
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label('Created at')
                                     ->content(fn(User $record): ?string => $record->created_at?->diffForHumans()),
@@ -88,11 +99,12 @@ class UserResource extends Resource
                                     ->content(fn(User $record): ?string => $record->updated_at?->diffForHumans()),
                                 Forms\Components\Placeholder::make('email_verified_at')
                                     ->label('Email verified')
-                                    ->content(fn(User $record): ?string => $record->email_verified_at),
+                                    ->content(fn(User $record): ?string => $record->email_verified_at ? \Illuminate\Support\Carbon::parse($record->email_verified_at)->diffForHumans() : null),
                                 Forms\Components\Placeholder::make('privacy_confirmed_at')
                                     ->label('Privacy confirmed')
-                                    ->content(fn(User $record): ?string => $record->privacy_confirmed_at),
+                                    ->content(fn(User $record): ?string => $record->privacy_confirmed_at ? \Illuminate\Support\Carbon::parse($record->email_verified_at)->diffForHumans() : null),
                             ])
+                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2])
                             ->hidden(fn(?User $record) => $record === null),
                     ])
                     ->columnSpan(['lg' => 1])
@@ -104,6 +116,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginated([10, 25, 50])
             ->columns([
                 Tables\Columns\Layout\Split::make([
                     Tables\Columns\Layout\Stack::make([
@@ -112,7 +125,6 @@ class UserResource extends Resource
                             ->sortable()
                             ->weight('medium')
                             ->alignLeft(),
-
                         Tables\Columns\TextColumn::make('email')
                             ->label('Email address')
                             ->searchable()
@@ -120,17 +132,24 @@ class UserResource extends Resource
                             ->color('gray')
                             ->alignLeft(),
                     ])->space(),
-
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('phone_1')
                             ->icon('heroicon-m-device-phone-mobile')
                             ->label('Mobile')
                             ->alignLeft(),
-
                         Tables\Columns\TextColumn::make('phone_2')
                             ->icon('heroicon-m-phone')
                             ->label('Office')
                             ->alignLeft(),
+                    ])->space(2),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('roles')
+                            ->label('Roles')
+                            ->formatStateUsing(function ($record) {
+                                $roles = $record->roles->pluck('title');
+                                return $roles->implode('<br>');
+                            })
+                            ->html()
                     ])->space(2),
                 ])->from('md'),
             ])
