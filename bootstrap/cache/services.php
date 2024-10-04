@@ -1,5 +1,5 @@
 <?php return array (
-  'providers' => 
+  'providers' =>
   array (
     0 => 'Illuminate\\Auth\\AuthServiceProvider',
     1 => 'Illuminate\\Broadcasting\\BroadcastServiceProvider',
@@ -45,28 +45,29 @@
     41 => 'Carbon\\Laravel\\ServiceProvider',
     42 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     43 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    44 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
-    45 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
-    46 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
-    47 => 'Spatie\\Backup\\BackupServiceProvider',
-    48 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    49 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-    50 => 'Spatie\\WebTinker\\WebTinkerServiceProvider',
-    51 => 'Yajra\\DataTables\\ButtonsServiceProvider',
-    52 => 'Yajra\\DataTables\\EditorServiceProvider',
-    53 => 'Yajra\\DataTables\\ExportServiceProvider',
-    54 => 'Yajra\\DataTables\\FractalServiceProvider',
-    55 => 'Yajra\\DataTables\\HtmlServiceProvider',
-    56 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    57 => 'Bugsnag\\BugsnagLaravel\\BugsnagServiceProvider',
-    58 => 'App\\Providers\\AppServiceProvider',
-    59 => 'App\\Providers\\AuthServiceProvider',
-    60 => 'App\\Providers\\EventServiceProvider',
-    61 => 'App\\Providers\\HorizonServiceProvider',
-    62 => 'App\\Providers\\Filament\\AppPanelProvider',
-    63 => 'App\\Providers\\RouteServiceProvider',
+      44 => 'Pest\\Laravel\\PestServiceProvider',
+      45 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
+      46 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
+      47 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
+      48 => 'Spatie\\Backup\\BackupServiceProvider',
+      49 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+      50 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
+      51 => 'Spatie\\WebTinker\\WebTinkerServiceProvider',
+      52 => 'Yajra\\DataTables\\ButtonsServiceProvider',
+      53 => 'Yajra\\DataTables\\EditorServiceProvider',
+      54 => 'Yajra\\DataTables\\ExportServiceProvider',
+      55 => 'Yajra\\DataTables\\FractalServiceProvider',
+      56 => 'Yajra\\DataTables\\HtmlServiceProvider',
+      57 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+      58 => 'Bugsnag\\BugsnagLaravel\\BugsnagServiceProvider',
+      59 => 'App\\Providers\\AppServiceProvider',
+      60 => 'App\\Providers\\AuthServiceProvider',
+      61 => 'App\\Providers\\EventServiceProvider',
+      62 => 'App\\Providers\\HorizonServiceProvider',
+      63 => 'App\\Providers\\Filament\\AppPanelProvider',
+      64 => 'App\\Providers\\RouteServiceProvider',
   ),
-  'eager' => 
+  'eager' =>
   array (
     0 => 'Illuminate\\Auth\\AuthServiceProvider',
     1 => 'Illuminate\\Cookie\\CookieServiceProvider',
@@ -98,28 +99,29 @@
     27 => 'Carbon\\Laravel\\ServiceProvider',
     28 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     29 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    30 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
-    31 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
-    32 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
-    33 => 'Spatie\\Backup\\BackupServiceProvider',
-    34 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    35 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-    36 => 'Spatie\\WebTinker\\WebTinkerServiceProvider',
-    37 => 'Yajra\\DataTables\\ButtonsServiceProvider',
-    38 => 'Yajra\\DataTables\\EditorServiceProvider',
-    39 => 'Yajra\\DataTables\\ExportServiceProvider',
-    40 => 'Yajra\\DataTables\\FractalServiceProvider',
-    41 => 'Yajra\\DataTables\\HtmlServiceProvider',
-    42 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    43 => 'Bugsnag\\BugsnagLaravel\\BugsnagServiceProvider',
-    44 => 'App\\Providers\\AppServiceProvider',
-    45 => 'App\\Providers\\AuthServiceProvider',
-    46 => 'App\\Providers\\EventServiceProvider',
-    47 => 'App\\Providers\\HorizonServiceProvider',
-    48 => 'App\\Providers\\Filament\\AppPanelProvider',
-    49 => 'App\\Providers\\RouteServiceProvider',
+      30 => 'Pest\\Laravel\\PestServiceProvider',
+      31 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
+      32 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
+      33 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
+      34 => 'Spatie\\Backup\\BackupServiceProvider',
+      35 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+      36 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
+      37 => 'Spatie\\WebTinker\\WebTinkerServiceProvider',
+      38 => 'Yajra\\DataTables\\ButtonsServiceProvider',
+      39 => 'Yajra\\DataTables\\EditorServiceProvider',
+      40 => 'Yajra\\DataTables\\ExportServiceProvider',
+      41 => 'Yajra\\DataTables\\FractalServiceProvider',
+      42 => 'Yajra\\DataTables\\HtmlServiceProvider',
+      43 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+      44 => 'Bugsnag\\BugsnagLaravel\\BugsnagServiceProvider',
+      45 => 'App\\Providers\\AppServiceProvider',
+      46 => 'App\\Providers\\AuthServiceProvider',
+      47 => 'App\\Providers\\EventServiceProvider',
+      48 => 'App\\Providers\\HorizonServiceProvider',
+      49 => 'App\\Providers\\Filament\\AppPanelProvider',
+      50 => 'App\\Providers\\RouteServiceProvider',
   ),
-  'deferred' => 
+  'deferred' =>
   array (
     'Illuminate\\Broadcasting\\BroadcastManager' => 'Illuminate\\Broadcasting\\BroadcastServiceProvider',
     'Illuminate\\Contracts\\Broadcasting\\Factory' => 'Illuminate\\Broadcasting\\BroadcastServiceProvider',
@@ -264,48 +266,48 @@
     'command.ide-helper.models' => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
-  'when' => 
+  'when' =>
   array (
-    'Illuminate\\Broadcasting\\BroadcastServiceProvider' => 
+    'Illuminate\\Broadcasting\\BroadcastServiceProvider' =>
     array (
     ),
-    'Illuminate\\Bus\\BusServiceProvider' => 
+    'Illuminate\\Bus\\BusServiceProvider' =>
     array (
     ),
-    'Illuminate\\Cache\\CacheServiceProvider' => 
+    'Illuminate\\Cache\\CacheServiceProvider' =>
     array (
     ),
-    'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider' => 
+    'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider' =>
     array (
     ),
-    'Illuminate\\Hashing\\HashServiceProvider' => 
+    'Illuminate\\Hashing\\HashServiceProvider' =>
     array (
     ),
-    'Illuminate\\Mail\\MailServiceProvider' => 
+    'Illuminate\\Mail\\MailServiceProvider' =>
     array (
     ),
-    'Illuminate\\Pipeline\\PipelineServiceProvider' => 
+    'Illuminate\\Pipeline\\PipelineServiceProvider' =>
     array (
     ),
-    'Illuminate\\Queue\\QueueServiceProvider' => 
+    'Illuminate\\Queue\\QueueServiceProvider' =>
     array (
     ),
-    'Illuminate\\Redis\\RedisServiceProvider' => 
+    'Illuminate\\Redis\\RedisServiceProvider' =>
     array (
     ),
-    'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider' => 
+    'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider' =>
     array (
     ),
-    'Illuminate\\Translation\\TranslationServiceProvider' => 
+    'Illuminate\\Translation\\TranslationServiceProvider' =>
     array (
     ),
-    'Illuminate\\Validation\\ValidationServiceProvider' => 
+    'Illuminate\\Validation\\ValidationServiceProvider' =>
     array (
     ),
-    'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider' => 
+    'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider' =>
     array (
     ),
-    'Laravel\\Tinker\\TinkerServiceProvider' => 
+    'Laravel\\Tinker\\TinkerServiceProvider' =>
     array (
     ),
   ),
