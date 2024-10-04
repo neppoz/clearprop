@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\BookingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RatingsController;
+use App\Livewire\AcceptInvitation;
 
 Auth::routes([
     'login' => true,
@@ -21,6 +22,10 @@ Route::redirect('/pilot', '/home');
 Route::get('/home', function () {
     return redirect()->route('app.home');
 });
+
+Route::middleware('signed')
+    ->get('invitation/{invitation}/accept', AcceptInvitation::class)
+    ->name('invitation.accept');
 
 Route::group(['prefix' => 'app', 'as' => 'app.', 'middleware' => ['auth']], function () {
 
