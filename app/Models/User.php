@@ -112,12 +112,12 @@ class User extends Authenticatable implements FilamentUser
 
     public function userBookings(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Booking::class, 'booking_user');
+        return $this->belongsToMany(Reservation::class, 'booking_user', 'user_id', 'booking_id');
     }
 
     public function instructorBookings(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Booking::class, 'booking_instructor');
+        return $this->belongsToMany(Reservation::class, 'booking_instructor', 'user_id', 'booking_id');
     }
 
     public function copilotActivities(): \Illuminate\Database\Eloquent\Relations\HasMany

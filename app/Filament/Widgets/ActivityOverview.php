@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Services\StatisticsService;
+use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 

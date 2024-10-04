@@ -54,6 +54,7 @@ class ReservationResource extends Resource
                         ->required(),
                     Select::make('plane_id')
                         ->label('Aircraft')
+                        ->native(false)
                         ->relationship('plane', 'callsign')
                         ->required(),
                 ])
@@ -80,21 +81,18 @@ class ReservationResource extends Resource
                 ->columns(2),
             Section::make()
                 ->schema([
-                    Select::make('bookingUsers')
-                        ->searchable()
+                    Select::make('user_id')
                         ->label('Pilot')
+                        ->searchable()
+                        ->preload()
                         ->options(User::all()->pluck('name', 'id'))
-//                            ->searchable()
-//                            ->afterStateUpdated(fn(Get $get) => self::getUserRatings($get('user_id')))
-//                            ->live(onBlur: true)
-                        // ToDo rating notification for admin
                         ->relationship(name: 'bookingUsers', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('type') != Reservation::IS_MAINTENANCE),
-                    Select::make('bookingInstructors')
-                        ->searchable()
+                    Select::make('instructor_id')
                         ->label('Instructor')
+                        ->searchable()
+                        ->preload()
                         ->options(User::instructors()->pluck('name', 'id'))
-//                            ->live(onBlur: true)
                         ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('type') == Reservation::IS_SCHOOL),
                 ])
@@ -137,6 +135,15 @@ class ReservationResource extends Resource
                         'School' => 'gray',
                         'Maintenance' => 'danger',
                     }),
+                Tables\Columns\TextColumn::make('bookingUsers.name')
+                    ->label('Pilot')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('bookingInstructors.name')
+                    ->label('Instructor')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('reservation_start')
                     ->label('From')
                     ->searchable()
@@ -165,6 +172,7 @@ class ReservationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

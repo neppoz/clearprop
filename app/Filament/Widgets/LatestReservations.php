@@ -21,8 +21,15 @@ class LatestReservations extends BaseWidget
     {
         return $table
             ->query(ReservationResource::getEloquentQuery())
-            ->defaultPaginationPageOption(5)
+            ->paginationPageOptions(['5', '10', '15'])
             ->defaultSort('reservation_start', 'desc')
+            ->headerActions([
+                Tables\Actions\Action::make('create')
+                    ->label('New reservation')
+                    ->icon('heroicon-m-sparkles')
+                    ->outlined()
+                    ->url(ReservationResource::getUrl('create')),
+            ])
             ->columns([
                 Split::make([
                     Stack::make([
@@ -36,6 +43,16 @@ class LatestReservations extends BaseWidget
                                 'School' => 'gray',
                                 'Maintenance' => 'danger',
                             }),
+                    ]),
+                    Stack::make([
+                        Tables\Columns\TextColumn::make('bookingUsers.name')
+                            ->label('Pilot')
+                            ->sortable()
+                            ->searchable(),
+                        Tables\Columns\TextColumn::make('bookingInstructors.name')
+                            ->label('Instructor')
+                            ->sortable()
+                            ->searchable(),
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('reservation_start')
