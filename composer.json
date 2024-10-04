@@ -13,6 +13,7 @@
     "doctrine/dbal": "^3.8",
     "fakerphp/faker": "^1.21",
     "filament/filament": "^3.2",
+    "filament/spatie-laravel-settings-plugin": "^3.2",
     "guzzlehttp/guzzle": "^7.0.1",
     "laravel/framework": "^10.0",
     "laravel/horizon": "*",

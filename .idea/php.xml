@@ -67,7 +67,6 @@
       <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
       <path value="$PROJECT_DIR$/vendor/zendframework/zend-diactoros" />
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
       <path value="$PROJECT_DIR$/vendor/symfony/console" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
@@ -259,6 +258,8 @@
       <path value="$PROJECT_DIR$/vendor/spatie/error-solutions" />
       <path value="$PROJECT_DIR$/vendor/pestphp/pest-plugin" />
       <path value="$PROJECT_DIR$/vendor/pestphp/pest" />
+      <path value="$PROJECT_DIR$/vendor/filament/spatie-laravel-settings-plugin" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-settings" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

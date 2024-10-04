@@ -49,3 +49,11 @@ it('can access Admin Payments', function () {
     ->assertStatus(200)
         ->assertSee('Dashboard');
 });
+// Todo: this doesn't work ...
+//it('can access Admin Settings', function () {
+//    $user = User::where('email', 'admin@clearprop.aero')->first();
+//    $this->actingAs($user);
+//    $this->get('/adminPanel/manage-general') // Ersetze '/admin', falls du eine benutzerdefinierte Admin-Route verwendest
+//    ->assertStatus(200)
+//        ->assertSee('Dashboard');
+//});
