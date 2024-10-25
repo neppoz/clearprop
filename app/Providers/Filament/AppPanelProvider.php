@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class AppPanelProvider extends PanelProvider
@@ -50,14 +51,16 @@ class AppPanelProvider extends PanelProvider
 //                Widgets\FilamentInfoWidget::class,
 //                Widgets\ActivityOverview::class
             ])
-            ->plugin(
+            ->plugins([
                 FilamentFullCalendarPlugin::make()
                     ->schedulerLicenseKey('CC-Attribution-NonCommercial-NoDerivatives')
                     ->selectable(false)
                     ->editable(false)
                     ->timezone(config('app.timezone'))
                     ->locale(app()->getLocale())
-                    ->plugins(['resourceTimeline', 'timeline'], true)
+                    ->plugins(['resourceTimeline', 'timeline'], true),
+                    FilamentApexChartsPlugin::make()
+                ]
             )
             ->middleware([
                 EncryptCookies::class,

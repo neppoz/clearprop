@@ -21,6 +21,7 @@
     "laravel/ui": "^4.5",
     "laraveldaily/laravel-charts": "^0.1.25",
     "league/flysystem-sftp-v3": "^3.0",
+    "leandrocfe/filament-apex-charts": "^3.1",
     "livewire/livewire": "^3.4",
     "predis/predis": "^1.1",
     "realrashid/sweet-alert": "^7.1",

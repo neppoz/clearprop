@@ -16,4 +16,9 @@ class ListActivities extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getHeaderWidgets(): array
+    {
+        return ActivityResource::getWidgets();
+    }
 }

@@ -151,6 +151,17 @@
       0 => 'LaravelDaily\\LaravelCharts\\LaravelChartsServiceProvider',
     ),
   ),
+    'leandrocfe/filament-apex-charts' =>
+        array(
+            'providers' =>
+                array(
+                    0 => 'Leandrocfe\\FilamentApexCharts\\FilamentApexChartsServiceProvider',
+                ),
+            'aliases' =>
+                array(
+                    'FilamentApexCharts' => 'Leandrocfe\\FilamentApexCharts\\Facades\\FilamentApexCharts',
+                ),
+        ),
     'livewire/livewire' =>
   array (
       'providers' =>
