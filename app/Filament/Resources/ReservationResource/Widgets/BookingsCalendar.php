@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Resources\ReservationResource\Widgets;
 
 use App\Filament\Resources\ReservationResource;
 use App\Models\Plane;
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Saade\FilamentFullCalendar\Actions;
+use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 class BookingsCalendar extends FullCalendarWidget
 {

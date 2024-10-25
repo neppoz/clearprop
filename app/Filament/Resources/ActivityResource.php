@@ -4,8 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Enums\ActivityStatus;
 use App\Filament\Resources\ActivityResource\Pages;
-use App\Filament\Resources\ActivityResource\Widgets\ActivitiesAircraftChart;
-use App\Filament\Resources\ActivityResource\Widgets\ActivitiesTypeChart;
 use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\User;
@@ -19,8 +17,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\DB;
-use Throwable;
 
 class ActivityResource extends Resource
 {
@@ -426,8 +422,8 @@ class ActivityResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            ActivitiesTypeChart::class,
-            ActivitiesAircraftChart::class,
+//            ActivitiesTypeChart::class,
+//            ActivitiesAircraftChart::class,
         ];
     }
     public static function getEloquentQuery(): Builder

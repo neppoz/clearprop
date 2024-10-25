@@ -6,6 +6,9 @@ use App\Activity;
 use App\Asset;
 use App\Income;
 use App\Expense;
+use App\Models\Mode;
+use App\Models\Plane;
+use App\Models\Reservation;
 use App\Parameter;
 use App\Traits\CurrentUserTrait;
 use App\User;
@@ -439,4 +442,74 @@ class StatisticsService
             ->whereBetween('entry_date', [$fromDate, $toDate]);
     }
 
+    public function getReservationsByType(): array
+    {
+        $allModes = Mode::pluck('name', 'id')->toArray();
+        $allTypes = array_values($allModes);
+        $series = array_fill(0, count($allTypes), 0);
+        $labels = $allTypes;
+
+        $totalEntries = Reservation::count();
+
+        $results = Reservation::select(DB::raw('mode_id, COUNT(*) as total'))
+            ->groupBy('mode_id')
+            ->pluck('total', 'mode_id');
+
+        foreach ($results as $modeId => $total) {
+            if (isset($allModes[$modeId])) {
+                $index = array_search($allModes[$modeId], $allTypes);
+                if ($index !== false) {
+                    $series[$index] = ($totalEntries > 0) ? ($total / $totalEntries) * 100 : 0;
+                }
+            }
+        }
+
+        return [
+            'series' => $series,
+            'labels' => $labels,
+        ];
+    }
+
+    public function getActivitiesByAircraft(): array
+    {
+        $activities = Activity::selectRaw('plane_id, DATE_FORMAT(event, "%m") as month, SUM(minutes) as total_minutes')
+            ->groupBy('plane_id', 'month')
+            ->with('plane')
+            ->get();
+
+        $series = [];
+
+        $activitiesByPlane = $activities->groupBy('plane_id');
+
+        $allMonths = collect([
+            '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'
+        ]);
+
+        foreach ($activitiesByPlane as $planeActivities) {
+            $plane = $planeActivities->first()->plane;
+            $planeName = $plane ? $plane->callsign : 'Unknown';
+
+            $monthlyData = [];
+            foreach ($planeActivities as $activity) {
+                $month = $activity->month;
+                $monthlyData[$month] = round($activity->total_minutes / 60, 0); // Minuten in Stunden umgewandelt
+            }
+
+            $data = [];
+            foreach ($allMonths as $month) {
+                $data[] = $monthlyData[$month] ?? 0;
+            }
+
+            // Erstelle eine Serie für jede plane_id
+            $series[] = [
+                'name' => $planeName,
+                'data' => $data,
+            ];
+        }
+
+        return [
+            'series' => $series,
+            'categories' => $allMonths,
+        ];
+    }
 }

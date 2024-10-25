@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\ActivityResource\Widgets;
+namespace App\Filament\Resources\ReservationResource\Widgets;
 
+use App\Services\StatisticsService;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class ActivitiesTypeChart extends ApexChartWidget
+class ReservationTypeChart extends ApexChartWidget
 {
     protected static ?string $pollingInterval = null;
     /**
@@ -19,11 +20,11 @@ class ActivitiesTypeChart extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Total by type';
+    protected static ?string $heading = 'Reservations (%)';
     /**
      * Sort
      */
-    protected static ?int $sort = 1;
+    protected static ?int $sort = 2;
 
     /**
      * Widget content height
@@ -38,6 +39,30 @@ class ActivitiesTypeChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
+        $statistics = (new StatisticsService())->getReservationsByType();
+
+        $tailwindBlues = [
+//            '#bfdbfe', // blue-200
+//            '#93c5fd', // blue-300
+            '#60a5fa', // blue-400
+            '#3b82f6', // blue-500
+            '#2563eb', // blue-600
+            '#1d4ed8', // blue-700
+            '#1e40af', // blue-800
+            '#1e3a8a', // blue-900
+        ];
+
+        $colors = [];
+        $gradientToColors = [];
+
+        foreach ($statistics['labels'] as $index => $label) {
+            $colorIndex = $index % count($tailwindBlues);
+            $colors[] = $tailwindBlues[$colorIndex];
+
+            $nextColorIndex = ($colorIndex + 4) % count($tailwindBlues);
+            $gradientToColors[] = $tailwindBlues[$nextColorIndex];
+        }
+
         return [
             'chart' => [
                 'type' => 'donut',
@@ -46,8 +71,8 @@ class ActivitiesTypeChart extends ApexChartWidget
                     'show' => false,
                 ],
             ],
-            'series' => [78, 22, 5],
-            'labels' => ['Charter', 'School', 'Maintenance'],
+            'series' => $statistics['series'],
+            'labels' => $statistics['labels'],
             'legend' => [
                 'labels' => [
                     'fontFamily' => 'inherit',
@@ -59,7 +84,7 @@ class ActivitiesTypeChart extends ApexChartWidget
                     'shade' => 'dark',
                     'type' => 'vertical',
                     'shadeIntensity' => 0.5,
-                    'gradientToColors' => ['#60a5fa', '#1d4ed8', '#082f49'],
+                    'gradientToColors' => $gradientToColors,
                     'opacityFrom' => 1,
                     'opacityTo' => 2,
                     'stops' => [0, 100],
@@ -70,7 +95,7 @@ class ActivitiesTypeChart extends ApexChartWidget
                 'width' => 1,
                 'lineCap' => 'round',
             ],
-            'colors' => ['#93c5fd', '#2563eb', '#1d4ed8'],
+            'colors' => $colors,
             'plotOptions' => [
                 'bar' => [
                     'borderRadius' => 2,

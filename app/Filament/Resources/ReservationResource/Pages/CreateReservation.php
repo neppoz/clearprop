@@ -46,6 +46,10 @@ class CreateReservation extends CreateRecord
         return $data;
     }
 
+    public function getHeaderWidgets(): array
+    {
+        return ReservationResource::getWidgets();
+    }
     protected function beforeValidate(): void
     {
 

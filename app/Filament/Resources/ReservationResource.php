@@ -3,11 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReservationResource\Pages;
+use App\Filament\Resources\ReservationResource\Widgets\BookingsCalendar;
 use App\Models\Reservation;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -20,9 +19,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Carbon;
 
 class ReservationResource extends Resource
 {
@@ -203,6 +200,12 @@ class ReservationResource extends Resource
         ];
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            BookingsCalendar::class,
+        ];
+    }
     /** @return Builder<Reservation> */
     public static function getEloquentQuery(): Builder
     {

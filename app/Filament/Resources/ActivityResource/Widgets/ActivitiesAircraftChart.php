@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ActivityResource\Widgets;
 
+use App\Services\StatisticsService;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class ActivitiesAircraftChart extends ApexChartWidget
@@ -19,7 +20,7 @@ class ActivitiesAircraftChart extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Total hours';
+    protected static ?string $heading = 'Total hours by month';
 
     /**
      * Sort
@@ -38,6 +39,30 @@ class ActivitiesAircraftChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
+        $statistics = (new StatisticsService())->getActivitiesByAircraft();
+
+        $tailwindBlues = [
+//            '#bfdbfe', // blue-200
+//            '#93c5fd', // blue-300
+            '#60a5fa', // blue-400
+            '#3b82f6', // blue-500
+            '#2563eb', // blue-600
+            '#1d4ed8', // blue-700
+            '#1e40af', // blue-800
+            '#1e3a8a', // blue-900
+        ];
+
+        $colors = [];
+        $gradientToColors = [];
+
+        foreach ($statistics['series'] as $index => $label) {
+            $colorIndex = $index % count($tailwindBlues);
+            $colors[] = $tailwindBlues[$colorIndex];
+
+            $nextColorIndex = ($colorIndex + 4) % count($tailwindBlues);
+            $gradientToColors[] = $tailwindBlues[$nextColorIndex];
+        }
+        debug($statistics['series']);
         return [
             'chart' => [
                 'type' => 'bar',
@@ -48,20 +73,9 @@ class ActivitiesAircraftChart extends ApexChartWidget
                     'show' => false,
                 ],
             ],
-            'series' => [
-                [
-                    'name' => 'IA918',
-                    'data' => [7, 10, 13, 15, 18],
-                ],
-                [
-                    'name' => 'IC001',
-                    'data' => [7, 2, 1, 5, 3],
-                ],
-            ],
+            'series' => $statistics['series'],
             'xaxis' => [
-                'categories' => [
-                    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-                ],
+                'categories' => $statistics['categories'],
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',
@@ -81,7 +95,7 @@ class ActivitiesAircraftChart extends ApexChartWidget
                     'shade' => 'dark',
                     'type' => 'vertical',
                     'shadeIntensity' => 0.5,
-                    'gradientToColors' => ['#60a5fa', '#1d4ed8'],
+                    'gradientToColors' => $gradientToColors,
                     'opacityFrom' => 1,
                     'opacityTo' => 2,
                     'stops' => [0, 100],
@@ -92,7 +106,7 @@ class ActivitiesAircraftChart extends ApexChartWidget
                 'width' => 1,
                 'lineCap' => 'round',
             ],
-            'colors' => ['#93c5fd', '#2563eb'],
+            'colors' => $colors,
             'plotOptions' => [
                 'bar' => [
                     'borderRadius' => 2,

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\App;
 
 use App\Services\StatisticsService;
-use Filament\Support\Enums\IconPosition;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class ActivityOverview extends BaseWidget
 {
     protected static ?string $pollingInterval = null;
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 1;
 
     protected function getStats(): array
     {

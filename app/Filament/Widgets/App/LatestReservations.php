@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\App;
 
 use App\Filament\Resources\ReservationResource;
 use App\Models\Reservation;
-use Filament\Panel;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Filament\Widgets\TableWidget as BaseWidget;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
+use Filament\Tables\Table;
+use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestReservations extends BaseWidget
 {
-    protected static ?int $sort = 3;
+    protected static ?int $sort = 4;
     protected static ?string $pollingInterval = null;
     protected int|string|array $columnSpan = 'full';
 

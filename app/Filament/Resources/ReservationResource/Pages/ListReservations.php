@@ -16,4 +16,9 @@ class ListReservations extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getHeaderWidgets(): array
+    {
+        return ReservationResource::getWidgets();
+    }
 }
