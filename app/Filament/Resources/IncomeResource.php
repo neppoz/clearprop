@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\IncomeResource\Pages;
+use App\Filament\Resources\IncomeResource\Widgets\PaymentOverview;
 use App\Models\Income;
 use App\Models\IncomeCategory;
 use Filament\Forms;
@@ -136,6 +137,12 @@ class IncomeResource extends Resource
         ];
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            PaymentOverview::class,
+        ];
+    }
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

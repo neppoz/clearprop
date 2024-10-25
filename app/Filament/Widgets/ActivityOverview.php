@@ -9,6 +9,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class ActivityOverview extends BaseWidget
 {
+    protected static ?string $pollingInterval = null;
     protected static ?int $sort = 2;
 
     protected function getStats(): array

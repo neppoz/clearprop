@@ -32,7 +32,7 @@ class StatisticsService
         ];
     }
 
-    public function getActivityStatisticsCurrentYear()
+    public function getActivityStatisticsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Activity|Builder
     {
         return Activity::whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
@@ -77,7 +77,7 @@ class StatisticsService
         ];
     }
 
-    public function getPaymentsCurrentYear()
+    public function getPaymentsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
     {
         return Income::whereHas('income_category', function ($q) {
             $q->where('deposit', '=', 1);
@@ -144,7 +144,7 @@ class StatisticsService
 //        return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
 //    }
 
-    public function getDepositIncomesCurrentYear()
+    public function getDepositIncomesCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
     {
         return Income::whereHas('income_category', function ($q) {
             $q->where('deposit', '=', 1);
@@ -152,7 +152,7 @@ class StatisticsService
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getAssetsOverhaulData()
+    public function getAssetsOverhaulData(): \Illuminate\Database\Eloquent\Collection|array
     {
         $activeAssetsWithPlane = Asset::with('plane')->where('status_id', 1)->whereNotNull('plane_id');
         $activeAssetsGroupedByPlane = $activeAssetsWithPlane->get()->groupBy('plane.callsign');
@@ -184,7 +184,7 @@ class StatisticsService
 
     }
 
-    public function getUsersMedicalDue($request)
+    public function getUsersMedicalDue($request): false|array
     {
         if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
             if (Gate::allows('user_edit')) {
@@ -210,12 +210,12 @@ class StatisticsService
         return false;
     }
 
-    public function getActivitiesAllTime()
+    public function getActivitiesAllTime(): \Illuminate\Database\Eloquent\Collection
     {
         return Activity::all();
     }
 
-    public function getActivityReport($fromDate, $toDate)
+    public function getActivityReport($fromDate, $toDate): array
     {
         /** Call the function
          *  CAVE: when calling the activities, the filter will be enlarged for every call.
@@ -306,7 +306,7 @@ class StatisticsService
         ];
     }
 
-    public function getActivitiesByFilter($fromDate, $toDate)
+    public function getActivitiesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
     {
         return Activity::with([
             'user' => function ($q) {
@@ -324,19 +324,19 @@ class StatisticsService
         ])->whereBetween('event', [$fromDate, $toDate]);
     }
 
-    public function getIncomesCurrentYear(Request $request)
+    public function getIncomesCurrentYear(Request $request): \Illuminate\Database\Eloquent\Builder
     {
         return Income::with('income_category')
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getExpensesCurrentYear(Request $request)
+    public function getExpensesCurrentYear(Request $request): \Illuminate\Database\Eloquent\Builder
     {
         return Expense::with('expense_category')
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getExpenseReport($fromDate, $toDate)
+    public function getExpenseReport($fromDate, $toDate): array
     {
         // Call the functions
         $expenses = $this->getExpensesByFilter($fromDate, $toDate);
@@ -427,13 +427,13 @@ class StatisticsService
         ];
     }
 
-    public function getExpensesByFilter($fromDate, $toDate)
+    public function getExpensesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
     {
         return Expense::with('expense_category')
             ->whereBetween('entry_date', [$fromDate, $toDate]);
     }
 
-    public function getIncomesByFilter($fromDate, $toDate)
+    public function getIncomesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
     {
         return Income::with('income_category')
             ->whereBetween('entry_date', [$fromDate, $toDate]);

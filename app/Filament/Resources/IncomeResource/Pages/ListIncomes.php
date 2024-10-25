@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\IncomeResource\Pages;
 
 use App\Filament\Resources\IncomeResource;
+use App\Filament\Resources\IncomeResource\Widgets\PaymentOverview;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -15,5 +16,10 @@ class ListIncomes extends ListRecords
         return [
             Actions\CreateAction::make(),
         ];
+    }
+
+    public function getHeaderWidgets(): array
+    {
+        return IncomeResource::getWidgets();
     }
 }

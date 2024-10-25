@@ -13,7 +13,7 @@ use Saade\FilamentFullCalendar\Actions;
 class BookingsCalendar extends FullCalendarWidget
 {
     protected static ?int $sort = 3;
-
+    protected static ?string $pollingInterval = null;
 
     public Model|string|null $model = Reservation::class;
 

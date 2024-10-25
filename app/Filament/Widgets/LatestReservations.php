@@ -14,7 +14,7 @@ use Filament\Tables\Columns\Layout\Stack;
 class LatestReservations extends BaseWidget
 {
     protected static ?int $sort = 3;
-
+    protected static ?string $pollingInterval = null;
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
