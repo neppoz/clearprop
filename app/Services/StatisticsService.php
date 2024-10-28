@@ -512,4 +512,24 @@ class StatisticsService
             'categories' => $allMonths,
         ];
     }
+
+    public function getActivitiesByUsers(): array
+    {
+        // Aggregiere die Minuten pro Benutzer und hole die Top 5 direkt als Array
+        $topPilots = Activity::join('users', 'activities.user_id', '=', 'users.id')
+            ->selectRaw('users.name, ROUND(SUM(activities.minutes) / 60, 2) as hours') // Minuten direkt in Stunden umrechnen und runden
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('hours')
+            ->limit(5)
+            ->get()
+            ->toArray();
+
+        $names = array_column($topPilots, 'name');
+        $hours = array_column($topPilots, 'hours');
+
+        return [
+            'name' => $names,
+            'hours' => [['data' => $hours]],
+        ];
+    }
 }
