@@ -3,7 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\IncomeResource\Pages;
+use App\Filament\Resources\IncomeResource\Widgets\BalanceOverview;
 use App\Filament\Resources\IncomeResource\Widgets\PaymentOverview;
+use App\Filament\Widgets\App\LatestReservations;
 use App\Models\Income;
 use App\Models\IncomeCategory;
 use Filament\Forms;
@@ -21,7 +23,7 @@ class IncomeResource extends Resource
     protected static ?string $recordTitleAttribute = 'Payments';
     protected static ?string $navigationLabel = 'Payments';
     protected static ?string $navigationIcon = 'heroicon-o-arrow-left-end-on-rectangle';
-    protected static ?int $navigationSort = 99;
+    protected static ?int $navigationSort = 2;
     public static function form(Form $form): Form
     {
         return $form
@@ -141,6 +143,7 @@ class IncomeResource extends Resource
     {
         return [
             PaymentOverview::class,
+            BalanceOverview::class
         ];
     }
     public static function getEloquentQuery(): Builder

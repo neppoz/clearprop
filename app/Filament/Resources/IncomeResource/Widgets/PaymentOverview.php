@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class PaymentOverview extends BaseWidget
 {
     protected static ?string $pollingInterval = null;
-
+    protected static ?int $sort = 1;
     protected function getStats(): array
     {
         $totalActivityStatisticsCurrentYear = (new StatisticsService())
@@ -25,11 +25,11 @@ class PaymentOverview extends BaseWidget
         }
 
         return [
-            Stat::make('Total balance', number_format($totalBalance, 0, ',', '.'))
+            Stat::make('Total balance', number_format($totalBalance, 0, ',', '.') . ' €')
                 ->color($color)
                 ->chart([0, 0]),
-            Stat::make('Spending', number_format($totalPaymentsCurrentYear, 0, ',', '.')),
-            Stat::make('Activity deposit', number_format($totalActivityStatisticsCurrentYear, 0, ',', '.')),
+            Stat::make('Spending', number_format($totalPaymentsCurrentYear, 0, ',', '.') . ' €'),
+            Stat::make('Activity deposit', number_format($totalActivityStatisticsCurrentYear, 0, ',', '.') . ' €'),
         ];
     }
 }

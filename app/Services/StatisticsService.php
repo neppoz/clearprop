@@ -500,7 +500,6 @@ class StatisticsService
                 $data[] = $monthlyData[$month] ?? 0;
             }
 
-            // Erstelle eine Serie für jede plane_id
             $series[] = [
                 'name' => $planeName,
                 'data' => $data,
@@ -515,7 +514,6 @@ class StatisticsService
 
     public function getActivitiesByUsers(): array
     {
-        // Aggregiere die Minuten pro Benutzer und hole die Top 5 direkt als Array
         $topPilots = Activity::join('users', 'activities.user_id', '=', 'users.id')
             ->selectRaw('users.name, ROUND(SUM(activities.minutes) / 60, 2) as hours') // Minuten direkt in Stunden umrechnen und runden
             ->groupBy('users.id', 'users.name')
