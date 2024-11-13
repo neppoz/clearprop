@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\ActivityStatus;
+use App\Scopes\CurrentUserScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\CurrentUserTrait;
+use Illuminate\Support\Facades\Auth;
 
 class Activity extends Model
 {
-    use SoftDeletes, CurrentUserTrait;
+    use SoftDeletes;
 
     const SPLIT_COST_RADIO = [
         '0' => 'No split',
@@ -59,6 +60,13 @@ class Activity extends Model
         'status',
     ];
 
+    protected static function booted(): void
+    {
+        // Füge den Scope nur für nicht-Admin-Benutzer hinzu
+        if (Auth::check() && Auth::user()->roles->contains(User::IS_MEMBER)) {
+            static::addGlobalScope(new CurrentUserScope());
+        }
+    }
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

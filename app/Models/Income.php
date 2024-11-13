@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use App\IncomeCategory;
+use App\Scopes\CurrentUserScope;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\CurrentUserTrait;
+use Illuminate\Support\Facades\Auth;
 
 class Income extends Model
 {
-    use SoftDeletes, CurrentUserTrait;
+    use SoftDeletes;
 
     public $table = 'incomes';
 
@@ -34,6 +35,13 @@ class Income extends Model
         'income_category_id',
     ];
 
+    protected static function booted(): void
+    {
+        // Füge den Scope nur für nicht-Admin-Benutzer hinzu
+        if (Auth::check() && Auth::user()->roles->contains(\App\Models\User::IS_MEMBER)) {
+            static::addGlobalScope(new CurrentUserScope());
+        }
+    }
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

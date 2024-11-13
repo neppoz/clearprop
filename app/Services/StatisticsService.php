@@ -11,7 +11,6 @@ use App\Models\Mode;
 use App\Models\Plane;
 use App\Models\Reservation;
 use App\Parameter;
-use App\Traits\CurrentUserTrait;
 use App\User;
 use Auth;
 use Carbon\Carbon;

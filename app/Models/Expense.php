@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\ExpenseCategory;
-use App\Traits\CurrentUserTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
