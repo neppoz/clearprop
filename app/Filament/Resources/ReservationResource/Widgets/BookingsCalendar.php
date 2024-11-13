@@ -49,7 +49,7 @@ class BookingsCalendar extends FullCalendarWidget
                     'hour12' => false,
                 ]
             ],
-            'displayEventTime' => true,
+            'displayEventTime' => false,
             'firstDay' => 1,
             'eventTimeFormat' => [
                 'hour' => '2-digit',
@@ -122,7 +122,7 @@ class BookingsCalendar extends FullCalendarWidget
             )->all();
     }
 
-    private function getReservationTitle($id)
+    private function getReservationTitle($id): \Illuminate\Support\Collection
     {
         $reservation = Reservation::find($id);
         return $reservation->bookingUsers()->pluck('name');

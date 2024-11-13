@@ -9,6 +9,8 @@ use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LatestReservations extends BaseWidget
 {
@@ -84,9 +86,5 @@ class LatestReservations extends BaseWidget
                     ])
                 ])
             ]);
-//            ->actions([
-//                Tables\Actions\EditAction::make()
-//                    ->url(fn(Reservation $record): string => ReservationResource::getUrl('edit', ['record' => $record])),
-//            ]);
     }
 }

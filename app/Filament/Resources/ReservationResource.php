@@ -115,6 +115,7 @@ class ReservationResource extends Resource
     {
         return $table
             ->paginationPageOptions(['10', '25', '50'])
+            ->defaultSort('reservation_start', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('plane.callsign')
                     ->label('Aircraft')
@@ -169,11 +170,11 @@ class ReservationResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
+//            ->bulkActions([
+//                Tables\Actions\BulkActionGroup::make([
+//                    Tables\Actions\DeleteBulkAction::make(),
+//                ]),
+//            ])
             ->groups([
                 Tables\Grouping\Group::make('reservation_start')
                     ->label('Date')
@@ -204,10 +205,10 @@ class ReservationResource extends Resource
             BookingsCalendar::class,
         ];
     }
-    /** @return Builder<Reservation> */
+
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
+        return parent::getEloquentQuery();
     }
 
 }
