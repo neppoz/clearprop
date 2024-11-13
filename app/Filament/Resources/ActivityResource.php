@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\ActivityStatus;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\Widgets\ActivitiesAircraftChart;
+use App\Filament\Resources\ActivityResource\Widgets\ActivitiesTypeChart;
 use App\Filament\Resources\ActivityResource\Widgets\ActivitiesUserChart;
 use App\Models\Activity;
 use App\Models\Plane;
@@ -424,7 +425,7 @@ class ActivityResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            ActivitiesAircraftChart::class,
+            ActivitiesTypeChart::class,
             ActivitiesUserChart::class,
         ];
     }

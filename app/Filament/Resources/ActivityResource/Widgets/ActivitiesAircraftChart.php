@@ -13,6 +13,7 @@ class ActivitiesAircraftChart extends ApexChartWidget
      *
      * @var string
      */
+    protected int|string|array $columnSpan = 'full';
     protected static ?string $chartId = 'activitiesAircraftChart';
 
     /**
@@ -45,9 +46,9 @@ class ActivitiesAircraftChart extends ApexChartWidget
 //            '#bfdbfe', // blue-200
 //            '#93c5fd', // blue-300
             '#60a5fa', // blue-400
-            '#3b82f6', // blue-500
-            '#2563eb', // blue-600
-            '#1d4ed8', // blue-700
+//            '#3b82f6', // blue-500
+//            '#2563eb', // blue-600
+//            '#1d4ed8', // blue-700
             '#1e40af', // blue-800
             '#1e3a8a', // blue-900
         ];
@@ -62,13 +63,13 @@ class ActivitiesAircraftChart extends ApexChartWidget
             $nextColorIndex = ($colorIndex + 4) % count($tailwindBlues);
             $gradientToColors[] = $tailwindBlues[$nextColorIndex];
         }
-//        debug($statistics['series']);
+
         return [
             'chart' => [
                 'type' => 'bar',
                 'height' => 240,
                 'parentHeightOffset' => 2,
-                'stacked' => true,
+                'stacked' => false,
                 'toolbar' => [
                     'show' => false,
                 ],

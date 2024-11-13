@@ -24,10 +24,10 @@ class LatestReservations extends BaseWidget
             ->defaultSort('reservation_start', 'desc')
             ->headerActions([
                 Tables\Actions\Action::make('create')
-                    ->label('New reservation')
+                    ->label('Reservations')
                     ->icon('heroicon-m-sparkles')
                     ->outlined()
-                    ->url(ReservationResource::getUrl('create')),
+                    ->url(ReservationResource::getUrl()),
             ])
             ->columns([
                 Split::make([
@@ -83,10 +83,10 @@ class LatestReservations extends BaseWidget
                             ->searchable(),
                     ])
                 ])
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make()
-                    ->url(fn(Reservation $record): string => ReservationResource::getUrl('edit', ['record' => $record])),
             ]);
+//            ->actions([
+//                Tables\Actions\EditAction::make()
+//                    ->url(fn(Reservation $record): string => ReservationResource::getUrl('edit', ['record' => $record])),
+//            ]);
     }
 }

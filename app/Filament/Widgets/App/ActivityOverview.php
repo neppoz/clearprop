@@ -22,10 +22,10 @@ class ActivityOverview extends BaseWidget
 //            $getInstructorActivityStatistics = (new StatisticsService())->getInstructorActivityStatistics();
 //            $collectionActivityStatistics->push($getInstructorActivityStatistics);
 //        }
-//        if (\Gate::allows('dashboard_personal_activity_access')) {
-//            $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
-//            $collectionActivityStatistics->push($getPersonalActivityStatistics);
-//        }
+        if (\Gate::allows('dashboard_personal_activity_access')) {
+            $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
+            $collectionActivityStatistics->push($getPersonalActivityStatistics);
+        }
 
         $totalAirTime = 'inop';
         $loggedMissions = 'inop';

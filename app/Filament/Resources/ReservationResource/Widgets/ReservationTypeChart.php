@@ -20,7 +20,7 @@ class ReservationTypeChart extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Reservations (%)';
+    protected static ?string $heading = 'Reservations by type';
     /**
      * Sort
      */

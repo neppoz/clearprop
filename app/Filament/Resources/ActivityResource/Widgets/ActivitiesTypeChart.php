@@ -5,7 +5,7 @@ namespace App\Filament\Resources\ActivityResource\Widgets;
 use App\Services\StatisticsService;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class ActivitiesUserChart extends ApexChartWidget
+class ActivitiesTypeChart extends ApexChartWidget
 {
     protected static ?string $pollingInterval = null;
     /**
@@ -13,23 +13,24 @@ class ActivitiesUserChart extends ApexChartWidget
      *
      * @var string
      */
-    protected static ?string $chartId = 'activitiesUserChart';
+    protected static ?string $chartId = 'activitiesTypeChart';
 
     /**
      * Widget Title
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Top 10';
-
+    protected static ?string $heading = 'Activities by type';
     /**
      * Sort
      */
     protected static ?int $sort = 2;
+
     /**
      * Widget content height
      */
     protected static ?int $contentHeight = 250;
+
     /**
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options
@@ -38,15 +39,15 @@ class ActivitiesUserChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
-        $statistics = (new StatisticsService())->getActivitiesByUsers();
+        $statistics = (new StatisticsService())->getActivitiesByType();
 
         $tailwindBlues = [
 //            '#bfdbfe', // blue-200
 //            '#93c5fd', // blue-300
-            '#60a5fa', // blue-400
+//            '#60a5fa', // blue-400
             '#3b82f6', // blue-500
-            '#2563eb', // blue-600
-            '#1d4ed8', // blue-700
+//            '#2563eb', // blue-600
+//            '#1d4ed8', // blue-700
             '#1e40af', // blue-800
             '#1e3a8a', // blue-900
         ];
@@ -54,7 +55,7 @@ class ActivitiesUserChart extends ApexChartWidget
         $colors = [];
         $gradientToColors = [];
 
-        foreach ($statistics['name'] as $index => $label) {
+        foreach ($statistics['labels'] as $index => $label) {
             $colorIndex = $index % count($tailwindBlues);
             $colors[] = $tailwindBlues[$colorIndex];
 
@@ -64,21 +65,17 @@ class ActivitiesUserChart extends ApexChartWidget
 
         return [
             'chart' => [
-                'type' => 'bar',
-                'height' => 240,
-                'parentHeightOffset' => 2,
-                'stacked' => false,
+                'type' => 'donut',
+                'height' => 200,
                 'toolbar' => [
                     'show' => false,
                 ],
             ],
-            'series' => $statistics['hours'],
-            'xaxis' => [
-                'categories' => $statistics['name'],
+            'series' => $statistics['series'],
+            'labels' => $statistics['labels'],
+            'legend' => [
                 'labels' => [
-                    'style' => [
-                        'fontFamily' => 'inherit',
-                    ],
+                    'fontFamily' => 'inherit',
                 ],
             ],
             'fill' => [
@@ -106,7 +103,7 @@ class ActivitiesUserChart extends ApexChartWidget
                 ],
             ],
             'dataLabels' => [
-                'enabled' => false,
+                'enabled' => true,
             ],
         ];
     }

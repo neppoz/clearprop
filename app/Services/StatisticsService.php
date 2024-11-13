@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Activity;
 use App\Asset;
+use App\Filament\Resources\ReservationResource\Widgets\BookingsCalendar;
 use App\Income;
 use App\Expense;
 use App\Models\Mode;
@@ -444,14 +445,18 @@ class StatisticsService
 
     public function getReservationsByType(): array
     {
-        $allModes = Mode::pluck('name', 'id')->toArray();
+        $allModes = Mode::whereIn('id', [Reservation::IS_CHARTER, Reservation::IS_SCHOOL])
+            ->pluck('name', 'id')
+            ->toArray();
         $allTypes = array_values($allModes);
         $series = array_fill(0, count($allTypes), 0);
         $labels = $allTypes;
 
-        $totalEntries = Reservation::count();
+        $totalEntries = Reservation::whereYear('reservation_start', Carbon::now()->year)->count();
 
-        $results = Reservation::select(DB::raw('mode_id, COUNT(*) as total'))
+        $results = Reservation::selectRaw('mode_id, COUNT(*) as total')
+            ->whereIn('mode_id', [Reservation::IS_CHARTER, Reservation::IS_SCHOOL])
+            ->whereYear('reservation_start', Carbon::now()->year)
             ->groupBy('mode_id')
             ->pluck('total', 'mode_id');
 
@@ -459,7 +464,7 @@ class StatisticsService
             if (isset($allModes[$modeId])) {
                 $index = array_search($allModes[$modeId], $allTypes);
                 if ($index !== false) {
-                    $series[$index] = ($totalEntries > 0) ? ($total / $totalEntries) * 100 : 0;
+                    $series[$index] = round(($totalEntries > 0) ? ($total / $totalEntries) * 100 : 0, 0);
                 }
             }
         }
@@ -475,6 +480,7 @@ class StatisticsService
         $activities = Activity::selectRaw('plane_id, DATE_FORMAT(event, "%m") as month, SUM(minutes) as total_minutes')
             ->groupBy('plane_id', 'month')
             ->with('plane')
+            ->whereYear('event', Carbon::now()->year)
             ->get();
 
         $series = [];
@@ -516,9 +522,10 @@ class StatisticsService
     {
         $topPilots = Activity::join('users', 'activities.user_id', '=', 'users.id')
             ->selectRaw('users.name, ROUND(SUM(activities.minutes) / 60, 2) as hours') // Minuten direkt in Stunden umrechnen und runden
+            ->whereYear('activities.event', Carbon::now()->year)
             ->groupBy('users.id', 'users.name')
             ->orderByDesc('hours')
-            ->limit(5)
+            ->limit(10)
             ->get()
             ->toArray();
 
@@ -528,6 +535,32 @@ class StatisticsService
         return [
             'name' => $names,
             'hours' => [['data' => $hours]],
+        ];
+    }
+
+    public function getActivitiesByType(): array
+    {
+        $allTypes = ['Charter', 'School'];
+        $series = array_fill(0, count($allTypes), 0);
+        $labels = $allTypes;
+
+        $totalEntries = Activity::whereYear('event', Carbon::now()->year)->count();
+
+        $results = Activity::selectRaw('IF(instructor_id IS NOT NULL, "School", "Charter") as category, COUNT(*) as total')
+            ->whereYear('event', Carbon::now()->year)
+            ->groupBy('category')
+            ->pluck('total', 'category');
+
+        foreach ($results as $category => $total) {
+            $index = array_search($category, $allTypes);
+            if ($index !== false) {
+                $series[$index] = ($totalEntries > 0) ? ($total / $totalEntries) * 100 : 0;
+            }
+        }
+
+        return [
+            'series' => $series,
+            'labels' => $labels,
         ];
     }
 }
