@@ -20,6 +20,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityResource extends Resource
 {
@@ -424,10 +425,14 @@ class ActivityResource extends Resource
 
     public static function getWidgets(): array
     {
-        return [
-            ActivitiesTypeChart::class,
-            ActivitiesUserChart::class,
-        ];
+        if (Auth::check() && Auth::user()->roles->contains(User::IS_ADMIN)) {
+            return [
+                ActivitiesTypeChart::class,
+                ActivitiesUserChart::class,
+            ];
+        } else {
+            return [];
+        }
     }
     public static function getEloquentQuery(): Builder
     {

@@ -8,6 +8,7 @@ use App\Filament\Resources\IncomeResource\Widgets\PaymentOverview;
 use App\Filament\Widgets\App\LatestReservations;
 use App\Models\Income;
 use App\Models\IncomeCategory;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class IncomeResource extends Resource
 {
@@ -113,6 +115,7 @@ class IncomeResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -141,10 +144,16 @@ class IncomeResource extends Resource
 
     public static function getWidgets(): array
     {
-        return [
-            PaymentOverview::class,
-            BalanceOverview::class
-        ];
+        if (Auth::check() && Auth::user()->roles->contains(User::IS_ADMIN)) {
+            return [
+                PaymentOverview::class,
+                BalanceOverview::class
+            ];
+        } else {
+            return [
+                PaymentOverview::class,
+            ];
+        }
     }
     public static function getEloquentQuery(): Builder
     {
