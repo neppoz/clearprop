@@ -2,42 +2,32 @@
 
 namespace App\Policies;
 
-use App\Models\Reservation;
+use App\Models\Income;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class ReservationPolicy
+class IncomePolicy
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Reservation $reservation): bool
+    public function delete(User $user, Income $income): bool
     {
         // Dieselbe Logik wie bei "update" anwenden
-        return $this->update($user, $reservation);
+        return $this->update($user, $income);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Reservation $reservation): bool
+    public function update(User $user, Income $income): bool
     {
-        // Admin-Benutzer können alle Reservierungen bearbeiten
+        // Admin-Benutzer können alle Zahlungen bearbeiten
         if ($user->roles->contains(User::IS_ADMIN)) {
             return true;
-        }
-
-        // Member können nur ihre eigenen Reservierungen bearbeiten
-        if ($user->roles->contains(User::IS_MEMBER)) {
-            return $reservation->bookingUsers()->where('user_id', $user->id)->exists();
-        }
-
-        // Instructors können nur jene Reservierungen bearbeiten, denen sie als Instructor zugeordnet sind
-        if ($user->roles->contains(User::IS_INSTRUCTOR)) {
-            return $reservation->bookingInstructors()->where('user_id', $user->id)->exists();
         }
 
         return false; // Falls keine der Bedingungen zutrifft, Bearbeitungszugriff verweigern
