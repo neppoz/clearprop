@@ -202,17 +202,19 @@ class ActivityResource extends Resource
                     ->label('OnBlock')
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('User')
+                    ->label('PIC')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('split_cost')
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('copilot.name')
+                    ->label('CoPilot')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('instructor.name')
+                    ->label('Instructor')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
