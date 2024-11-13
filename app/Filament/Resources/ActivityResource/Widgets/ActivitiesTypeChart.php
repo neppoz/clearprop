@@ -20,7 +20,7 @@ class ActivitiesTypeChart extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Activities by type';
+    protected static ?string $heading = 'By type';
     /**
      * Sort
      */

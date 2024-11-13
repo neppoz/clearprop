@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\IncomeCategory;
+use App\Models\IncomeCategory;
 use App\Scopes\CurrentUserScope;
 use App\Models\User;
 use Carbon\Carbon;

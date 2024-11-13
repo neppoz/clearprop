@@ -20,7 +20,7 @@ class ActivitiesUserChart extends ApexChartWidget
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Top 10';
+    protected static ?string $heading = 'By Members';
 
     /**
      * Sort
