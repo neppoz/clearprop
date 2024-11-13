@@ -103,11 +103,11 @@ class BookingsCalendar extends FullCalendarWidget
      * FullCalendar will call this function whenever it needs new event data.
      * This is triggered when the user clicks prev/next or switches views on the calendar.
      */
-    public function fetchEvents(array $fetchInfo): array
+    public function fetchEvents(array $info): array
     {
         return Reservation::query()
-            ->where('reservation_start', '>=', $fetchInfo['start'])
-            ->where('reservation_stop', '<=', $fetchInfo['end'])
+            ->where('reservation_start', '>=', $info['start'])
+            ->where('reservation_stop', '<=', $info['end'])
             ->get()
             ->map(
                 fn(Reservation $reservation) => [
@@ -153,15 +153,7 @@ class BookingsCalendar extends FullCalendarWidget
     protected function headerActions(): array
     {
         return [
-            /* Did not work! Problem with relationship */
-//            Actions\CreateAction::make()
-//                ->mutateFormDataUsing(function (array $data): array {
-//                    return [
-//                        'reservation_start' => $data['reservation_start_date'] . ' ' . $data['reservation_start_time_hour'] . ':' . $data['reservation_start_time_minute'] . ':00',
-//                        'reservation_stop' => $data['reservation_stop_date'] . ' ' . $data['reservation_stop_time_hour'] . ':' . $data['reservation_stop_time_minute'] . ':00',
-//                        'created_by_id' => auth()->id()
-//                    ];
-//                })
+
         ];
     }
 
