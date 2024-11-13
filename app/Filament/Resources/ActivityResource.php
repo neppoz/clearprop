@@ -194,12 +194,14 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('event_start')
                     ->label('OffBlock')
+                    ->dateTime('H:i')
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('arrival')
                     ->label('Arrival')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('event_stop')
                     ->label('OnBlock')
+                    ->dateTime('H:i')
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('PIC')
