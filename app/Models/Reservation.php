@@ -61,13 +61,6 @@ class Reservation extends Model
         'created_by_id',
     ];
 
-    protected static function booted(): void
-    {
-        // Füge den Scope nur für nicht-Admin-Benutzer hinzu
-        if (Auth::check() && Auth::user()->roles->contains(User::IS_MEMBER)) {
-            static::addGlobalScope(new CurrentUserScope());
-        }
-    }
     public function bookingUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class, 'booking_user', 'booking_id', 'user_id');

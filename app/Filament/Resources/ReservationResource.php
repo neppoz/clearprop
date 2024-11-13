@@ -33,7 +33,6 @@ class ReservationResource extends Resource
         /* This is not standard. Calling the form in the function, so we can use it in the Widget as well. */
         return $form->schema((new ReservationResource)->getReusableForm());
     }
-
     public function getReusableForm(): array
     {
         return [
@@ -112,7 +111,6 @@ class ReservationResource extends Resource
                 ->columns(2),
         ];
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -211,4 +209,5 @@ class ReservationResource extends Resource
     {
         return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
     }
+
 }
