@@ -261,6 +261,7 @@
       <path value="$PROJECT_DIR$/vendor/filament/spatie-laravel-settings-plugin" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-settings" />
       <path value="$PROJECT_DIR$/vendor/leandrocfe/filament-apex-charts" />
+      <path value="$PROJECT_DIR$/vendor/_laravel_idea" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />
