@@ -2,16 +2,21 @@
 
 namespace App\Services;
 
-use App\Activity;
-use App\Asset;
-use App\Filament\Resources\ReservationResource\Widgets\BookingsCalendar;
-use App\Income;
-use App\Expense;
+use App\Models\Activity;
+
+//use App\Asset;
+//use App\Income;
+//use App\Expense;
+use App\Models\Expense;
+use App\Models\Income;
 use App\Models\Mode;
+use App\Models\Parameter;
 use App\Models\Plane;
 use App\Models\Reservation;
-use App\Parameter;
-use App\User;
+
+//use App\Parameter;
+//use App\User;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -155,37 +160,37 @@ class StatisticsService
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getAssetsOverhaulData(): \Illuminate\Database\Eloquent\Collection|array
-    {
-        $activeAssetsWithPlane = Asset::with('plane')->where('status_id', 1)->whereNotNull('plane_id');
-        $activeAssetsGroupedByPlane = $activeAssetsWithPlane->get()->groupBy('plane.callsign');
-
-        foreach ($activeAssetsGroupedByPlane as $plane => $assets) {
-            foreach ($assets as $asset) {
-                $asset->daysUntilDueDate = Carbon::createFromFormat(config('panel.date_format'), $asset->end_date ?? 0)->longAbsoluteDiffForHumans();
-                $asset->hoursUntilOverhaul = $asset->end_hours - ($asset->start_hours + $asset->current_running_hours);
-
-                $assetActualRunningHours = $asset->start_hours + $asset->current_running_hours;
-
-                if ($assetActualRunningHours > 0) {
-                    $asset->progressBarInPercent = $assetActualRunningHours / $asset->end_hours * 100;
-                } else {
-                    $asset->progressBarInPercent = 0;
-                }
-
-                if ($asset->progressBarInPercent <= 50) {
-                    $asset->progressBarColor = 'info';
-                } elseif ($asset->progressBarInPercent >= 50 && $asset->progressBarInPercent <= 80) {
-                    $asset->progressBarColor = 'warning';
-                } elseif ($asset->progressBarInPercent >= 80) {
-                    $asset->progressBarColor = 'danger';
-                }
-            }
-        }
-
-        return $activeAssetsGroupedByPlane;
-
-    }
+//    public function getAssetsOverhaulData(): \Illuminate\Database\Eloquent\Collection|array
+//    {
+//        $activeAssetsWithPlane = Asset::with('plane')->where('status_id', 1)->whereNotNull('plane_id');
+//        $activeAssetsGroupedByPlane = $activeAssetsWithPlane->get()->groupBy('plane.callsign');
+//
+//        foreach ($activeAssetsGroupedByPlane as $plane => $assets) {
+//            foreach ($assets as $asset) {
+//                $asset->daysUntilDueDate = Carbon::createFromFormat(config('panel.date_format'), $asset->end_date ?? 0)->longAbsoluteDiffForHumans();
+//                $asset->hoursUntilOverhaul = $asset->end_hours - ($asset->start_hours + $asset->current_running_hours);
+//
+//                $assetActualRunningHours = $asset->start_hours + $asset->current_running_hours;
+//
+//                if ($assetActualRunningHours > 0) {
+//                    $asset->progressBarInPercent = $assetActualRunningHours / $asset->end_hours * 100;
+//                } else {
+//                    $asset->progressBarInPercent = 0;
+//                }
+//
+//                if ($asset->progressBarInPercent <= 50) {
+//                    $asset->progressBarColor = 'info';
+//                } elseif ($asset->progressBarInPercent >= 50 && $asset->progressBarInPercent <= 80) {
+//                    $asset->progressBarColor = 'warning';
+//                } elseif ($asset->progressBarInPercent >= 80) {
+//                    $asset->progressBarColor = 'danger';
+//                }
+//            }
+//        }
+//
+//        return $activeAssetsGroupedByPlane;
+//
+//    }
 
     public function getUsersMedicalDue($request): false|array
     {
@@ -380,42 +385,42 @@ class StatisticsService
                 $incomesSummary[$line->income_category->name]['amount'] += $line->amount;
             }
         }
-
-        /* Overdue payment members */
-        $overdueMembers = DB::select("
-        SELECT
-            u.id,
-            u.name,
-            COALESCE(suminc, 0) AS suminc,
-            COALESCE(sumact, 0) AS sumact,
-            COALESCE(suminc, 0) - COALESCE(sumact, 0) AS total
-        FROM
-            users u
-                LEFT JOIN
-            (SELECT
-                user_id, SUM(amount) AS sumact
-            FROM
-                activities a
-            WHERE
-                a.event BETWEEN (:activityfrom) AND (:activityto) AND a.deleted_at is null
-            GROUP BY a.user_id) a ON u.id = a.user_id
-                LEFT JOIN
-            (SELECT
-                user_id, SUM(amount) AS suminc
-            FROM
-                incomes i
-            INNER JOIN income_categories ic ON i.income_category_id = ic.id
-            WHERE
-                i.entry_date BETWEEN (:incomefrom) AND (:incometo)
-                    AND ic.deposit = 1 AND i.deleted_at is null
-            GROUP BY i.user_id) i ON u.id = i.user_id
-        ORDER BY total ASC
-        ", array(
-            'activityfrom' => $fromDate,
-            'activityto' => $toDate,
-            'incomefrom' => $fromDate,
-            'incometo' => $toDate
-        ), true);
+//
+//        /* Overdue payment members */
+//        $overdueMembers = DB::select("
+//        SELECT
+//            u.id,
+//            u.name,
+//            COALESCE(suminc, 0) AS suminc,
+//            COALESCE(sumact, 0) AS sumact,
+//            COALESCE(suminc, 0) - COALESCE(sumact, 0) AS total
+//        FROM
+//            users u
+//                LEFT JOIN
+//            (SELECT
+//                user_id, SUM(amount) AS sumact
+//            FROM
+//                activities a
+//            WHERE
+//                a.event BETWEEN (:activityfrom) AND (:activityto) AND a.deleted_at is null
+//            GROUP BY a.user_id) a ON u.id = a.user_id
+//                LEFT JOIN
+//            (SELECT
+//                user_id, SUM(amount) AS suminc
+//            FROM
+//                incomes i
+//            INNER JOIN income_categories ic ON i.income_category_id = ic.id
+//            WHERE
+//                i.entry_date BETWEEN (:incomefrom) AND (:incometo)
+//                    AND ic.deposit = 1 AND i.deleted_at is null
+//            GROUP BY i.user_id) i ON u.id = i.user_id
+//        ORDER BY total ASC
+//        ", array(
+//            'activityfrom' => $fromDate,
+//            'activityto' => $toDate,
+//            'incomefrom' => $fromDate,
+//            'incometo' => $toDate
+//        ), true);
 
         return [
             'expensesSummary' => $expensesSummary,
@@ -423,7 +428,7 @@ class StatisticsService
             'expensesTotal' => $expensesTotal,
             'incomesTotal' => $incomesTotal,
             'profit' => $profit,
-            'overdueMembers' => $overdueMembers,
+//            'overdueMembers' => $overdueMembers,
             'fromSelectedDate' => $fromDate,
             'toSelectedDate' => $toDate
 
