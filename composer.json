@@ -34,7 +34,6 @@
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.13",
-    "barryvdh/laravel-ide-helper": "^2.12",
     "mockery/mockery": "^1.0",
     "nunomaduro/collision": "^6.1",
     "pestphp/pest": "^1.23",
@@ -87,8 +86,6 @@
       "@php artisan route:clear",
       "@php artisan view:clear",
       "@php artisan config:clear",
-      "@php artisan ide-helper:generate",
-      "@php artisan ide-helper:meta",
       "composer dumpautoload -o",
       "npm run dev"
     ]
