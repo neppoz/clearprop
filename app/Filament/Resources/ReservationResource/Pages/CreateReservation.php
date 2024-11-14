@@ -2,32 +2,12 @@
 
 namespace App\Filament\Resources\ReservationResource\Pages;
 
-use App\Activity;
 use App\Filament\Resources\ReservationResource;
-use App\Income;
-use App\Models\Parameter;
+use App\Models\Plane;
 use App\Models\Reservation;
-use App\Models\User;
-use App\Plane;
-use Carbon\Carbon;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\ToggleButtons;
-use Filament\Forms\Components\Wizard;
-use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use Filament\Resources\Pages\CreateRecord\Concerns\HasWizard;
-use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Auth;
 
 class CreateReservation extends CreateRecord
 {
@@ -42,7 +22,7 @@ class CreateReservation extends CreateRecord
     {
         $data['reservation_start'] = $data['reservation_start_date'] . ' ' . $data['reservation_start_time'];
         $data['reservation_stop'] = $data['reservation_stop_date'] . ' ' . $data['reservation_stop_time'];
-
+        $data['status'] = Reservation::STATUS_RADIO['1'];
         return $data;
     }
 
@@ -50,24 +30,40 @@ class CreateReservation extends CreateRecord
     {
         return ReservationResource::getWidgets();
     }
-    protected function beforeValidate(): void
-    {
-
-    }
-
-    protected function afterValidate(): void
-    {
-
-    }
 
     protected function beforeCreate(): void
     {
+        // Prüfe, ob der Benutzer die Admin-Rolle hat
+        if (Auth::user()->is_admin) {
+            // Überspringe die Überschneidungsprüfung für Admin-Benutzer
+            return;
+        }
 
+        $data = $this->data;
+
+        // Definiere die Start- und Endzeiten aus den Form-Daten
+        $startTime = $data['reservation_start_date'] . ' ' . $data['reservation_start_time'];
+        $endTime = $data['reservation_stop_date'] . ' ' . $data['reservation_stop_time'];
+        $planeId = $data['plane_id'];
+
+        $overlappingBooking = Plane::where('id', $planeId)
+            ->whereHas('planeBookings', function ($query) use ($startTime, $endTime) {
+                $query->where(function ($query) use ($startTime, $endTime) {
+                    // Abfrage für echte Überschneidungen mit vollständigem Datum und Zeit
+                    $query->where('reservation_start', '<', $endTime)
+                        ->where('reservation_stop', '>', $startTime);
+                });
+            })->exists();
+
+        // Falls Überschneidungen gefunden wurden, Speichervorgang abbrechen und eine Notification anzeigen
+        if ($overlappingBooking) {
+            Notification::make()
+                ->title('Reservation overlapping')
+                ->body('This reservation overlaps with a previous reservation. Please select different period.')
+                ->danger() // Optionale Markierung, um die Nachricht als kritisch zu kennzeichnen
+                ->send();
+
+            $this->halt();
+        }
     }
-
-    protected function afterFormValidated(): void
-    {
-
-    }
-
 }

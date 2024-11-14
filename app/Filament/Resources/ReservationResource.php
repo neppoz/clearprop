@@ -6,6 +6,7 @@ use App\Filament\Resources\ReservationResource\Pages;
 use App\Filament\Resources\ReservationResource\Widgets\BookingsCalendar;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Services\BookingCheckService;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
@@ -15,6 +16,7 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -31,7 +33,8 @@ class ReservationResource extends Resource
     public static function form(Form $form): Form
     {
         /* This is not standard. Calling the form in the function, so we can use it in the Widget as well. */
-        return $form->schema((new ReservationResource)->getReusableForm());
+        return $form
+            ->schema((new ReservationResource)->getReusableForm());
     }
     public function getReusableForm(): array
     {
@@ -95,20 +98,11 @@ class ReservationResource extends Resource
                 ->columns(2),
             Section::make()
                 ->schema([
-                    ToggleButtons::make('status')
-                        ->label('Reservation confirmed?')
-                        ->boolean()
-                        ->colors([
-                            '0' => 'info',
-                            '1' => 'success',
-                        ])
-                        ->inline()
-                        ->required(),
                     Textarea::make('description')
-                        ->label('Notes')
-                        ->rows(5)
+                        ->label('Remarks')
+                        ->rows(3)
                 ])
-                ->columns(2),
+                ->columns(1),
         ];
     }
     public static function table(Table $table): Table
@@ -182,14 +176,12 @@ class ReservationResource extends Resource
                     ->collapsible(),
             ]);
     }
-
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-
     public static function getPages(): array
     {
         return [
@@ -198,14 +190,12 @@ class ReservationResource extends Resource
             'edit' => Pages\EditReservation::route('/{record}/edit'),
         ];
     }
-
     public static function getWidgets(): array
     {
         return [
             BookingsCalendar::class,
         ];
     }
-
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery();
