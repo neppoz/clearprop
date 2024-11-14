@@ -151,9 +151,18 @@ class ActivityResource extends Resource
                             ->numeric(2, ',', '.')
                             ->inputMode('integer')
                             ->readonly(),
-                        Forms\Components\ToggleButtons::make('status')
-                            ->inline()
-                            ->options(ActivityStatus::class)
+                        Forms\Components\Radio::make('status')
+                            ->options([
+                                ActivityStatus::New->value => 'New',
+                                ActivityStatus::Approved->value => 'Approved'
+                            ])
+                            ->descriptions([
+                                ActivityStatus::New->value => 'When set, this Activity is a Draft and has to be validated.',
+                                ActivityStatus::Approved->value => 'When set, the amount in this Activity record will be included in the balance calculation.'
+                            ])
+                            ->default(ActivityStatus::New->value)
+                            ->disableOptionWhen(fn(string $value): bool => $value === ActivityStatus::Approved->value && !Auth::user()->is_admin
+                            )
                             ->required()
                             ->columnSpan(2),
                     ])
@@ -429,7 +438,7 @@ class ActivityResource extends Resource
 
     public static function getWidgets(): array
     {
-        if (Auth::check() && Auth::user()->roles->contains(User::IS_ADMIN)) {
+        if (Auth::check() && Auth::user()->is_admin) {
             return [
                 ActivitiesTypeChart::class,
                 ActivitiesUserChart::class,
