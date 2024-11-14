@@ -15,10 +15,18 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
 
+
 class User extends Authenticatable implements FilamentUser
 {
     use SoftDeletes, Notifiable;
 
+    /**
+     * @property-read bool $is_admin
+     * @property-read bool $is_manager
+     * @property-read bool $is_member
+     * @property-read bool $is_mechanic
+     * @property-read bool $is_instructor
+     */
     const IS_ADMIN = 1;
     const IS_MEMBER = 2;
     const IS_MANAGER = 3;
@@ -85,11 +93,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->roles()->where('id', self::IS_ADMIN)->exists();
     }
 
-    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Role::class);
-    }
-
     public function getIsManagerAttribute(): bool
     {
         return $this->roles()->where('id', self::IS_MANAGER)->exists();
@@ -105,6 +108,15 @@ class User extends Authenticatable implements FilamentUser
         return $this->roles()->where('id', self::IS_MECHANIC)->exists();
     }
 
+    public function getIsMemberAttribute(): bool
+    {
+        return $this->roles()->where('id', self::IS_MEMBER)->exists();
+    }
+
+    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
     public function userActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');
@@ -135,14 +147,14 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Income::class, 'user_id', 'id');
     }
 
-    public function setPasswordAttribute($input)
+    public function setPasswordAttribute($input): void
     {
         if ($input) {
             $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
         }
     }
 
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPassword($token));
     }
@@ -163,9 +175,9 @@ class User extends Authenticatable implements FilamentUser
             ->withPivot('base_price_per_minute', 'instructor_price_per_minute', 'rating_status');
     }
 
-    public function userUserAlerts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(UserAlert::class);
-    }
+//    public function userUserAlerts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+//    {
+//        return $this->belongsToMany(UserAlert::class);
+//    }
 
 }

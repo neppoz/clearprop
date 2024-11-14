@@ -26,7 +26,7 @@ class IncomePolicy
     public function update(User $user, Income $income): bool
     {
         // Admin-Benutzer können alle Zahlungen bearbeiten
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 
@@ -38,7 +38,7 @@ class IncomePolicy
      */
     public function restore(User $user): bool
     {
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 
@@ -50,7 +50,7 @@ class IncomePolicy
      */
     public function forceDelete(User $user): bool
     {
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 

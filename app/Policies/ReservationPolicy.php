@@ -26,7 +26,7 @@ class ReservationPolicy
     public function update(User $user, Reservation $reservation): bool
     {
         // Admin-Benutzer können alle Reservierungen bearbeiten
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 
@@ -48,7 +48,7 @@ class ReservationPolicy
      */
     public function restore(User $user): bool
     {
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 
@@ -60,7 +60,7 @@ class ReservationPolicy
      */
     public function forceDelete(User $user): bool
     {
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 

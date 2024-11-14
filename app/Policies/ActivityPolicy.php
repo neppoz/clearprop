@@ -27,12 +27,12 @@ class ActivityPolicy
     public function update(User $user, Activity $activity): bool
     {
         // Admin-Benutzer können alle Zahlungen bearbeiten
-        if ($user->roles->contains(User::IS_ADMIN)) {
+        if ($user->is_admin) {
             return true;
         }
 
         // Member können nur ihre eigenen Activities bearbeiten, wenn der Status auf New steht
-        if ($user->roles->contains(User::IS_MEMBER)) {
+        if ($user->is_member) {
             return Activity::where('id', $activity->id)
                 ->where('user_id', auth()->id())
                 ->where('status', ActivityStatus::New)
@@ -47,7 +47,7 @@ class ActivityPolicy
      */
     public function restore(User $user, Activity $activity): bool
     {
-        if ($user->roles->contains(User::IS_MEMBER)) {
+        if ($user->is_member) {
             return Activity::where('id', $activity->id)
                 ->where('user_id', auth()->id())
                 ->where('status', ActivityStatus::New)
@@ -62,7 +62,7 @@ class ActivityPolicy
      */
     public function forceDelete(User $user, Activity $activity): bool
     {
-        if ($user->roles->contains(User::IS_MEMBER)) {
+        if ($user->is_member) {
             return Activity::where('id', $activity->id)
                 ->where('user_id', auth()->id())
                 ->where('status', ActivityStatus::New)

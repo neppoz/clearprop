@@ -23,7 +23,7 @@ class CurrentUserScope implements Scope
     public function apply(Builder $builder, Model $model): void
     {
         // Anwenden des Scopes für nicht-Admin-Benutzer
-        if (Auth::check() && Auth::user()->roles->contains(User::IS_MEMBER)) {
+        if (Auth::check() && Auth::user()->is_member) {
             $builder->where(function ($query) {
                 $query->where('user_id', Auth::id());
 

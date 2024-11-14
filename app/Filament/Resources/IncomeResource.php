@@ -147,7 +147,7 @@ class IncomeResource extends Resource
 
     public static function getWidgets(): array
     {
-        if (Auth::check() && Auth::user()->roles->contains(User::IS_ADMIN)) {
+        if (Auth::check() && Auth::user()->is_admin) {
             return [
                 PaymentOverview::class,
                 BalanceOverview::class

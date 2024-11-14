@@ -63,7 +63,7 @@ class Activity extends Model
     protected static function booted(): void
     {
         // Füge den Scope nur für nicht-Admin-Benutzer hinzu
-        if (Auth::check() && Auth::user()->roles->contains(User::IS_MEMBER)) {
+        if (Auth::check() && Auth::user()->is_member) {
             static::addGlobalScope(new CurrentUserScope());
         }
     }
