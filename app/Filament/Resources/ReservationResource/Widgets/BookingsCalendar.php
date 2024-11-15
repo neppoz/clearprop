@@ -117,7 +117,7 @@ class BookingsCalendar extends FullCalendarWidget
                     'start' => $reservation->reservation_start,
                     'end' => $reservation->reservation_stop,
                     'color' => $this->getBookingColor($reservation->mode_id),
-                    'url' => ReservationResource::getUrl(name: 'edit', parameters: ['record' => $reservation]),
+                    'url' => ReservationResource::getUrl('view', ['record' => $reservation->id]),
                 ]
             )->all();
     }

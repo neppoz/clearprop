@@ -51,8 +51,8 @@ class AppPanelProvider extends PanelProvider
             ->plugins([
                 FilamentFullCalendarPlugin::make()
                     ->schedulerLicenseKey('CC-Attribution-NonCommercial-NoDerivatives')
-                    ->selectable(true)
-                    ->editable(true)
+                    ->selectable(false)
+                    ->editable(false)
                     ->timezone(config('app.timezone'))
                     ->locale(app()->getLocale())
                     ->plugins(['resourceTimeline', 'timeline'], true),
