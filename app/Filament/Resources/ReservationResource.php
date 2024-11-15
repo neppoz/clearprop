@@ -48,7 +48,20 @@ class ReservationResource extends Resource
                     Select::make('plane_id')
                         ->label('')
                         ->native(false)
-                        ->relationship('plane', 'callsign')
+                        ->relationship('plane', 'callsign', fn($query) => $query->where('active', true))
+                        ->options(function ($record) {
+                            $activePlanes = Plane::where('active', true)->pluck('callsign', 'id');
+
+                            // Stelle sicher, dass der aktuelle Wert verfügbar bleibt
+                            if ($record && $record->plane_id) {
+                                $currentPlane = Plane::find($record->plane_id);
+                                if ($currentPlane) {
+                                    $activePlanes[$currentPlane->id] = $currentPlane->callsign;
+                                }
+                            }
+
+                            return $activePlanes;
+                        })
                         ->required(),
                 ])
                 ->columns(1),
