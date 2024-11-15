@@ -12,7 +12,7 @@ class BalanceOverview extends BaseWidget
 {
     protected static ?int $sort = 4;
     protected static ?string $pollingInterval = null;
-    protected static ?string $heading = 'Users balance';
+    protected static ?string $heading = 'Balance by Member';
     protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
@@ -26,14 +26,17 @@ class BalanceOverview extends BaseWidget
                     ->label('Name'),
                 Tables\Columns\TextColumn::make('suminc')
                     ->label('Payments')
+                    ->numeric(2, ',', '.')
                     ->suffix(' €')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('sumact')
                     ->label('Activity spending')
+                    ->numeric(2, ',', '.')
                     ->suffix(' €')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total')
                     ->label('Balance')
+                    ->numeric(2, ',', '.')
                     ->suffix(' €')
                     ->sortable(),
             ]);

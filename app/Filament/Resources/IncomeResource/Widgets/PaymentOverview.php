@@ -28,8 +28,8 @@ class PaymentOverview extends BaseWidget
             Stat::make('Total balance', number_format($totalBalance, 2, ',', '.') . ' €')
                 ->color($color)
                 ->chart([0, 0]),
-            Stat::make('Spending', number_format($totalPaymentsCurrentYear, 2, ',', '.') . ' €'),
-            Stat::make('Activity deposit', number_format($totalActivityStatisticsCurrentYear, 2, ',', '.') . ' €'),
+            Stat::make('Deposit', number_format($totalPaymentsCurrentYear, 2, ',', '.') . ' €'),
+            Stat::make('Activity spending', number_format($totalActivityStatisticsCurrentYear, 2, ',', '.') . ' €'),
         ];
     }
 }
