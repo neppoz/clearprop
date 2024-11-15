@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Booking;
-use App\Parameter;
+use App\Models\Parameter;
 use App\Services\BookingDataService;
 use App\Services\StatisticsService;
 use Carbon\Carbon;
@@ -57,7 +56,7 @@ class HomeController extends Controller
     public function redirectToAdminPanel(): \Illuminate\Http\RedirectResponse
     {
         // Weiterleitung zur Filament Admin-Seite
-        return redirect('/adminPanel');
+        return redirect('/panel');
     }
 
 }

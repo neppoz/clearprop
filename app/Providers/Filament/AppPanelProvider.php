@@ -27,8 +27,8 @@ class AppPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('adminPanel')
-            ->path('adminPanel')
+            ->id('panel')
+            ->path('panel')
             ->login()
             ->passwordReset()
             ->colors([
@@ -36,9 +36,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
-//                'Assets',
-//                'Finance',
-//                'System'
+
             ])
             ->globalSearch(false)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -48,14 +46,13 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-//                ReservationTypeChart::class,
                 ActivitiesAircraftChart::class
             ])
             ->plugins([
                 FilamentFullCalendarPlugin::make()
                     ->schedulerLicenseKey('CC-Attribution-NonCommercial-NoDerivatives')
-                    ->selectable(false)
-                    ->editable(false)
+                    ->selectable(true)
+                    ->editable(true)
                     ->timezone(config('app.timezone'))
                     ->locale(app()->getLocale())
                     ->plugins(['resourceTimeline', 'timeline'], true),
