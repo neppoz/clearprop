@@ -9,11 +9,11 @@ use Throwable;
 
 class NotificationService
 {
-    public function getUnreadNotificationsForLoggedInUser()
-    {
-        $unreadNotifications = auth()->user()->unreadNotifications;
-
-        return $unreadNotifications;
-    }
+//    public function getUnreadNotificationsForLoggedInUser()
+//    {
+//        $unreadNotifications = auth()->user()->unreadNotifications;
+//
+//        return $unreadNotifications;
+//    }
 
 }

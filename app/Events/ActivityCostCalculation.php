@@ -14,27 +14,27 @@ use App\Activity;
 
 class ActivityCostCalculation
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $activity;
-
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct(Activity $activity)
-    {
-        $this->activity = $activity;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        //return new PrivateChannel('channel-name');
-    }
+//    use Dispatchable, InteractsWithSockets, SerializesModels;
+//
+//    public $activity;
+//
+//    /**
+//     * Create a new event instance.
+//     *
+//     * @return void
+//     */
+//    public function __construct(Activity $activity)
+//    {
+//        $this->activity = $activity;
+//    }
+//
+//    /**
+//     * Get the channels the event should broadcast on.
+//     *
+//     * @return \Illuminate\Broadcasting\Channel|array
+//     */
+//    public function broadcastOn()
+//    {
+//        //return new PrivateChannel('channel-name');
+//    }
 }
