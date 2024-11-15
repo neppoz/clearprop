@@ -32,6 +32,7 @@ class IncomeResource extends Resource
             ->schema([
                 Forms\Components\DatePicker::make('entry_date')
                     ->label('Date')
+                    ->native(false)
                     ->date('d/m/Y')
                     ->required(),
                 Forms\Components\Select::make('user_id')

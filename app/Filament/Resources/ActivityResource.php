@@ -36,6 +36,7 @@ class ActivityResource extends Resource
                     ->schema([
                         Forms\Components\DatePicker::make('event')
                             ->label('Date')
+                            ->native(false)
                             ->required(),
                         Forms\Components\Select::make('plane_id')
                             ->label('Aircraft')

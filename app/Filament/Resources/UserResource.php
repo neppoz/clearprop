@@ -35,7 +35,9 @@ class UserResource extends Resource
                                     ->maxLength(255)
                                     ->columnSpanFull(),
                                 Forms\Components\DatePicker::make('medical_due')
-                                    ->label('Due date medical'),
+                                    ->label('Due date medical')
+                                    ->native(false)
+                                    ->date('d/m/Y'),
                                 Forms\Components\TextInput::make('license')
                                     ->maxLength(255),
                             ])

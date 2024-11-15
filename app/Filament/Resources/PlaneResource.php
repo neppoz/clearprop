@@ -55,7 +55,7 @@ class PlaneResource extends Resource
                     ->options(Plane::COUNTER_TYPE_SELECT)
                     ->required(),
                 Forms\Components\Toggle::make('warmup_type')
-                    ->label('Warmup type')
+                    ->label('Pilot paying')
                     ->hint('Select if the engine warmup has to be charged to the pilot'),
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
