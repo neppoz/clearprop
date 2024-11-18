@@ -4,10 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReservationResource\Pages;
 use App\Filament\Resources\ReservationResource\Widgets\BookingsCalendar;
+use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\Reservation;
 use App\Models\User;
-use App\Services\BookingCheckService;
+use App\Services\StatisticsService;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Radio;
@@ -15,7 +17,6 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -24,8 +25,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use App\Settings\GeneralSettings;
 
 class ReservationResource extends Resource
 {
@@ -70,14 +71,15 @@ class ReservationResource extends Resource
                     DatePicker::make('reservation_start_date')
                         ->label('Date from')
                         ->firstDayOfWeek(1)
-                        ->minDate(now())
-                        ->reactive()
+                        ->minDate(Carbon::now()->setTimezone(config('app.timezone'))->format('Y-m-d'))
                         ->native(false)
+                        ->reactive()
                         ->displayFormat(config('panel.date_format'))
                         ->required(),
                     TimePicker::make('reservation_start_time')
                         ->label('Start time')
                         ->seconds(false)
+                        ->reactive()
                         ->required(),
                     DatePicker::make('reservation_stop_date')
                         ->label('Date to')
@@ -215,28 +217,124 @@ class ReservationResource extends Resource
                     ->collapsible(),
             ]);
     }
-
     public static function hasOverlappingReservation($data): bool
     {
-        // Prüfe, ob der Benutzer die Admin-Rolle hat
-        if (Auth::user()->is_admin) {
-            // Überspringe die Überschneidungsprüfung für Admin-Benutzer
-            return false;
-        }
-
         // Definiere die Start- und Endzeiten aus den Form-Daten
-        $startTime = $data['reservation_start_date'] . ' ' . $data['reservation_start_time'];
-        $endTime = $data['reservation_stop_date'] . ' ' . $data['reservation_stop_time'];
+        $startDate = Carbon::parse($data['reservation_start_date'])->format('Y-m-d');
+        $startTime = $startDate . ' ' . $data['reservation_start_time'];
+        $endDate = Carbon::parse($data['reservation_stop_date'])->format('Y-m-d');
+        $endTime = $endDate . ' ' . $data['reservation_stop_time'];
         $planeId = $data['plane_id'];
+        $bookingId = $data['id'] ?? null;
 
         return Plane::where('id', $planeId)
-            ->whereHas('planeBookings', function ($query) use ($startTime, $endTime) {
+            ->whereHas('planeBookings', function ($query) use ($startTime, $endTime, $bookingId) {
                 $query->where(function ($query) use ($startTime, $endTime) {
-                    // Abfrage für echte Überschneidungen mit vollständigem Datum und Zeit
                     $query->where('reservation_start', '<', $endTime)
                         ->where('reservation_stop', '>', $startTime);
                 });
+
+                // Nur die eigene Buchung ausschließen, wenn `$bookingId` vorhanden ist
+                if ($bookingId) {
+                    $query->where('id', '!=', $bookingId);
+                }
             })->exists();
+
+    }
+
+    public static function hasAirworthinessExpired($data): bool
+    {
+        $activitiesLimitDays = app(GeneralSettings::class)->check_activities_limit_days ?? 90;
+        $user = Auth::user();
+        $planeId = $data['plane_id'];
+        $reservationDateStart = Carbon::parse($data['reservation_start_date']);
+
+        // Finde das letzte bekannte `event`-Datum des Benutzers für das Flugzeug
+        $lastEvent = Activity::where('plane_id', $planeId)
+            ->where('user_id', $user->id)
+            ->orderBy('event', 'desc')
+            ->first();
+
+        // Wenn kein Event gefunden wurde, ist keine Reservierung möglich
+        if (!$lastEvent) {
+            return true; // Keine Reservierung möglich
+        }
+
+        // Berechne die Differenz in Tagen
+        $daysDifference = $reservationDateStart->diffInDays(Carbon::parse($lastEvent->event));
+
+        // Prüfe, ob die Differenz größer als die erlaubten Tage ist
+        return $daysDifference > $activitiesLimitDays;
+    }
+
+    public static function validateMedical(): bool
+    {
+        $checkMedicalSetting = app(GeneralSettings::class)->check_medical;
+        $user = Auth::user();
+
+        if ($checkMedicalSetting) {
+            // Prüfe, ob das Feld `medical_due` leer ist
+            if (empty($user->medical_due)) {
+                return false;
+            }
+
+            // Prüfe, ob das Datum abgelaufen ist
+            if (Carbon::parse($user->medical_due) <= now()) {
+                Notification::make()
+                    ->title('Medical invalid!')
+                    ->body('Your medical is invalid! No reservation possible.')
+                    ->danger() // Optionale Markierung, um die Nachricht als kritisch zu kennzeichnen
+                    ->send();
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static function validateBalance(): bool
+    {
+        $checkBalanceSetting = app(GeneralSettings::class)->check_balance;
+        $checkBalanceValue = app(GeneralSettings::class)->check_balance_limit_amount;
+
+        if ($checkBalanceSetting) {
+            // Überprüfe die Kreditwürdigkeit
+            $totalActivityStatisticsCurrentYear = (new StatisticsService())
+                ->getActivityStatisticsCurrentYear()->sum('amount') ?? 0;
+            $totalPaymentsCurrentYear = (new StatisticsService())
+                ->getPaymentsCurrentYear()->sum('amount') ?? 0;
+            $totalBalance = $totalPaymentsCurrentYear + -abs($totalActivityStatisticsCurrentYear);
+
+            if ($totalBalance <= $checkBalanceValue) {
+                Notification::make()
+                    ->title('Not enough balance!')
+                    ->body('Your actual balance is ' . $totalBalance . ' which is below the limit of ' . $checkBalanceValue)
+                    ->warning() // Optionale Markierung, um die Nachricht als kritisch zu kennzeichnen
+                    ->send();
+
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function validateAll(): bool
+    {
+        $rules = [
+            [self::class, 'validateMedical'],
+            [self::class, 'validateBalance'],
+        ];
+
+        $allPassed = true;
+
+        foreach ($rules as $rule) {
+            if (!call_user_func($rule)) {
+                $allPassed = false; // Merke, dass mindestens ein Check fehlschlug
+            }
+        }
+
+        return $allPassed;
     }
     public static function getRelations(): array
     {

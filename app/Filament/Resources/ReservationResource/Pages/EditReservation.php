@@ -15,11 +15,6 @@ class EditReservation extends EditRecord
 {
     protected static string $resource = ReservationResource::class;
 
-    protected function getRedirectUrl(): string
-    {
-        return $this->previousUrl ?? $this->getResource()::getUrl('index');
-    }
-
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['reservation_start_date'] = Carbon::createFromFormat('Y-m-d H:i:s', $data['reservation_start'])->format('Y-m-d');
@@ -40,19 +35,19 @@ class EditReservation extends EditRecord
 
     protected function beforeSave(): void
     {
-        // Prüfe auf Überschneidungen
-        if (ReservationResource::hasOverlappingReservation($this->data)) {
-            Notification::make()
-                ->title('Reservation overlapping')
-                ->body('This reservation overlaps with a previous reservation. Please select a different period.')
-                ->danger() // Optionale Markierung, um die Nachricht als kritisch zu kennzeichnen
-                ->send();
+        if (!Auth::user()->is_admin) {
+            if (ReservationResource::hasOverlappingReservation($this->data)) {
+                Notification::make()
+                    ->title('Reservation overlapping')
+                    ->body('This reservation overlaps with a previous reservation. Please select a different period.')
+                    ->danger() // Optionale Markierung, um die Nachricht als kritisch zu kennzeichnen
+                    ->send();
 
-            // Speichervorgang abbrechen
-            $this->halt();
+                // Speichervorgang abbrechen
+                $this->halt();
+            }
         }
     }
-
     public function getHeaderWidgets(): array
     {
         return ReservationResource::getWidgets();
