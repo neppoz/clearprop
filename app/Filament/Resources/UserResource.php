@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Hash;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-
     protected static ?int $navigationSort = 5;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static bool $shouldCollapseNavigationGroup = true;
@@ -42,6 +41,27 @@ class UserResource extends Resource
                                     ->maxLength(255),
                             ])
                             ->columns(2),
+                        Forms\Components\Section::make('Login')
+                            ->schema([
+                                Forms\Components\TextInput::make('email')
+                                    ->label('Email address')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->email()
+                                    ->unique(User::class, 'email', ignoreRecord: true),
+                                Forms\Components\TextInput::make('password')
+                                    ->password()
+                                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                                    ->dehydrated(fn($state) => filled($state))
+                                    ->required(fn(string $context): bool => $context === 'create'),
+                                Forms\Components\Select::make('lang')
+                                    ->options(User::LANG_SELECT)
+                                    ->default('EN')
+                                    ->selectablePlaceholder(false)
+                                    ->required(),
+                            ])
+                            ->compact()
+                            ->columns(3),
                         Forms\Components\Section::make('Contact details')
                             ->schema([
                                 Forms\Components\TextInput::make('phone_1')
@@ -58,30 +78,15 @@ class UserResource extends Resource
                                     ->label('VAT Number')
                                     ->maxLength(255),
                             ])
+                            ->compact()
                             ->columns(2),
                     ])
                     ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('Login')
-                            ->schema([
-                                Forms\Components\TextInput::make('email')
-                                    ->label('Email address')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->email()
-                                    ->unique(User::class, 'email', ignoreRecord: true),
-                                Forms\Components\TextInput::make('password')
-                                    ->password()
-                                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                                    ->dehydrated(fn($state) => filled($state))
-                                    ->required(fn(string $context): bool => $context === 'create'),
-                                Forms\Components\Select::make('lang')
-                                    ->options(User::LANG_SELECT)
-                                    ->required(),
-                            ])
-                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
+
+//                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\CheckboxList::make('roles')
