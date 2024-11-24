@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Services;
-
+//ToDo: Cleanup
+use App\Enums\ActivityStatus;
 use App\Models\Activity;
 
 //use App\Asset;
@@ -42,7 +43,8 @@ class StatisticsService
 
     public function getActivityStatisticsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Activity|Builder
     {
-        return Activity::whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+        return Activity::where('status', ActivityStatus::Approved)
+            ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
     public function getInstructorActivityStatistics(): array
@@ -71,7 +73,7 @@ class StatisticsService
         ];
     }
 
-    public function getPersonalFinanceStatistics(): array
+    public function getPersonalFinanceStatistics(): array //ToDo: Cleanup
     {
         $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
         $getPaymentDataWithoutScope = $this->getPaymentsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
@@ -113,24 +115,24 @@ class StatisticsService
 //
 //        return compact('getActivitySumTotalOfAllMembers', 'getActivitySumAsCommand', 'getActivitySumAsCopilot', 'getActivitySumAsInstructor', 'getActivitySumTotalPersonal');
 //    }
-
-    public function getActivitiesCurrentYear(): \Illuminate\Database\Eloquent\Builder
-    {
-        return Activity::with([
-            'user' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'type' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'plane' => function ($q) {
-                $q->withTrashed()->select('id', 'callsign');
-            },
-            'instructor' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-        ])->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-    }
+//
+//    public function getActivitiesCurrentYear(): \Illuminate\Database\Eloquent\Builder
+//    {
+//        return Activity::with([
+//            'user' => function ($q) {
+//                $q->withTrashed()->select('id', 'name');
+//            },
+//            'type' => function ($q) {
+//                $q->withTrashed()->select('id', 'name');
+//            },
+//            'plane' => function ($q) {
+//                $q->withTrashed()->select('id', 'callsign');
+//            },
+//            'instructor' => function ($q) {
+//                $q->withTrashed()->select('id', 'name');
+//            },
+//        ])->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+//    }
 
 //    public function dashboard_v1(Request $request)
 //    {
@@ -152,13 +154,13 @@ class StatisticsService
 //        return compact('granTotal', 'incomeAmountTotal', 'activityAmountTotal', 'activityHoursAndMinutes', 'assetsOverhaulData');
 //    }
 
-    public function getDepositIncomesCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
-    {
-        return Income::whereHas('income_category', function ($q) {
-            $q->where('deposit', '=', 1);
-        })
-            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-    }
+//    public function getDepositIncomesCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
+//    {
+//        return Income::whereHas('income_category', function ($q) {
+//            $q->where('deposit', '=', 1);
+//        })
+//            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+//    }
 
 //    public function getAssetsOverhaulData(): \Illuminate\Database\Eloquent\Collection|array
 //    {
@@ -192,38 +194,38 @@ class StatisticsService
 //
 //    }
 
-    public function getUsersMedicalDue($request): false|array
-    {
-        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
-            if (Gate::allows('user_edit')) {
-                $userMedicalGoingDue = User::withoutGlobalScopes()
-                    ->whereNotNull('medical_due');
+//    public function getUsersMedicalDue($request): false|array
+//    {
+//        if (Parameter::where('slug', 'check.medical')->value('value') == Parameter::CHECK_MEDICAL_ENABLED) {
+//            if (Gate::allows('user_edit')) {
+//                $userMedicalGoingDue = User::withoutGlobalScopes()
+//                    ->whereNotNull('medical_due');
+//
+//                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->count();
+//                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+//
+//                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
+//            }
+//
+//            if (Gate::denies('user_edit')) {
+//                $userMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
+//
+//                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
+//                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
+//
+//                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
+//            }
+//        }
+//
+//        return false;
+//    }
+//
+//    public function getActivitiesAllTime(): \Illuminate\Database\Eloquent\Collection
+//    {
+//        return Activity::all();
+//    }
 
-                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->count();
-                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
-
-                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
-            }
-
-            if (Gate::denies('user_edit')) {
-                $userMedicalGoingDue = Auth::user()->whereNotNull('medical_due');
-
-                $userMedicalDueInFuture = $userMedicalGoingDue->whereBetween('medical_due', [Carbon::now(), Carbon::now()->addDays(30)])->get();
-                $userMedicalIsAlreadyDue = $userMedicalGoingDue->where('medical_due', '<=', [Carbon::now(), Carbon::now()])->count();
-
-                return ['userMedicalDueInFuture' => $userMedicalDueInFuture ?? 0, 'userMedicalIsAlreadyDue' => $userMedicalIsAlreadyDue ?? 0];
-            }
-        }
-
-        return false;
-    }
-
-    public function getActivitiesAllTime(): \Illuminate\Database\Eloquent\Collection
-    {
-        return Activity::all();
-    }
-
-    public function getActivityReport($fromDate, $toDate): array
+    public function getActivityReport($fromDate, $toDate): array  //ToDo: Cleanup
     {
         /** Call the function
          *  CAVE: when calling the activities, the filter will be enlarged for every call.
@@ -314,77 +316,36 @@ class StatisticsService
         ];
     }
 
-    public function getActivitiesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
-    {
-        return Activity::with([
-            'user' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'type' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-            'plane' => function ($q) {
-                $q->withTrashed()->select('id', 'callsign');
-            },
-            'instructor' => function ($q) {
-                $q->withTrashed()->select('id', 'name');
-            },
-        ])->whereBetween('event', [$fromDate, $toDate]);
-    }
+//    public function getActivitiesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
+//    {
+//        return Activity::with([
+//            'user' => function ($q) {
+//                $q->withTrashed()->select('id', 'name');
+//            },
+//            'type' => function ($q) {
+//                $q->withTrashed()->select('id', 'name');
+//            },
+//            'plane' => function ($q) {
+//                $q->withTrashed()->select('id', 'callsign');
+//            },
+//            'instructor' => function ($q) {
+//                $q->withTrashed()->select('id', 'name');
+//            },
+//        ])->whereBetween('event', [$fromDate, $toDate]);
+//    }
+//
+//    public function getIncomesCurrentYear(Request $request): \Illuminate\Database\Eloquent\Builder
+//    {
+//        return Income::with('income_category')
+//            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+//    }
+//
+//    public function getExpensesCurrentYear(Request $request): \Illuminate\Database\Eloquent\Builder
+//    {
+//        return Expense::with('expense_category')
+//            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+//    }
 
-    public function getIncomesCurrentYear(Request $request): \Illuminate\Database\Eloquent\Builder
-    {
-        return Income::with('income_category')
-            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-    }
-
-    public function getExpensesCurrentYear(Request $request): \Illuminate\Database\Eloquent\Builder
-    {
-        return Expense::with('expense_category')
-            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
-    }
-
-    public function getExpenseReport($fromDate, $toDate): array
-    {
-        // Call the functions
-        $expenses = $this->getExpensesByFilter($fromDate, $toDate);
-        $incomes = $this->getIncomesByFilter($fromDate, $toDate);
-
-        $expensesTotal = $expenses->sum('amount');
-        $incomesTotal = $incomes->sum('amount');
-        $groupedExpenses = $expenses->whereNotNull('expense_category_id')->orderBy('amount', 'desc')->get()->groupBy('expense_category_id');
-        $groupedIncomes = $incomes->whereNotNull('income_category_id')->orderBy('amount', 'desc')->get()->groupBy('income_category_id');
-        $profit = $incomesTotal - $expensesTotal;
-
-        $expensesSummary = [];
-
-        foreach ($groupedExpenses as $exp) {
-            foreach ($exp as $line) {
-                if (!isset($expensesSummary[$line->expense_category->name])) {
-                    $expensesSummary[$line->expense_category->name] = [
-                        'name' => $line->expense_category->name,
-                        'amount' => 0,
-                    ];
-                }
-
-                $expensesSummary[$line->expense_category->name]['amount'] += $line->amount;
-            }
-        }
-
-        $incomesSummary = [];
-
-        foreach ($groupedIncomes as $inc) {
-            foreach ($inc as $line) {
-                if (!isset($incomesSummary[$line->income_category->name])) {
-                    $incomesSummary[$line->income_category->name] = [
-                        'name' => $line->income_category->name,
-                        'amount' => 0,
-                    ];
-                }
-
-                $incomesSummary[$line->income_category->name]['amount'] += $line->amount;
-            }
-        }
 //
 //        /* Overdue payment members */
 //        $overdueMembers = DB::select("
@@ -421,33 +382,33 @@ class StatisticsService
 //            'incomefrom' => $fromDate,
 //            'incometo' => $toDate
 //        ), true);
+//
+//        return [
+//            'expensesSummary' => $expensesSummary,
+//            'incomesSummary' => $incomesSummary,
+//            'expensesTotal' => $expensesTotal,
+//            'incomesTotal' => $incomesTotal,
+//            'profit' => $profit,
+////            'overdueMembers' => $overdueMembers,
+//            'fromSelectedDate' => $fromDate,
+//            'toSelectedDate' => $toDate
+//
+//        ];
+//    }
 
-        return [
-            'expensesSummary' => $expensesSummary,
-            'incomesSummary' => $incomesSummary,
-            'expensesTotal' => $expensesTotal,
-            'incomesTotal' => $incomesTotal,
-            'profit' => $profit,
-//            'overdueMembers' => $overdueMembers,
-            'fromSelectedDate' => $fromDate,
-            'toSelectedDate' => $toDate
+//    public function getExpensesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
+//    {
+//        return Expense::with('expense_category')
+//            ->whereBetween('entry_date', [$fromDate, $toDate]);
+//    }
 
-        ];
-    }
-
-    public function getExpensesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
-    {
-        return Expense::with('expense_category')
-            ->whereBetween('entry_date', [$fromDate, $toDate]);
-    }
-
-    public function getIncomesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder
+    public function getIncomesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder //ToDo: Cleanup
     {
         return Income::with('income_category')
             ->whereBetween('entry_date', [$fromDate, $toDate]);
     }
 
-    public function getReservationsByType(): array
+    public function getReservationsByType(): array //ToDo: Cleanup
     {
         $allModes = Mode::whereIn('id', [Reservation::IS_CHARTER, Reservation::IS_SCHOOL])
             ->pluck('name', 'id')

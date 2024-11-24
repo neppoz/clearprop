@@ -34,6 +34,8 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
             ])
+            ->brandName(config('app.name'))
+            ->favicon(asset('images/favicon.ico'))
             ->sidebarCollapsibleOnDesktop()
             ->navigationGroups([
 
