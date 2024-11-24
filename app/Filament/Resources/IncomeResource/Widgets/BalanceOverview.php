@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\IncomeResource\Widgets;
 
+use App\Enums\ActivityStatus;
 use App\Models\User;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class BalanceOverview extends BaseWidget
@@ -45,10 +47,10 @@ class BalanceOverview extends BaseWidget
 
     protected function getTableQuery(): \Illuminate\Database\Eloquent\Relations\Relation|\Illuminate\Database\Eloquent\Builder|null
     {
-        $activityFrom = '2024-01-01'; // Platzhalter: dynamische Filterung, wenn nötig
-        $activityTo = '2024-12-31';
-        $incomeFrom = '2024-01-01';
-        $incomeTo = '2024-12-31';
+        $activityFrom = Carbon::now()->startOfYear();
+        $activityTo = Carbon::now()->endOfYear();
+        $incomeFrom = Carbon::now()->startOfYear();
+        $incomeTo = Carbon::now()->endOfYear();
 
         return User::query()
             ->select('users.id', 'users.name')
@@ -56,6 +58,7 @@ class BalanceOverview extends BaseWidget
                 DB::table('activities')
                     ->select('user_id', DB::raw('SUM(amount) AS sumact'))
                     ->whereBetween('event', [$activityFrom, $activityTo])
+                    ->where('status', ActivityStatus::Approved)
                     ->whereNull('deleted_at')
                     ->groupBy('user_id'),
                 'a',
@@ -78,5 +81,4 @@ class BalanceOverview extends BaseWidget
             )
             ->selectRaw('COALESCE(suminc, 0) AS suminc, COALESCE(sumact, 0) AS sumact, COALESCE(suminc, 0) - COALESCE(sumact, 0) AS total');
     }
-
 }

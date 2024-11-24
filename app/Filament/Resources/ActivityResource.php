@@ -19,6 +19,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,7 @@ class ActivityResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static bool $shouldCollapseNavigationGroup = true;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -358,6 +360,7 @@ class ActivityResource extends Resource
         }
         return true;
     }
+
     protected function calculateMinutesAndCosts(Get $get, Set $set): void
     {
         $selectedEngineOn = $get('event_start') ?? '';
@@ -485,6 +488,15 @@ class ActivityResource extends Resource
             return [];
         }
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        /** @var class-string<Model> $modelClass */
+        $modelClass = static::$model;
+
+        return (string)$modelClass::where('status', ActivityStatus::New)->count();
+    }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
