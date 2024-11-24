@@ -79,6 +79,7 @@ class IncomeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginationPageOptions(['10', '25', '50'])
             ->columns([
                 Tables\Columns\TextColumn::make('entry_date')
                     ->date('d/m/Y')
@@ -95,9 +96,13 @@ class IncomeResource extends Resource
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
                     ->numeric(2, ',', '.')
-                    ->sortable()
-                    ->suffix(' €')
-                    ->alignEnd(),
+                    ->alignEnd()
+                    ->summarize([
+                        Tables\Columns\Summarizers\Sum::make()
+                            ->label('')
+                            ->numeric('2', ',', '.')
+                    ])
+                    ->suffix(' €'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -112,6 +117,7 @@ class IncomeResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('entry_date', 'desc')
+            ->persistSortInSession()
             ->filters([
                 Tables\Filters\Filter::make('entry_date')
                     ->form([
@@ -152,9 +158,7 @@ class IncomeResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            ->groups([
-
-            ]);
+            ->groups([]);
     }
 
     public static function getRelations(): array
