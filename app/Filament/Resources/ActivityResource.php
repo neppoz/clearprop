@@ -248,12 +248,23 @@ class ActivityResource extends Resource
                     ->label('Duration')
                     ->numeric(decimalPlaces: 0)
                     ->suffix(' min.')
-                    ->alignEnd(),
+                    ->alignEnd()
+                    ->summarize([
+                        Tables\Columns\Summarizers\Sum::make()
+                            ->label('')
+                            ->numeric('2', ',', '.')
+                    ])
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
                     ->numeric(2, ',', '.')
-                    ->suffix(' €')
                     ->alignEnd()
+                    ->summarize([
+                        Tables\Columns\Summarizers\Sum::make()
+                            ->label('')
+                            ->numeric('2', ',', '.')
+                    ])
+                    ->suffix(' €')
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -274,19 +285,45 @@ class ActivityResource extends Resource
             ->defaultSort('event', 'desc')
             ->persistSortInSession()
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('event')
+                    ->form([
+                        Forms\Components\DatePicker::make('event_from'),
+                        Forms\Components\DatePicker::make('event_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['event_from'] ?? null,
+                                fn(Builder $query, $date): Builder => $query->whereDate('event', '>=', $date),
+                            )
+                            ->when(
+                                $data['event_until'] ?? null,
+                                fn(Builder $query, $date): Builder => $query->whereDate('event', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                        if ($data['event_from'] ?? null) {
+                            $indicators['event_from'] = 'Event from ' . \Illuminate\Support\Carbon::parse($data['event_from'])->toFormattedDateString();
+                        }
+                        if ($data['event_until'] ?? null) {
+                            $indicators['event_until'] = 'Event until ' . Carbon::parse($data['event_until'])->toFormattedDateString();
+                        }
+
+                        return $indicators;
+                    }),
+                Tables\Filters\SelectFilter::make('user.name')
+                    ->label('PIC')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\TrashedFilter::make()
             ])
+            ->persistFiltersInSession()
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-//            ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                    Tables\Actions\ForceDeleteBulkAction::make(),
-//                    Tables\Actions\RestoreBulkAction::make(),
-//                ]),
-//            ])
             ->groups([
                 Tables\Grouping\Group::make('event')
                     ->label('Date')
