@@ -9,6 +9,7 @@ use App\Filament\Widgets\App\LatestReservations;
 use App\Models\Income;
 use App\Models\IncomeCategory;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -112,19 +113,45 @@ class IncomeResource extends Resource
             ])
             ->defaultSort('entry_date', 'desc')
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('entry_date')
+                    ->form([
+                        Forms\Components\DatePicker::make('entry_date_from'),
+                        Forms\Components\DatePicker::make('entry_date_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['entry_date_from'] ?? null,
+                                fn(Builder $query, $date): Builder => $query->whereDate('entry_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['entry_date_until'] ?? null,
+                                fn(Builder $query, $date): Builder => $query->whereDate('entry_date', '<=', $date),
+                            );
+                    })
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+                        if ($data['entry_date_from'] ?? null) {
+                            $indicators['event_from'] = 'Event from ' . \Illuminate\Support\Carbon::parse($data['entry_date_from'])->toFormattedDateString();
+                        }
+                        if ($data['entry_date_until'] ?? null) {
+                            $indicators['entry_date_until'] = 'Event until ' . Carbon::parse($data['entry_date_until'])->toFormattedDateString();
+                        }
+
+                        return $indicators;
+                    }),
+                Tables\Filters\SelectFilter::make('user.name')
+                    ->label('Name')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\TrashedFilter::make()
             ])
+            ->persistFiltersInSession()
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-//            ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                    Tables\Actions\ForceDeleteBulkAction::make(),
-//                    Tables\Actions\RestoreBulkAction::make(),
-//                ]),
-//            ])
             ->groups([
 
             ]);
