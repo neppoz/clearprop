@@ -52,7 +52,7 @@ class AppPanelProvider extends PanelProvider
                 ActivitiesAircraftChart::class
             ])
             ->plugins([
-                    FilamentShieldPlugin::make(),
+//                FilamentShieldPlugin::make(),
                 FilamentFullCalendarPlugin::make()
                     ->schedulerLicenseKey('CC-Attribution-NonCommercial-NoDerivatives')
                     ->selectable(false)
