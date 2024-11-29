@@ -2133,6 +2133,10 @@ select {
     margin-inline-end: .25rem
 }
 
+.me-3 {
+    margin-inline-end: .75rem
+}
+
 .me-4 {
     margin-inline-end: 1rem
 }
@@ -4510,10 +4514,6 @@ select {
 
 .dark\:bg-white\/5:is(.dark *) {
     background-color: hsla(0, 0%, 100%, .05)
-}
-
-.dark\:fill-current:is(.dark *) {
-    fill: currentColor
 }
 
 .dark\:text-custom-300\/50:is(.dark *) {

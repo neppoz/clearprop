@@ -94,17 +94,6 @@
       0 => 'Filament\\Widgets\\WidgetsServiceProvider',
     ),
   ),
-    'intervention/image' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
-      'aliases' =>
-    array (
-      'Image' => 'Intervention\\Image\\Facades\\Image',
-    ),
-  ),
     'kirschbaum-development/eloquent-power-joins' =>
   array (
       'providers' =>
@@ -137,13 +126,6 @@
       0 => 'Laravel\\Ui\\UiServiceProvider',
     ),
   ),
-    'laraveldaily/laravel-charts' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'LaravelDaily\\LaravelCharts\\LaravelChartsServiceProvider',
-    ),
-  ),
     'leandrocfe/filament-apex-charts' =>
         array(
             'providers' =>
@@ -157,13 +139,13 @@
         ),
     'livewire/livewire' =>
   array (
+      'aliases' =>
+          array(
+              'Livewire' => 'Livewire\\Livewire',
+          ),
       'providers' =>
     array (
       0 => 'Livewire\\LivewireServiceProvider',
-    ),
-      'aliases' =>
-    array (
-      'Livewire' => 'Livewire\\Livewire',
     ),
   ),
     'nesbot/carbon' =>
@@ -185,24 +167,6 @@
       'providers' =>
     array (
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    ),
-  ),
-    'pestphp/pest' =>
-        array(
-            'providers' =>
-                array(
-                    0 => 'Pest\\Laravel\\PestServiceProvider',
-                ),
-        ),
-    'realrashid/sweet-alert' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'RealRashid\\SweetAlert\\SweetAlertServiceProvider',
-    ),
-      'aliases' =>
-    array (
-      'Alert' => 'RealRashid\\SweetAlert\\Facades\\Alert',
     ),
   ),
     'ryangjchandler/blade-capture-directive' =>
@@ -264,52 +228,6 @@
       'providers' =>
     array (
       0 => 'Spatie\\WebTinker\\WebTinkerServiceProvider',
-    ),
-  ),
-    'yajra/laravel-datatables-buttons' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Yajra\\DataTables\\ButtonsServiceProvider',
-    ),
-  ),
-    'yajra/laravel-datatables-editor' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Yajra\\DataTables\\EditorServiceProvider',
-    ),
-  ),
-    'yajra/laravel-datatables-export' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Yajra\\DataTables\\ExportServiceProvider',
-    ),
-  ),
-    'yajra/laravel-datatables-fractal' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Yajra\\DataTables\\FractalServiceProvider',
-    ),
-  ),
-    'yajra/laravel-datatables-html' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Yajra\\DataTables\\HtmlServiceProvider',
-    ),
-  ),
-    'yajra/laravel-datatables-oracle' =>
-  array (
-      'providers' =>
-    array (
-      0 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    ),
-      'aliases' =>
-    array (
-      'DataTables' => 'Yajra\\DataTables\\Facades\\DataTables',
     ),
   ),
 );
