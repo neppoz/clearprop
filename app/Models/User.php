@@ -14,11 +14,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable implements FilamentUser
 {
-    use SoftDeletes, Notifiable;
+    use SoftDeletes, Notifiable, HasRoles;
 
     /**
      * @property-read bool $is_admin
