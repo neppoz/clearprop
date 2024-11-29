@@ -33,6 +33,7 @@ class User extends Authenticatable implements FilamentUser
     const IS_MANAGER = 3;
     const IS_INSTRUCTOR = 4;
     const IS_MECHANIC = 5;
+
     const LANG_SELECT = [
         'EN' => 'English',
         'DE' => 'German',
@@ -91,33 +92,34 @@ class User extends Authenticatable implements FilamentUser
 
     public function getIsAdminAttribute(): bool
     {
-        return $this->roles()->where('id', self::IS_ADMIN)->exists();
+        return $this->hasRole(self::IS_ADMIN);
     }
 
     public function getIsManagerAttribute(): bool
     {
-        return $this->roles()->where('id', self::IS_MANAGER)->exists();
+        return $this->hasRole(self::IS_MANAGER);
     }
 
     public function getIsInstructorAttribute(): bool
     {
-        return $this->roles()->where('id', self::IS_INSTRUCTOR)->exists();
+        return $this->hasRole(self::IS_INSTRUCTOR);
     }
 
     public function getIsMechanicAttribute(): bool
     {
-        return $this->roles()->where('id', self::IS_MECHANIC)->exists();
+        return $this->hasRole(self::IS_MECHANIC);
     }
 
     public function getIsMemberAttribute(): bool
     {
-        return $this->roles()->where('id', self::IS_MEMBER)->exists();
+        return $this->hasRole(self::IS_MEMBER);
     }
 
-    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Role::class);
-    }
+//    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+//    {
+//        return $this->belongsToMany(Role::class);
+//    }
+
     public function userActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');
