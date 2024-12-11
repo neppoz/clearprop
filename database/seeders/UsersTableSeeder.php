@@ -24,6 +24,6 @@ class UsersTableSeeder extends Seeder
 
         ];
 
-        User::insert($users);
+        \App\Models\User::insert($users);
     }
 }
