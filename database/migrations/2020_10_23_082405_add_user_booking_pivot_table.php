@@ -14,12 +14,14 @@ class AddUserBookingPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('booking_user', function (Blueprint $table) {
-            $table->unsignedInteger('booking_id');
-            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
+        if (!Schema::hasTable('booking_user')) {
+            Schema::create('booking_user', function (Blueprint $table) {
+                $table->unsignedInteger('booking_id');
+                $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
+                $table->unsignedInteger('user_id');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            });
+        }
 
         $userBookings = Booking::whereNotNull('user_id')->select('id', 'user_id')->get();
 
