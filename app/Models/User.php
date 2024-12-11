@@ -115,11 +115,6 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasRole(self::IS_MEMBER);
     }
 
-//    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//    {
-//        return $this->belongsToMany(Role::class);
-//    }
-
     public function userActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'user_id', 'id');

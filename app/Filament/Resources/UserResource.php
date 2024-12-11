@@ -91,7 +91,7 @@ class UserResource extends Resource
                             ->schema([
                                 Forms\Components\CheckboxList::make('roles')
                                     ->label('Roles')
-                                    ->relationship('roles', 'title')
+                                    ->relationship('roles', 'name')
                                     ->columns(2)
                                     ->helperText('Select which roles you would like to assign to this user'),
                             ])
