@@ -173,9 +173,4 @@ class User extends Authenticatable implements FilamentUser
             ->withPivot('base_price_per_minute', 'instructor_price_per_minute', 'rating_status');
     }
 
-//    public function userUserAlerts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//    {
-//        return $this->belongsToMany(UserAlert::class);
-//    }
-
 }

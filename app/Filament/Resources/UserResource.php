@@ -85,8 +85,6 @@ class UserResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
-
-//                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\CheckboxList::make('roles')
