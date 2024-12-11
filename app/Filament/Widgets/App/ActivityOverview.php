@@ -14,15 +14,12 @@ class ActivityOverview extends BaseWidget
     protected function getStats(): array
     {
         $collectionActivityStatistics = new \Illuminate\Support\Collection();
-        if (\Gate::allows('dashboard_global_activity_access')) {
+        if (\Auth::user()->is_admin) {
             $getGlobalActivityStatistics = (new StatisticsService())->getGlobalActivityStatistics();
             $collectionActivityStatistics->push($getGlobalActivityStatistics);
         }
-//        if (\Gate::allows('dashboard_instructor_activity_access')) {
-//            $getInstructorActivityStatistics = (new StatisticsService())->getInstructorActivityStatistics();
-//            $collectionActivityStatistics->push($getInstructorActivityStatistics);
-//        }
-        if (\Gate::allows('dashboard_personal_activity_access')) {
+
+        if (\Auth::user()->is_member) {
             $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
             $collectionActivityStatistics->push($getPersonalActivityStatistics);
         }
