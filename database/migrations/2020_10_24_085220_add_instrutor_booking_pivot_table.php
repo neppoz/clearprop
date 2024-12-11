@@ -1,6 +1,6 @@
 <?php
 
-use App\Booking;
+use App\Models\Reservation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +21,7 @@ class AddInstrutorBookingPivotTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
-        $instructorBookings = Booking::whereNotNull('instructor_id')->select('id', 'instructor_id')->get();
+        $instructorBookings = Reservation::whereNotNull('instructor_id')->select('id', 'instructor_id')->get();
 
         foreach ($instructorBookings as $instructorBooking) {
             $instructorBooking->bookingInstructors()->syncWithoutDetaching($instructorBooking->instructor_id, 'user_id');

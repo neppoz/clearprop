@@ -1,6 +1,6 @@
 <?php
 
-use App\Booking;
+use App\Models\Reservation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +23,7 @@ class AddUserBookingPivotTable extends Migration
             });
         }
 
-        $userBookings = Booking::whereNotNull('user_id')->select('id', 'user_id')->get();
+        $userBookings = Reservation::whereNotNull('user_id')->select('id', 'user_id')->get();
 
         foreach ($userBookings as $userBooking) {
             $userBooking->bookingUsers()->syncWithoutDetaching($userBooking->user_id);
