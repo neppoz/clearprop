@@ -198,6 +198,18 @@
       0 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
     ),
   ),
+    'sentry/sentry-laravel' =>
+        array(
+            'aliases' =>
+                array(
+                    'Sentry' => 'Sentry\\Laravel\\Facade',
+                ),
+            'providers' =>
+                array(
+                    0 => 'Sentry\\Laravel\\ServiceProvider',
+                    1 => 'Sentry\\Laravel\\Tracing\\ServiceProvider',
+                ),
+        ),
     'spatie/laravel-backup' =>
   array (
       'providers' =>
