@@ -1,5 +1,6 @@
 # ClearProp
 
+[![Laravel Forge Site Deployment Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fforge.laravel.com%2Fsite-badges%2F2484af29-402d-4085-9241-2c934fe4aded%3Fdate%3D1&style=flat)](https://forge.laravel.com/servers/822733/sites/2404649)
 ![GitHub issues](https://img.shields.io/github/issues/neppoz/clearprop)
 ![GitHub stars](https://img.shields.io/github/stars/neppoz/clearprop)
 ![GitHub forks](https://img.shields.io/github/forks/neppoz/clearprop)
