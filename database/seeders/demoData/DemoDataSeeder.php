@@ -1,29 +1,25 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\demoData;
 
+use App\Activity;
+use App\Events\ActivityCostCalculation;
+use App\Factor;
+use App\Income;
+use App\IncomeCategory;
+use App\Plane;
+use App\Type;
+use App\User;
+use Carbon\Carbon;
 use Database\Seeders\ExpenseCategoriesTableSeeder;
 use Database\Seeders\FactorTableSeeder;
 use Database\Seeders\FactorTypeTableSeeder;
 use Database\Seeders\IncomeCategoriesTableSeeder;
 use Database\Seeders\PlaneTableSeeder;
 use Database\Seeders\TypeTableSeeder;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
-
-use App\Activity;
-use App\User;
-use App\Plane;
-use App\Type;
-use App\Factor;
-use App\Income;
-use App\IncomeCategory;
-use App\ExpenseCategory;
-use App\Booking;
-use App\Events\ActivityCostCalculation;
-
-use Faker\Factory as Faker;
 use Illuminate\Support\Facades\Hash;
 
 /**
