@@ -12,11 +12,11 @@ class RolesTableSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::findOrCreate('Admin', User::IS_ADMIN);
-        Role::findOrCreate('Member', User::IS_MEMBER);
-        Role::findOrCreate('Manager', User::IS_MANAGER);
-        Role::findOrCreate('Instructor', User::IS_INSTRUCTOR);
-        Role::findOrCreate('Mechanic', User::IS_MECHANIC);
+        Role::findOrCreate(User::IS_ADMIN, 'web');
+        Role::findOrCreate(User::IS_MEMBER, 'web');
+        Role::findOrCreate(User::IS_MANAGER, 'web');
+        Role::findOrCreate(User::IS_INSTRUCTOR, 'web');
+        Role::findOrCreate(User::IS_MECHANIC, 'web');
 
     }
 }
