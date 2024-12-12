@@ -21,18 +21,11 @@ class User extends Authenticatable implements FilamentUser
 {
     use SoftDeletes, Notifiable, HasRoles;
 
-    /**
-     * @property-read bool $is_admin
-     * @property-read bool $is_manager
-     * @property-read bool $is_member
-     * @property-read bool $is_mechanic
-     * @property-read bool $is_instructor
-     */
-    const IS_ADMIN = 1;
-    const IS_MEMBER = 2;
-    const IS_MANAGER = 3;
-    const IS_INSTRUCTOR = 4;
-    const IS_MECHANIC = 5;
+    const IS_ADMIN = 'Admin';
+    const IS_MEMBER = 'Member';
+    const IS_MANAGER = 'Manager';
+    const IS_INSTRUCTOR = 'Instructor';
+    const IS_MECHANIC = 'Mechanic';
 
     const LANG_SELECT = [
         'EN' => 'English',
@@ -126,6 +119,13 @@ class User extends Authenticatable implements FilamentUser
     public function copilotActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Activity::class, 'copilot_id', 'id');
+    }
+
+    public function scopeInstructors(Builder $query): void
+    {
+        $query->whereHas('roles', function ($query) {
+            $query->where('name', self::IS_INSTRUCTOR);
+        });
     }
 
     public function instructorActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
