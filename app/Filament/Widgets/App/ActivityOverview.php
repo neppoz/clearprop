@@ -41,9 +41,9 @@ class ActivityOverview extends BaseWidget
         }
 
         return [
-            Stat::make(trans('cruds.dashboard.statistics.totalAirtime'), $totalAirTime),
-            Stat::make(trans('cruds.dashboard.statistics.avgdurationpermission'), $avgDurationPerMission),
-            Stat::make(trans('cruds.dashboard.statistics.loggedMissions'), $loggedMissions),
+            Stat::make(__('panel.totalAirtime'), $totalAirTime),
+            Stat::make(trans('panel.avgDuration'), $avgDurationPerMission),
+            Stat::make(trans('panel.loggedMissions'), $loggedMissions),
         ];
     }
 }

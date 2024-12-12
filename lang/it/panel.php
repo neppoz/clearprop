@@ -12,8 +12,8 @@ return [
     |
     */
 
-    'totalAirtime' => 'Total Airtime.',
-    'avgDuration' => 'Avg duration per Mission.',
+    'totalAirtime' => 'Total Airtime',
+    'avgDuration' => 'Avg duration per Mission',
     'loggedMissions' => 'Logged Missions',
 
 ];
