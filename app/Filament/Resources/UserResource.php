@@ -152,7 +152,7 @@ class UserResource extends Resource
                         Tables\Columns\TextColumn::make('roles')
                             ->label('Roles')
                             ->formatStateUsing(function ($record) {
-                                $roles = $record->roles->pluck('title');
+                                $roles = $record->roles->pluck('name');
                                 return $roles->implode('<br>');
                             })
                             ->html()
