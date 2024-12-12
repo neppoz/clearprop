@@ -3,13 +3,11 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
-
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $users = [
             [
@@ -24,6 +22,6 @@ class UsersTableSeeder extends Seeder
 
         ];
 
-        \App\Models\User::insert($users);
+        \App\Models\User::insertOrIgnore($users);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace Database\Seeders;
 
-use App\Mode;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
@@ -13,7 +12,7 @@ class ModesTableSeeder extends Seeder
     /**
      * Run the database seed.
      */
-    public function run()
+    public function run(): void
     {
         $modes = [
             [
@@ -46,14 +45,7 @@ class ModesTableSeeder extends Seeder
             ],
         ];
 
-        Mode::insertOrIgnore($modes);
-
-//        $item = new Mode();
-//        $translations = [
-//            'en' => 'Promotion',
-//            'it' => 'Promozione'
-//        ];
-//        $item->setTranslations('name', $translations);
+        \App\Models\Mode::insertOrIgnore($modes);
 
     }
 }
