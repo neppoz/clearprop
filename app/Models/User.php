@@ -83,13 +83,6 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-//    public function scopeInstructors(Builder $query): void
-//    {
-//        $query->whereHas('roles', function ($role) {
-//            $role->where('role_id', User::IS_INSTRUCTOR);
-//        });
-//    }
-
     public function getIsAdminAttribute(): bool
     {
         return $this->hasRole(self::IS_ADMIN);
@@ -145,27 +138,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Income::class, 'user_id', 'id');
     }
 
-//    public function setPasswordAttribute($input): void
-//    {
-//        if ($input) {
-//            $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
-//        }
-//    }
-//
-//    public function sendPasswordResetNotification($token): void
-//    {
-//        $this->notify(new ResetPassword($token));
-//    }
-
     public function factor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Factor::class, 'factor_id');
     }
-
-//    public function setTaxnoAttribute($value): void
-//    {
-//        $this->attributes['taxno'] = strtoupper($value);
-//    }
 
     public function planes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
