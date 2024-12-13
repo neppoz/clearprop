@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Gate;
 
 class ManageGeneral extends SettingsPage
 {
-    protected static ?string $label = 'Settings';
-    protected static ?string $title = 'Settings';
+    protected static ?string $label = 'General Settings';
+    protected static ?string $title = 'General Settings';
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static string $settings = GeneralSettings::class;
-    protected static ?string $navigationLabel = 'Settings';
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationLabel = 'General Settings';
     protected static ?int $navigationSort = 100;
 
     public static function shouldRegisterNavigation(): bool
@@ -38,6 +39,7 @@ class ManageGeneral extends SettingsPage
                         Forms\Components\Checkbox::make('check_ratings')
                             ->label('Check aircraft ratings'),
                     ]),
+
                 Forms\Components\Fieldset::make('')
                     ->schema([
                         Forms\Components\Checkbox::make('check_activities')
@@ -47,6 +49,7 @@ class ManageGeneral extends SettingsPage
                             ->suffix('days')
                             ->numeric(2, ',', '.'),
                     ]),
+
                 Forms\Components\Fieldset::make('')
                     ->schema([
                         Forms\Components\Checkbox::make('check_balance')
@@ -56,6 +59,7 @@ class ManageGeneral extends SettingsPage
                             ->suffixIcon('heroicon-m-currency-euro')
                             ->numeric(2, ',', '.'),
                     ]),
+
             ]);
     }
 }

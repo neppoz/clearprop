@@ -22,6 +22,7 @@
     "league/flysystem-sftp-v3": "^3.0",
     "leandrocfe/filament-apex-charts": "^3.1",
     "livewire/livewire": "^3.4",
+    "phpsa/filament-password-reveal": "^2.1",
     "predis/predis": "^1.1",
     "saade/filament-fullcalendar": "^3.0",
     "sentry/sentry-laravel": "^4.10",

@@ -51,6 +51,7 @@ class UserResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('email')
                                     ->label('Email address')
+                                    ->helperText('This is also the User login email address')
                                     ->required()
                                     ->maxLength(255)
                                     ->email()
@@ -59,12 +60,11 @@ class UserResource extends Resource
                                     ->password()
                                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                                     ->dehydrated(fn($state) => filled($state))
-                                    ->required(fn(string $context): bool => $context === 'create'),
-                                //ToDo Confirm password field
-                                //ToDo Repalce with password reset email, no field needed
+                                    ->required(fn(string $context): bool => $context === 'create')
+                                    ->revealable(),
                             ])
                             ->compact()
-                            ->columns(3),
+                            ->columns(2),
                         Forms\Components\Section::make('Contact details')
                             ->schema([
                                 Forms\Components\TextInput::make('phone_1')

@@ -175,6 +175,7 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\Filament\AppPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\EmailSettingsServiceProvider::class,
 
     ],
 

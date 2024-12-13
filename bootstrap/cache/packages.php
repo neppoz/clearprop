@@ -180,6 +180,13 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+    'phpsa/filament-password-reveal' =>
+        array(
+            'providers' =>
+                array(
+                    0 => 'Phpsa\\FilamentPasswordReveal\\FilamentPasswordRevealProvider',
+                ),
+        ),
     'ryangjchandler/blade-capture-directive' =>
   array (
       'providers' =>
