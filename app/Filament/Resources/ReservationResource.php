@@ -27,20 +27,27 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Settings\GeneralSettings;
+use Illuminate\Support\Facades\Gate;
 
 class ReservationResource extends Resource
 {
     protected static ?string $model = Reservation::class;
-
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
     protected static bool $shouldCollapseNavigationGroup = true;
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('viewReservations');
+    }
+
     public static function form(Form $form): Form
     {
         /* This is not standard. Calling the form in the function, so we can use it in the Widget as well. */
         return $form
             ->schema((new ReservationResource)->getReusableForm());
     }
+
     public function getReusableForm(): array
     {
         return [
@@ -146,6 +153,7 @@ class ReservationResource extends Resource
                 ->columns(1),
         ];
     }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -217,6 +225,7 @@ class ReservationResource extends Resource
                     ->collapsible(),
             ]);
     }
+
     public static function hasOverlappingReservation($data): bool
     {
         // Definiere die Start- und Endzeiten aus den Form-Daten
@@ -336,12 +345,14 @@ class ReservationResource extends Resource
 
         return $allPassed;
     }
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
+
     public static function getPages(): array
     {
         return [
@@ -351,12 +362,14 @@ class ReservationResource extends Resource
             'view' => Pages\ViewReservation::route('/{record}'),
         ];
     }
+
     public static function getWidgets(): array
     {
         return [
             BookingsCalendar::class,
         ];
     }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery();

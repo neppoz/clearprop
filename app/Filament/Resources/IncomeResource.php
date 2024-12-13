@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class IncomeResource extends Resource
 {
@@ -27,6 +28,12 @@ class IncomeResource extends Resource
     protected static ?string $navigationLabel = 'Payments';
     protected static ?string $navigationIcon = 'heroicon-o-arrow-left-end-on-rectangle';
     protected static ?int $navigationSort = 2;
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('viewPayments');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -190,6 +197,7 @@ class IncomeResource extends Resource
             ];
         }
     }
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()

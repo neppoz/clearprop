@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ActivityResource extends Resource
 {
@@ -29,6 +30,11 @@ class ActivityResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static bool $shouldCollapseNavigationGroup = true;
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('viewActivities');
+    }
 
     public static function form(Form $form): Form
     {

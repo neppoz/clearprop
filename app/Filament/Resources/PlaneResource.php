@@ -11,17 +11,22 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Gate;
 
 class PlaneResource extends Resource
 {
     protected static ?string $model = Plane::class;
-
     protected static ?int $navigationSort = 98;
-
     protected static ?string $recordTitleAttribute = 'Aircrafts';
     protected static ?string $navigationLabel = 'Aircrafts';
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
     protected static bool $shouldCollapseNavigationGroup = true;
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('viewAircrafts');
+    }
+
     public static function getModelLabel(): string
     {
         return 'Aircraft';

@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
@@ -20,6 +21,11 @@ class UserResource extends Resource
     protected static ?int $navigationSort = 5;
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static bool $shouldCollapseNavigationGroup = true;
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('viewUsers');
+    }
 
     public static function form(Form $form): Form
     {
@@ -54,11 +60,8 @@ class UserResource extends Resource
                                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                                     ->dehydrated(fn($state) => filled($state))
                                     ->required(fn(string $context): bool => $context === 'create'),
-                                Forms\Components\Select::make('lang')
-                                    ->options(User::LANG_SELECT)
-                                    ->default('EN')
-                                    ->selectablePlaceholder(false)
-                                    ->required(),
+                                //ToDo Confirm password field
+                                //ToDo Repalce with password reset email, no field needed
                             ])
                             ->compact()
                             ->columns(3),
@@ -91,10 +94,11 @@ class UserResource extends Resource
                                     ->label('Roles')
                                     ->relationship('roles', 'name')
                                     ->columns(2)
-                                    ->helperText('Select which roles you would like to assign to this user'),
+                                    ->helperText('Select which roles you would like to assign to this user')
+                                    ->required(),
                             ])
-                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2])
-                            ->hidden(fn(?User $record) => $record === null),
+                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
+//                            ->hidden(fn(?User $record) => $record === null),
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\Placeholder::make('created_at')
@@ -159,6 +163,7 @@ class UserResource extends Resource
                     ])->space(2),
                 ])->from('md'),
             ])
+            ->defaultSort('name', 'asc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])

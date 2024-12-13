@@ -25,5 +25,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // Define the gates for the navigation here
+        Gate::define('viewReservations', [\App\Policies\NavigationPolicy::class, 'viewReservations']);
+        Gate::define('viewActivities', [\App\Policies\NavigationPolicy::class, 'viewActivities']);
+        Gate::define('viewPayments', [\App\Policies\NavigationPolicy::class, 'viewPayments']);
+        Gate::define('viewUsers', [\App\Policies\NavigationPolicy::class, 'viewUsers']);
+        Gate::define('viewAircrafts', [\App\Policies\NavigationPolicy::class, 'viewAircrafts']);
+        Gate::define('viewSettings', [\App\Policies\NavigationPolicy::class, 'viewSettings']);
+
     }
 }

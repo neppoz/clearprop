@@ -6,16 +6,26 @@ use App\Settings\GeneralSettings;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
+use Illuminate\Support\Facades\Gate;
 
 class ManageGeneral extends SettingsPage
 {
     protected static ?string $label = 'Settings';
     protected static ?string $title = 'Settings';
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
-
     protected static string $settings = GeneralSettings::class;
     protected static ?string $navigationLabel = 'Settings';
     protected static ?int $navigationSort = 100;
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return Gate::allows('viewSettings');
+    }
+
+    public static function canView(): bool
+    {
+        return Gate::allows('viewSettings');
+    }
 
     public function form(Form $form): Form
     {

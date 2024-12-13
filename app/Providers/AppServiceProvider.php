@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Activity;
-use App\Observers\ActivityObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,14 +13,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('valuestore', function () {
-            return \Spatie\Valuestore\Valuestore::make(storage_path('app/settings.json'));
-        });
-        $values = $this->app->valuestore->all();
-        $this->app->bind('settings', function () use ($values) {
-            return $values;
-        });
-
 
     }
 
@@ -33,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Activity::observe(ActivityObserver::class);
+
     }
 }
