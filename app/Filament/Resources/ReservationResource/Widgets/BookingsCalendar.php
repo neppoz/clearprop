@@ -18,17 +18,35 @@ class BookingsCalendar extends FullCalendarWidget
     public function config(): array
     {
         return [
-            'initialView' => 'resourceTimelineDay',
+            'initialView' => 'resourceTimelineTenDay',
+            'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i:s'),
             'resourceAreaHeaderContent' => 'Callsign',
             'resources' => $this->getResources(),
             'aspectRatio' => 1.2,
             'dayHeaders' => true,
             'timeZone' => config('panel.timezone'),
-            'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i'),
+            'views' => [
+                'resourceTimelineTenDay' => [
+                    'type' => 'resourceTimeline',
+                    'duration' => [
+                        'days' => 10
+                    ],
+                    'buttonText' => '10 days',
+                    'slotDuration' => '04:00'
+                ],
+                'resourceTimelineMonth' => [
+                    'type' => 'resourceTimeline',
+                    'duration' => [
+                        'days' => 30
+                    ],
+                    'buttonText' => 'month',
+                    'slotDuration' => '08:00'
+                ],
+            ],
             'headerToolbar' => [
                 'left' => 'prev,next',
                 'center' => 'title',
-                'right' => 'resourceTimelineDay,resourceTimelineWeek',
+                'right' => 'resourceTimelineDay,resourceTimelineTenDay,resourceTimelineMonth',
             ],
             'allDaySlot' => false,
             'slotMinTime' => $this->getSunrise(config('panel.latitude'), config('panel.longitude'), config('panel.timezone')),
@@ -48,7 +66,6 @@ class BookingsCalendar extends FullCalendarWidget
                 ]
             ],
             'displayEventTime' => false,
-            'firstDay' => 1,
             'eventTimeFormat' => [
                 'hour' => '2-digit',
                 'minute' => '2-digit',
@@ -118,6 +135,7 @@ class BookingsCalendar extends FullCalendarWidget
                     'url' => ReservationResource::getUrl('view', ['record' => $reservation->id]),
                 ]
             )->all();
+
     }
 
     private function getReservationTitle($id): \Illuminate\Support\Collection
