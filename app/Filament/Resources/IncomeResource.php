@@ -158,9 +158,14 @@ class IncomeResource extends Resource
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload(),
-                Tables\Filters\TrashedFilter::make()
+                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('current_year')
+                    ->label('Current Year')
+                    ->query(fn(Builder $query) => $query->whereYear('entry_date', now()->year)
+                    )
+                    ->default(true), // Setzt den Filter standardmäßig aktiv
             ])
-            ->persistFiltersInSession()
+            ->persistFiltersInSession(false)
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

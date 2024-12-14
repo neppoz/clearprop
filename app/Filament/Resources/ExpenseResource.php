@@ -90,6 +90,11 @@ class ExpenseResource extends Resource
             ->defaultSort('entry_date', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('current_year')
+                    ->label('Current Year')
+                    ->query(fn(Builder $query) => $query->whereYear('entry_date', now()->year)
+                    )
+                    ->default(true), // Setzt den Filter standardmäßig aktiv
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
