@@ -4,16 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Panel Language Lines
+    | Frasi del Pannello
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used on the filament panel for the custom
-    | messages. Modify these language lines according to your application's requirements.
+    | Le seguenti frasi sono utilizzate nel pannello di Filament per messaggi
+    | personalizzati. Modifica queste frasi in base ai requisiti della tua applicazione.
     |
     */
 
-    'totalAirtime' => 'Total Airtime',
-    'avgDuration' => 'Avg duration per Mission',
-    'loggedMissions' => 'Logged Missions',
+    'totalAirtime' => 'Tempo di volo totale',
+    'avgDuration' => 'Durata media per missione',
+    'loggedMissions' => 'Missioni registrate',
 
 ];
