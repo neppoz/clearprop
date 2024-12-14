@@ -111,8 +111,11 @@ class ManageEmail extends SettingsPage
                     try {
                         $this->refreshMailConfig();
 
-                        Mail::raw('This is a test email.', function ($message) use ($recipient) {
-                            $message->to($recipient)->subject('Test Email');
+                        $subject = __('email_config_confirmation.subject', ['appName' => config('app.name')]);
+
+                        Mail::send('emails.email_config_confirmation', [], function ($message) use ($recipient, $subject) {
+                            $message->to($recipient)
+                                ->subject($subject);
                         });
 
                         Notification::make()
