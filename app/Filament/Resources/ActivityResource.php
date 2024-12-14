@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ActivityStatus;
+use App\Filament\Resources\ActivityResource\CustomSummarizerMinutes;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\Widgets\ActivitiesAircraftChart;
 use App\Filament\Resources\ActivityResource\Widgets\ActivitiesTypeChart;
@@ -258,9 +259,8 @@ class ActivityResource extends Resource
                     ->suffix(' min.')
                     ->alignEnd()
                     ->summarize([
-                        Tables\Columns\Summarizers\Sum::make()
-                            ->label('')
-                            ->numeric('2', ',', '.')
+                        CustomSummarizerMinutes::make()
+                            ->label('Total Duration'),
                     ])
                     ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('amount')
@@ -271,6 +271,7 @@ class ActivityResource extends Resource
                         Tables\Columns\Summarizers\Sum::make()
                             ->label('')
                             ->numeric('2', ',', '.')
+                            ->suffix(' €')
                     ])
                     ->suffix(' €')
                     ->toggleable(isToggledHiddenByDefault: false),
