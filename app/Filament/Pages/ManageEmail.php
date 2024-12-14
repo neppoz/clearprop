@@ -113,7 +113,7 @@ class ManageEmail extends SettingsPage
 
                         $subject = __('email_config_confirmation.subject', ['appName' => config('app.name')]);
 
-                        Mail::send('emails.email_config_confirmation', [], function ($message) use ($recipient, $subject) {
+                        Mail::send('emails.settings.email_config_confirmation', [], function ($message) use ($recipient, $subject) {
                             $message->to($recipient)
                                 ->subject($subject);
                         });
@@ -139,6 +139,7 @@ class ManageEmail extends SettingsPage
                 })
                 ->icon('heroicon-o-paper-airplane')
                 ->color('primary')
+                ->outlined()
                 ->modalHeading('Enter Test Email Address')
                 ->modalSubmitActionLabel('Send Test Email')
                 ->form([
