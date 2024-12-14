@@ -193,12 +193,12 @@ class IncomeResource extends Resource
     {
         if (Auth::check() && Auth::user()->is_admin) {
             return [
-                PaymentOverview::class,
-                BalanceOverview::class
+//                PaymentOverview::class,
+//                BalanceOverview::class
             ];
         } else {
             return [
-                PaymentOverview::class,
+//                PaymentOverview::class,
             ];
         }
     }

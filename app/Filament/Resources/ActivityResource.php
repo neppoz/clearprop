@@ -493,8 +493,8 @@ class ActivityResource extends Resource
     {
         if (Auth::check() && Auth::user()->is_admin) {
             return [
-                ActivitiesTypeChart::class,
-                ActivitiesUserChart::class,
+//                ActivitiesTypeChart::class,
+//                ActivitiesUserChart::class,
             ];
         } else {
             return [];
