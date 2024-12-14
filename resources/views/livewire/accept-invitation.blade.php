@@ -3,8 +3,9 @@
         {{ $this->form }}
 
         <x-filament-panels::form.actions
-                :actions="$this->getCachedFormActions()"
+                :actions="$this->getFormActions()"
                 :full-width="true"
         />
+
     </x-filament-panels::form>
 </x-filament-panels::page.simple>
