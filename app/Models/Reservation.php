@@ -101,4 +101,10 @@ class Reservation extends Model
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
+    public function scopeRecentAndUpcoming($query): void
+    {
+        $query->where('reservation_start', '>=', now()->subDays(60));
+    }
+
+
 }
