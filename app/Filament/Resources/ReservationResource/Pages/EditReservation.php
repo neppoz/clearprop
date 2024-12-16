@@ -5,10 +5,12 @@ namespace App\Filament\Resources\ReservationResource\Pages;
 use App\Filament\Resources\ReservationResource;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Services\ReservationValidator;
 use Carbon\Carbon;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\Auth;
 
 class EditReservation extends EditRecord
@@ -25,6 +27,7 @@ class EditReservation extends EditRecord
 
         return $data;
     }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['reservation_start'] = $data['reservation_start_date'] . ' ' . $data['reservation_start_time'];
@@ -33,21 +36,23 @@ class EditReservation extends EditRecord
         return $data;
     }
 
+    /**
+     * @throws Halt
+     */
     protected function beforeSave(): void
     {
-        if (!Auth::user()->is_admin) {
-            if (ReservationResource::hasOverlappingReservation($this->data)) {
-                Notification::make()
-                    ->title('Reservation overlapping')
-                    ->body('This reservation overlaps with a previous reservation. Please select a different period.')
-                    ->danger() // Optionale Markierung, um die Nachricht als kritisch zu kennzeichnen
-                    ->send();
+        $data = $this->data;
 
-                // Speichervorgang abbrechen
-                $this->halt();
-            }
+        // Retrieve the selected user from form data
+        $selectedUser = User::find($data['user_id']);
+
+        // Validate all conditions for the selected user
+        if (!ReservationValidator::validateAll($data, $selectedUser)) {
+            $this->halt(); // Stop the process if validation fails and the current user is not an admin/manager
         }
     }
+
+
     public function getHeaderWidgets(): array
     {
         return ReservationResource::getWidgets();
