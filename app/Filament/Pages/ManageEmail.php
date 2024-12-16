@@ -41,16 +41,18 @@ class ManageEmail extends SettingsPage
                 ->helperText('Enter a valid hostname, e.g., smtp.example.com')
                 ->required(),
 
-            Forms\Components\TextInput::make('smtp_port')
+            Forms\Components\Radio::make('smtp_port')
                 ->label('SMTP Port')
-                ->numeric()
-                ->rule('in:25,465,587')
-                ->helperText('Allowed ports: 25, 465, 587')
-                ->required(),
+                ->options([
+                    587 => 'Port 587 (TLS)',
+                    2525 => 'Port 2525 (TLS)',
+                ])
+                ->default(587)
+                ->required()
+                ->helperText('Select the SMTP port to use'),
 
             Forms\Components\TextInput::make('smtp_username')
                 ->label('SMTP Username')
-                ->rule('email')
                 ->required(),
 
             Forms\Components\TextInput::make('smtp_password')
@@ -157,25 +159,13 @@ class ManageEmail extends SettingsPage
         $settings = app(\App\Settings\EmailSettings::class);
 
         $settings->smtp_host = $data['smtp_host'];
-        $settings->smtp_port = $data['smtp_port'];
-
-        if ($data['smtp_port'] == 587) {
-            $data['smtp_encryption'] = 'tls';
-        }
-        if ($data['smtp_port'] == 465) {
-            $data['smtp_encryption'] = 'ssl';
-        }
-        if ($data['smtp_port'] == 25) {
-            $data['smtp_encryption'] = 'null';
-        }
-        $settings->smtp_encryption = $data['smtp_encryption'];
-
+        $settings->smtp_port = (int)$data['smtp_port'];
+        $settings->smtp_encryption = 'tls';
         $settings->smtp_username = $data['smtp_username'];
         $settings->smtp_password = encrypt($data['smtp_password']);
         $settings->from_address = $data['from_address'];
         $settings->from_name = $data['from_name'];
         $settings->save();
-
         // Konfiguration neu laden
         $this->refreshMailConfig();
     }
