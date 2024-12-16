@@ -17,10 +17,6 @@ class PlaneUser extends Model
      */
     public $table = 'plane_user';
 
-    protected $casts = [
-        'status' => RatingStatus::class,
-    ];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +26,7 @@ class PlaneUser extends Model
         'user_id',
         'plane_id',
         'base_price_per_minute',
-        'rating_status',
+        'instructor_price_per_minute',
     ];
 
     /**
@@ -48,4 +44,23 @@ class PlaneUser extends Model
     {
         return $this->belongsTo(Plane::class);
     }
+
+    /**
+     * Fetches the base price per minute. Individual price takes precedence.
+     * If not set, the default price from the Plane model is used.
+     */
+    public function getBasePricePerMinute(): float
+    {
+        return $this->base_price_per_minute ?? $this->plane->default_price_per_minute;
+    }
+
+    /**
+     * Fetches the instructor price per minute. Individual price takes precedence.
+     * If not set, the default instructor price from the Plane model is used.
+     */
+    public function getInstructorPricePerMinute(): float
+    {
+        return $this->instructor_price_per_minute ?? $this->plane->instructor_price_per_minute;
+    }
+
 }

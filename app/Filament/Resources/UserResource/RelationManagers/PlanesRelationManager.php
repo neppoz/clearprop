@@ -24,17 +24,15 @@ class PlanesRelationManager extends RelationManager
                 Forms\Components\TextInput::make('callsign')
                     ->label('Callsign')
                     ->disabled(),
+
                 Forms\Components\TextInput::make('base_price_per_minute')
                     ->label('Base price')
                     ->numeric(2, ',', '.')
                     ->required(),
+
                 Forms\Components\TextInput::make('instructor_price_per_minute')
                     ->label('Instructor price')
                     ->numeric(2, ',', '.')
-                    ->required(),
-                Forms\Components\ToggleButtons::make('rating_status')
-                    ->inline()
-                    ->options(RatingStatus::class)
                     ->required(),
             ]);
     }
@@ -47,7 +45,6 @@ class PlanesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('callsign'),
                 Tables\Columns\TextColumn::make('base_price_per_minute'),
                 Tables\Columns\TextColumn::make('instructor_price_per_minute'),
-                Tables\Columns\TextColumn::make('rating_status')->badge(),
             ])
             ->filters([
                 //
@@ -64,10 +61,6 @@ class PlanesRelationManager extends RelationManager
                             ->label('Instructor price')
                             ->numeric(2, ',', '.')
                             ->required(),
-                        Forms\Components\ToggleButtons::make('rating_status')
-                            ->inline()
-                            ->options(RatingStatus::class)
-                            ->required(),
                     ])
             ])
             ->actions([
@@ -75,8 +68,6 @@ class PlanesRelationManager extends RelationManager
                 Tables\Actions\DetachAction::make(),
             ])
             ->groupedBulkActions([
-                //Tables\Actions\DetachBulkAction::make(),
-                //Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 }

@@ -34,6 +34,8 @@ class Plane extends Model
         'vendor',
         'model',
         'prodno',
+        'default_price_per_minute',
+        'instructor_price_per_minute',
         'counter_type',
         'warmup_type',
         'active',
@@ -55,6 +57,6 @@ class Plane extends Model
     public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class)
-            ->withPivot('base_price_per_minute', 'instructor_price_per_minute', 'rating_status');
+            ->withPivot('base_price_per_minute', 'instructor_price_per_minute');
     }
 }

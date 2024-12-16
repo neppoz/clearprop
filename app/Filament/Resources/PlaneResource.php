@@ -45,23 +45,43 @@ class PlaneResource extends Resource
                     ->autocapitalize('words')
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('vendor')
                     ->label('Vendor')
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('model')
                     ->label('Model')
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('prodno')
                     ->label('Production Number')
                     ->maxLength(255),
+
+                Forms\Components\TextInput::make('default_price_per_minute')
+                    ->label('Default Price per Minute')
+                    ->numeric()
+                    ->required()
+                    ->step(0.01)
+                    ->default(0),
+
+                Forms\Components\TextInput::make('instructor_price_per_minute')
+                    ->label('Default Instructor Price per Minute')
+                    ->numeric()
+                    ->required()
+                    ->step(0.01)
+                    ->default(0),
+
                 Forms\Components\Select::make('counter_type')
                     ->label('Counter Type')
                     ->options(Plane::COUNTER_TYPE_SELECT)
                     ->required(),
+
                 Forms\Components\Toggle::make('warmup_type')
                     ->label('Pilot paying')
                     ->hint('Select if the engine warmup has to be charged to the pilot'),
+
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
                     ->default(true),
@@ -73,31 +93,54 @@ class PlaneResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('callsign')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('vendor')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('model')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('prodno')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('counter_type')
                     ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('vendor')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('model')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('prodno')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('default_price_per_minute')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('instructor_price_per_minute')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('counter_type')
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\IconColumn::make('warmup_type')
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
