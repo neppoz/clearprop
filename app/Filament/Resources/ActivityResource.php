@@ -49,18 +49,23 @@ class ActivityResource extends Resource
                             ->required(),
                         Forms\Components\Select::make('plane_id')
                             ->label('Aircraft')
+                            ->preload()
                             ->native(false)
                             ->relationship('plane', 'callsign')
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
                         Forms\Components\Select::make('user_id')
                             ->label('Pilot')
+                            ->preload()
+                            ->native(false)
                             ->searchable()
                             ->options(User::all()->pluck('name', 'id'))
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
                             ->required(),
                         Forms\Components\Select::make('instructor_id')
                             ->label('Instructor')
+                            ->preload()
+                            ->native(false)
                             ->searchable()
                             ->options(User::instructors()->pluck('name', 'id'))
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set)),

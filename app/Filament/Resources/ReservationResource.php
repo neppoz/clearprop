@@ -55,6 +55,7 @@ class ReservationResource extends Resource
                 ->schema([
                     Select::make('plane_id')
                         ->label('')
+                        ->preload()
                         ->native(false)
                         ->relationship('plane', 'callsign', fn($query) => $query->where('active', true))
                         ->options(function ($record) {
@@ -112,6 +113,7 @@ class ReservationResource extends Resource
                         ->label('Pilot')
                         ->searchable()
                         ->preload()
+                        ->native(false)
                         ->options(User::all()->pluck('name', 'id'))
                         ->default(fn() => Auth::user()->is_member ? Auth::id() : null)
                         ->disabled(fn(): bool => Auth::user()->is_member)
@@ -122,6 +124,7 @@ class ReservationResource extends Resource
                         ->label('Instructor')
                         ->searchable()
                         ->preload()
+                        ->native(false)
                         ->options(User::instructors()->pluck('name', 'id'))
                         ->disabled(fn(): bool => Auth::user()->is_member)
                         ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
