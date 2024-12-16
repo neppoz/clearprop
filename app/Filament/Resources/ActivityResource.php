@@ -321,9 +321,19 @@ class ActivityResource extends Resource
 
                         return $indicators;
                     }),
+                Tables\Filters\SelectFilter::make('plane.callsign')
+                    ->label('Aircraft')
+                    ->relationship('plane', 'callsign')
+                    ->searchable()
+                    ->preload(),
                 Tables\Filters\SelectFilter::make('user.name')
                     ->label('PIC')
                     ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('instructor.name')
+                    ->label('Instructor')
+                    ->relationship('instructor', 'name')
                     ->searchable()
                     ->preload(),
                 Tables\Filters\TrashedFilter::make(),

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ActivityStatus;
-use App\Scopes\CurrentUserScope;
+use App\Scopes\RolesScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -62,11 +62,17 @@ class Activity extends Model
 
     protected static function booted(): void
     {
-        // Füge den Scope nur für nicht-Admin-Benutzer hinzu
-        if (Auth::check() && Auth::user()->is_member) {
-            static::addGlobalScope(new CurrentUserScope());
+        $user = auth()->user();
+
+        // Apply the scope only if the user is not an admin or manager
+        if (!$user->is_admin && !$user->is_manager) {
+            static::addGlobalScope(new RolesScope(
+                user: $user,
+//                status: 'active' // Optional status filter
+            ));
         }
     }
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

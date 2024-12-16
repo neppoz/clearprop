@@ -17,7 +17,7 @@ class ActivityPolicy
      */
     public function delete(User $user, Activity $activity): bool
     {
-        // Dieselbe Logik wie bei "update" anwenden
+        // Same logic as for "update"
         return $this->update($user, $activity);
     }
 
@@ -26,12 +26,10 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity): bool
     {
-        // Admin-Benutzer können alle Zahlungen bearbeiten
         if ($user->is_admin) {
             return true;
         }
 
-        // Member können nur ihre eigenen Activities bearbeiten, wenn der Status auf New steht
         if ($user->is_member) {
             return Activity::where('id', $activity->id)
                 ->where('user_id', auth()->id())
@@ -39,7 +37,15 @@ class ActivityPolicy
                 ->exists();
         }
 
-        return false; // Falls keine der Bedingungen zutrifft, Bearbeitungszugriff verweigern
+        if ($user->is_instructor) {
+            return Activity::where('id', $activity->id)
+                ->where('user_id', auth()->id())
+                ->orWhere('instructor_id', auth()->id())
+                ->where('status', ActivityStatus::New)
+                ->exists();
+        }
+
+        return false;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Scopes\CurrentUserScope;
+use App\Scopes\RolesScope;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;

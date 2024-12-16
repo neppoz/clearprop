@@ -16,7 +16,7 @@ class ReservationPolicy
      */
     public function delete(User $user, Reservation $reservation): bool
     {
-        // Dieselbe Logik wie bei "update" anwenden
+        // Same logic as for "update"
         return $this->update($user, $reservation);
     }
 
@@ -25,22 +25,29 @@ class ReservationPolicy
      */
     public function update(User $user, Reservation $reservation): bool
     {
-        // Admin-Benutzer können alle Reservierungen bearbeiten
         if ($user->is_admin) {
             return true;
         }
 
-        // Member können nur ihre eigenen Reservierungen bearbeiten
-        if ($user->roles->contains(User::IS_MEMBER)) {
-            return $reservation->bookingUsers()->where('user_id', $user->id)->exists();
+        // Check if the user is associated with the reservation
+        if ($user->is_member) {
+            return $this->isUserAssociatedWithReservation($user, $reservation, 'bookingUsers');
         }
 
-        // Instructors können nur jene Reservierungen bearbeiten, denen sie als Instructor zugeordnet sind
-        if ($user->roles->contains(User::IS_INSTRUCTOR)) {
-            return $reservation->bookingInstructors()->where('user_id', $user->id)->exists();
+        if ($user->is_instructor) {
+            return $this->isUserAssociatedWithReservation($user, $reservation, 'bookingInstructors');
         }
 
-        return false; // Falls keine der Bedingungen zutrifft, Bearbeitungszugriff verweigern
+        return false;
+    }
+
+    protected function isUserAssociatedWithReservation(User $user, Reservation $reservation, string $relation): bool
+    {
+        if (!method_exists($reservation, $relation)) {
+            return false; // Avoid errors if the relation doesn't exist
+        }
+
+        return $reservation->{$relation}()->where('user_id', $user->id)->exists();
     }
 
     /**

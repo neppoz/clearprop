@@ -16,6 +16,13 @@ use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @property-read bool $is_admin
+ * @property-read bool $is_member
+ * @property-read bool $is_manager
+ * @property-read bool $is_instructor
+ * @property-read bool $is_mechanic
+ */
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -81,6 +88,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasRole(self::IS_ADMIN);
     }
 
+    public function getIsMemberAttribute(): bool
+    {
+        return $this->hasRole(self::IS_MEMBER);
+    }
+
     public function getIsManagerAttribute(): bool
     {
         return $this->hasRole(self::IS_MANAGER);
@@ -94,11 +106,6 @@ class User extends Authenticatable implements FilamentUser
     public function getIsMechanicAttribute(): bool
     {
         return $this->hasRole(self::IS_MECHANIC);
-    }
-
-    public function getIsMemberAttribute(): bool
-    {
-        return $this->hasRole(self::IS_MEMBER);
     }
 
     public function userActivities(): \Illuminate\Database\Eloquent\Relations\HasMany

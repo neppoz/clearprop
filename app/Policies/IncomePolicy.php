@@ -12,25 +12,45 @@ class IncomePolicy
     use HandlesAuthorization;
 
     /**
+     * Determine if the user can view the income record.
+     */
+    public function view(User $user, Income $income): bool
+    {
+        // Users can view if they are the owner (user_id matches)
+        return $income->user_id === $user->id;
+    }
+
+    /**
+     * Determine whether the user can create records.
+     */
+    public function create(User $user): bool
+    {
+        if ($user->is_admin || $user->is_manager) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, Income $income): bool
     {
-        // Dieselbe Logik wie bei "update" anwenden
+        // Same logic as for "update"
         return $this->update($user, $income);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Income $income): bool
+    public function update(User $user): bool
     {
-        // Admin-Benutzer können alle Zahlungen bearbeiten
         if ($user->is_admin) {
             return true;
         }
 
-        return false; // Falls keine der Bedingungen zutrifft, Bearbeitungszugriff verweigern
+        return false;
     }
 
     /**
