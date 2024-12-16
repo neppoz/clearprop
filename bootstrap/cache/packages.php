@@ -114,14 +114,14 @@
   ),
     'laravel/horizon' =>
   array (
-      'providers' =>
-    array (
-      0 => 'Laravel\\Horizon\\HorizonServiceProvider',
-    ),
       'aliases' =>
     array (
       'Horizon' => 'Laravel\\Horizon\\Horizon',
     ),
+      'providers' =>
+          array(
+              0 => 'Laravel\\Horizon\\HorizonServiceProvider',
+          ),
   ),
     'laravel/tinker' =>
   array (
@@ -226,14 +226,14 @@
   ),
     'spatie/laravel-ignition' =>
   array (
-      'providers' =>
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
       'aliases' =>
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
     ),
+      'providers' =>
+          array(
+              0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+          ),
   ),
     'spatie/laravel-permission' =>
         array(
