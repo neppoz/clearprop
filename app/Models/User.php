@@ -153,7 +153,7 @@ class User extends Authenticatable implements FilamentUser
     public function planes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Plane::class)
-            ->withPivot('base_price_per_minute', 'instructor_price_per_minute', 'rating_status');
+            ->withPivot('base_price_per_minute', 'instructor_price_per_minute');
     }
 
 }

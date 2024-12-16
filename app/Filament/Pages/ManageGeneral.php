@@ -36,8 +36,8 @@ class ManageGeneral extends SettingsPage
                     ->schema([
                         Forms\Components\Checkbox::make('check_medical')
                             ->label('Check medical validity'),
-                        Forms\Components\Checkbox::make('check_ratings')
-                            ->label('Check aircraft ratings'),
+//                        Forms\Components\Checkbox::make('check_ratings')
+//                            ->label('Check aircraft ratings'),
                     ]),
 
                 Forms\Components\Fieldset::make('')
