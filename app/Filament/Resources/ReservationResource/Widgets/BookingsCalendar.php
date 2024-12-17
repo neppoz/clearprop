@@ -13,65 +13,85 @@ use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 class BookingsCalendar extends FullCalendarWidget
 {
     protected static ?int $sort = 3;
-
     public Model|string|null $model = Reservation::class;
+
     public function config(): array
     {
         return [
-            'initialView' => 'resourceTimelineTenDay',
-            'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i:s'),
-            'resourceAreaHeaderContent' => 'Callsign',
-            'resources' => $this->getResources(),
-            'aspectRatio' => 1.2,
-            'dayHeaders' => true,
-            'timeZone' => config('panel.timezone'),
+            'initialView' => 'resourceTimelineTenDay', // Default timeline view
+            'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i:s'), // Default scroll time
+            'resourceAreaHeaderContent' => 'Callsign', // Resource header title
+            'resources' => $this->getResources(), // Resource data for timeline
+            'aspectRatio' => 1.2, // Calendar aspect ratio
+            'dayHeaders' => true, // Display day headers in the calendar
+            'timeZone' => config('panel.timezone'), // Use application timezone
             'views' => [
                 'resourceTimelineTenDay' => [
                     'type' => 'resourceTimeline',
-                    'duration' => [
-                        'days' => 10
-                    ],
+                    'duration' => ['days' => 10], // 10-day duration
                     'buttonText' => '10 days',
-                    'slotDuration' => '04:00'
+                    'slotDuration' => '01:00', // Slots of 1 hour
                 ],
                 'resourceTimelineMonth' => [
                     'type' => 'resourceTimeline',
-                    'duration' => [
-                        'days' => 30
-                    ],
-                    'buttonText' => 'month',
-                    'slotDuration' => '08:00'
+                    'duration' => ['days' => 30], // 30-day duration
+                    'buttonText' => 'Month',
+                    'slotDuration' => '04:00', // Slots of 4 hours
                 ],
             ],
             'headerToolbar' => [
-                'left' => 'prev,next',
-                'center' => 'title',
-                'right' => 'resourceTimelineDay,resourceTimelineTenDay,resourceTimelineMonth',
+                'left' => 'prev,next', // Navigation buttons
+                'center' => 'title',   // Centered calendar title
+                'right' => 'resourceTimelineDay,resourceTimelineTenDay,resourceTimelineMonth', // View options
             ],
-            'allDaySlot' => false,
-            'slotMinTime' => $this->getSunrise(config('panel.latitude'), config('panel.longitude'), config('panel.timezone')),
-            'slotMaxTime' => $this->getSunset(config('panel.latitude'), config('panel.longitude'), config('panel.timezone')),
-            'height' => "auto",
+            'allDaySlot' => false, // Disable all-day slot
+            'height' => "auto", // Automatically adjust calendar height
             'slotLabelFormat' => [
                 [
-                    'weekday' => 'short',
-                    'month' => '2-digit',
-                    'day' => '2-digit',
-                    'omitCommas' => true,
+                    'weekday' => 'short', // Abbreviated weekday name
+                    'month' => '2-digit', // Two-digit month
+                    'day' => '2-digit',   // Two-digit day
+                    'omitCommas' => true, // Remove commas in formatting
                 ],
                 [
-                    'hour' => '2-digit',
-                    'minute' => '2-digit',
-                    'hour12' => false,
+                    'hour' => '2-digit',  // Two-digit hour
+                    'minute' => '2-digit', // Two-digit minutes
+                    'hour12' => false,     // 24-hour format
                 ]
             ],
-            'displayEventTime' => false,
+            'displayEventTime' => false, // Hide event time in the display
             'eventTimeFormat' => [
                 'hour' => '2-digit',
                 'minute' => '2-digit',
-                'hour12' => false,
-            ]
+                'hour12' => false, // Use 24-hour format
+            ],
+            'eventDisplay' => 'block', // Display events as full blocks
         ];
+    }
+
+
+    /**
+     * FullCalendar will call this function whenever it needs new event data.
+     * This is triggered when the user clicks prev/next or switches views on the calendar.
+     */
+    public function fetchEvents(array $info): array
+    {
+        return Reservation::query()
+            ->where(function ($query) use ($info) {
+                $query->where('reservation_start', '<', $info['end'])
+                    ->where('reservation_stop', '>', $info['start']);
+            })
+            ->get()
+            ->map(fn(Reservation $reservation) => [
+                'resourceId' => $reservation->plane_id,
+                'title' => $this->getReservationTitle($reservation->id),
+                'description' => $reservation->description,
+                'start' => $reservation->reservation_start,
+                'end' => $reservation->reservation_stop,
+                'color' => $this->getBookingColor($reservation->mode_id),
+                'url' => ReservationResource::getUrl('view', ['record' => $reservation->id]),
+            ])
+            ->all();
     }
 
     private function getResources(): array
@@ -112,30 +132,6 @@ class BookingsCalendar extends FullCalendarWidget
     public function resolveEventRecord(array $data): Reservation
     {
         return Reservation::find($data['id']);
-    }
-
-    /**
-     * FullCalendar will call this function whenever it needs new event data.
-     * This is triggered when the user clicks prev/next or switches views on the calendar.
-     */
-    public function fetchEvents(array $info): array
-    {
-        return Reservation::query()
-            ->where('reservation_start', '>=', $info['start'])
-            ->where('reservation_stop', '<=', $info['end'])
-            ->get()
-            ->map(
-                fn(Reservation $reservation) => [
-                    'resourceId' => $reservation->plane_id,
-                    'title' => $this->getReservationTitle($reservation->id),
-                    'description' => $reservation->description,
-                    'start' => $reservation->reservation_start,
-                    'end' => $reservation->reservation_stop,
-                    'color' => $this->getBookingColor($reservation->mode_id),
-                    'url' => ReservationResource::getUrl('view', ['record' => $reservation->id]),
-                ]
-            )->all();
-
     }
 
     private function getReservationTitle($id): \Illuminate\Support\Collection

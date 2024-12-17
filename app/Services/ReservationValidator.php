@@ -74,8 +74,7 @@ class ReservationValidator
      * Validates all conditions for creating or editing a reservation.
      *
      * @param array $data
-     * @param User $user
-     * @param bool $isEdit
+     * @param User $selectedUser
      * @return bool
      */
     public static function validateAll(array $data, User $selectedUser): bool
@@ -163,6 +162,7 @@ class ReservationValidator
     {
         $settings = app(GeneralSettings::class);
         $activityLimitDays = $settings->check_activities_limit_days ?? 90;
+
         $planeId = $data['plane_id'];
         $reservationStartDate = Carbon::parse($data['reservation_start_date']);
 
@@ -172,16 +172,22 @@ class ReservationValidator
             ->orderByDesc('event')
             ->first();
 
-        // If no activity is found, the airworthiness is considered invalid
+        // If no activity is found, return false (validation fails)
         if (!$lastActivity) {
-            return true;
+            return false; // No valid activity -> fails validation
         }
 
-        // Calculate the difference in days between the last activity and the reservation start date
-        $daysSinceLastActivity = $reservationStartDate->diffInDays(Carbon::parse($lastActivity->event));
+        $lastActivityDate = Carbon::parse($lastActivity->event);
 
-        // Return true if no activity found or the difference exceeds the allowed limit
-        return $daysSinceLastActivity > $activityLimitDays;
+        // If last activity is before the reservation start date, check the days difference
+        if ($lastActivityDate->lessThan($reservationStartDate)) {
+            $daysSinceLastActivity = $lastActivityDate->diffInDays($reservationStartDate);
+
+            return $daysSinceLastActivity <= $activityLimitDays; // true = valid, false = fails validation
+        }
+
+        // If the last activity is after or equal to the reservation start date, airworthiness is valid
+        return true;
     }
 
 

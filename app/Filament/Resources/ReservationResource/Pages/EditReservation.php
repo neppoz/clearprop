@@ -42,7 +42,7 @@ class EditReservation extends EditRecord
     protected function beforeSave(): void
     {
         $data = $this->data;
-
+        \Log::debug('user_id:', ['user_id' => $data['user_id']]);
         // Retrieve the selected user from form data
         $selectedUser = User::find($data['user_id']);
 
