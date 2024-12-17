@@ -161,6 +161,11 @@ class ReservationValidator
     public static function isAirworthinessExpired(array $data, User $user): bool
     {
         $settings = app(GeneralSettings::class);
+
+        if (!($settings->check_activities ?? false)) {
+            return true;
+        }
+
         $activityLimitDays = $settings->check_activities_limit_days ?? 90;
 
         $planeId = $data['plane_id'];
