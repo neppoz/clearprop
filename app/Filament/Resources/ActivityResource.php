@@ -46,7 +46,8 @@ class ActivityResource extends Resource
                     ->schema([
                         Forms\Components\DatePicker::make('event')
                             ->label('Date')
-                            ->native(false)
+                            ->native(true)
+                            ->reactive()
                             ->required(),
 
                         Forms\Components\Select::make('plane_id')
@@ -54,7 +55,7 @@ class ActivityResource extends Resource
                             ->preload()
                             ->native(false)
                             ->relationship('plane', 'callsign')
-                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(),
 
                         Forms\Components\Select::make('user_id')
@@ -63,7 +64,7 @@ class ActivityResource extends Resource
                             ->native(false)
                             ->searchable()
                             ->options(User::all()->pluck('name', 'id'))
-                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(),
 
                         Forms\Components\Select::make('instructor_id')
@@ -72,7 +73,7 @@ class ActivityResource extends Resource
                             ->native(false)
                             ->searchable()
                             ->options(User::instructors()->pluck('name', 'id'))
-                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calculateMinutesAndCosts($get, $set)),
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set)),
                     ])
                     ->columns(2),
                 Forms\Components\Section::make('Trip Info')
@@ -87,7 +88,9 @@ class ActivityResource extends Resource
                             ->label('Engine On')
                             ->seconds(false)
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calculateMinutesAndCosts($get, $set))
+                            ->native(true)
+                            ->reactive()
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredEventTime($get)),
 
                         Forms\Components\TextInput::make('arrival')
@@ -97,8 +100,10 @@ class ActivityResource extends Resource
                         Forms\Components\TimePicker::make('event_stop')
                             ->label('Engine Off')
                             ->seconds(false)
+                            ->native(true)
+                            ->reactive()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => self::calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredEventTime($get)),
                     ])
                     ->columns(2)
@@ -111,14 +116,14 @@ class ActivityResource extends Resource
                         Forms\Components\Toggle::make('engine_warmup')
                             ->inline(false)
                             ->default(false)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->live(onBlur: true),
 
                         Forms\Components\TextInput::make('warmup_start')
                             ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => $get('engine_warmup'))
                             ->disabled(fn(Get $get): bool => !$get('engine_warmup')),
 
@@ -134,14 +139,14 @@ class ActivityResource extends Resource
                             ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredCounter($get)),
 
                         Forms\Components\TextInput::make('counter_stop')
                             ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource)->calculateMinutesAndCosts($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredCounter($get)),
                     ])
                     ->columns(3)
@@ -317,8 +322,12 @@ class ActivityResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('event')
                     ->form([
-                        Forms\Components\DatePicker::make('event_from'),
-                        Forms\Components\DatePicker::make('event_until'),
+                        Forms\Components\DatePicker::make('event_from')
+                            ->native(true)
+                            ->reactive(),
+                        Forms\Components\DatePicker::make('event_until')
+                            ->native(true)
+                            ->reactive(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -424,7 +433,7 @@ class ActivityResource extends Resource
                     $set('warmup_minutes', $warmup_minutes);
                     $minutes = Carbon::parse($selectedEngineOn)->diffInMinutes(Carbon::parse($selectedEngineOff));
                     $set('minutes', $minutes);
-                    self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+                    (new static())->calculateAmount($get, $set);
                 }
             }
 
@@ -447,7 +456,7 @@ class ActivityResource extends Resource
                         $set('minutes', $minutes);
 
                     }
-                    self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+                    (new static())->calculateAmount($get, $set);
                 }
                 /** Calculate minutes with warmup */
                 if (!empty($selectedCounterStart && $selectedCounterStop && $selectedPlaneId && $selectedUserId && $selectedWarmupCounter)) {
@@ -473,46 +482,67 @@ class ActivityResource extends Resource
                         $set('minutes', $minutes);
 
                     }
-                    self::calculateAmount($get, $set, $user, $plane, $minutes, $warmup_minutes);
+                    (new static())->calculateAmount($get, $set);
                 }
             }
         }
     }
 
-    protected static function calculateAmount(Get $get, Set $set): void
+    protected function calculateAmount(Get $get, Set $set): void
     {
+        // Retrieve input values from the form using Filament's Get method
         $planeId = $get('plane_id');
         $userId = $get('user_id');
-        $instructorId = $get('instructor_id');
-        $minutes = $get('minutes') ?? 0;
-        $warmupMinutes = $get('warmup_minutes') ?? 0;
+        $instructorId = $get('instructor_id'); // Selected instructor in the form
+        $minutes = $get('minutes') ?? 0; // Default to 0 if minutes are not provided
+        $warmupMinutes = $get('warmup_minutes') ?? 0; // Default to 0 if warmup minutes are not provided
 
-        if ($planeId && $userId) {
+        // Ensure the plane ID is provided
+        if ($planeId) {
+            // Fetch the Plane model based on the provided ID
             $plane = Plane::find($planeId);
-            $planeUser = PlaneUser::where('plane_id', $planeId)->where('user_id', $userId)->first();
 
-            // Get the base price per minute, either individual or standard.
-            $basePrice = $planeUser?->getBasePricePerMinute() ?? $plane->default_price_per_minute;
+            // If the plane does not exist, set default values and exit early
+            if (!$plane) {
+                $set('base_price_per_minute', 0);
+                $set('instructor_price_per_minute', 0);
+                $set('amount', 0);
+                return;
+            }
 
-            // Get the instructor price per minute, either individual or standard.
-            $instructorPrice = $planeUser?->getInstructorPricePerMinute() ?? $plane->instructor_price_per_minute;
+            // Default prices from the Plane model
+            $basePrice = $plane->default_price_per_minute;
+            $instructorPrice = 0; // Initialize instructor price to 0 by default
 
-            // Update the form fields with the calculated prices.
+            // Fetch PlaneUser-specific pricing for the user
+            if ($userId) {
+                $planeUser = PlaneUser::where('plane_id', $planeId)
+                    ->where('user_id', $userId)
+                    ->first();
+
+                // Use the PlaneUser model method to get the base price
+                $basePrice = $planeUser?->getBasePricePerMinute() ?? $basePrice;
+
+                // If an instructor is selected, fetch instructor price for the user
+                if ($instructorId) {
+                    $instructorPrice = $planeUser?->getInstructorPricePerMinute() ?? $plane->instructor_price_per_minute;
+                }
+            }
+
+            // Update the form fields with the calculated prices
             $set('base_price_per_minute', $basePrice);
             $set('instructor_price_per_minute', $instructorPrice);
 
-            // Calculate the total amount based on warmup type.
-            if ($plane->warmup_type == 0) {
-                $totalAmount = round(($basePrice + $instructorPrice) * $minutes, 2);
-            } else {
-                $totalAmount = round(($basePrice + $instructorPrice) * ($minutes + $warmupMinutes), 2);
-            }
+            // Calculate total time in minutes, including warmup minutes if applicable
+            $totalMinutes = $plane->warmup_type == 0 ? $minutes : $minutes + $warmupMinutes;
 
-            // Set the total amount.
+            // Calculate the total amount: include instructor price only if selected
+            $totalAmount = round(($basePrice + $instructorPrice) * $totalMinutes, 2);
+
+            // Update the form field with the total amount
             $set('amount', $totalAmount);
         }
     }
-
 
     public static function getRelations(): array
     {

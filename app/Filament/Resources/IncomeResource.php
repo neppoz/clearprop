@@ -40,7 +40,8 @@ class IncomeResource extends Resource
             ->schema([
                 Forms\Components\DatePicker::make('entry_date')
                     ->label('Date')
-                    ->native(false)
+                    ->native(true)
+                    ->reactive()
                     ->date('d/m/Y')
                     ->required(),
                 Forms\Components\Select::make('user_id')
@@ -130,8 +131,12 @@ class IncomeResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('entry_date')
                     ->form([
-                        Forms\Components\DatePicker::make('entry_date_from'),
-                        Forms\Components\DatePicker::make('entry_date_until'),
+                        Forms\Components\DatePicker::make('entry_date_from')
+                            ->native(true)
+                            ->reactive(),
+                        Forms\Components\DatePicker::make('entry_date_until')
+                            ->native(true)
+                            ->reactive(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

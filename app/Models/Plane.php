@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property-read float $default_price_per_minute
+ * @property-read float $instructor_price_per_minute
+ */
+
 class Plane extends Model
 {
     use SoftDeletes;

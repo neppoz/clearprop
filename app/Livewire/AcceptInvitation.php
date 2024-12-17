@@ -65,7 +65,9 @@ class AcceptInvitation extends SimplePage
                     ->dehydrated(false),
 
                 DatePicker::make('medical_due')
-                    ->label('Due date medical'),
+                    ->label('Due date medical')
+                    ->native(true)
+                    ->reactive(),
 
                 TextInput::make('phone_1')
                     ->label('Mobile')

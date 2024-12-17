@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PlaneUser extends Model
 {
-    use SoftDeletes;
 
     /**
      * The table associated with the model.
