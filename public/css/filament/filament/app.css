@@ -4348,8 +4348,9 @@ select {
     -webkit-text-fill-color: rgba(var(--gray-400), 1)
 }
 
-.disabled\:checked\:bg-current:checked:disabled {
-    background-color: currentColor
+.disabled\:checked\:bg-gray-400:checked:disabled {
+    --tw-bg-opacity: 1;
+    background-color: rgba(var(--gray-400), var(--tw-bg-opacity, 1))
 }
 
 .disabled\:checked\:text-gray-400:checked:disabled {

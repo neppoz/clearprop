@@ -9,7 +9,6 @@ use Filament\Actions;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -32,6 +31,7 @@ class ListUsers extends ListRecords
                         ->required(),
                 ])
                 ->before(function () {
+                    // Validate if email settings are properly configured
                     $settings = app(EmailSettings::class);
 
                     if (
@@ -53,28 +53,53 @@ class ListUsers extends ListRecords
                     return true;
                 })
                 ->action(function ($data) {
+                    // Check if the email already exists in the users table, including soft-deleted users
+                    $existingUser = \App\Models\User::withTrashed()->where('email', $data['email'])->first();
+
+                    if ($existingUser) {
+                        $message = $existingUser->trashed()
+                            ? 'A user with this email already exists but has been deleted.'
+                            : 'A user with this email already exists.';
+
+                        Notification::make()
+                            ->title('Invitation Error')
+                            ->body($message)
+                            ->danger()
+                            ->send();
+
+                        return; // Stop further execution if the email exists
+                    }
+
+                    // Try to send the invitation
                     try {
                         $invitation = Invitation::create(['email' => $data['email']]);
                         $acceptUrl = URL::signedRoute('invitation.accept', ['invitation' => $invitation]);
 
                         $subject = __('team_invitation.subject', ['appName' => config('app.name')]);
 
-                        Mail::send('emails.users.team_invitation', ['acceptUrl' => $acceptUrl, 'appName' => config('app.name')], function ($message) use ($invitation, $subject) {
+                        // Send the invitation email
+                        Mail::send('emails.users.team_invitation', [
+                            'acceptUrl' => $acceptUrl,
+                            'appName' => config('app.name'),
+                        ], function ($message) use ($invitation, $subject) {
                             $message->to($invitation->email)
                                 ->subject($subject);
                         });
 
-
+                        // Show success notification
                         Notification::make('invitedSuccess')
                             ->body('User invited successfully!')
-                            ->success()->send();
+                            ->success()
+                            ->send();
                     } catch (\Symfony\Component\Mailer\Exception\TransportExceptionInterface $e) {
+                        // Handle email sending failure
                         Notification::make()
                             ->title('Email sending failed')
                             ->body('There was an error sending the email. Please check your email configuration.')
                             ->danger()
                             ->send();
                     } catch (\Exception $e) {
+                        // Handle unexpected errors
                         Notification::make()
                             ->title('Unexpected error')
                             ->body('An unexpected error occurred while sending the email. Please try again later.')
@@ -82,6 +107,7 @@ class ListUsers extends ListRecords
                             ->send();
                     }
                 }),
+
         ];
     }
 }

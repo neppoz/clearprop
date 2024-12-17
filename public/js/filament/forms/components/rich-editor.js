@@ -297,10 +297,6 @@ var go = "2.1.10", wt = "[data-trix-attachment]",
         return t[2] != null ? e.toMethod = t[1] : e.toProperty = t[1], t[3] != null && (e.optional = !0), e
     }, {apply: $i} = Function.prototype, vo = new RegExp("^(.+?)(\\(\\))?(\\?)?\\.(.+?)$"), Rn, Tn, wn,
     Ot = class extends R {
-        constructor(t, e) {
-            super(...arguments), this.ucs2String = t, this.codepoints = e, this.length = this.codepoints.length, this.ucs2Length = this.ucs2String.length
-        }
-
         static box() {
             let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "";
             return t instanceof this ? t : this.fromUCS2String(t?.toString())
@@ -312,6 +308,10 @@ var go = "2.1.10", wt = "[data-trix-attachment]",
 
         static fromCodepoints(t) {
             return new this(Xn(t), t)
+        }
+
+        constructor(t, e) {
+            super(...arguments), this.ucs2String = t, this.codepoints = e, this.length = this.codepoints.length, this.ucs2Length = this.ucs2String.length
         }
 
         offsetToUCS2Offset(t) {
@@ -370,12 +370,12 @@ $n = Ao && yo ? i => Array.from(i).map(t => t.codePointAt(0)) : function (i) {
     })().join("")
 };
 var Co = 0, dt = class extends R {
-        constructor() {
-            super(...arguments), this.id = ++Co
-        }
-
         static fromJSONString(t) {
             return this.fromJSON(JSON.parse(t))
+        }
+
+        constructor() {
+            super(...arguments), this.id = ++Co
         }
 
         hasSameConstructorAs(t) {
@@ -556,11 +556,6 @@ var Co = 0, dt = class extends R {
         for (; n > e + 1 && i.charAt(n - 1).isEqualTo(t.charAt(r - 1));) n--, r--;
         return {utf16String: i.slice(e, n), offset: e}
     }, U = class extends dt {
-        constructor() {
-            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-            super(...arguments), this.values = Be(t)
-        }
-
         static fromCommonAttributesOfObjects() {
             let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
             if (!t.length) return new this;
@@ -572,6 +567,11 @@ var Co = 0, dt = class extends R {
 
         static box(t) {
             return re(t)
+        }
+
+        constructor() {
+            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+            super(...arguments), this.values = Be(t)
         }
 
         add(t, e) {
@@ -660,17 +660,6 @@ var Co = 0, dt = class extends R {
     }, Io = function (i) {
         return i instanceof U ? i.values : i
     }, fe = class {
-        constructor() {
-            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [], {
-                depth: e,
-                asTree: n
-            } = arguments.length > 1 ? arguments[1] : void 0;
-            this.objects = t, n && (this.depth = e, this.objects = this.constructor.groupObjects(this.objects, {
-                asTree: n,
-                depth: this.depth + 1
-            }))
-        }
-
         static groupObjects() {
             let t, e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [], {
                 depth: n,
@@ -687,6 +676,17 @@ var Co = 0, dt = class extends R {
                 }
                 (l = s.canBeGrouped) !== null && l !== void 0 && l.call(s, n) ? t = [s] : o.push(s)
             }), t && o.push(new this(t, {depth: n, asTree: r})), o
+        }
+
+        constructor() {
+            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [], {
+                depth: e,
+                asTree: n
+            } = arguments.length > 1 ? arguments[1] : void 0;
+            this.objects = t, n && (this.depth = e, this.objects = this.constructor.groupObjects(this.objects, {
+                asTree: n,
+                depth: this.depth + 1
+            }))
         }
 
         getObjects() {
@@ -1264,15 +1264,6 @@ var ar = V(["a", "abbr", "acronym", "address", "area", "article", "aside", "audi
         }, e
     }(), ns = "style href src width height language class".split(" "), is = "javascript:".split(" "),
     rs = "script iframe form noscript".split(" "), Kt = class extends R {
-        constructor(t) {
-            let {
-                allowedAttributes: e,
-                forbiddenProtocols: n,
-                forbiddenElements: r
-            } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-            super(...arguments), this.allowedAttributes = e || ns, this.forbiddenProtocols = n || is, this.forbiddenElements = r || rs, this.body = os(t)
-        }
-
         static setHTML(t, e) {
             let n = new this(e).sanitize(), r = n.getHTML ? n.getHTML() : n.outerHTML;
             t.innerHTML = r
@@ -1281,6 +1272,15 @@ var ar = V(["a", "abbr", "acronym", "address", "area", "article", "aside", "audi
         static sanitize(t, e) {
             let n = new this(t, e);
             return n.sanitize(), n
+        }
+
+        constructor(t) {
+            let {
+                allowedAttributes: e,
+                forbiddenProtocols: n,
+                forbiddenElements: r
+            } = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+            super(...arguments), this.allowedAttributes = e || ns, this.forbiddenProtocols = n || is, this.forbiddenElements = r || rs, this.body = os(t)
         }
 
         sanitize() {
@@ -1600,13 +1600,13 @@ var ar = V(["a", "abbr", "acronym", "address", "area", "article", "aside", "audi
             return /\n\n$/.test(this.block.toString())
         }
     }, Gt = class extends gt {
-        constructor() {
-            super(...arguments), this.element = this.options.element, this.elementStore = new ni, this.setDocument(this.object)
-        }
-
         static render(t) {
             let e = p("div"), n = new this(t, {element: e});
             return n.render(), n.sync(), e
+        }
+
+        constructor() {
+            super(...arguments), this.element = this.options.element, this.elementStore = new ni, this.setDocument(this.object)
         }
 
         setDocument(t) {
@@ -1767,11 +1767,6 @@ function pe(i, t, e) {
 }
 
 var mt = class extends dt {
-    constructor(t) {
-        let e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        super(...arguments), this.attributes = U.box(e)
-    }
-
     static registerType(t, e) {
         e.type = t, this.types[t] = e
     }
@@ -1779,6 +1774,11 @@ var mt = class extends dt {
     static fromJSON(t) {
         let e = this.types[t.type];
         if (e) return e.fromJSON(t)
+    }
+
+    constructor(t) {
+        let e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+        super(...arguments), this.attributes = U.box(e)
     }
 
     copyWithAttributes(t) {
@@ -1872,11 +1872,6 @@ var Je = class extends Jt {
         e.onload = () => (e.width = this.width = e.naturalWidth, e.height = this.height = e.naturalHeight, t(!0, e)), e.onerror = () => t(!1), e.src = this.url
     }
 }, yt = class extends dt {
-    constructor() {
-        let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-        super(t), this.releaseFile = this.releaseFile.bind(this), this.attributes = U.box(t), this.didChangeAttributes()
-    }
-
     static attachmentForFile(t) {
         let e = new this(this.attributesForFile(t));
         return e.setFile(t), e
@@ -1888,6 +1883,11 @@ var Je = class extends Jt {
 
     static fromJSON(t) {
         return new this(t)
+    }
+
+    constructor() {
+        let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+        super(t), this.releaseFile = this.releaseFile.bind(this), this.attributes = U.box(t), this.didChangeAttributes()
     }
 
     getAttribute(t) {
@@ -2032,12 +2032,12 @@ var Je = class extends Jt {
 };
 H(yt, "previewablePattern", /^image(\/(gif|png|webp|jpe?g)|$)/);
 var xt = class extends mt {
-    constructor(t) {
-        super(...arguments), this.attachment = t, this.length = 1, this.ensureAttachmentExclusivelyHasAttribute("href"), this.attachment.hasContent() || this.removeProhibitedAttributes()
-    }
-
     static fromJSON(t) {
         return new this(yt.fromJSON(t.attachment), t.attributes)
+    }
+
+    constructor(t) {
+        super(...arguments), this.attachment = t, this.length = 1, this.ensureAttachmentExclusivelyHasAttribute("href"), this.attachment.hasContent() || this.removeProhibitedAttributes()
     }
 
     ensureAttachmentExclusivelyHasAttribute(t) {
@@ -2085,14 +2085,25 @@ var xt = class extends mt {
 };
 H(xt, "permittedAttributes", ["caption", "presentation"]), mt.registerType("attachment", xt);
 var ve = class extends mt {
-constructor(t) {
+    constructor(t) {
         super(...arguments), this.string = (e => e.replace(/\r\n?/g, `
-`))(t),this.length=this.string.length}
+`))(t), this.length = this.string.length
+    }
 
-        static fromJSON(t) {
+    static fromJSON(t) {
         return new this(t.string, t.attributes)
-    }getValue(){return this.string}toString(){return this.string.toString()}
-isBlockBreak(){return this.toString()===`
+    }
+
+    getValue() {
+        return this.string
+    }
+
+    toString() {
+        return this.string.toString()
+    }
+
+    isBlockBreak() {
+        return this.toString() === `
 ` && this.getAttribute("blockBreak") === !0
     }
 
@@ -2121,13 +2132,13 @@ isBlockBreak(){return this.toString()===`
 };
 mt.registerType("string", ve);
 var Yt = class extends dt {
+        static box(t) {
+            return t instanceof this ? t : new this(t)
+        }
+
         constructor() {
             let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
             super(...arguments), this.objects = t.slice(0), this.length = this.objects.length
-        }
-
-        static box(t) {
-            return t instanceof this ? t : new this(t)
         }
 
         indexOf(t) {
@@ -2279,13 +2290,6 @@ var Yt = class extends dt {
         }
         return e
     }, ms = i => i[0], ps = i => i[1], K = class extends dt {
-        constructor() {
-            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
-            super(...arguments);
-            let e = t.filter(n => !n.isEmpty());
-            this.pieceList = new Yt(e)
-        }
-
         static textForAttachmentWithAttributes(t, e) {
             return new this([new xt(t, e)])
         }
@@ -2296,6 +2300,13 @@ var Yt = class extends dt {
 
         static fromJSON(t) {
             return new this(Array.from(t).map(e => mt.fromJSON(e)))
+        }
+
+        constructor() {
+            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
+            super(...arguments);
+            let e = t.filter(n => !n.isEmpty());
+            this.pieceList = new Yt(e)
         }
 
         copy() {
@@ -2486,12 +2497,12 @@ var Yt = class extends dt {
             return this.getDirection() === "rtl"
         }
     }, Y = class extends dt {
-        constructor(t, e, n) {
-            super(...arguments), this.text = fs(t || new K), this.attributes = e || [], this.htmlAttributes = n || {}
-        }
-
         static fromJSON(t) {
             return new this(K.fromJSON(t.text), t.attributes, t.htmlAttributes)
+        }
+
+        constructor(t, e, n) {
+            super(...arguments), this.text = fs(t || new K), this.attributes = e || [], this.htmlAttributes = n || {}
         }
 
         isEmpty() {
@@ -2707,11 +2718,6 @@ var Yt = class extends dt {
         let e = i.lastIndexOf(t);
         return e === -1 ? i : bi(i, e, 1)
     }, z = class extends dt {
-        constructor() {
-            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
-            super(...arguments), t.length === 0 && (t = [new Y]), this.blockList = Yt.box(t)
-        }
-
         static fromJSON(t) {
             return new this(Array.from(t).map(e => Y.fromJSON(e)))
         }
@@ -2719,6 +2725,11 @@ var Yt = class extends dt {
         static fromString(t, e) {
             let n = K.textForStringWithAttributes(t, e);
             return new this([new Y(n)])
+        }
+
+        constructor() {
+            let t = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
+            super(...arguments), t.length === 0 && (t = [new Y]), this.blockList = Yt.box(t)
         }
 
         isEmpty() {
@@ -3172,14 +3183,14 @@ var Yt = class extends dt {
             return {}
         }
     }, Mt = class extends R {
-        constructor(t) {
-            let {referenceElement: e} = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-            super(...arguments), this.html = t, this.referenceElement = e, this.blocks = [], this.blockElements = [], this.processedElements = []
-        }
-
         static parse(t, e) {
             let n = new this(t, e);
             return n.parse(), n
+        }
+
+        constructor(t) {
+            let {referenceElement: e} = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+            super(...arguments), this.html = t, this.referenceElement = e, this.blocks = [], this.blockElements = [], this.processedElements = []
         }
 
         getDocument() {
@@ -5901,10 +5912,6 @@ var Js = function (i) {
             super(...arguments), this.editorElement = e, this.selectionManager = new ut(this.editorElement), this.selectionManager.delegate = this, this.composition = new rt, this.composition.delegate = this, this.attachmentManager = new Ke(this.composition.getAttachments()), this.attachmentManager.delegate = this, this.inputController = fi.getLevel() === 2 ? new Dt(this.editorElement) : new Q(this.editorElement), this.inputController.delegate = this, this.inputController.responder = this.composition, this.compositionController = new tn(this.editorElement, this.composition), this.compositionController.delegate = this, this.toolbarController = new on(this.editorElement.toolbarElement), this.toolbarController.delegate = this, this.editor = new $e(this.composition, this.selectionManager, this.editorElement), n ? this.editor.loadDocument(n) : this.editor.loadHTML(r)
         }
 
-        get actions() {
-            return this.constructor.actions
-        }
-
         registerSelectionManager() {
             return Pt.registerSelectionManager(this.selectionManager)
         }
@@ -6245,6 +6252,10 @@ var Js = function (i) {
         isFocusedInvisibly() {
             return this.isFocused() && !this.getLocationRange()
         }
+
+        get actions() {
+            return this.constructor.actions
+        }
     };
 H(Nt, "actions", {
     undo: {
@@ -6398,6 +6409,13 @@ var ct = new WeakMap, ce = new WeakSet, hi = class {
         }), this.element = t, xi(this, ct, t.attachInternals())
     }
 
+    connectedCallback() {
+        Fe(this, ce, Pe).call(this)
+    }
+
+    disconnectedCallback() {
+    }
+
     get labels() {
         return x(this, ct).labels
     }
@@ -6429,13 +6447,6 @@ var ct = new WeakMap, ce = new WeakSet, hi = class {
 
     get willValidate() {
         return x(this, ct).willValidate
-    }
-
-    connectedCallback() {
-        Fe(this, ce, Pe).call(this)
-    }
-
-    disconnectedCallback() {
     }
 
     setFormValue(t) {
@@ -6476,6 +6487,24 @@ var Jn = new WeakMap, Kn = new WeakMap, Gn = new WeakMap, di = class {
         }), this.element = t
     }
 
+    connectedCallback() {
+        xi(this, Jn, function (t) {
+            if (t.hasAttribute("aria-label") || t.hasAttribute("aria-labelledby")) return;
+            let e = function () {
+                let n = Array.from(t.labels).map(o => {
+                    if (!o.contains(t)) return o.textContent
+                }).filter(o => o), r = n.join(" ");
+                return r ? t.setAttribute("aria-label", r) : t.removeAttribute("aria-label")
+            };
+            return e(), S("focus", {onElement: t, withCallback: e})
+        }(this.element)), window.addEventListener("reset", x(this, Kn), !1), window.addEventListener("click", x(this, Gn), !1)
+    }
+
+    disconnectedCallback() {
+        var t;
+        (t = x(this, Jn)) === null || t === void 0 || t.destroy(), window.removeEventListener("reset", x(this, Kn), !1), window.removeEventListener("click", x(this, Gn), !1)
+    }
+
     get labels() {
         let t = [];
         this.element.id && this.element.ownerDocument && t.push(...Array.from(this.element.ownerDocument.querySelectorAll("label[for='".concat(this.element.id, "']")) || []));
@@ -6509,24 +6538,6 @@ var Jn = new WeakMap, Kn = new WeakMap, Gn = new WeakMap, di = class {
 
     get willValidate() {
         return console.warn("This browser does not support the willValidate property for trix-editor elements."), !1
-    }
-
-    connectedCallback() {
-        xi(this, Jn, function (t) {
-            if (t.hasAttribute("aria-label") || t.hasAttribute("aria-labelledby")) return;
-            let e = function () {
-                let n = Array.from(t.labels).map(o => {
-                    if (!o.contains(t)) return o.textContent
-                }).filter(o => o), r = n.join(" ");
-                return r ? t.setAttribute("aria-label", r) : t.removeAttribute("aria-label")
-            };
-            return e(), S("focus", {onElement: t, withCallback: e})
-        }(this.element)), window.addEventListener("reset", x(this, Kn), !1), window.addEventListener("click", x(this, Gn), !1)
-    }
-
-    disconnectedCallback() {
-        var t;
-        (t = x(this, Jn)) === null || t === void 0 || t.destroy(), window.removeEventListener("reset", x(this, Kn), !1), window.removeEventListener("click", x(this, Gn), !1)
     }
 
     setFormValue(t) {
