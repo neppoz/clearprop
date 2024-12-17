@@ -42,9 +42,10 @@ class EditReservation extends EditRecord
     protected function beforeSave(): void
     {
         $data = $this->data;
-        \Log::debug('user_id:', ['user_id' => $data['user_id']]);
-        // Retrieve the selected user from form data
-        $selectedUser = User::find($data['user_id']);
+
+        // Make sure it is a ID
+        $userId = is_array($data['user_id']) ? $data['user_id'][0] : $data['user_id'];
+        $selectedUser = User::where('id', $userId)->first();
 
         // Validate all conditions for the selected user
         if (!ReservationValidator::validateAll($data, $selectedUser)) {
@@ -62,5 +63,10 @@ class EditReservation extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl();
     }
 }
