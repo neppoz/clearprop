@@ -35,15 +35,15 @@ class ManageGeneral extends SettingsPage
                 Forms\Components\Fieldset::make('')
                     ->schema([
                         Forms\Components\Checkbox::make('check_medical')
-                            ->label('Check medical validity'),
-//                        Forms\Components\Checkbox::make('check_ratings')
-//                            ->label('Check aircraft ratings'),
+                            ->label('Check medical validity')
+                            ->helperText('Check medical validity for reservations'),
                     ]),
 
                 Forms\Components\Fieldset::make('')
                     ->schema([
                         Forms\Components\Checkbox::make('check_activities')
-                            ->label('Check airworthiness'),
+                            ->label('Check airworthiness')
+                            ->helperText('Check airworthiness for reservations'),
                         Forms\Components\TextInput::make('check_activities_limit_days')
                             ->label('Grounded limit')
                             ->suffix('days')
@@ -53,7 +53,8 @@ class ManageGeneral extends SettingsPage
                 Forms\Components\Fieldset::make('')
                     ->schema([
                         Forms\Components\Checkbox::make('check_balance')
-                            ->label('Check finances'),
+                            ->label('Check finances')
+                            ->helperText('Check PIC finances for reservations'),
                         Forms\Components\TextInput::make('check_balance_limit_amount')
                             ->label('Credit limit')
                             ->suffixIcon('heroicon-m-currency-euro')
