@@ -47,7 +47,7 @@ class LatestReservations extends BaseWidget
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('bookingUsers.name')
-                            ->label('Pilot')
+                            ->label('PIC')
                             ->sortable()
                             ->searchable(),
                         Tables\Columns\TextColumn::make('bookingInstructors.name')

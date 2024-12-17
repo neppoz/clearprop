@@ -114,7 +114,7 @@ class ReservationResource extends Resource
                 ->description('')
                 ->schema([
                     Select::make('user_id')
-                        ->label('Pilot')
+                        ->label('PIC')
                         ->searchable()
                         ->preload()
                         ->native(false)
@@ -124,6 +124,7 @@ class ReservationResource extends Resource
                         ->saveRelationshipsWhenDisabled(true)
                         ->relationship(name: 'bookingUsers', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('mode_id') != Reservation::IS_MAINTENANCE),
+
                     Select::make('instructor_id')
                         ->label('Instructor')
                         ->searchable()
@@ -133,6 +134,7 @@ class ReservationResource extends Resource
                         ->disabled(fn(): bool => Auth::user()->is_member)
                         ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('mode_id') == Reservation::IS_SCHOOL),
+
                     Radio::make('mode_id')
                         ->options([
                             Reservation::IS_CHARTER => 'Charter',
@@ -182,7 +184,7 @@ class ReservationResource extends Resource
                         'Maintenance' => 'danger',
                     }),
                 Tables\Columns\TextColumn::make('bookingUsers.name')
-                    ->label('Pilot')
+                    ->label('PIC')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bookingInstructors.name')

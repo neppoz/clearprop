@@ -59,12 +59,19 @@ class ActivityResource extends Resource
                             ->required(),
 
                         Forms\Components\Select::make('user_id')
-                            ->label('Pilot')
+                            ->label('PIC')
+                            ->searchable()
                             ->preload()
                             ->native(false)
-                            ->searchable()
-                            ->options(User::all()->pluck('name', 'id'))
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
+                            ->options(User::all()->pluck('name', 'id')) // Load options for all users
+                            ->default(fn() => Auth::user()->is_member ? Auth::id() : null) // Set default to current user for members
+                            ->disabled(fn(): bool => Auth::user()->is_member) // Disable the field if the user is a member
+                            ->saveRelationshipsWhenDisabled(true) // Ensure the value is saved even when the field is disabled
+                            ->relationship(name: 'user', titleAttribute: 'name') // Define the relationship to the User model
+                            ->afterStateUpdated(function (Get $get, Set $set) {
+                                // Trigger calculations after user_id is updated
+                                (new static())->calculateMinutesAndCosts($get, $set);
+                            })
                             ->required(),
 
                         Forms\Components\Select::make('instructor_id')
