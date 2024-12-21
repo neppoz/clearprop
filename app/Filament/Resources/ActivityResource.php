@@ -12,6 +12,7 @@ use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\PlaneUser;
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -227,6 +228,9 @@ class ActivityResource extends Resource
             ->columns(3);
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -237,41 +241,51 @@ class ActivityResource extends Resource
                     ->date('D d/m/Y')
                     ->sortable()
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('plane.callsign')
                     ->label('Airplane')
                     ->sortable()
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('departure')
                     ->label('Departure')
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('event_start')
                     ->label('OffBlock')
                     ->dateTime('H:i')
                     ->toggleable(isToggledHiddenByDefault: false),
+
                 Tables\Columns\TextColumn::make('arrival')
                     ->label('Arrival')
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('event_stop')
                     ->label('OnBlock')
                     ->dateTime('H:i')
                     ->toggleable(isToggledHiddenByDefault: false),
+
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('PIC')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\IconColumn::make('split_cost')
-                    ->boolean()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
+//                Tables\Columns\IconColumn::make('split_cost')
+//                    ->boolean()
+//                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('copilot.name')
                     ->label('CoPilot')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('instructor.name')
                     ->label('Instructor')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('full_counter')
                     ->label('Counter')
                     ->numeric(2, ',', '.')
@@ -281,9 +295,13 @@ class ActivityResource extends Resource
                         'counter_start', 'counter_stop'])
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->alignCenter(),
+
                 Tables\Columns\TextColumn::make('warmup_minutes')
+                    ->label('Warmup Minutes')
                     ->numeric(2, ',', '.')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
+
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
                 Tables\Columns\TextColumn::make('minutes')
