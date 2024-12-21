@@ -12,6 +12,7 @@ class GeneralSettings extends Settings
     public int $check_activities_limit_days;
     public int $check_balance_limit_amount;
     public bool $check_ratings;
+    public bool $engine_warmup;
 
     public static function group(): string
     {

@@ -13,4 +13,14 @@ return new class extends SettingsMigration {
         $this->migrator->add('general.check_balance_limit_amount', -200);
         $this->migrator->add('general.check_activities_limit_days', 90);
     }
+
+    public function down(): void
+    {
+        $this->migrator->delete('general.check_medical');
+        $this->migrator->delete('general.check_balance');
+        $this->migrator->delete('general.check_activities');
+        $this->migrator->delete('general.check_ratings');
+        $this->migrator->delete('general.check_balance_limit_amount');
+        $this->migrator->delete('general.check_activities_limit_days');
+    }
 };

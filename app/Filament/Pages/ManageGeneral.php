@@ -32,15 +32,14 @@ class ManageGeneral extends SettingsPage
     {
         return $form
             ->schema([
-                Forms\Components\Fieldset::make('')
+                Forms\Components\Fieldset::make('Reservations')
+                    ->label('Reservations')
+                    ->columns(2)
                     ->schema([
                         Forms\Components\Checkbox::make('check_medical')
                             ->label('Check medical validity')
-                            ->helperText('Check medical validity for reservations'),
-                    ]),
-
-                Forms\Components\Fieldset::make('')
-                    ->schema([
+                            ->helperText('Check medical validity for reservations')
+                            ->columnSpan(2),
                         Forms\Components\Checkbox::make('check_activities')
                             ->label('Check airworthiness')
                             ->helperText('Check airworthiness for reservations'),
@@ -48,10 +47,6 @@ class ManageGeneral extends SettingsPage
                             ->label('Grounded limit')
                             ->suffix('days')
                             ->numeric(2, ',', '.'),
-                    ]),
-
-                Forms\Components\Fieldset::make('')
-                    ->schema([
                         Forms\Components\Checkbox::make('check_balance')
                             ->label('Check finances')
                             ->helperText('Check PIC finances for reservations'),
@@ -60,6 +55,18 @@ class ManageGeneral extends SettingsPage
                             ->suffixIcon('heroicon-m-currency-euro')
                             ->numeric(2, ',', '.'),
                     ]),
+
+                Forms\Components\Fieldset::make('Activities')
+                    ->label('Activities')
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Checkbox::make('engine_warmup')
+                            ->label('Engine Warmup')
+                            ->helperText('Enable the engine warmup feature when registering activities. 
+                                When doing so, remember to set the payment option on the aircraft.')
+                            ->columnSpan(2),
+                    ]),
+
 
             ]);
     }
