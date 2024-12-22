@@ -91,6 +91,13 @@ return [
             'level' => 'debug',
         ],
 
+        'pricing' => [
+            'driver' => 'single',
+            'channels' => ['daily'],
+            'path' => storage_path('logs/pricing.log'),
+            'level' => 'info',
+        ],
+
     ],
 
 ];

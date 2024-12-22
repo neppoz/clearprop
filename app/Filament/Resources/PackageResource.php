@@ -13,7 +13,6 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
 
 class PackageResource extends Resource
 {
@@ -44,10 +43,12 @@ class PackageResource extends Resource
                     ->numeric()
                     ->required(),
 
-                TextInput::make('hours')
-                    ->label('Hours')
+                TextInput::make('initial_minutes')
+                    ->label('Hours limit')
                     ->numeric()
-                    ->required(),
+                    ->required()
+                    ->dehydrateStateUsing(fn($state) => $state * 60) // Convert hours to minutes when saving
+                    ->mutateDehydratedStateUsing(fn($state) => $state / 60), // Convert minutes back to hours when displaying,
 
                 DatePicker::make('valid_from')
                     ->label('Valid From')
@@ -97,13 +98,31 @@ class PackageResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('price')
-                    ->label('Price (€)')
+                Tables\Columns\TextColumn::make('plane.callsign')
+                    ->label('Plane')
                     ->sortable()
-                    ->numeric(),
+                    ->searchable(),
 
-                Tables\Columns\TextColumn::make('hours')
-                    ->label('Hours')
+                Tables\Columns\TextColumn::make('price')
+                    ->label('Price')
+                    ->sortable()
+                    ->numeric()
+                    ->suffix(' €'),
+
+                Tables\Columns\TextColumn::make('instructor.name')
+                    ->label('Instructor')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('initial_minutes')
+                    ->label('Included')
+                    ->sortable()
+                    ->numeric()
+                    ->suffix(' h'),
+
+                Tables\Columns\TextColumn::make('remaining_minutes')
+                    ->label('Remaining')
                     ->sortable()
                     ->numeric()
                     ->suffix(' h'),
@@ -116,19 +135,6 @@ class PackageResource extends Resource
                     ->label('Valid Until')
                     ->date(),
 
-                Tables\Columns\TextColumn::make('type')
-                    ->label('Type')
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('plane.callsign')
-                    ->label('Plane')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('instructor.name')
-                    ->label('Instructor')
-                    ->sortable()
-                    ->searchable(),
             ])
             ->filters([
                 Tables\Filters\Filter::make('valid_until')

@@ -13,7 +13,8 @@ class CreatePackagesTable extends Migration
             $table->string('name'); // Name of the package
             $table->unsignedInteger('user_id'); // Associated user
             $table->decimal('price', 10, 2); // Package price
-            $table->decimal('hours', 5, 2); // Maximum hours in the package
+            $table->integer('initial_minutes'); // Maximum minutes in the package
+            $table->integer('remaining_minutes'); // Remaining minutes in the package
             $table->date('valid_from'); // Start date of validity
             $table->date('valid_until'); // End date of validity
             $table->string('type'); // Package type (hourly, fixed)

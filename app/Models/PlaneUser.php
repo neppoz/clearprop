@@ -50,7 +50,7 @@ class PlaneUser extends Model
      */
     public function getBasePricePerMinute(): float
     {
-        return $this->base_price_per_minute ?? $this->plane->default_price_per_minute;
+        return $this->base_price_per_minute;
     }
 
     /**
@@ -59,7 +59,7 @@ class PlaneUser extends Model
      */
     public function getInstructorPricePerMinute(): float
     {
-        return $this->instructor_price_per_minute ?? $this->plane->instructor_price_per_minute;
+        return $this->instructor_price_per_minute;
     }
 
 }

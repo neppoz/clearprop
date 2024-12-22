@@ -11,7 +11,8 @@ class Package extends Model
         'name',
         'user_id',
         'price',
-        'hours',
+        'initial_minutes',
+        'remaining_minutes',
         'valid_from',
         'valid_until',
         'type',
@@ -22,6 +23,30 @@ class Package extends Model
     protected $casts = [
         'type' => PackageType::class, // Enum cast for type
     ];
+
+    // Accessor for initial_minutes (converts to hours for display)
+    public function getInitialMinutesAttribute($value): float|int
+    {
+        return $value / 60; // Convert minutes to hours
+    }
+
+    // Mutator for initial_minutes (converts to minutes for storage)
+    public function setInitialMinutesAttribute($value): void
+    {
+        $this->attributes['initial_minutes'] = $value * 60;
+    }
+
+    // Accessor for remaining_minutes (converts to hours for display)
+    public function getRemainingMinutesAttribute($value): float|int
+    {
+        return $value / 60; // Convert minutes to hours
+    }
+
+    // Mutator for remaining_minutes (converts to minutes for storage)
+    public function setRemainingMinutesAttribute($value): void
+    {
+        $this->attributes['remaining_minutes'] = $value * 60;
+    }
 
     /**
      * Relationship with the User model.
