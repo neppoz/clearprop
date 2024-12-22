@@ -49,6 +49,7 @@ class ActivityResource extends Resource
                             ->label('Date')
                             ->native(true)
                             ->reactive()
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->calculateMinutesAndCosts($get, $set))
                             ->required(),
 
                         Forms\Components\Select::make('plane_id')
@@ -196,15 +197,39 @@ class ActivityResource extends Resource
                                     ->inlineLabel()
                                     ->content(fn(Get $get) => number_format($get('amount'), 2, ',', '.') . ' €'),
 
-                                Forms\Components\Placeholder::make('package_used')
-                                    ->label('Package Used')
+                                Forms\Components\Placeholder::make('calculation_logic')
+                                    ->label('Calculation Logic')
                                     ->inlineLabel()
-                                    ->content(fn(Get $get) => $get('package_used') ? 'Yes' : 'No'),
+                                    ->content(function (Get $get) {
+                                        if ($get('package_name')) {
+                                            return 'Package pricing';
+                                        }
 
-                                Forms\Components\Placeholder::make('remaining_minutes')
-                                    ->label('Remaining Package Minutes')
+                                        $pricingType = $get('base_price_per_minute') > 0 ? 'Individual pricing' : 'Base pricing';
+                                        $instructorPrice = $get('instructor_price_per_minute') > 0
+                                            ? " + Instructor price ({$get('instructor_price_per_minute')} €/min)"
+                                            : '';
+
+                                        return "{$pricingType}{$instructorPrice}";
+                                    }),
+
+                                Forms\Components\Placeholder::make('package_name_placeholder')
+                                    ->label('Package Name')
                                     ->inlineLabel()
-                                    ->content(fn(Get $get) => $get('remaining_minutes') > 0 ? $get('remaining_minutes') . ' min' : 'N/A'),
+                                    ->content(fn(Get $get) => $get('package_name'))
+                                    ->hidden(fn(Get $get) => !$get('package_name')),
+
+                                Forms\Components\Placeholder::make('remaining_time')
+                                    ->label('Remaining Time')
+                                    ->inlineLabel()
+                                    ->content(function (Get $get) {
+                                        $remainingMinutes = $get('remaining_minutes') ?? 0;
+                                        $hours = floor($remainingMinutes / 60);
+                                        $minutes = $remainingMinutes % 60;
+
+                                        return "{$hours}h {$minutes}m";
+                                    })
+                                    ->hidden(fn(Get $get) => !$get('package_name'))
 
                             ])
                             ->columnSpan(1),
@@ -374,15 +399,18 @@ class ActivityResource extends Resource
 
                 Tables\Columns\TextColumn::make('package_used')
                     ->label('Package Used')
-                    ->getStateUsing(fn(Model $record) => $record->package_used ? 'Yes' : 'No') // Display 'Yes' if a package was used
+                    ->getStateUsing(fn(Model $record) => $record->package_id ? 'Yes' : 'No') // Display 'Yes' if a package was used
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('remaining_minutes')
                     ->label('Remaining Minutes')
-                    ->getStateUsing(fn(Model $record) => $record->remaining_minutes > 0 ? $record->remaining_minutes . ' min' : 'N/A') // Show remaining minutes or 'N/A'
+                    ->getStateUsing(fn(Model $record) => $record->remaining_package_minutes > 0
+                        ? $record->remaining_package_minutes . ' min'
+                        : 'N/A') // Show remaining minutes or 'N/A'
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
 
                 Tables\Columns\TextColumn::make('amount')
                     ->label('Amount')
@@ -537,6 +565,14 @@ class ActivityResource extends Resource
             'instructor_id' => $get('instructor_id'),
         ];
 
+        // Skip calculation if essential inputs are missing
+        if (empty($inputs['plane_id']) || empty($inputs['user_id'])) {
+            $set('amount', 0);
+            $set('minutes', 0);
+            $set('warmup_minutes', 0);
+            return;
+        }
+
         $service = new ActivityCalculationService();
 
         // Calculate activity minutes
@@ -547,8 +583,11 @@ class ActivityResource extends Resource
         // Calculate costs, including package pricing
         $amountData = $service->calculateAmount($inputs, $minutesData['minutes'], $minutesData['warmup_minutes']);
         $set('amount', $amountData['amount']);
-        $set('package_used', $amountData['package_used']);
+        $set('package_id', $amountData['package_id']);
+        $set('package_name', $amountData['package_name']);
         $set('remaining_minutes', $amountData['remaining_minutes']);
+        $set('package_used', $amountData['package_used']);
+        $set('remaining_hours', $amountData['remaining_minutes']);
     }
 
     public static function getRelations(): array

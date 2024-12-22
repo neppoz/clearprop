@@ -6,6 +6,7 @@ use App\Models\Package;
 use Carbon\Carbon;
 use App\Models\Plane;
 use App\Models\PlaneUser;
+use Illuminate\Support\Facades\Log;
 
 class ActivityCalculationService
 {
@@ -60,38 +61,80 @@ class ActivityCalculationService
     {
         $plane = Plane::find($inputs['plane_id']);
         if (!$plane) {
-            // Return default values if the plane is not found
+            Log::channel('pricing')->warning('Plane not found for pricing calculation', ['inputs' => $inputs]);
+
             return [
                 'base_price_per_minute' => 0,
                 'instructor_price_per_minute' => 0,
                 'amount' => 0,
+                'package_id' => null,
+                'package_price' => null,
+                'remaining_minutes' => 0,
             ];
         }
 
-        // Default prices from the plane
-        $basePrice = $plane->default_price_per_minute;
-        $instructorPrice = $plane->instructor_price_per_minute;
+        $totalMinutes = $plane->warmup_type == 0 ? $minutes : $minutes + $warmupMinutes;
 
-        // Check for individual pricing for the user and plane
-        if ($inputs['user_id']) {
+        // Default prices from Plane model
+        $basePrice = $plane->default_price_per_minute ?? 0;
+        $instructorPrice = $plane->instructor_price_per_minute ?? 0;
+
+        Log::channel('pricing')->info('Default prices loaded from aircraft', [
+            'base_price_per_minute' => $basePrice,
+            'instructor_price_per_minute' => $instructorPrice,
+        ]);
+
+        // Check for individual pricing in PlaneUser model
+        if (!empty($inputs['user_id'])) {
             $planeUser = PlaneUser::where('plane_id', $inputs['plane_id'])
                 ->where('user_id', $inputs['user_id'])
                 ->first();
 
-            $basePrice = $planeUser?->getBasePricePerMinute() ?? $basePrice;
-            if ($inputs['instructor_id']) {
-                $instructorPrice = $planeUser?->getInstructorPricePerMinute() ?? $instructorPrice;
+            if ($planeUser) {
+                $basePrice = $planeUser->getBasePricePerMinute(); // Individual base price
+                if (!empty($inputs['instructor_id'])) {
+                    $instructorPrice = $planeUser->getInstructorPricePerMinute(); // Individual instructor price
+                }
+
+                Log::channel('pricing')->info('Individual pricing found and applied', [
+                    'user_id' => $inputs['user_id'],
+                    'base_price_per_minute' => $basePrice,
+                    'instructor_price_per_minute' => $instructorPrice,
+                ]);
+            } else {
+                Log::channel('pricing')->info('No individual pricing found for user', [
+                    'user_id' => $inputs['user_id'],
+                ]);
             }
         }
 
-        // Calculate total minutes, considering warmup
-        $totalMinutes = $plane->warmup_type == 0 ? $minutes : $minutes + $warmupMinutes;
+        // Calculate the total amount
+        $calculatedAmount = round($basePrice * $totalMinutes, 2);
 
-        // Calculate the amount without package discounts
-        $calculatedAmount = round(($basePrice + $instructorPrice) * $totalMinutes, 2);
+        // Add instructor price only if an instructor is selected
+        if (!empty($inputs['instructor_id'])) {
+            $calculatedAmount += round($instructorPrice * $totalMinutes, 2);
+        }
 
-        // Apply package pricing if applicable
-        return $this->applyPackagePricing($inputs, $calculatedAmount, $totalMinutes);
+        Log::channel('pricing')->info('Amount calculated before package pricing', [
+            'calculated_amount' => $calculatedAmount,
+            'total_minutes' => $totalMinutes,
+        ]);
+
+        // Apply package pricing
+        $finalAmountData = $this->applyPackagePricing($inputs, $calculatedAmount, $totalMinutes);
+
+        Log::channel('pricing')->info('Final amount after package pricing', [
+            'final_amount' => $finalAmountData['amount'],
+            'package_used' => $finalAmountData['package_used'],
+            'package_id' => $finalAmountData['package_id'],
+            'package_price' => $finalAmountData['package_price'],
+        ]);
+
+        return $finalAmountData + [
+                'base_price_per_minute' => $basePrice,
+                'instructor_price_per_minute' => $instructorPrice,
+            ];
     }
 
     public function applyPackagePricing(array $inputs, float $calculatedAmount, int $minutes): array
@@ -100,7 +143,7 @@ class ActivityCalculationService
         $planeId = $inputs['plane_id'];
         $instructorId = $inputs['instructor_id'];
 
-        // Find an active package for the user that matches the conditions
+        // Find an active package
         $activePackage = Package::where('user_id', $userId)
             ->where(function ($query) use ($planeId) {
                 $query->whereNull('plane_id') // General package
@@ -114,37 +157,62 @@ class ActivityCalculationService
             ->whereDate('valid_until', '>=', now())
             ->first();
 
-        // If an active package is found, apply its pricing logic
         if ($activePackage) {
-            switch ($activePackage->type) {
-                case 'hourly':
-                    $remainingMinutes = ($activePackage->hours * 60) - $minutes;
+            // Directly access raw database values without Accessors
+            $remainingMinutes = $activePackage->getRawOriginal('remaining_minutes');
+            $initialMinutes = $activePackage->getRawOriginal('initial_minutes');
 
-                    // Use package pricing if minutes are within the package limit
-                    if ($remainingMinutes >= 0) {
-                        return [
-                            'amount' => min($calculatedAmount, $activePackage->price),
-                            'package_used' => true,
-                            'remaining_minutes' => $remainingMinutes,
-                        ];
-                    }
-                    break;
+            // Prevent division by zero
+            $packageMinutePrice = $initialMinutes > 0
+                ? $activePackage->price / $initialMinutes
+                : 0;
 
-                case 'fixed':
-                    // Apply fixed price regardless of minutes
-                    return [
-                        'amount' => $activePackage->price,
-                        'package_used' => true,
-                        'remaining_minutes' => 0,
-                    ];
-            }
+            // Calculate used minutes and package amount
+            $usedMinutes = min($remainingMinutes, $minutes);
+            $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
+
+            // Calculate remaining minutes
+            $newRemainingMinutes = $remainingMinutes - $usedMinutes;
+
+            // Log applied package details
+            Log::channel('pricing')->info('Package applied', [
+                'package_id' => $activePackage->id,
+                'name' => $activePackage->name,
+                'used_minutes' => $usedMinutes,
+                'remaining_minutes' => $newRemainingMinutes,
+                'package_amount' => $packageAmount,
+            ]);
+
+            // If there are extra minutes beyond the package, calculate their cost
+            $extraMinutes = $minutes - $usedMinutes;
+            $extraAmount = round(($calculatedAmount / $minutes) * $extraMinutes, 2);
+
+            return [
+                'amount' => $packageAmount + $extraAmount,
+                'package_used' => true,
+                'used_minutes' => $usedMinutes,
+                'remaining_minutes' => $newRemainingMinutes,
+                'package_id' => $activePackage->id,
+                'package_name' => $activePackage->name,
+                'package_price' => $activePackage->price,
+            ];
         }
 
-        // No active package or package minutes exceeded
+        // Log no package applied
+        Log::channel('pricing')->info('No package applied', [
+            'calculated_amount' => $calculatedAmount,
+            'user_id' => $userId,
+            'plane_id' => $planeId,
+        ]);
+
         return [
             'amount' => $calculatedAmount,
             'package_used' => false,
+            'used_minutes' => 0,
             'remaining_minutes' => 0,
+            'package_id' => null,
+            'package_name' => null,
+            'package_price' => null,
         ];
     }
 
