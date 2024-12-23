@@ -6,6 +6,7 @@ use App\Enums\PackageType;
 use App\Filament\Resources\PackageResource\Pages;
 use App\Models\Package;
 use App\Models\User;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -44,18 +45,20 @@ class PackageResource extends Resource
                     ->required(),
 
                 TextInput::make('initial_minutes')
-                    ->label('Hours limit')
+                    ->label('Hours included')
                     ->numeric()
                     ->required()
-                    ->dehydrateStateUsing(fn($state) => $state * 60) // Convert hours to minutes when saving
-                    ->mutateDehydratedStateUsing(fn($state) => $state / 60), // Convert minutes back to hours when displaying,
+                    ->formatStateUsing(fn($state) => $state ? round($state / 60, 2) : null) // Zeigt Stunden an
+                    ->dehydrateStateUsing(fn($state) => is_numeric($state) ? round($state * 60) : null), // Speichert Minuten
 
                 DatePicker::make('valid_from')
                     ->label('Valid From')
+                    ->native(true)
                     ->required(),
 
                 DatePicker::make('valid_until')
                     ->label('Valid Until')
+                    ->native(true)
                     ->required(),
 
                 Select::make('type')
@@ -74,13 +77,11 @@ class PackageResource extends Resource
                     ->native(false)
                     ->nullable(),
 
-                Select::make('instructor_id')
-                    ->label('Instructor')
-                    ->searchable()
-                    ->preload()
-                    ->native(false)
-                    ->options(User::instructors()->pluck('name', 'id'))
-                    ->nullable(),
+                Toggle::make('instructor_included')
+                    ->label('Instructor included')
+                    ->helperText('Indicate if an instructor is included in this activity.')
+                    ->reactive()
+                    ->default(false),
             ]);
     }
 
@@ -109,23 +110,21 @@ class PackageResource extends Resource
                     ->numeric()
                     ->suffix(' €'),
 
-                Tables\Columns\TextColumn::make('instructor.name')
-                    ->label('Instructor')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
                 Tables\Columns\TextColumn::make('initial_minutes')
                     ->label('Included')
                     ->sortable()
-                    ->numeric()
-                    ->suffix(' h'),
+                    ->getStateUsing(fn($record) => self::formatMinutesToHoursAndMinutes($record->initial_minutes)),
 
                 Tables\Columns\TextColumn::make('remaining_minutes')
                     ->label('Remaining')
                     ->sortable()
-                    ->numeric()
-                    ->suffix(' h'),
+                    ->getStateUsing(fn($record) => self::formatMinutesToHoursAndMinutes($record->remaining_minutes)),
+
+                Tables\Columns\IconColumn::make('instructor_included')
+                    ->label('Instructor')
+                    ->boolean()
+                    ->sortable()
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('valid_from')
                     ->label('Valid From')
@@ -134,7 +133,6 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('valid_until')
                     ->label('Valid Until')
                     ->date(),
-
             ])
             ->filters([
                 Tables\Filters\Filter::make('valid_until')
@@ -147,6 +145,18 @@ class PackageResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    protected static function formatMinutesToHoursAndMinutes(int $minutes): string
+    {
+        $hours = floor($minutes / 60);
+        $remainingMinutes = $minutes % 60;
+
+        if ($remainingMinutes === 0) {
+            return "{$hours}h"; // Nur Stunden anzeigen
+        }
+
+        return "{$hours}h " . str_pad($remainingMinutes, 2, '0', STR_PAD_LEFT) . "m"; // Stunden und Minuten mit führender Null
     }
 
     public static function getRelations(): array

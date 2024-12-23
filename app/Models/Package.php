@@ -17,36 +17,12 @@ class Package extends Model
         'valid_until',
         'type',
         'plane_id',
-        'instructor_id',
+        'instructor_included',
     ];
 
     protected $casts = [
         'type' => PackageType::class, // Enum cast for type
     ];
-
-    // Accessor for initial_minutes (converts to hours for display)
-    public function getInitialMinutesAttribute($value): float|int
-    {
-        return $value / 60; // Convert minutes to hours
-    }
-
-    // Mutator for initial_minutes (converts to minutes for storage)
-    public function setInitialMinutesAttribute($value): void
-    {
-        $this->attributes['initial_minutes'] = $value * 60;
-    }
-
-    // Accessor for remaining_minutes (converts to hours for display)
-    public function getRemainingMinutesAttribute($value): float|int
-    {
-        return $value / 60; // Convert minutes to hours
-    }
-
-    // Mutator for remaining_minutes (converts to minutes for storage)
-    public function setRemainingMinutesAttribute($value): void
-    {
-        $this->attributes['remaining_minutes'] = $value * 60;
-    }
 
     /**
      * Relationship with the User model.
@@ -65,14 +41,6 @@ class Package extends Model
     }
 
     /**
-     * Relationship with the Instructor (User) model.
-     */
-    public function instructor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(User::class, 'instructor_id');
-    }
-
-    /**
      * Check if the package is currently active.
      */
     public function isActive(): bool
@@ -81,11 +49,11 @@ class Package extends Model
     }
 
     /**
-     * Check if the package is valid for a specific instructor.
+     * Check if the package has instructor included
      */
-    public function isValidForInstructor(?int $instructorId): bool
+    public function isInstructorIncluded(): bool
     {
-        return $this->instructor_id === null || $this->instructor_id === $instructorId;
+        return $this->instructor_included;
     }
 
     /**
