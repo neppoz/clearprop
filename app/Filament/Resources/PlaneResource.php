@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Gate;
+use App\Settings\GeneralSettings;
 
 class PlaneResource extends Resource
 {
@@ -78,9 +79,16 @@ class PlaneResource extends Resource
                     ->options(Plane::COUNTER_TYPE_SELECT)
                     ->required(),
 
-                Forms\Components\Toggle::make('warmup_type')
-                    ->label('Pilot paying')
-                    ->hint('Select if the engine warmup has to be charged to the pilot'),
+                Forms\Components\Toggle::make('pilot_paying_warmup')
+                    ->label('Pilot Paying Warmup')
+                    ->hint('Whether the warmup minutes are charged to the pilot.')
+                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup), // Hidden if engine warmup is disabled
+
+                Forms\Components\TextInput::make('warmup_minutes')
+                    ->label('Warmup Minutes')
+                    ->numeric()
+                    ->minValue(0)
+                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup), // Hidden if engine warmup is disabled
 
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
@@ -119,12 +127,17 @@ class PlaneResource extends Resource
                 Tables\Columns\TextColumn::make('counter_type')
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\IconColumn::make('warmup_type')
-                    ->boolean()
+                Tables\Columns\BooleanColumn::make('pilot_paying_warmup')
+                    ->label('Pilot Paying Warmup')
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\IconColumn::make('active')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('warmup_minutes')
+                    ->label('Warmup Minutes')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->numeric(),
+
+                Tables\Columns\BooleanColumn::make('active')
+                    ->label('Active'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -133,12 +146,6 @@ class PlaneResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->searchable()
                     ->sortable()
@@ -161,9 +168,7 @@ class PlaneResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

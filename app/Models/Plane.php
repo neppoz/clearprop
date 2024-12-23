@@ -14,17 +14,11 @@ class Plane extends Model
 {
     use SoftDeletes;
 
-    const WARMUP_TYPE_RADIO = [
-        '0' => 'No',
-        '1' => 'Yes',
-    ];
-
     const COUNTER_TYPE_SELECT = [
         '100' => 'Industrial minutes (100/hour)',
         '060' => 'Hours and minutes (hh,mm)',
         '000' => 'No counter (using Engine On/Off values)',
     ];
-
 
     public $table = 'planes';
 
@@ -42,11 +36,17 @@ class Plane extends Model
         'default_price_per_minute',
         'instructor_price_per_minute',
         'counter_type',
-        'warmup_type',
+        'warmup_minutes',
+        'pilot_paying_warmup',
         'active',
         'created_at',
         'updated_at',
         'deleted_at',
+    ];
+
+    protected $casts = [
+        'pilot_paying_warmup' => 'boolean',
+        'warmup_minutes' => 'integer',
     ];
 
     public function planeActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
