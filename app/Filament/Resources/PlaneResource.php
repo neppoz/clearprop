@@ -79,16 +79,23 @@ class PlaneResource extends Resource
                     ->options(Plane::COUNTER_TYPE_SELECT)
                     ->required(),
 
-                Forms\Components\Toggle::make('pilot_paying_warmup')
-                    ->label('Pilot Paying Warmup')
-                    ->hint('Whether the warmup minutes are charged to the pilot.')
-                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup), // Hidden if engine warmup is disabled
+                Forms\Components\Section::make('Warmup Configuration')
+                    ->description('Configure how warmup minutes are handled and whether costs are charged to the pilot.')
+                    ->schema([
+                        Forms\Components\Toggle::make('pilot_paying_warmup')
+                            ->label('Pilot Paying Warmup?')
+                            ->hint('If enabled, the warmup minutes will be charged to the pilot. If not, someone else covers the costs.')
+                            ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
 
-                Forms\Components\TextInput::make('warmup_minutes')
-                    ->label('Warmup Minutes')
-                    ->numeric()
-                    ->minValue(0)
-                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup), // Hidden if engine warmup is disabled
+                        Forms\Components\TextInput::make('warmup_minutes')
+                            ->label('Warmup Minutes')
+                            ->numeric()
+                            ->minValue(1)
+                            ->required(fn() => app(GeneralSettings::class)->engine_warmup)
+                            ->hint('Set the number of minutes considered as warmup time.')
+                            ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
+                    ])
+                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
 
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
@@ -114,7 +121,8 @@ class PlaneResource extends Resource
 
                 Tables\Columns\TextColumn::make('prodno')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('default_price_per_minute')
                     ->searchable()
@@ -127,8 +135,9 @@ class PlaneResource extends Resource
                 Tables\Columns\TextColumn::make('counter_type')
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\BooleanColumn::make('pilot_paying_warmup')
+                Tables\Columns\IconColumn::make('pilot_paying_warmup')
                     ->label('Pilot Paying Warmup')
+                    ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('warmup_minutes')
@@ -136,8 +145,9 @@ class PlaneResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->numeric(),
 
-                Tables\Columns\BooleanColumn::make('active')
-                    ->label('Active'),
+                Tables\Columns\IconColumn::make('active')
+                    ->label('Active')
+                    ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
