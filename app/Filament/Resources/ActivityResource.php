@@ -9,9 +9,7 @@ use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\User;
 use App\Services\ActivityCalculationService;
-use App\Settings\GeneralSettings;
 use Carbon\Carbon;
-use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -55,7 +53,8 @@ class ActivityResource extends Resource
                         Forms\Components\Select::make('plane_id')
                             ->label('Aircraft')
                             ->preload()
-                            ->native(false)
+                            ->native(true)
+                            ->reactive()
                             ->relationship('plane', 'callsign')
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set))
                             ->required(),
@@ -64,7 +63,8 @@ class ActivityResource extends Resource
                             ->label('PIC')
                             ->searchable()
                             ->preload()
-                            ->native(false)
+                            ->native(true)
+                            ->reactive()
                             ->options(User::all()->pluck('name', 'id')) // Load options for all users
                             ->default(fn() => Auth::user()->is_member ? Auth::id() : null) // Set default to current user for members
                             ->disabled(fn(): bool => Auth::user()->is_member) // Disable the field if the user is a member
@@ -79,7 +79,8 @@ class ActivityResource extends Resource
                         Forms\Components\Select::make('instructor_id')
                             ->label('Instructor')
                             ->preload()
-                            ->native(false)
+                            ->native(true)
+                            ->reactive()
                             ->searchable()
                             ->options(User::instructors()->pluck('name', 'id'))
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set)),
@@ -112,8 +113,7 @@ class ActivityResource extends Resource
                             ->seconds(false)
                             ->native(true)
                             ->reactive()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredEventTime($get)),
                     ])
                     ->columns(2)
@@ -140,29 +140,29 @@ class ActivityResource extends Resource
                             ->label('Counter Stop')
                             ->numeric(2, ',', '.')
                             ->inputMode('decimal')
-                            ->live(onBlur: true)
+                            ->reactive()
                             ->rules([
                                 'numeric',
                                 'min:0', // Ensure the value is not negative
                             ])
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredCounter($get)),
                     ])
-                    ->columns(app(GeneralSettings::class)->engine_warmup ? 3 : 2)
+                    ->columns(2)
                     ->collapsible()
                     ->compact(),
 
-                Forms\Components\Section::make('Remarks')
-                    ->icon('heroicon-m-pencil')
-                    ->iconColor('info')
-                    ->schema([
-                        Forms\Components\Textarea::make('description')
-                            ->label('')
-                            ->autosize()
-                            ->rows(5),
-                    ])
-                    ->collapsible()
-                    ->compact(),
+//                Forms\Components\Section::make('Remarks')
+//                    ->icon('heroicon-m-pencil')
+//                    ->iconColor('info')
+//                    ->schema([
+//                        Forms\Components\Textarea::make('description')
+//                            ->label('')
+//                            ->autosize()
+//                            ->rows(5),
+//                    ])
+//                    ->collapsible()
+//                    ->compact(),
 
                 Forms\Components\Section::make('Calculations')
                     ->icon('heroicon-m-variable')
@@ -469,6 +469,17 @@ class ActivityResource extends Resource
         return true;
     }
 
+    protected function conditionallyPrepareData(Get $get, Set $set): void
+    {
+        // Check important conditions first
+        if (!$get('plane_id') || !$get('user_id') || !$get('event')) {
+            $this->resetCalculationFields($set); // Felder zurücksetzen, wenn Bedingungen nicht erfüllt sind
+            return;
+        }
+
+        $this->prepareCalculationData($get, $set);
+    }
+
     protected function prepareCalculationData(Get $get, Set $set): void
     {
         // Step 1: Collect inputs
@@ -538,7 +549,6 @@ class ActivityResource extends Resource
 
         return "{$hours}h {$remainingMinutes}m";
     }
-
 
     public static function getRelations(): array
     {
