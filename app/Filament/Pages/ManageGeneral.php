@@ -56,17 +56,6 @@ class ManageGeneral extends SettingsPage
                             ->numeric(2, ',', '.'),
                     ]),
 
-                Forms\Components\Fieldset::make('Activities')
-                    ->label('Activities')
-                    ->columns(2)
-                    ->schema([
-                        Forms\Components\Checkbox::make('engine_warmup')
-                            ->label('Engine Warmup')
-                            ->helperText('Enable the engine warmup feature when registering activities. 
-                                When doing so, remember to set the payment option on the aircraft.')
-                            ->columnSpan(2),
-                    ]),
-
 
             ]);
     }
