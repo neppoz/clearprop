@@ -48,7 +48,7 @@ class IncomeResource extends Resource
                     ->searchable()
                     ->label('User')
                     ->preload()
-                    ->native(false)
+                    ->native(true)
                     ->relationship('user', 'name'),
                 Forms\Components\Select::make('income_category_id')
                     ->label('Category')

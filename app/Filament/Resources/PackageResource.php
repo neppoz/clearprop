@@ -36,7 +36,7 @@ class PackageResource extends Resource
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
-                    ->native(false)
+                    ->native(true)
                     ->required(),
 
                 TextInput::make('price')
@@ -74,7 +74,7 @@ class PackageResource extends Resource
                     ->relationship('plane', 'callsign')
                     ->searchable()
                     ->preload()
-                    ->native(false)
+                    ->native(true)
                     ->nullable(),
 
                 Toggle::make('instructor_included')
@@ -107,7 +107,7 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->label('Price')
                     ->sortable()
-                    ->numeric()
+                    ->numeric(2, ',', '.')
                     ->suffix(' €'),
 
                 Tables\Columns\TextColumn::make('initial_minutes')

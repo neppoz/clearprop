@@ -65,41 +65,26 @@ class PlaneResource extends Resource
                     ->numeric()
                     ->required()
                     ->step(0.01)
-                    ->default(0),
+                    ->default(0)
+                    ->suffix(' €'),
 
                 Forms\Components\TextInput::make('instructor_price_per_minute')
                     ->label('Default Instructor Price per Minute')
                     ->numeric()
                     ->required()
                     ->step(0.01)
-                    ->default(0),
+                    ->default(0)
+                    ->suffix(' €'),
 
                 Forms\Components\Select::make('counter_type')
                     ->label('Counter Type')
                     ->options(Plane::COUNTER_TYPE_SELECT)
                     ->required(),
 
-                Forms\Components\Section::make('Warmup Configuration')
-                    ->description('Configure how warmup minutes are handled and whether costs are charged to the pilot.')
-                    ->schema([
-                        Forms\Components\Toggle::make('pilot_paying_warmup')
-                            ->label('Pilot Paying Warmup?')
-                            ->hint('If enabled, the warmup minutes will be charged to the pilot. If not, someone else covers the costs.')
-                            ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
-
-                        Forms\Components\TextInput::make('warmup_minutes')
-                            ->label('Warmup Minutes')
-                            ->numeric()
-                            ->minValue(1)
-                            ->required(fn() => app(GeneralSettings::class)->engine_warmup)
-                            ->hint('Set the number of minutes considered as warmup time.')
-                            ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
-                    ])
-                    ->hidden(fn() => !app(GeneralSettings::class)->engine_warmup),
-
                 Forms\Components\Toggle::make('active')
                     ->label('Active')
-                    ->default(true),
+                    ->default(true)
+
             ]);
     }
 
