@@ -47,7 +47,7 @@ class ActivityResource extends Resource
                             ->label('Date')
                             ->native(true)
                             ->reactive()
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
                             ->required(),
 
                         Forms\Components\Select::make('plane_id')
@@ -56,7 +56,7 @@ class ActivityResource extends Resource
                             ->native(true)
                             ->reactive()
                             ->relationship('plane', 'callsign')
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set))
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
                             ->required(),
 
                         Forms\Components\Select::make('user_id')
@@ -70,10 +70,7 @@ class ActivityResource extends Resource
                             ->disabled(fn(): bool => Auth::user()->is_member) // Disable the field if the user is a member
                             ->saveRelationshipsWhenDisabled(true) // Ensure the value is saved even when the field is disabled
                             ->relationship(name: 'user', titleAttribute: 'name') // Define the relationship to the User model
-                            ->afterStateUpdated(function (Get $get, Set $set) {
-                                // Trigger calculations after user_id is updated
-                                (new static())->prepareCalculationData($get, $set);
-                            })
+                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
                             ->required(),
 
                         Forms\Components\Select::make('instructor_id')
@@ -113,7 +110,20 @@ class ActivityResource extends Resource
                             ->seconds(false)
                             ->native(true)
                             ->reactive()
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
+                            ->helperText('Engine Off must be greater than Engine On.')
+                            ->afterStateUpdated(function (Get $get, Set $set, $state) {
+                                $eventStart = $get('event_start');
+
+                                if ($eventStart !== null && $state <= $eventStart) {
+                                    $set('valid_event', false);
+                                } else {
+                                    $set('valid_event', true);
+                                }
+
+                                if ($get('valid_event')) {
+                                    (new static())->conditionallyPrepareData($get, $set);
+                                }
+                            })
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredEventTime($get)),
                     ])
                     ->columns(2)
@@ -131,7 +141,7 @@ class ActivityResource extends Resource
                             ->live(onBlur: true)
                             ->rules([
                                 'numeric',
-                                'min:0', // Ensure the value is not negative
+                                'min:1',
                             ])
                             ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->prepareCalculationData($get, $set))
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredCounter($get)),
@@ -141,28 +151,38 @@ class ActivityResource extends Resource
                             ->numeric(2, ',', '.')
                             ->inputMode('decimal')
                             ->reactive()
-                            ->rules([
-                                'numeric',
-                                'min:0', // Ensure the value is not negative
-                            ])
-                            ->afterStateUpdated(fn(Get $get, Set $set) => (new static())->conditionallyPrepareData($get, $set))
+                            ->helperText('Counter Stop must be greater than Counter Start.')
+                            ->afterStateUpdated(function (Get $get, Set $set, $state) {
+                                $counterStart = $get('counter_start');
+
+                                if ($counterStart !== null && $state <= $counterStart) {
+                                    $set('valid_counter', false);
+                                } else {
+                                    $set('valid_counter', true);
+                                }
+
+                                if ($get('valid_counter')) {
+                                    (new static())->conditionallyPrepareData($get, $set);
+                                }
+                            })
                             ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredCounter($get)),
+
                     ])
                     ->columns(2)
                     ->collapsible()
                     ->compact(),
 
-//                Forms\Components\Section::make('Remarks')
-//                    ->icon('heroicon-m-pencil')
-//                    ->iconColor('info')
-//                    ->schema([
-//                        Forms\Components\Textarea::make('description')
-//                            ->label('')
-//                            ->autosize()
-//                            ->rows(5),
-//                    ])
-//                    ->collapsible()
-//                    ->compact(),
+                Forms\Components\Section::make('Remarks')
+                    ->icon('heroicon-m-pencil')
+                    ->iconColor('info')
+                    ->schema([
+                        Forms\Components\Textarea::make('description')
+                            ->label('')
+                            ->autosize()
+                            ->rows(5),
+                    ])
+                    ->collapsible()
+                    ->compact(),
 
                 Forms\Components\Section::make('Calculations')
                     ->icon('heroicon-m-variable')
@@ -499,7 +519,7 @@ class ActivityResource extends Resource
         $set('minutes', $minutes);
 
         // Step 5: Calculate costs
-        $amountData = $service->calculateAmount($inputs, $minutes);
+        $amountData = $service->calculatePricing($inputs, $minutes);
         $this->setCalculationResults($set, $amountData);
     }
 
@@ -527,7 +547,7 @@ class ActivityResource extends Resource
         $set('minutes', 0);
         $set('package_id', null);
         $set('package_name', null);
-        $set('remaining_minutes', 0);
+        $set('remaining_minutes', null);
         $set('package_used', false);
         $set('remaining_hours', 0);
     }
