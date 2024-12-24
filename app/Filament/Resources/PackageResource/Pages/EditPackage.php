@@ -16,4 +16,16 @@ class EditPackage extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // If initial_minutes changes, adjust remaining_minutes
+        $originalData = $this->record->getOriginal();
+        if (isset($data['initial_minutes']) && $data['initial_minutes'] !== $originalData['initial_minutes']) {
+            $difference = $data['initial_minutes'] - $originalData['initial_minutes'];
+            $data['remaining_minutes'] = max(0, $this->record->remaining_minutes + $difference);
+        }
+
+        return $data;
+    }
 }
