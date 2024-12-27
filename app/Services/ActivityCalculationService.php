@@ -1,56 +1,84 @@
 <?php
-
 namespace App\Services;
 
 use App\Models\Package;
-use Carbon\Carbon;
 use App\Models\Plane;
 use App\Models\PlaneUser;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ActivityCalculationService
 {
-    public function calculateMinutes(array $inputs): int
+    public function validateInputs(array $inputs): bool
     {
-        $plane = Plane::find($inputs['plane_id']);
-        if (!$plane) {
-            Log::channel('pricing')->warning('Plane not found for minute calculation', ['inputs' => $inputs]);
-            return 0;
+        if (empty($inputs['event']) || empty($inputs['plane_id']) || empty($inputs['user_id'])) {
+            return false;
+        }
+        $planeRequireEventTimes = $this->requiresEventTimes($inputs['plane_id']);
+        $planeRequireCounters = $this->requiresCounters($inputs['plane_id']);
+        Log::channel('pricing')->info('Plane calculation method:', ['eventTimes' => $planeRequireEventTimes, 'counters' => $planeRequireCounters]);
+
+        if (
+            $this->requiresEventTimes($inputs['plane_id']) &&
+            (empty($inputs['event_start']) || empty($inputs['event_stop']))
+        ) {
+            return false;
         }
 
-        $minutes = 0;
-
-        if ($plane->counter_type === '000' && !empty($inputs['event_start']) && !empty($inputs['event_stop'])) {
-            // Calculate minutes based on event times
-            $minutes = Carbon::parse($inputs['event_start'])->diffInMinutes(Carbon::parse($inputs['event_stop']));
-        } elseif (in_array($plane->counter_type, ['100', '060']) && isset($inputs['counter_start'], $inputs['counter_stop'])) {
-            // Calculate minutes based on counters
-            $counterStart = $inputs['counter_start'];
-            $counterStop = $inputs['counter_stop'];
-
-            if ($plane->counter_type === '100') {
-                $minutes = round(($counterStop - $counterStart) * 100 / 5 * 3, 2); // Industrial minutes
-            } elseif ($plane->counter_type === '060') {
-                $minutes = round(($counterStop - $counterStart) * 60, 2); // Hours and minutes
-            }
+        if (
+            $this->requiresCounters($inputs['plane_id']) &&
+            (empty($inputs['counter_start']) || empty($inputs['counter_stop']))
+        ) {
+            return false;
         }
 
-        return max(0, $minutes); // Ensure no negative values
+        return true;
     }
 
-    public function calculatePricing(array $inputs, int $minutes): array
+
+    public function calculate(array $inputs): array
     {
+        Log::channel('pricing')->info('Calculating:', $inputs);
         $plane = Plane::find($inputs['plane_id']);
         if (!$plane) {
-            Log::channel('pricing')->warning('Plane not found for pricing calculation', ['inputs' => $inputs]);
-            return $this->defaultPricingResponse();
+            return $this->defaultResponse();
         }
 
+        $minutes = $this->calculateMinutes($inputs, $plane);
+
+        $amountData = $this->calculatePricing($inputs, $minutes, $plane);
+
+        return array_merge($amountData, ['minutes' => $minutes]);
+    }
+
+    protected function calculateMinutes(array $inputs, Plane $plane): int
+    {
+        if ($this->requiresEventTimes($plane->id)) {
+            return max(0, Carbon::parse($inputs['event_start'])->diffInMinutes(Carbon::parse($inputs['event_stop'])));
+        }
+
+        if ($this->requiresCounters($plane->id)) {
+
+            if ($plane->counter_type === '100') {
+                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 100 / 5 * 3));
+            } elseif ($plane->counter_type === '060') {
+                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
+            }
+
+        }
+
+        return 0;
+    }
+
+    protected function calculatePricing(array $inputs, int $minutes, Plane $plane): array
+    {
         // Default prices from Plane model
         $basePrice = $plane->default_price_per_minute ?? 0;
         $instructorPrice = $plane->instructor_price_per_minute ?? 0;
+        $pricingLogic = 'Aircraft defaults';
 
         Log::channel('pricing')->info('Default prices loaded from aircraft', [
+            'pricing_logic' => $pricingLogic,
             'base_price_per_minute' => $basePrice,
             'instructor_price_per_minute' => $instructorPrice,
         ]);
@@ -66,8 +94,10 @@ class ActivityCalculationService
                 $instructorPrice = !empty($inputs['instructor_id'])
                     ? $planeUser->getInstructorPricePerMinute()
                     : $instructorPrice;
+                $pricingLogic = 'User based individual';
 
                 Log::channel('pricing')->info('Individual pricing found and applied', [
+                    'pricing_logic' => $pricingLogic,
                     'user_id' => $inputs['user_id'],
                     'base_price_per_minute' => $basePrice,
                     'instructor_price_per_minute' => $instructorPrice,
@@ -85,47 +115,28 @@ class ActivityCalculationService
 
         Log::channel('pricing')->info('Amount calculated before package pricing', [
             'calculated_amount' => $calculatedAmount,
-            'total_minutes' => $minutes,
         ]);
 
         // Apply package pricing
-        $finalAmountData = $this->applyPackagePricing($inputs, $calculatedAmount, $minutes);
-
-        return $finalAmountData + [
-                'base_price_per_minute' => $basePrice,
-                'instructor_price_per_minute' => $instructorPrice,
-            ];
+        return $this->applyPackagePricing($inputs, $calculatedAmount, $minutes, $pricingLogic);
     }
 
-    protected function defaultPricingResponse(): array
-    {
-        return [
-            'base_price_per_minute' => 0,
-            'instructor_price_per_minute' => 0,
-            'amount' => 0,
-            'package_id' => null,
-            'package_price' => null,
-            'remaining_minutes' => 0,
-        ];
-    }
-
-    public function applyPackagePricing(array $inputs, float $calculatedAmount, int $minutes): array
+    public function applyPackagePricing(array $inputs, float $calculatedAmount, int $minutes, string $pricingLogic): array
     {
         $userId = $inputs['user_id'];
         $planeId = $inputs['plane_id'];
-        $instructorIncluded = !empty($inputs['instructor_id']); // Prüfen, ob ein Instructor ausgewählt wurde
+        $instructorId = $inputs['instructor_id'] ?? null;
 
-        // Find an active package
         $activePackage = Package::where('user_id', $userId)
             ->where(function ($query) use ($planeId) {
-                $query->whereNull('plane_id') // General Package
-                ->orWhere('plane_id', $planeId); // Package Plane specific
+                $query->whereNull('plane_id') // Valid for all Planes
+                ->orWhere('plane_id', $planeId); // Check individual plane
             })
-            ->where(function ($query) use ($instructorIncluded) {
-                $query->where('instructor_included', $instructorIncluded); // Package where Instructor included
+            ->when($instructorId !== null, function ($query) {
+                $query->where('instructor_included', true);
             })
-            ->whereDate('valid_from', '<=', now())
-            ->whereDate('valid_until', '>=', now())
+            ->whereDate('valid_from', '<=', Carbon::parse($inputs['event']))
+            ->whereDate('valid_until', '>=', Carbon::parse($inputs['event']))
             ->first();
 
         if ($activePackage) {
@@ -143,8 +154,10 @@ class ActivityCalculationService
 
             $extraMinutes = $minutes - $usedMinutes;
             $extraAmount = round(($calculatedAmount / $minutes) * $extraMinutes, 2);
+            $pricingLogic = 'Packaged';
 
             return [
+                'pricing_logic' => $pricingLogic,
                 'amount' => $packageAmount + $extraAmount,
                 'package_used' => true,
                 'used_minutes' => $usedMinutes,
@@ -157,14 +170,33 @@ class ActivityCalculationService
 
         return [
             'amount' => $calculatedAmount,
+            'pricing_logic' => $pricingLogic,
             'package_used' => false,
-            'used_minutes' => 0,
-            'remaining_minutes' => 0,
-            'package_id' => null,
-            'package_name' => null,
-            'package_price' => null,
         ];
     }
 
+    protected function requiresEventTimes(int $planeId): bool
+    {
+        return $this->getPlaneCounterType($planeId) === '000';
+    }
 
+    protected function requiresCounters(int $planeId): bool
+    {
+        return $this->getPlaneCounterType($planeId) !== '000';
+    }
+
+    protected function getPlaneCounterType(int $planeId): ?string
+    {
+        $plane = Plane::find($planeId);
+        return $plane?->counter_type;
+    }
+
+
+    protected function defaultResponse(): array
+    {
+        return [
+            'amount' => 0,
+            'minutes' => 0,
+        ];
+    }
 }

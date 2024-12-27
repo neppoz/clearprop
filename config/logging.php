@@ -92,10 +92,10 @@ return [
         ],
 
         'pricing' => [
-            'driver' => 'single',
-            'channels' => ['daily'],
+            'driver' => 'daily',
             'path' => storage_path('logs/pricing.log'),
             'level' => 'info',
+            'days' => 14,
         ],
 
     ],
