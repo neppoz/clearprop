@@ -46,15 +46,10 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
         'lang',
         'taxno',
@@ -69,18 +64,21 @@ class User extends Authenticatable implements FilamentUser
         'remember_token',
     ];
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
-
     protected function casts(): array
     {
         return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
             'medical_due' => 'date',
             'email_verified_at' => 'datetime',
             'privacy_confirmed_at' => 'datetime',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 
     public function getIsAdminAttribute(): bool

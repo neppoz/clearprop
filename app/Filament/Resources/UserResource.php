@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -99,7 +100,21 @@ class UserResource extends Resource
                                     ->required(),
                             ])
                             ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
-//                            ->hidden(fn(?User $record) => $record === null),
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\Toggle::make('email_verified_at')
+                                    ->label('Email Verified')
+                                    ->helperText('Toggle this to mark the email as verified.')
+                                    ->reactive()
+                                    ->dehydrateStateUsing(fn($state) => $state ? now() : null)
+                                    ->afterStateUpdated(function ($state, $record) {
+                                        $record->email_verified_at = $state ? now() : null;
+                                        $record->save();
+                                    })
+
+
+                            ])
+                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\Placeholder::make('created_at')

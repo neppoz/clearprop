@@ -98,6 +98,7 @@ class AcceptInvitation extends SimplePage
             'email' => $this->invitationModel->email,
             'medical_due' => $this->form->getState()['medical_due'],
             'phone_1' => $this->form->getState()['phone_1'],
+            'email_verified_at' => now(),
         ]);
 
         $user->assignRole(User::IS_MEMBER);
