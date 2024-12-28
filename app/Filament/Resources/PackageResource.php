@@ -31,6 +31,14 @@ class PackageResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                Select::make('type')
+                    ->label('Package Type')
+                    ->options([
+//                        PackageType::HOURLY->value => 'Hourly',
+                        PackageType::FIXED->value => 'Fixed Price',
+                    ])
+                    ->required(),
+
                 Select::make('user_id')
                     ->label('User')
                     ->relationship('user', 'name')
@@ -39,17 +47,13 @@ class PackageResource extends Resource
                     ->native(true)
                     ->required(),
 
-                TextInput::make('price')
-                    ->label('Price (€)')
-                    ->numeric()
-                    ->required(),
-
-                TextInput::make('initial_minutes')
-                    ->label('Hours included')
-                    ->numeric()
-                    ->required()
-                    ->formatStateUsing(fn($state) => $state ? round($state / 60, 2) : null) // Zeigt Stunden an
-                    ->dehydrateStateUsing(fn($state) => is_numeric($state) ? round($state * 60) : null), // Speichert Minuten
+                Select::make('plane_id')
+                    ->label('Plane')
+                    ->relationship('plane', 'callsign')
+                    ->searchable()
+                    ->preload()
+                    ->native(true)
+                    ->nullable(),
 
                 DatePicker::make('valid_from')
                     ->label('Valid From')
@@ -61,27 +65,27 @@ class PackageResource extends Resource
                     ->native(true)
                     ->required(),
 
-                Select::make('type')
-                    ->label('Package Type')
-                    ->options([
-                        PackageType::HOURLY->value => 'Hourly',
-                        PackageType::FIXED->value => 'Fixed Price',
-                    ])
+                TextInput::make('price')
+                    ->label('Price')
+                    ->numeric()
+                    ->suffix('€')
                     ->required(),
 
-                Select::make('plane_id')
-                    ->label('Plane')
-                    ->relationship('plane', 'callsign')
-                    ->searchable()
-                    ->preload()
-                    ->native(true)
-                    ->nullable(),
+                TextInput::make('initial_minutes')
+                    ->label('Minutes included')
+                    ->numeric()
+                    ->required(),
 
                 Toggle::make('instructor_included')
                     ->label('Instructor included')
                     ->helperText('Indicate if an instructor is included in this activity.')
                     ->reactive()
                     ->default(false),
+
+                TextInput::make('remaining_minutes')
+                    ->label('Remaining minutes')
+                    ->numeric()
+                    ->required(),
             ]);
     }
 
