@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets\App;
 
 use App\Services\StatisticsService;
+use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -41,9 +42,9 @@ class ActivityOverview extends BaseWidget
         }
 
         return [
-            Stat::make(__('panel.totalAirtime'), $totalAirTime),
-            Stat::make(trans('panel.avgDuration'), $avgDurationPerMission),
-            Stat::make(trans('panel.loggedMissions'), $loggedMissions),
+            Stat::make(__('panel.totalAirtime') . ' ' . now()->year, $totalAirTime),
+            Stat::make(trans('panel.avgDuration') . ' ' . now()->year, $avgDurationPerMission),
+            Stat::make(trans('panel.loggedMissions') . ' ' . now()->year, $loggedMissions),
         ];
     }
 }

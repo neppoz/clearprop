@@ -3,17 +3,15 @@
 namespace App\Filament\Resources\ActivityResource\Widgets;
 
 use App\Services\StatisticsService;
+use Illuminate\Support\Carbon;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class ActivitiesAircraftChart extends ApexChartWidget
 {
     protected static ?string $pollingInterval = null;
-    /**
-     * Chart Id
-     *
-     * @var string
-     */
+
     protected int|string|array $columnSpan = 'full';
+
     protected static ?string $chartId = 'activitiesAircraftChart';
 
     /**
@@ -41,6 +39,10 @@ class ActivitiesAircraftChart extends ApexChartWidget
     protected function getOptions(): array
     {
         $statistics = (new StatisticsService())->getActivitiesByAircraft();
+
+        $categories = collect($statistics['categories'])->map(function ($monthNumber) {
+            return \Carbon\Carbon::createFromFormat('m', str_pad($monthNumber, 2, '0', STR_PAD_LEFT))->shortMonthName;
+        })->toArray();
 
         $tailwindBlues = [
 //            '#bfdbfe', // blue-200
@@ -76,7 +78,7 @@ class ActivitiesAircraftChart extends ApexChartWidget
             ],
             'series' => $statistics['series'],
             'xaxis' => [
-                'categories' => $statistics['categories'],
+                'categories' => $categories,
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',
