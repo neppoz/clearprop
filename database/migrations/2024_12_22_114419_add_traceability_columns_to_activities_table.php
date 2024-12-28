@@ -9,10 +9,7 @@ class AddTraceabilityColumnsToActivitiesTable extends Migration
     public function up(): void
     {
         Schema::table('activities', function (Blueprint $table) {
-            $table->decimal('base_price_per_minute', 10, 2)->nullable(); // Applied base price
-            $table->decimal('instructor_price_per_minute', 10, 2)->nullable(); // Applied instructor price
             $table->unsignedBigInteger('package_id')->nullable(); // Referenced package
-            $table->integer('remaining_package_minutes')->nullable(); // Remaining minutes in the package
         });
     }
 
@@ -20,11 +17,7 @@ class AddTraceabilityColumnsToActivitiesTable extends Migration
     {
         Schema::table('activities', function (Blueprint $table) {
             $table->dropColumn([
-                'base_price_per_minute',
-                'instructor_price_per_minute',
                 'package_id',
-                'package_price',
-                'remaining_package_minutes',
             ]);
         });
     }

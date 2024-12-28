@@ -49,8 +49,6 @@ class Activity extends Model
         'warmup_minutes',
         'minutes',
         'amount',
-        'base_price_per_minute',
-        'instructor_price_per_minute',
         'package_id',
         'description',
         'created_at',
