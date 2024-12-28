@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PlanesRelationManager extends RelationManager
 {
+    protected static ?string $label = 'Individual prices';
+    protected static ?string $recordTitleAttribute = 'Individual prices';
     protected static string $relationship = 'planes';
 
     public function form(Form $form): Form
@@ -41,6 +43,7 @@ class PlanesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('callsign')
+            ->heading('Individual prices')
             ->columns([
                 Tables\Columns\TextColumn::make('callsign'),
                 Tables\Columns\TextColumn::make('base_price_per_minute'),
