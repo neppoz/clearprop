@@ -28,7 +28,6 @@ class ActivityResource extends Resource
     protected static ?string $model = Activity::class;
     protected static ?int $navigationSort = 2;
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
-    protected static bool $shouldCollapseNavigationGroup = true;
 
     public static function canViewAny(): bool
     {

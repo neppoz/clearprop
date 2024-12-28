@@ -14,13 +14,19 @@ use Filament\Tables\Table;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Illuminate\Support\Facades\Gate;
 
 class PackageResource extends Resource
 {
     protected static ?string $model = Package::class;
     protected static ?string $navigationIcon = 'heroicon-o-archive-box';
     protected static ?string $navigationGroup = 'Management';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 99;
+
+    public static function canViewAny(): bool
+    {
+        return Gate::allows('viewPackages');
+    }
 
     public static function form(Form $form): Form
     {

@@ -34,7 +34,6 @@ class ReservationResource extends Resource
     protected static ?string $model = Reservation::class;
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-    protected static bool $shouldCollapseNavigationGroup = true;
 
     public static function canViewAny(): bool
     {

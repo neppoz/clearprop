@@ -16,7 +16,6 @@ class ExpenseCategoryResource extends Resource
 {
     protected static ?string $model = ExpenseCategory::class;
     protected static ?string $navigationIcon = 'heroicon-o-arrow-right-end-on-rectangle';
-    protected static bool $shouldCollapseNavigationGroup = true;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?int $navigationSort = 10;
 

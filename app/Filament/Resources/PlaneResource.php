@@ -20,8 +20,8 @@ class PlaneResource extends Resource
     protected static ?int $navigationSort = 98;
     protected static ?string $recordTitleAttribute = 'Aircrafts';
     protected static ?string $navigationLabel = 'Aircrafts';
+    protected static ?string $navigationGroup = 'Management';
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
-    protected static bool $shouldCollapseNavigationGroup = true;
 
     public static function canViewAny(): bool
     {

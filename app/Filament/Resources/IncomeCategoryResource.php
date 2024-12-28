@@ -16,7 +16,6 @@ class IncomeCategoryResource extends Resource
 {
     protected static ?string $model = IncomeCategory::class;
     protected static ?string $navigationIcon = 'heroicon-o-arrow-left-end-on-rectangle';
-    protected static bool $shouldCollapseNavigationGroup = true;
     protected static bool $shouldRegisterNavigation = false;
     protected static ?int $navigationSort = 11;
 
