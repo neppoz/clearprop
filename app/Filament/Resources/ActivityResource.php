@@ -170,18 +170,21 @@ class ActivityResource extends Resource
                                 ->hidden(fn(Get $get) => $get('package_used') == false),
 
                             Forms\Components\Placeholder::make('remaining_time')
-                                ->label('Remaining Time')
+                                ->label('Remaining minutes')
                                 ->inlineLabel()
-                                ->content(function (Get $get) {
-                                    $remainingMinutes = $get('remaining_minutes') ?? 0;
-                                    $hours = floor($remainingMinutes / 60);
-                                    $minutes = $remainingMinutes % 60;
-
-                                    return "{$hours}h {$minutes}m";
-                                })
+                                ->content(fn(Get $get) => $get('remaining_minutes') .
+                                    ($get('remaining_minutes') >= 60
+                                        ? ' (' . floor($get('remaining_minutes') / 60) . 'h ' . str_pad($get('minutes') % 60, 2, '0', STR_PAD_LEFT) . 'm)'
+                                        : ''
+                                    )
+                                )
                                 ->hidden(fn(Get $get) => $get('package_used') == false),
 
                             // Hidden fields in form, needed for saving remaining_minutes in mutator
+                            Forms\Components\Hidden::make('minutes')
+                                ->default(fn(Get $get) => $get('minutes') ?? null),
+                            Forms\Components\Hidden::make('amount')
+                                ->default(fn(Get $get) => $get('amount') ?? null),
                             Forms\Components\Hidden::make('package_used')
                                 ->default(fn(Get $get) => $get('package_used') ?? false),
                             Forms\Components\Hidden::make('package_id')
@@ -440,10 +443,11 @@ class ActivityResource extends Resource
             Log::channel('pricing')->info('Return values from calculation:', $results);
             $set('pricing_logic', $results['pricing_logic']);
             $set('package_used', $results['package_used']);
-            $set('package_name', $results['package_name']);
-            $set('package_id', $results['package_id']);
-            $set('used_minutes', $results['used_minutes']);
-            $set('remaining_minutes', $results['remaining_minutes']);
+            // If package_used is false, fallback the other package related fields
+            $set('package_name', $results['package_used'] ? ($results['package_name'] ?? null) : 'N/A');
+            $set('package_id', $results['package_used'] ? ($results['package_id'] ?? null) : null);
+            $set('used_minutes', $results['package_used'] ? ($results['used_minutes'] ?? 0) : 0);
+            $set('remaining_minutes', $results['package_used'] ? ($results['remaining_minutes'] ?? 0) : null);
             $set('minutes', $results['minutes']);
             $set('amount', $results['amount']);
         } else {

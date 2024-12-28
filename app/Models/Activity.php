@@ -52,8 +52,6 @@ class Activity extends Model
         'base_price_per_minute',
         'instructor_price_per_minute',
         'package_id',
-        'package_price',
-        'remaining_package_minutes',
         'description',
         'created_at',
         'updated_at',
