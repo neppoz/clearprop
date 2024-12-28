@@ -42,21 +42,23 @@ class ManageGeneral extends SettingsPage
                             ->columnSpan(2),
                         Forms\Components\Checkbox::make('check_activities')
                             ->label('Check airworthiness')
-                            ->helperText('Check airworthiness for reservations'),
+                            ->helperText('Check airworthiness for reservations')
+                            ->columnSpan(2),
                         Forms\Components\TextInput::make('check_activities_limit_days')
-                            ->label('Grounded limit')
+                            ->label('')
                             ->suffix('days')
-                            ->numeric(2, ',', '.'),
+                            ->numeric(2, ',', '.')
+                            ->columnSpan(2),
                         Forms\Components\Checkbox::make('check_balance')
                             ->label('Check finances')
-                            ->helperText('Check PIC finances for reservations'),
+                            ->helperText('Check PIC finances for reservations')
+                            ->columnSpan(2),
                         Forms\Components\TextInput::make('check_balance_limit_amount')
-                            ->label('Credit limit')
+                            ->label('')
                             ->suffixIcon('heroicon-m-currency-euro')
-                            ->numeric(2, ',', '.'),
+                            ->numeric(2, ',', '.')
+                            ->columnSpan(2),
                     ]),
-
-
             ]);
     }
 }
