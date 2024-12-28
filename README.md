@@ -77,6 +77,7 @@ Follow these steps to set up ClearProp on your local environment.
    ```bash
    php artisan migrate --seed
    ```
+   Please note: On migration you can set the admin user and the password.
 
 5. **Link Storage**
    ```bash
