@@ -26,8 +26,8 @@ class CreateReservation extends CreateRecord
             // Validate the current user's medical and balance
             if (!ReservationValidator::validateMedical($currentUser) || !ReservationValidator::validateBalance($currentUser)) {
                 Notification::make()
-                    ->title('Access Denied')
-                    ->body('You cannot create a reservation because your Medical or balance is invalid.')
+                    ->title('Reservation Denied')
+                    ->body('You cannot create a reservation. Medical or balance is invalid.')
                     ->danger()
                     ->send();
 
@@ -49,10 +49,10 @@ class CreateReservation extends CreateRecord
         // Retrieve the selected user from form data
         $selectedUser = User::find($data['user_id']);
 
-        // Validate all conditions for the selected user
-        if (!ReservationValidator::validateAll($data, $selectedUser)) {
-            $this->halt();
-        }
+        // Todo: Refactor this, for the moment commented out everything
+//        if (!ReservationValidator::validateAll($data, $selectedUser)) {
+//            $this->halt();
+//        }
     }
 
     /**

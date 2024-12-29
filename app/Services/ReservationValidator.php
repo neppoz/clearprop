@@ -95,14 +95,14 @@ class ReservationValidator
                     // Show warning for Admins and Managers, but do not block the process
                     Notification::make()
                         ->title($message)
-                        ->body('Validation issue detected for the selected user. You can proceed as an Admin or Manager.')
+                        ->body('Validation issue detected.')
                         ->warning()
                         ->send();
                 } else {
                     // For other users, show an error and block the process
                     Notification::make()
                         ->title($message)
-                        ->body('Validation issue detected for the selected user. You cannot proceed.')
+                        ->body('Validation issue detected!')
                         ->danger()
                         ->send();
 
