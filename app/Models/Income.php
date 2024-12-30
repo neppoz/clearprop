@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\IncomeCategory;
 use App\Scopes\RolesScope;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 
 class Income extends Model
 {
@@ -55,7 +51,7 @@ class Income extends Model
 
     public function income_category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(IncomeCategory::class, 'income_category_id');
+        return $this->belongsTo(IncomeCategory::class, 'income_category_id', 'id');
     }
 
     public function created_by(): \Illuminate\Database\Eloquent\Relations\BelongsTo
