@@ -38,37 +38,49 @@ class CreateReservation extends CreateRecord
     protected function beforeCreate(): void
     {
         $data = $this->data;
-
         $user = auth()->user();
         $settings = app(GeneralSettings::class);
+
         $selectedAircraft = Plane::where('id', $data['plane_id'])->first();
-        $reservationStartDate = Carbon::parse($data['reservation_start_date']);
+        $reservationStartDate = Carbon::parse($data['reservation_start_date'])->toDateString();
+        $reservationStartTime = Carbon::parse($reservationStartDate . ' ' . $data['reservation_start_time']);
+        $reservationStopDate = Carbon::parse($data['reservation_stop_date'])->toDateString();
+        $reservationStopTime = Carbon::parse($reservationStopDate . ' ' . $data['reservation_stop_time']);
 
-        // Check if balance validation is enabled
-        if ($user->is_member && $settings->check_activities) {
-            // Validate airworthiness if enabled
-            $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
+        // Checks for members only
+        if ($user->is_member) {
 
-            if (!$airWorthiness) {
+            if ($settings->check_activities) {
+
+                $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
+
+                if (!$airWorthiness) {
+                    Notification::make()
+                        ->title("Airworthiness for {$selectedAircraft->callsign} expired")
+                        ->body('Please select a different aircraft or contact administrator.')
+                        ->danger()
+                        ->send();
+
+                    $this->halt();
+                }
+            }
+
+            // Check if reservation is overlapping
+            $overlapExists = (new ReservationValidator())->validateOverlappingReservation($selectedAircraft, $reservationStartTime, $reservationStopTime);
+
+            if ($overlapExists) {
                 Notification::make()
-                    ->title("Airworthiness for {$selectedAircraft->callsign} expired")
-                    ->body('Please select a different aircraft or contact administrator.')
+                    ->title("Overlapping reservation for {$selectedAircraft->callsign}")
+                    ->body('Please select a different period or contact administrator.')
                     ->danger()
                     ->send();
 
                 $this->halt();
             }
         }
-        // ToDo New Logic. If the user who operates this form is a member then check: validateAirworthiness and validateOverlappingReservation
-//        $data = $this->data;
-//
-//        // Retrieve the selected user from form data
-//        $selectedUser = User::find($data['user_id']);
-//
-//        // Validate the airworthiness
-//        if (!ReservationValidator::validateAll($data, $selectedUser)) {
-//            $this->halt();
-//        }
+
+        // Check overlapping reservation
+
     }
 
     /**

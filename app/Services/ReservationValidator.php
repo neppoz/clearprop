@@ -108,25 +108,16 @@ class ReservationValidator
     /**
      * Validates if a reservation overlaps with existing reservations.
      *
-     * @param array $data
+     * @param Plane $plane
+     * @param $startTime
+     * @param $endTime
      * @param int|null $bookingId
      * @return bool
      */
-    // ToDo: Refactor a little bit..
-    public static function validateOverlappingReservation(array $data, ?int $bookingId = null): bool
+    public static function validateOverlappingReservation(Plane $plane, $startTime, $endTime, ?int $bookingId = null): bool
     {
-        // Ensure that only the date part of reservation_start_date is used
-        $startDate = Carbon::parse($data['reservation_start_date'])->toDateString();
-        $startTime = Carbon::parse($startDate . ' ' . $data['reservation_start_time']);
-
-        // Ensure that only the date part of reservation_stop_date is used
-        $endDate = Carbon::parse($data['reservation_stop_date'])->toDateString();
-        $endTime = Carbon::parse($endDate . ' ' . $data['reservation_stop_time']);
-
-        $planeId = $data['plane_id'];
-
         // Check for overlapping reservations
-        $overlapExists = Plane::where('id', $planeId)
+        return Plane::where('id', $plane->id)
             ->whereHas('planeBookings', function ($query) use ($startTime, $endTime, $bookingId) {
                 $query->where(function ($query) use ($startTime, $endTime) {
                     $query->where('reservation_start', '<', $endTime)
@@ -139,96 +130,5 @@ class ReservationValidator
                 }
             })
             ->exists();
-
-        return !$overlapExists; // Return `true` only if no overlap exists
-    }
-
-
-    /**
-     * Validates all conditions for creating or editing a reservation.
-     *
-     * @param array $data
-     * @param User $selectedUser
-     * @return bool
-     */
-    public static function validateAll(array $data, User $selectedUser): bool
-    {
-        $validators = [
-            'Medical invalid' => self::validateMedical($selectedUser),
-            'Insufficient balance' => self::validateBalance($selectedUser),
-            'Overlapping reservation' => self::validateOverlappingReservation($data, $data['id'] ?? null),
-            'Airworthiness expired' => self::isAirworthinessExpired($data, $selectedUser),
-        ];
-
-        $validationPassed = true;
-        $currentUser = Auth::user(); // User who is filling out the form
-
-        foreach ($validators as $message => $result) {
-            if (!$result) {
-                if ($currentUser->is_admin || $currentUser->is_manager) {
-                    // Show warning for Admins and Managers, but do not block the process
-                    Notification::make()
-                        ->title($message)
-                        ->body('Validation issue detected.')
-                        ->warning()
-                        ->send();
-                } else {
-                    // For other users, show an error and block the process
-                    Notification::make()
-                        ->title($message)
-                        ->body('Validation issue detected!')
-                        ->danger()
-                        ->send();
-
-                    $validationPassed = false; // Mark as failed for non-admins/managers
-                }
-            }
-        }
-
-        return $validationPassed; // True if admin/manager or all validations passed
-    }
-
-    /**
-     * Validates if the user's airworthiness is still valid based on their recent activities.
-     *
-     * @param array $data
-     * @param User $user
-     * @return bool
-     */
-    public static function isAirworthinessExpired(array $data, User $user): bool
-    {
-        $settings = app(GeneralSettings::class);
-
-        if (!($settings->check_activities ?? false)) {
-            return true;
-        }
-
-        $activityLimitDays = $settings->check_activities_limit_days ?? 0;
-
-        $planeId = $data['plane_id'];
-        $reservationStartDate = Carbon::parse($data['reservation_start_date']);
-
-        // Get the user's last activity for the selected plane
-        $lastActivity = Activity::where('plane_id', $planeId)
-            ->where('user_id', $user->id)
-            ->orderByDesc('event')
-            ->first();
-
-        // If no activity is found, return false (validation fails)
-        if (!$lastActivity) {
-            return false; // No valid activity -> fails validation
-        }
-
-        $lastActivityDate = Carbon::parse($lastActivity->event);
-
-        // If last activity is before the reservation start date, check the days difference
-        if ($lastActivityDate->lessThan($reservationStartDate)) {
-            $daysSinceLastActivity = $lastActivityDate->diffInDays($reservationStartDate);
-
-            return $daysSinceLastActivity <= $activityLimitDays; // true = valid, false = fails validation
-        }
-
-        // If the last activity is after or equal to the reservation start date, airworthiness is valid
-        return true;
     }
 }
