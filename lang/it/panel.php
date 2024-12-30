@@ -13,7 +13,7 @@ return [
     */
 
     'totalAirtime' => 'Tempo di volo totale',
-    'avgDuration' => 'Durata media per missione',
+    'avgDuration' => 'Media per missione',
     'loggedMissions' => 'Missioni registrate',
 
 ];

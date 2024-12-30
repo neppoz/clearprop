@@ -4,7 +4,6 @@ namespace App\Services;
 //ToDo: Cleanup
 use App\Enums\ActivityStatus;
 use App\Models\Activity;
-
 use App\Models\Income;
 use App\Models\Mode;
 use App\Models\Reservation;
@@ -18,11 +17,24 @@ class StatisticsService
 {
     public function getGlobalActivityStatistics(): array
     {
-        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->get();
+        $getActivityData = $this->getActivityStatisticsCurrentYear()->get();
 
         return [
             'id' => 'global',
             'name' => trans('cruds.dashboard.statistics.global'),
+            'sum' => $getActivityData->sum('minutes') ?? 0,
+            'avg' => $getActivityData->avg('minutes') ?? 0,
+            'count' => $getActivityData->count() ?? 0,
+        ];
+    }
+
+    public function getPersonalActivityStatistics(): array
+    {
+        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->get();
+
+        return [
+            'id' => 'personal',
+            'name' => trans('cruds.dashboard.statistics.personal'),
             'sum' => $getActivityDataWithoutScope->sum('minutes') ?? 0,
             'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
             'count' => $getActivityDataWithoutScope->count() ?? 0,
@@ -32,15 +44,10 @@ class StatisticsService
     public function getActivityStatisticsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Activity|Builder
     {
         return Activity::where('status', ActivityStatus::Approved)
-            ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+            ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            ->select(['id', 'minutes', 'status']);
     }
 
-    /**
-     * Calculates the user's balance by subtracting activity expenses from payments.
-     *
-     * @param User $user
-     * @return float
-     */
     public function calculateUserBalance(User $user): float
     {
         // Get total activity costs (expenses) for the current year
@@ -57,93 +64,6 @@ class StatisticsService
         return $totalPayments - $totalActivities;
     }
 
-    /**
-     * Gets a summary of the user's activities for the current year.
-     *
-     * @param User $user
-     * @return array
-     */
-    public function getUserActivitySummary(User $user): array
-    {
-        // Retrieve user's activities for the current year
-        $summary = $user->userActivities()
-            ->whereYear('created_at', now()->year)
-            ->select(
-                DB::raw('SUM(amount) as total_spent'),
-                DB::raw('COUNT(*) as total_activities')
-            )
-            ->first();
-
-        return $summary ? $summary->toArray() : ['total_spent' => 0, 'total_activities' => 0];
-    }
-
-    /**
-     * Retrieves the total payments for the current year.
-     *
-     * @param User $user
-     * @return float
-     */
-    public function getUserTotalPayments(User $user): float
-    {
-        // Sum all payments (user incomes) for the current year
-        return $user->userIncomes()
-            ->whereYear('created_at', now()->year)
-            ->sum('amount') ?? 0.0;
-    }
-
-    /**
-     * Retrieves the total activity expenses for the current year.
-     *
-     * @param User $user
-     * @return float
-     */
-    public function getUserTotalActivities(User $user): float
-    {
-        // Sum all activity amounts for the current year
-        return $user->userActivities()
-            ->whereYear('created_at', now()->year)
-            ->sum('amount') ?? 0.0;
-    }
-
-    public function getInstructorActivityStatistics(): array
-    {
-        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('instructor_id', Auth::id())->get();
-
-        return [
-            'id' => 'instructor',
-            'name' => trans('cruds.dashboard.statistics.instructor'),
-            'sum' => $getActivityDataWithoutScope->sum('minutes') ?? 0,
-            'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
-            'count' => $getActivityDataWithoutScope->count() ?? 0,
-        ];
-    }
-
-    public function getPersonalActivityStatistics(): array
-    {
-        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
-
-        return [
-            'id' => 'personal',
-            'name' => trans('cruds.dashboard.statistics.personal'),
-            'sum' => $getActivityDataWithoutScope->sum('minutes') ?? 0,
-            'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
-            'count' => $getActivityDataWithoutScope->count() ?? 0,
-        ];
-    }
-
-    public function getPersonalFinanceStatistics(): array //ToDo: Cleanup
-    {
-        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
-        $getPaymentDataWithoutScope = $this->getPaymentsCurrentYear()->withoutGlobalScope('user_id')->where('user_id', Auth::id())->get();
-        return [
-            'id' => 'personal',
-            'name' => trans('cruds.profile.finance.personal'),
-            'sum_activity' => $getActivityDataWithoutScope->sum('amount') ?? 0,
-            'sum_payments' => $getPaymentDataWithoutScope->sum('amount') ?? 0,
-            'sum_balance' => ($getPaymentDataWithoutScope->sum('amount') ?? 0) + -abs(($getActivityDataWithoutScope->sum('amount') ?? 0)),
-        ];
-    }
-
     public function getPaymentsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
     {
         return Income::whereHas('income_category', function ($q) {
@@ -152,13 +72,7 @@ class StatisticsService
             ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
-    public function getIncomesByFilter($fromDate, $toDate): \Illuminate\Database\Eloquent\Builder //ToDo: Cleanup
-    {
-        return Income::with('income_category')
-            ->whereBetween('entry_date', [$fromDate, $toDate]);
-    }
-
-    public function getReservationsByType(): array //ToDo: Cleanup
+    public function getReservationsByType(): array
     {
         $allModes = Mode::whereIn('id', [Reservation::IS_CHARTER, Reservation::IS_SCHOOL])
             ->pluck('name', 'id')
@@ -278,4 +192,5 @@ class StatisticsService
             'labels' => $labels,
         ];
     }
+
 }
