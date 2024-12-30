@@ -14,7 +14,7 @@ class IncomeCategorySeeder extends Seeder
             ['deposit' => PaymentType::Deposit->value],
             [
                 'name' => 'Activity deposit',
-                'type' => PaymentType::Deposit->value,
+                'deposit' => PaymentType::Deposit->value,
             ]
         );
     }
