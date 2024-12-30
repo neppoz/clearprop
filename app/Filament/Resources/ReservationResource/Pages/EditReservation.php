@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\ReservationResource\Pages;
 
 use App\Filament\Resources\ReservationResource;
+use App\Models\Plane;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Services\ReservationValidator;
+use App\Settings\GeneralSettings;
 use Carbon\Carbon;
 use Filament\Actions;
 use Filament\Notifications\Notification;
@@ -37,27 +39,26 @@ class EditReservation extends EditRecord
     }
 
     /**
+     * Perform checks before saving the record.
      * @throws Halt
      */
     protected function beforeSave(): void
     {
         $data = $this->data;
 
-        // Make sure it is a ID
-        $userId = is_array($data['user_id']) ? $data['user_id'][0] : $data['user_id'];
-        $selectedUser = User::where('id', $userId)->first();
+        $validationChecksForCurrentRecordPassed = (new ReservationResource())->validateReservation($data);
 
-        // Validate all conditions for the selected user
-        if (!ReservationValidator::validateAll($data, $selectedUser)) {
-            $this->halt(); // Stop the process if validation fails and the current user is not an admin/manager
+        // If something else than true comes back, halt the process now!
+        if (!$validationChecksForCurrentRecordPassed) {
+            $this->halt();
         }
     }
-
 
     public function getHeaderWidgets(): array
     {
         return ReservationResource::getWidgets();
     }
+
     protected function getHeaderActions(): array
     {
         return [

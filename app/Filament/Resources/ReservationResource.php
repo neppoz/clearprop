@@ -8,6 +8,7 @@ use App\Models\Activity;
 use App\Models\Plane;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Services\ReservationValidator;
 use App\Services\StatisticsService;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
@@ -232,6 +233,55 @@ class ReservationResource extends Resource
                     ->date('D d/m/Y')
                     ->collapsible(),
             ]);
+    }
+
+    public function validateReservation(array $data): bool
+    {
+        $user = auth()->user();
+        $settings = app(GeneralSettings::class);
+
+        $selectedAircraft = Plane::where('id', $data['plane_id'])->first();
+        $reservationStartDate = Carbon::parse($data['reservation_start_date'])->toDateString();
+        $reservationStartTime = Carbon::parse($reservationStartDate . ' ' . $data['reservation_start_time']);
+        $reservationStopDate = Carbon::parse($data['reservation_stop_date'])->toDateString();
+        $reservationStopTime = Carbon::parse($reservationStopDate . ' ' . $data['reservation_stop_time']);
+        $bookingId = $data['id'] ?? null;
+
+        // Checks for members only
+        if ($user->is_member) {
+
+            if ($settings->check_activities) {
+
+                $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
+
+                if (!$airWorthiness) {
+                    Notification::make()
+                        ->title("Airworthiness for {$selectedAircraft->callsign} expired")
+                        ->body('Please select a different aircraft or contact administrator.')
+                        ->danger()
+                        ->send();
+
+                    return false;
+                }
+
+            }
+
+            // Check if reservation is overlapping
+            $overlapExists = (new ReservationValidator())->validateOverlappingReservation($selectedAircraft, $reservationStartTime, $reservationStopTime, $bookingId);
+
+            if ($overlapExists) {
+                Notification::make()
+                    ->title("Overlapping reservation for {$selectedAircraft->callsign}")
+                    ->body('Please select a different period or contact administrator.')
+                    ->danger()
+                    ->send();
+
+                return false;
+            }
+
+        }
+
+        return true;
     }
 
     public static function getRelations(): array

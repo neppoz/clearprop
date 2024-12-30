@@ -38,48 +38,13 @@ class CreateReservation extends CreateRecord
     protected function beforeCreate(): void
     {
         $data = $this->data;
-        $user = auth()->user();
-        $settings = app(GeneralSettings::class);
 
-        $selectedAircraft = Plane::where('id', $data['plane_id'])->first();
-        $reservationStartDate = Carbon::parse($data['reservation_start_date'])->toDateString();
-        $reservationStartTime = Carbon::parse($reservationStartDate . ' ' . $data['reservation_start_time']);
-        $reservationStopDate = Carbon::parse($data['reservation_stop_date'])->toDateString();
-        $reservationStopTime = Carbon::parse($reservationStopDate . ' ' . $data['reservation_stop_time']);
+        $validationChecksForCurrentRecordPassed = (new ReservationResource())->validateReservation($data);
 
-        // Checks for members only
-        if ($user->is_member) {
-
-            if ($settings->check_activities) {
-
-                $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
-
-                if (!$airWorthiness) {
-                    Notification::make()
-                        ->title("Airworthiness for {$selectedAircraft->callsign} expired")
-                        ->body('Please select a different aircraft or contact administrator.')
-                        ->danger()
-                        ->send();
-
-                    $this->halt();
-                }
-            }
-
-            // Check if reservation is overlapping
-            $overlapExists = (new ReservationValidator())->validateOverlappingReservation($selectedAircraft, $reservationStartTime, $reservationStopTime);
-
-            if ($overlapExists) {
-                Notification::make()
-                    ->title("Overlapping reservation for {$selectedAircraft->callsign}")
-                    ->body('Please select a different period or contact administrator.')
-                    ->danger()
-                    ->send();
-
-                $this->halt();
-            }
+        // If something else than true comes back, halt the process now!
+        if (!$validationChecksForCurrentRecordPassed) {
+            $this->halt();
         }
-
-        // Check overlapping reservation
 
     }
 
