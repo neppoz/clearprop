@@ -3,15 +3,19 @@
 namespace App\Services;
 //ToDo: Cleanup
 use App\Enums\ActivityStatus;
+use App\Enums\PaymentType;
 use App\Models\Activity;
 use App\Models\Income;
+use App\Models\IncomeCategory;
 use App\Models\Mode;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Settings\GeneralSettings;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StatisticsService
 {
@@ -46,6 +50,21 @@ class StatisticsService
         return Activity::where('status', ActivityStatus::Approved)
             ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
             ->select(['id', 'minutes', 'status']);
+    }
+
+    public function validateBalanceCalculation(User $user): float
+    {
+        $depositCategoryId = IncomeCategory::where('deposit', PaymentType::Deposit->value)
+            ->orderBy('id', 'asc')
+            ->value('id'); // Use only the first default deposit value
+
+        $totalDeposits = Income::where('user_id', $user->id)
+            ->where('income_category_id', $depositCategoryId)
+            ->sum('amount');
+
+        $totalActivities = Activity::where('user_id', $user->id)->sum('amount');
+
+        return $totalDeposits - $totalActivities;
     }
 
     public function calculateUserBalance(User $user): float

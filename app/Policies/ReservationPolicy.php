@@ -4,12 +4,57 @@ namespace App\Policies;
 
 use App\Models\Reservation;
 use App\Models\User;
+use App\Services\ReservationValidator;
+use App\Settings\GeneralSettings;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 
 class ReservationPolicy
 {
     use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can create the model.
+     */
+    public function create(User $user): bool
+    {
+        // Admins and Managers are always allowed
+        if ($user->is_admin || $user->is_manager) {
+            return true;
+        }
+
+        if ($user->is_member) {
+            $settings = app(GeneralSettings::class);
+
+            // Medical Check
+            if ($settings->check_medical) {
+                if (!ReservationValidator::validateMedical($user)) {
+                    return false; // Validation failed
+                }
+            } else {
+                Log::info("Medical validation is disabled. Skipping check for {$user->name}.");
+            }
+
+            // Balance-Check
+            if ($settings->check_balance) {
+                if (!ReservationValidator::validateBalance($user)) {
+                    return false; // Validation failed
+                }
+            } else {
+                Log::info("Balance validation is disabled. Skipping check for {$user->name}.");
+            }
+
+            // Note that airworthiness can not be checked on create.
+            // It is based on selected aircraft...
+
+            Log::info("All validations passed for {$user->name}.");
+            return true;
+        }
+
+        // Fallback: Create not allowed
+        return false;
+    }
 
     /**
      * Determine whether the user can delete the model.
