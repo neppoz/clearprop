@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             RolesTableSeeder::class,
             ModesTableSeeder::class,
+            IncomeCategorySeeder::class,
         ]);
     }
 }
