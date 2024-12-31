@@ -15,6 +15,11 @@ class BookingsCalendar extends FullCalendarWidget
     protected static ?int $sort = 3;
     public Model|string|null $model = Reservation::class;
 
+    public static function can(): bool
+    {
+        return false; // Entfernt die umgebende Card
+    }
+
     public function config(): array
     {
         return [
@@ -23,7 +28,7 @@ class BookingsCalendar extends FullCalendarWidget
             'resourceAreaHeaderContent' => 'Sign', // Resource header title
             'resourceAreaWidth' => '65px', // Resource header smaller
             'resources' => $this->getResources(), // Resource data for timeline
-            'aspectRatio' => 0.75, // Calendar aspect ratio
+            'aspectRatio' => 0.75, // smaller better for mobile
             'responsive' => true, // for mobile
             'dayHeaders' => true, // Display day headers in the calendar
             'timeZone' => config('panel.timezone'), // Use application timezone
