@@ -61,7 +61,7 @@ class ReservationResource extends Resource
                         ->options(function ($record) {
                             $activePlanes = Plane::where('active', true)->pluck('callsign', 'id');
 
-                            // Stelle sicher, dass der aktuelle Wert verfügbar bleibt
+                            // Make sure that the value persists
                             if ($record && $record->plane_id) {
                                 $currentPlane = Plane::find($record->plane_id);
                                 if ($currentPlane) {
@@ -87,6 +87,7 @@ class ReservationResource extends Resource
                     TimePicker::make('reservation_start_time')
                         ->label('Start time')
                         ->seconds(false)
+                        ->step(900)
                         ->native(true)
                         ->reactive()
                         ->required(),
