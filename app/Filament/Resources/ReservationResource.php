@@ -166,23 +166,23 @@ class ReservationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->paginationPageOptions(['10', '25', '50'])
+            ->paginationPageOptions(['5', '10', '25'])
             ->defaultSort('reservation_start', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('plane.callsign')
                     ->label('Aircraft')
                     ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('mode.name')
-                    ->searchable()
                     ->sortable()
-                    ->toggleable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
-                        'Charter' => 'primary',
-                        'School' => 'gray',
-                        'Maintenance' => 'danger',
-                    }),
+                    ->color(function (?string $state, $record): string {
+                        return match ($record->mode->name ?? null) {
+                            'Charter' => 'primary',
+                            'School' => 'gray',
+                            'Maintenance' => 'danger',
+                            default => 'secondary',
+                        };
+                    })
+                    ->formatStateUsing(fn(?string $state, $record): string => $state),
                 Tables\Columns\TextColumn::make('bookingUsers.name')
                     ->label('PIC')
                     ->sortable()
@@ -202,6 +202,11 @@ class ReservationResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->dateTime('D d/m - H:i'),
+                Tables\Columns\TextColumn::make('description')
+                    ->label('Remarks')
+                    ->color('gray')
+                    ->wrap()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_by.name')
                     ->label('Created by')
                     ->sortable()
@@ -223,9 +228,7 @@ class ReservationResource extends Resource
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                ]),
+
             ])
             ->groups([
                 Tables\Grouping\Group::make('reservation_start')

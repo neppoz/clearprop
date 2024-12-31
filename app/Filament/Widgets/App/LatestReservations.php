@@ -35,15 +35,19 @@ class LatestReservations extends BaseWidget
                 Split::make([
                     Stack::make([
                         Tables\Columns\TextColumn::make('plane.callsign')
-                            ->searchable(),
-                        Tables\Columns\TextColumn::make('mode.name')
-                            ->label('')
+                            ->label('Aircraft')
+                            ->searchable()
+                            ->sortable()
                             ->badge()
-                            ->color(fn(string $state): string => match ($state) {
-                                'Charter' => 'primary',
-                                'School' => 'gray',
-                                'Maintenance' => 'danger',
-                            }),
+                            ->color(function (?string $state, $record): string {
+                                return match ($record->mode->name ?? null) {
+                                    'Charter' => 'primary',
+                                    'School' => 'gray',
+                                    'Maintenance' => 'danger',
+                                    default => 'secondary',
+                                };
+                            })
+                            ->formatStateUsing(fn(?string $state, $record): string => $state),
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('bookingUsers.name')
@@ -54,6 +58,9 @@ class LatestReservations extends BaseWidget
                             ->label('Instructor')
                             ->sortable()
                             ->searchable(),
+                        Tables\Columns\TextColumn::make('description')
+                            ->label('Remarks')
+                            ->color('gray'),
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('reservation_start')
@@ -76,14 +83,6 @@ class LatestReservations extends BaseWidget
                             ->dateTime('H:i'),
 
                     ]),
-                    Stack::make([
-                        Tables\Columns\TextColumn::make('created_by.name')
-                            ->weight('medium')
-                            ->searchable(),
-                        Tables\Columns\TextColumn::make('description')
-                            ->color('gray')
-                            ->searchable(),
-                    ])
                 ])
             ]);
     }
