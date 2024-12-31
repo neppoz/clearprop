@@ -87,7 +87,6 @@ class ReservationResource extends Resource
                     TimePicker::make('reservation_start_time')
                         ->label('Start time')
                         ->seconds(false)
-                        ->step(900)
                         ->native(true)
                         ->reactive()
                         ->required(),

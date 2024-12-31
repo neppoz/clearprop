@@ -202,6 +202,7 @@ class ActivityResource extends Resource
                                     ActivityStatus::Approved->value => 'Approved'
                                 ])
                                 ->default(ActivityStatus::New->value)
+                                ->disableOptionWhen(fn(string $value): bool => Auth::user()->is_member)
                                 ->required(),
                         ])
                 ])
