@@ -41,7 +41,7 @@ class BookingsCalendar extends FullCalendarWidget
                 'resourceTimelineTenDay' => [
                     'type' => 'resourceTimeline',
                     'duration' => ['days' => 10], // 10-day duration
-                    'buttonText' => '10 days',
+                    'buttonText' => '+10',
                     'slotDuration' => '04:00', // Slots of 1 hour
                 ],
                 'resourceTimelineMonth' => [
