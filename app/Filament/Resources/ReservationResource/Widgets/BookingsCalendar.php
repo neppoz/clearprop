@@ -18,31 +18,38 @@ class BookingsCalendar extends FullCalendarWidget
     public function config(): array
     {
         return [
-            'initialView' => 'resourceTimelineTenDay', // Default timeline view
+            'initialView' => 'resourceTimelineDay', // Default timeline view
             'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i:s'), // Default scroll time
-            'resourceAreaHeaderContent' => 'Callsign', // Resource header title
+            'resourceAreaHeaderContent' => 'Sign', // Resource header title
+            'resourceAreaWidth' => '65px', // Resource header smaller
             'resources' => $this->getResources(), // Resource data for timeline
-            'aspectRatio' => 1.2, // Calendar aspect ratio
+            'aspectRatio' => 0.75, // Calendar aspect ratio
+            'responsive' => true, // for mobile
             'dayHeaders' => true, // Display day headers in the calendar
             'timeZone' => config('panel.timezone'), // Use application timezone
             'views' => [
+                'resourceTimelineDay' => [
+                    'type' => 'resourceTimeline',
+                    'buttonText' => 'day',
+                    'slotDuration' => '02:00', // Slots of 1 hour
+                ],
                 'resourceTimelineTenDay' => [
                     'type' => 'resourceTimeline',
                     'duration' => ['days' => 10], // 10-day duration
                     'buttonText' => '10 days',
-                    'slotDuration' => '01:00', // Slots of 1 hour
+                    'slotDuration' => '04:00', // Slots of 1 hour
                 ],
                 'resourceTimelineMonth' => [
                     'type' => 'resourceTimeline',
                     'duration' => ['days' => 30], // 30-day duration
                     'buttonText' => 'Month',
-                    'slotDuration' => '04:00', // Slots of 4 hours
+                    'slotDuration' => '12:00', // Slots of 4 hours
                 ],
             ],
             'headerToolbar' => [
-                'left' => 'prev,next', // Navigation buttons
+                'left' => 'prev,today,next', // Navigation buttons
                 'center' => 'title',   // Centered calendar title
-                'right' => 'resourceTimelineDay,resourceTimelineTenDay,resourceTimelineMonth', // View options
+                'right' => 'resourceTimelineDay,resourceTimelineTenDay' // View options
             ],
             'allDaySlot' => false, // Disable all-day slot
             'height' => "auto", // Automatically adjust calendar height
@@ -59,16 +66,28 @@ class BookingsCalendar extends FullCalendarWidget
                     'hour12' => false,     // 24-hour format
                 ]
             ],
-            'displayEventTime' => false, // Hide event time in the display
             'eventTimeFormat' => [
                 'hour' => '2-digit',
                 'minute' => '2-digit',
                 'hour12' => false, // Use 24-hour format
             ],
+            'titleFormat' => [
+//                'year' => '2-digit', // Jahr im Kurzformat (z. B. '24' statt '2024')
+                'month' => 'short',  // Abbreviation month (z. B. 'Jan')
+                'day' => 'numeric',  // Day
+            ],
+            'displayEventTime' => false, // Hide event time in the display
             'eventDisplay' => 'block', // Display events as full blocks
         ];
     }
 
+    protected function getFullCalendarOptions(): array
+    {
+        return [
+            'resourceAreaHeaderContent' => 'Res.', // Kompakter Header
+            'resourceAreaWidth' => '80px',        // Schlankere Ressourcenspalte
+        ];
+    }
 
     /**
      * FullCalendar will call this function whenever it needs new event data.
