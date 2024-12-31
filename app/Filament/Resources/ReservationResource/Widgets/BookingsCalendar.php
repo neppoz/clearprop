@@ -26,7 +26,7 @@ class BookingsCalendar extends FullCalendarWidget
             'initialView' => 'resourceTimelineDay', // Default timeline view
             'scrollTime' => Carbon::now(config('panel.timezone'))->format('H:i:s'), // Default scroll time
             'resourceAreaHeaderContent' => 'Sign', // Resource header title
-            'resourceAreaWidth' => '65px', // Resource header smaller
+            'resourceAreaWidth' => '70px', // Resource header smaller
             'resources' => $this->getResources(), // Resource data for timeline
             'aspectRatio' => 0.75, // smaller better for mobile
             'responsive' => true, // for mobile
