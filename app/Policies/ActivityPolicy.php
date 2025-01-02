@@ -53,6 +53,10 @@ class ActivityPolicy
      */
     public function restore(User $user, Activity $activity): bool
     {
+        if ($user->is_admin) {
+            return true;
+        }
+
         if ($user->is_member) {
             return Activity::where('id', $activity->id)
                 ->where('user_id', auth()->id())
@@ -68,11 +72,8 @@ class ActivityPolicy
      */
     public function forceDelete(User $user, Activity $activity): bool
     {
-        if ($user->is_member) {
-            return Activity::where('id', $activity->id)
-                ->where('user_id', auth()->id())
-                ->where('status', ActivityStatus::New)
-                ->exists();
+        if ($user->is_admin) {
+            return true;
         }
 
         return false;
