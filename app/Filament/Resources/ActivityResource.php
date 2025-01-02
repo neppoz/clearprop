@@ -459,7 +459,7 @@ class ActivityResource extends Resource
 
     public function collectInputs(Get $get): array
     {
-        return [
+        $inputs = [
             'event' => $get('event'),
             'plane_id' => $get('plane_id'),
             'user_id' => $get('user_id'),
@@ -469,6 +469,13 @@ class ActivityResource extends Resource
             'counter_start' => $get('counter_start'),
             'counter_stop' => $get('counter_stop'),
         ];
+
+        Log::channel('debug')->info('Collected inputs:', [
+            'inputs' => $inputs,
+            'size' => strlen(json_encode($inputs)) . ' bytes',
+        ]);
+
+        return $inputs;
     }
 
     public static function getRelations(): array
