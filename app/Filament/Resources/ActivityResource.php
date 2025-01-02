@@ -73,7 +73,8 @@ class ActivityResource extends Resource
                         ->native(true)
                         ->reactive()
                         ->searchable()
-                        ->options(User::instructors()->pluck('name', 'id')),
+                        ->options(User::instructors()->pluck('name', 'id'))
+                        ->relationship(name: 'user', titleAttribute: 'name'),
                 ])
                 ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource())->calculateResults($get, $set))
                 ->columns(2),
@@ -462,6 +463,7 @@ class ActivityResource extends Resource
             'event' => $get('event'),
             'plane_id' => $get('plane_id'),
             'user_id' => $get('user_id'),
+            'instructor_id' => $get('user_id'),
             'event_start' => $get('event_start'),
             'event_stop' => $get('event_stop'),
             'counter_start' => $get('counter_start'),
