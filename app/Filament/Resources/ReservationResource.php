@@ -120,7 +120,6 @@ class ReservationResource extends Resource
                         ->searchable()
                         ->preload()
                         ->native(true)
-                        ->options(User::all()->pluck('name', 'id'))
                         ->default(fn() => Auth::user()->is_member ? Auth::id() : null)
                         ->disabled(fn(): bool => Auth::user()->is_member)
                         ->saveRelationshipsWhenDisabled(true)
@@ -132,8 +131,6 @@ class ReservationResource extends Resource
                         ->searchable()
                         ->preload()
                         ->native(true)
-                        ->options(User::instructors()->pluck('name', 'id'))
-                        ->disabled(fn(): bool => Auth::user()->is_member)
                         ->relationship(name: 'bookingInstructors', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('mode_id') == Reservation::IS_SCHOOL),
 

@@ -68,7 +68,10 @@ class Reservation extends Model
 
     public function bookingInstructors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'booking_instructor', 'booking_id', 'user_id');
+        return $this->belongsToMany(User::class, 'booking_instructor', 'booking_id', 'user_id')
+            ->whereHas('roles', function ($query) {
+                $query->where('name', User::IS_INSTRUCTOR);
+            });
     }
 
     public function mode(): \Illuminate\Database\Eloquent\Relations\BelongsTo
