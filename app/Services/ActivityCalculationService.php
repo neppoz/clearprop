@@ -60,7 +60,7 @@ class ActivityCalculationService
         if ($this->requiresCounters($plane->id)) {
 
             if ($plane->counter_type === '100') {
-                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 100 / 5 * 3));
+                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) / 100 * 60));
             } elseif ($plane->counter_type === '060') {
                 return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
             }
@@ -106,11 +106,14 @@ class ActivityCalculationService
         }
 
         // Calculate the total amount
-        $calculatedAmount = round($basePrice * $minutes, 2);
+        // Modified logic
+        $calculatedAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * $basePrice;
+//        $calculatedAmount = round($basePrice * $minutes, 2);
 
         // Add instructor price only if an instructor is selected
         if (!empty($inputs['instructor_id'])) {
-            $calculatedAmount += round($instructorPrice * $minutes, 2);
+            $calculatedAmount += ($inputs['counter_stop'] - $inputs['counter_start']) * $instructorPrice;
+//            $calculatedAmount += round($instructorPrice * $minutes, 2);
         }
 
         Log::channel('pricing')->info('Amount calculated before package pricing', [
@@ -148,8 +151,9 @@ class ActivityCalculationService
                 : 0;
 
             $usedMinutes = min($remainingMinutes, $minutes);
-            $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
-
+            // ToDo: align logic
+//            $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
+            $packageAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * $packageMinutePrice;
             $newRemainingMinutes = $remainingMinutes - $usedMinutes;
 
             $extraMinutes = $minutes - $usedMinutes;
