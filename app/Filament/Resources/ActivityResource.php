@@ -60,7 +60,6 @@ class ActivityResource extends Resource
                         ->preload()
                         ->native(true)
                         ->reactive()
-                        ->options(User::all()->pluck('name', 'id'))
                         ->default(fn() => Auth::user()->is_member ? Auth::id() : null)
                         ->disabled(fn(): bool => Auth::user()->is_member)
                         ->saveRelationshipsWhenDisabled(true)
@@ -73,8 +72,7 @@ class ActivityResource extends Resource
                         ->native(true)
                         ->reactive()
                         ->searchable()
-                        ->options(User::instructors()->pluck('name', 'id'))
-                        ->relationship(name: 'user', titleAttribute: 'name'),
+                        ->options(User::instructors()->pluck('name', 'id')),
                 ])
                 ->afterStateUpdated(fn(Get $get, Set $set) => (new ActivityResource())->calculateResults($get, $set))
                 ->columns(2),
