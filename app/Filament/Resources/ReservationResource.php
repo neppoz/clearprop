@@ -96,7 +96,7 @@ class ReservationResource extends Resource
                         ->native(true)
                         ->reactive()
                         ->displayFormat(config('panel.date_format'))
-                        ->afterStateUpdated(fn(Set $set, Get $get, $state) => $get('reservation_start_date') && $state < $get('reservation_start_date')
+                        ->afterStateUpdated(fn(Set $set, Get $get, $state) => $get('reservation_start_date') && $state <= $get('reservation_start_date')
                             ? $set('reservation_stop_date', null)
                             : null
                         )
