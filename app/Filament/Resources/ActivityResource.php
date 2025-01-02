@@ -463,14 +463,14 @@ class ActivityResource extends Resource
             'event' => $get('event'),
             'plane_id' => $get('plane_id'),
             'user_id' => $get('user_id'),
-            'instructor_id' => $get('user_id'),
+            'instructor_id' => $get('instructor_id'),
             'event_start' => $get('event_start'),
             'event_stop' => $get('event_stop'),
             'counter_start' => $get('counter_start'),
             'counter_stop' => $get('counter_stop'),
         ];
 
-        Log::channel('debug')->info('Collected inputs:', [
+        Log::channel('pricing')->info('Collected inputs:', [
             'inputs' => $inputs,
             'size' => strlen(json_encode($inputs)) . ' bytes',
         ]);
