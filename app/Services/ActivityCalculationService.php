@@ -110,9 +110,16 @@ class ActivityCalculationService
         $calculatedAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $basePrice;
 //        $calculatedAmount = round($basePrice * $minutes, 2);
 
+        Log::channel('pricing')->info('Base pricing', [
+            'calculated_amount' => $calculatedAmount,
+        ]);
+
         // Add instructor price only if an instructor is selected
         if (!empty($inputs['instructor_id'])) {
             $calculatedAmount += ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $instructorPrice;
+            Log::channel('pricing')->info('Instructor pricing', [
+                'calculated_amount' => $calculatedAmount,
+            ]);
 //            $calculatedAmount += round($instructorPrice * $minutes, 2);
         }
 
