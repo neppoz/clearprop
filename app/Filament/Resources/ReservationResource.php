@@ -81,7 +81,7 @@ class ReservationResource extends Resource
                         ->firstDayOfWeek(1)
                         ->minDate(Carbon::now()->setTimezone(config('app.timezone'))->format('Y-m-d'))
                         ->native(true)
-                        ->reactive()
+                        ->live(onBlur: true)
                         ->displayFormat(config('panel.date_format'))
                         ->required(),
                     TimePicker::make('reservation_start_time')
@@ -94,12 +94,14 @@ class ReservationResource extends Resource
                         ->label('Date to')
                         ->firstDayOfWeek(1)
                         ->native(true)
-                        ->reactive()
+                        ->live(onBlur: true)
                         ->displayFormat(config('panel.date_format'))
-                        ->afterStateUpdated(fn(Set $set, Get $get, $state) => $get('reservation_start_date') && $state <= $get('reservation_start_date')
-                            ? $set('reservation_stop_date', null)
-                            : null
-                        )
+                        ->afterStateUpdated(function (Set $set, Get $get, $state) {
+                            $startDate = $get('reservation_start_date');
+                            if ($startDate && $state < $startDate) {
+                                $set('reservation_stop_date', null); // Reset only when smaller
+                            }
+                        })
                         ->minDate(fn(Get $get) => $get('reservation_start_date'))
                         ->required(),
                     TimePicker::make('reservation_stop_time')
