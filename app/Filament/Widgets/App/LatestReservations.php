@@ -9,8 +9,6 @@ use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class LatestReservations extends BaseWidget
 {
@@ -21,7 +19,7 @@ class LatestReservations extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(ReservationResource::getEloquentQuery())
+            ->query($this->getReservationsQuery())
             ->paginationPageOptions(['5', '10', '15'])
             ->defaultSort('reservation_start', 'desc')
             ->headerActions([
@@ -85,5 +83,10 @@ class LatestReservations extends BaseWidget
                     ]),
                 ])
             ]);
+    }
+
+    private function getReservationsQuery()
+    {
+        return Reservation::query()->where('reservation_start', '>=', now()->subDays(60));
     }
 }

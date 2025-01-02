@@ -12,12 +12,12 @@ class ReservationRestrictionWidget extends Widget
     {
         $user = auth()->user();
 
-        // Widget wird nur angezeigt, wenn der Benutzer keine Reservierung erstellen kann
+        // Widget only shown when no reservation possible
         return !$user->can('create', \App\Models\Reservation::class);
     }
 
     public function getColumnSpan(?string $breakpoint = null): int|string
     {
-        return 'full'; // Nutzt die gesamte Breite
+        return 'full'; // Use full span
     }
 }

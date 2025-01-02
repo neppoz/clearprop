@@ -315,7 +315,7 @@ class ReservationResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->withoutGlobalScopes()->recentAndUpcoming();
+        return parent::getEloquentQuery()->withoutGlobalScopes();
     }
 
 }
