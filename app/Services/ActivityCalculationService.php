@@ -107,12 +107,12 @@ class ActivityCalculationService
 
         // Calculate the total amount
         // Modified logic
-        $calculatedAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * $basePrice;
+        $calculatedAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $basePrice;
 //        $calculatedAmount = round($basePrice * $minutes, 2);
 
         // Add instructor price only if an instructor is selected
         if (!empty($inputs['instructor_id'])) {
-            $calculatedAmount += ($inputs['counter_stop'] - $inputs['counter_start']) * $instructorPrice;
+            $calculatedAmount += ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $instructorPrice;
 //            $calculatedAmount += round($instructorPrice * $minutes, 2);
         }
 
@@ -153,7 +153,7 @@ class ActivityCalculationService
             $usedMinutes = min($remainingMinutes, $minutes);
             // ToDo: align logic
 //            $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
-            $packageAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * $packageMinutePrice;
+            $packageAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $packageMinutePrice;
             $newRemainingMinutes = $remainingMinutes - $usedMinutes;
 
             $extraMinutes = $minutes - $usedMinutes;
