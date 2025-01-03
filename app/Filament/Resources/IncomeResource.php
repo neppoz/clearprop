@@ -216,7 +216,7 @@ class IncomeResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery();
+        $query = parent::getEloquentQuery()->OfDefaultDepositCategory();
 
         if (auth()->user()->is_admin) {
             return $query->withoutGlobalScopes();
