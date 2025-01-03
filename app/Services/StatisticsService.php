@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Services;
-//ToDo: Cleanup
+
 use App\Enums\ActivityStatus;
-use App\Enums\PaymentType;
 use App\Models\Activity;
 use App\Models\Income;
-use App\Models\IncomeCategory;
 use App\Models\Mode;
 use App\Models\Reservation;
 use App\Models\User;
@@ -77,22 +75,6 @@ class StatisticsService
 
         return $totalDeposits - $totalActivities;
     }
-
-//    public function calculateUserBalance(User $user): float
-//    {
-//        // Get total activity costs (expenses) for the current year
-//        $totalActivities = $user->userActivities()
-//            ->whereYear('event', now()->year)
-//            ->sum('amount');
-//
-//        // Get total payments made by the user for the current year
-//        $totalPayments = $user->userIncomes()
-//            ->whereYear('entry_date', now()->year)
-//            ->sum('amount');
-//
-//        // Calculate the balance (payments minus activities)
-//        return $totalPayments - $totalActivities;
-//    }
 
     public function getPaymentsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
     {
