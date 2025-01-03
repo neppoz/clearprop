@@ -10,6 +10,19 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $user = $this->record;
+
+        if (isset($data['role'])) {
+            $user->syncRoles([$data['role']]);
+        }
+
+        unset($data['role']);
+
+        return $data;
+    }
+
     protected function getHeaderActions(): array
     {
         return [

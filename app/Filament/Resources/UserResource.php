@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
@@ -92,11 +93,19 @@ class UserResource extends Resource
                     ->schema([
                         Forms\Components\Section::make()
                             ->schema([
-                                Forms\Components\CheckboxList::make('roles')
-                                    ->label('Roles')
-                                    ->relationship('roles', 'name')
-                                    ->columns(2)
+                                Forms\Components\Radio::make('role')
+                                    ->label('Access level')
+                                    ->options(
+                                        Role::whereIn('name', ['Admin', 'Manager', 'Instructor', 'Mechanic', 'Member'])
+                                            ->pluck('name', 'name')
+                                            ->toArray()
+                                    )
                                     ->helperText('Select which roles you would like to assign to this user')
+                                    ->afterStateHydrated(function ($set, $record) {
+                                        if ($record && $record->roles->isNotEmpty()) {
+                                            $set('role', $record->roles->first()->name); // Setze die erste Rolle
+                                        }
+                                    })
                                     ->required(),
                             ])
                             ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
