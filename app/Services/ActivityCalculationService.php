@@ -11,6 +11,10 @@ class ActivityCalculationService
 {
     public function validateInputs(array $inputs): bool
     {
+        Log::channel('pricing')->info(str_repeat('=', 50));
+        Log::channel('pricing')->info('Validating request');
+        Log::channel('pricing')->info(str_repeat('=', 50));
+
         if (empty($inputs['event']) || empty($inputs['plane_id']) || empty($inputs['user_id'])) {
             return false;
         }
@@ -58,12 +62,12 @@ class ActivityCalculationService
         }
 
         if ($this->requiresCounters($plane->id)) {
-
-            if ($plane->counter_type === '100') {
-                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
-            } elseif ($plane->counter_type === '060') {
-                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
-            }
+            return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
+//            if ($plane->counter_type === '100') {
+//                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
+//            } elseif ($plane->counter_type === '060') {
+//                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
+//            }
 
         }
 
@@ -105,36 +109,49 @@ class ActivityCalculationService
             }
         }
 
-        // Calculate the total amount
-        // Modified logic
-        $calculatedAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $basePrice;
-//        $calculatedAmount = round($basePrice * $minutes, 2);
+        // Calculate the total amount according plane counter type
+        $calculatedAmount = 0;
 
-        Log::channel('pricing')->info('Base pricing', [
-            'calculated_amount' => $calculatedAmount,
-        ]);
-
-        // Add instructor price only if an instructor is selected
-        if (!empty($inputs['instructor_id'])) {
-            $calculatedAmount += ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $instructorPrice;
-            Log::channel('pricing')->info('Instructor pricing', [
-                'calculated_amount' => $calculatedAmount,
-            ]);
-//            $calculatedAmount += round($instructorPrice * $minutes, 2);
+        if ($this->requiresEventTimes($plane->id)) {
+            $calculatedAmount = round($basePrice * $minutes, 2);
         }
 
-        Log::channel('pricing')->info('Amount calculated before package pricing', [
+        if ($this->requiresCounters($plane->id)) {
+
+            if ($plane->counter_type === '100') {
+                $calculatedAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $basePrice;
+
+                if (!empty($inputs['instructor_id'])) {
+                    $calculatedAmount += ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $instructorPrice;
+                    Log::channel('pricing')->info('Instructor pricing', [
+                        'calculated_amount' => $calculatedAmount,
+                    ]);
+                }
+
+            } elseif ($plane->counter_type === '060') {
+                $calculatedAmount = round($basePrice * $minutes, 2);
+
+                if (!empty($inputs['instructor_id'])) {
+                    $calculatedAmount += round($instructorPrice * $minutes, 2);
+                    Log::channel('pricing')->info('Instructor pricing', [
+                        'calculated_amount' => $calculatedAmount,
+                    ]);
+                }
+            }
+        }
+
+        Log::channel('pricing')->info('Base pricing calculation completed', [
             'calculated_amount' => $calculatedAmount,
         ]);
 
         // Apply package pricing
-        return $this->applyPackagePricing($inputs, $calculatedAmount, $minutes, $pricingLogic);
+        return $this->applyPackagePricing($inputs, $calculatedAmount, $minutes, $pricingLogic, $plane);
     }
 
-    public function applyPackagePricing(array $inputs, float $calculatedAmount, int $minutes, string $pricingLogic): array
+    public function applyPackagePricing(array $inputs, float $calculatedAmount, int $minutes, string $pricingLogic, Plane $plane): array
     {
         $userId = $inputs['user_id'];
-        $planeId = $inputs['plane_id'];
+        $planeId = $plane->id;
         $instructorId = $inputs['instructor_id'] ?? null;
 
         $activePackage = Package::where('user_id', $userId)
@@ -150,6 +167,8 @@ class ActivityCalculationService
             ->first();
 
         if ($activePackage) {
+
+            // Calculate minutes of package
             $remainingMinutes = $activePackage->getRawOriginal('remaining_minutes');
             $initialMinutes = $activePackage->getRawOriginal('initial_minutes');
 
@@ -158,24 +177,37 @@ class ActivityCalculationService
                 : 0;
 
             $usedMinutes = min($remainingMinutes, $minutes);
-            // ToDo: align logic
-//            $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
-            $packageAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $packageMinutePrice;
             $newRemainingMinutes = $remainingMinutes - $usedMinutes;
 
-            $extraMinutes = $minutes - $usedMinutes;
-            $extraAmount = round(($calculatedAmount / $minutes) * $extraMinutes, 2);
-            $pricingLogic = 'Packaged';
 
+            // Calculate package amount
+            $packageAmount = 0;
+            if ($this->requiresEventTimes($plane->id)) {
+                $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
+            }
+
+            if ($this->requiresCounters($plane->id)) {
+
+                if ($plane->counter_type === '100') {
+                    $packageAmount = ($inputs['counter_stop'] - $inputs['counter_start']) * 100 * $packageMinutePrice;
+
+                } elseif ($plane->counter_type === '060') {
+                    $packageAmount = round($usedMinutes * $packageMinutePrice, 2);
+                }
+            }
+
+            // ToDo: Refactor this. What happens when the remaining minutes are smaller than the activity minutes used ??
+
+
+            $pricingLogic = 'Packaged';
             return [
                 'pricing_logic' => $pricingLogic,
-                'amount' => $packageAmount + $extraAmount,
+                'amount' => $packageAmount,
                 'package_used' => true,
                 'used_minutes' => $usedMinutes,
                 'remaining_minutes' => $newRemainingMinutes,
                 'package_id' => $activePackage->id,
                 'package_name' => $activePackage->name,
-                'package_price' => $activePackage->price,
             ];
         }
 

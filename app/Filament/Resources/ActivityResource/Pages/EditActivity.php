@@ -160,8 +160,6 @@ class EditActivity extends EditRecord
 
         Log::channel('pricing')->info('Activity record edit:', $data);
         Log::channel('pricing')->info(str_repeat('-', 50));
-        Log::channel('pricing')->info('Edit process completed', ['record_id' => $this->record->id]);
-        Log::channel('pricing')->info(str_repeat('-', 50));
 
         return $data;
     }

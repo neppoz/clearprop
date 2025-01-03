@@ -65,8 +65,6 @@ class CreateActivity extends CreateRecord
 
         Log::channel('pricing')->info('Activity record created:', $data);
         Log::channel('pricing')->info(str_repeat('-', 50));
-        Log::channel('pricing')->info('Create Activity process completed');
-        Log::channel('pricing')->info(str_repeat('-', 50));
 
         return $data;
 
