@@ -221,6 +221,10 @@ class ReservationResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('current_year')
+                    ->label('last 6 months')
+                    ->query(fn(Builder $query) => $query->where('reservation_start', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
+                    ->default(true),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

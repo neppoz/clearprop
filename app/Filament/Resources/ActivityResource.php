@@ -386,10 +386,9 @@ class ActivityResource extends Resource
 
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\Filter::make('current_year')
-                    ->label('Current Year')
-                    ->query(fn(Builder $query) => $query->whereYear('event', now()->year)
-                    )
-                    ->default(true), // Setzt den Filter standardmäßig aktiv
+                    ->label('last 6 months')
+                    ->query(fn(Builder $query) => $query->where('event', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
+                    ->default(true),
             ])
             ->persistFiltersInSession(false)
             ->actions([
