@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentType;
 use App\Scopes\RolesScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Income extends Model
 {
@@ -58,4 +60,20 @@ class Income extends Model
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
+
+    public function scopeOfDefaultDepositCategory(Builder $query, ?int $userId = null): Builder
+    {
+        $depositCategoryId = IncomeCategory::where('deposit', PaymentType::Deposit->value)
+            ->orderBy('id', 'asc')
+            ->value('id'); // Use only the first default deposit value
+
+        $query->where('income_category_id', $depositCategoryId);
+
+        if ($userId !== null) {
+            $query->where('user_id', $userId);
+        }
+
+        return $query;
+    }
+
 }

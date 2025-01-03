@@ -10,26 +10,27 @@ class PaymentOverview extends BaseWidget
 {
     protected static ?string $pollingInterval = null;
     protected static ?int $sort = 1;
+
     protected function getStats(): array
     {
-        $totalActivityStatisticsCurrentYear = (new StatisticsService())
-            ->getActivityStatisticsCurrentYear()->sum('amount') ?? 0;
-        $totalPaymentsCurrentYear = (new StatisticsService())
-            ->getPaymentsCurrentYear()->sum('amount') ?? 0;
-        $totalBalance = $totalPaymentsCurrentYear + -abs($totalActivityStatisticsCurrentYear);
+        $getBalanceOverview = (new StatisticsService())->getPaymentsAndCostsOverview();
 
-        if ($totalBalance >= 0) {
+        $sumDeposits = $getBalanceOverview['sumDeposits'] ?? 0;
+        $sumActivities = $getBalanceOverview['sumActivities'] ?? 0;
+        $total = $sumActivities - $sumDeposits;
+
+        if ($total >= 0) {
             $color = 'success';
         } else {
-            $color = 'danger';
+            $color = 'warning';
         }
 
         return [
-            Stat::make('Total balance', number_format($totalBalance, 2, ',', '.') . ' €')
+            Stat::make(trans('panel.depositTotal'), number_format($total, 2, ',', '.') . ' €')
                 ->color($color)
                 ->chart([0, 0]),
-            Stat::make('Deposit', number_format($totalPaymentsCurrentYear, 2, ',', '.') . ' €'),
-            Stat::make('Activity spending', number_format($totalActivityStatisticsCurrentYear, 2, ',', '.') . ' €'),
+//            Stat::make('Deposit', number_format($totalPaymentsCurrentYear, 2, ',', '.') . ' €'),
+//            Stat::make('Activity spending', number_format($totalActivityStatisticsCurrentYear, 2, ',', '.') . ' €'),
         ];
     }
 }

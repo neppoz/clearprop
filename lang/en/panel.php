@@ -15,5 +15,6 @@ return [
     'totalAirtime' => 'Total Airtime',
     'avgDuration' => 'Avg. per Mission',
     'loggedMissions' => 'Logged Missions',
+    'depositTotal' => 'Deposit Total',
 
 ];

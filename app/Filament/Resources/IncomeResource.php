@@ -107,11 +107,6 @@ class IncomeResource extends Resource
                     ->label('Amount')
                     ->numeric(2, ',', '.')
                     ->alignEnd()
-                    ->summarize([
-                        Tables\Columns\Summarizers\Sum::make()
-                            ->label('')
-                            ->numeric('2', ',', '.')
-                    ])
                     ->suffix(' €'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -164,12 +159,18 @@ class IncomeResource extends Resource
                     ->label('Name')
                     ->relationship('user', 'name')
                     ->searchable()
-                    ->preload(),
-                Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\Filter::make('current_year')
-                    ->label('last 6 months')
-                    ->query(fn(Builder $query) => $query->where('entry_date', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
-                    ->default(true),
+                    ->preload()
+                    ->visible(fn() => auth()->user()->is_admin),
+                Tables\Filters\TrashedFilter::make()
+                    ->query(function ($query) {
+                        if (!auth()->user()->is_admin) {
+                            // Remove trashed data
+                            $query->withoutTrashed();
+                        } else {
+                            $query->withTrashed();
+                        }
+                    })
+                    ->visible(fn() => auth()->user()->is_admin),
             ])
             ->persistFiltersInSession(false)
             ->actions([
@@ -197,21 +198,25 @@ class IncomeResource extends Resource
 
     public static function getWidgets(): array
     {
-        if (Auth::check() && Auth::user()->is_admin) {
-            return [
+        return [
+            PaymentOverview::class,
+        ];
+//        if (Auth::check() && Auth::user()->is_admin) {
+//            return [
 //                PaymentOverview::class,
-//                BalanceOverview::class
-            ];
-        } else {
-            return [
-//                PaymentOverview::class,
-            ];
-        }
+////                BalanceOverview::class
+//            ];
+//        } else {
+//            return [
+////                PaymentOverview::class,
+//            ];
+//        }
     }
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
+            ->ofDefaultDepositCategory()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

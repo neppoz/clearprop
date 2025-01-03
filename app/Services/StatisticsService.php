@@ -57,15 +57,21 @@ class StatisticsService
             ->select(['id', 'minutes', 'status']);
     }
 
+    public function getPaymentsAndCostsOverview(): array
+    {
+        $totalDeposits = Income::ofDefaultDepositCategory()->sum('amount');
+
+        $totalActivities = Activity::sum('amount');
+
+        return [
+            'sumDeposits' => $totalDeposits,
+            'sumActivities' => $totalActivities,
+        ];
+    }
+
     public function validateBalanceCalculation(User $user): float
     {
-        $depositCategoryId = IncomeCategory::where('deposit', PaymentType::Deposit->value)
-            ->orderBy('id', 'asc')
-            ->value('id'); // Use only the first default deposit value
-
-        $totalDeposits = Income::where('user_id', $user->id)
-            ->where('income_category_id', $depositCategoryId)
-            ->sum('amount');
+        $totalDeposits = Income::ofDefaultDepositCategory()->sum('amount');
 
         $totalActivities = Activity::where('user_id', $user->id)->sum('amount');
 
