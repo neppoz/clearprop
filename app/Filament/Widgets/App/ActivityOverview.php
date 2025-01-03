@@ -42,9 +42,9 @@ class ActivityOverview extends BaseWidget
         }
 
         return [
-            Stat::make(__('panel.totalAirtime') . ' ' . now()->year, $totalAirTime),
-            Stat::make(trans('panel.avgDuration') . ' ' . now()->year, $avgDurationPerMission),
-            Stat::make(trans('panel.loggedMissions') . ' ' . now()->year, $loggedMissions),
+            Stat::make(trans('panel.totalAirtime') . ' last 6 months', $totalAirTime),
+            Stat::make(trans('panel.avgDuration') . ' last 6 months', $avgDurationPerMission),
+            Stat::make(trans('panel.loggedMissions') . ' last 6 months', $loggedMissions),
         ];
     }
 }

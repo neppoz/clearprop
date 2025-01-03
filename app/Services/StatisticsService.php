@@ -10,18 +10,14 @@ use App\Models\IncomeCategory;
 use App\Models\Mode;
 use App\Models\Reservation;
 use App\Models\User;
-use App\Settings\GeneralSettings;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class StatisticsService
 {
     public function getGlobalActivityStatistics(): array
     {
-        $getActivityData = $this->getActivityStatisticsCurrentYear()->get();
+        $getActivityData = $this->getActivitiesPastMonths(6)->get();
 
         return [
             'id' => 'global',
@@ -34,7 +30,7 @@ class StatisticsService
 
     public function getPersonalActivityStatistics(): array
     {
-        $getActivityDataWithoutScope = $this->getActivityStatisticsCurrentYear()->get();
+        $getActivityDataWithoutScope = $this->getActivitiesPastMonths(6)->get();
 
         return [
             'id' => 'personal',
@@ -43,6 +39,15 @@ class StatisticsService
             'avg' => $getActivityDataWithoutScope->avg('minutes') ?? 0,
             'count' => $getActivityDataWithoutScope->count() ?? 0,
         ];
+    }
+
+    public function getActivitiesPastMonths($months): \Illuminate\Database\Eloquent\Builder|Activity|Builder
+    {
+        $startDate = Carbon::now()->subMonthsNoOverflow($months)->startOfMonth();
+
+        return Activity::where('status', ActivityStatus::Approved)
+            ->where('event', '>=', $startDate)
+            ->select(['id', 'minutes', 'status']);
     }
 
     public function getActivityStatisticsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Activity|Builder
@@ -67,21 +72,21 @@ class StatisticsService
         return $totalDeposits - $totalActivities;
     }
 
-    public function calculateUserBalance(User $user): float
-    {
-        // Get total activity costs (expenses) for the current year
-        $totalActivities = $user->userActivities()
-            ->whereYear('created_at', now()->year)
-            ->sum('amount');
-
-        // Get total payments made by the user for the current year
-        $totalPayments = $user->userIncomes()
-            ->whereYear('created_at', now()->year)
-            ->sum('amount');
-
-        // Calculate the balance (payments minus activities)
-        return $totalPayments - $totalActivities;
-    }
+//    public function calculateUserBalance(User $user): float
+//    {
+//        // Get total activity costs (expenses) for the current year
+//        $totalActivities = $user->userActivities()
+//            ->whereYear('event', now()->year)
+//            ->sum('amount');
+//
+//        // Get total payments made by the user for the current year
+//        $totalPayments = $user->userIncomes()
+//            ->whereYear('entry_date', now()->year)
+//            ->sum('amount');
+//
+//        // Calculate the balance (payments minus activities)
+//        return $totalPayments - $totalActivities;
+//    }
 
     public function getPaymentsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
     {
@@ -123,21 +128,23 @@ class StatisticsService
         ];
     }
 
-    public function getActivitiesByAircraft(): array
+    public function getActivitiesByAircraft($months): array
     {
+        $startDate = Carbon::now()->subMonthsNoOverflow($months)->startOfMonth();
+
         $activities = Activity::selectRaw('plane_id, DATE_FORMAT(event, "%m") as month, SUM(minutes) as total_minutes')
+            ->where('event', '>=', $startDate)
             ->groupBy('plane_id', 'month')
             ->with('plane')
-            ->whereYear('event', Carbon::now()->year)
             ->get();
 
         $series = [];
 
         $activitiesByPlane = $activities->groupBy('plane_id');
 
-        $allMonths = collect([
-            '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'
-        ]);
+        $allMonths = collect(range(0, $months - 1))->map(function ($i) {
+            return Carbon::now()->subMonthsNoOverflow($i)->format('m');
+        })->reverse();
 
         foreach ($activitiesByPlane as $planeActivities) {
             $plane = $planeActivities->first()->plane;
@@ -145,8 +152,8 @@ class StatisticsService
 
             $monthlyData = [];
             foreach ($planeActivities as $activity) {
-                $month = $activity->month;
-                $monthlyData[$month] = round($activity->total_minutes / 60, 0); // Minuten in Stunden umgewandelt
+                $month = str_pad($activity->month, 2, '0', STR_PAD_LEFT);
+                $monthlyData[$month] = round($activity->total_minutes / 60, 0);
             }
 
             $data = [];
@@ -162,7 +169,7 @@ class StatisticsService
 
         return [
             'series' => $series,
-            'categories' => $allMonths,
+            'categories' => $allMonths->values(),
         ];
     }
 

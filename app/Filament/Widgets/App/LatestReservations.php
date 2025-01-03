@@ -4,6 +4,7 @@ namespace App\Filament\Widgets\App;
 
 use App\Filament\Resources\ReservationResource;
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Filament\Tables;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
@@ -87,6 +88,8 @@ class LatestReservations extends BaseWidget
 
     private function getReservationsQuery()
     {
-        return Reservation::query()->where('reservation_start', '>=', now()->subDays(60));
+        $startDate = Carbon::now()->subMonthsNoOverflow(6)->startOfMonth();
+
+        return Reservation::query()->where('reservation_start', '>=', $startDate);
     }
 }
