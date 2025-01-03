@@ -220,7 +220,16 @@ class ReservationResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\TrashedFilter::make()
+                    ->query(function ($query) {
+                        if (!auth()->user()->is_admin) {
+                            // Remove trashed data
+                            $query->withoutTrashed();
+                        } else {
+                            $query->withTrashed();
+                        }
+                    })
+                    ->visible(fn() => auth()->user()->is_admin),
                 Tables\Filters\Filter::make('current_year')
                     ->label('last 6 months')
                     ->query(fn(Builder $query) => $query->where('reservation_start', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
