@@ -40,4 +40,9 @@ class NavigationPolicy
     {
         return $user->is_admin;
     }
+
+    public function viewReports(User $user): bool
+    {
+        return $user->is_admin;
+    }
 }
