@@ -385,16 +385,8 @@ class ActivityResource extends Resource
                     ->preload(),
 
                 Tables\Filters\TrashedFilter::make()
-                    ->query(function ($query) {
-                        if (!auth()->user()->is_admin) {
-                            // Remove trashed data
-                            $query->withoutTrashed();
-                        } else {
-                            $query->withTrashed();
-                        }
-                    })
                     ->visible(fn() => auth()->user()->is_admin),
-                Tables\Filters\Filter::make('current_year')
+                Tables\Filters\Filter::make('last_6_months')
                     ->label('last 6 months')
                     ->query(fn(Builder $query) => $query->where('event', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
                     ->default(true),
@@ -403,7 +395,8 @@ class ActivityResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->visible(fn() => auth()->user()->is_admin),
             ])
             ->groups([
                 Tables\Grouping\Group::make('event')
@@ -516,10 +509,13 @@ class ActivityResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        $query = parent::getEloquentQuery();
+
+        if (auth()->user()->is_admin) {
+            return $query->withoutGlobalScopes();
+        }
+
+        return $query;
     }
 
 }

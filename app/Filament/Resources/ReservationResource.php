@@ -218,19 +218,16 @@ class ReservationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visible(fn() => auth()->user()->is_admin),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make()
-                    ->query(function ($query) {
-                        if (!auth()->user()->is_admin) {
-                            // Remove trashed data
-                            $query->withoutTrashed();
-                        } else {
-                            $query->withTrashed();
-                        }
-                    })
                     ->visible(fn() => auth()->user()->is_admin),
-                Tables\Filters\Filter::make('current_year')
+                Tables\Filters\Filter::make('last_6_months')
                     ->label('last 6 months')
                     ->query(fn(Builder $query) => $query->where('reservation_start', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
                     ->default(true),
@@ -238,6 +235,8 @@ class ReservationResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->visible(fn() => auth()->user()->is_admin),
             ])
             ->bulkActions([
 
@@ -325,7 +324,13 @@ class ReservationResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->withoutGlobalScopes();
+        $query = parent::getEloquentQuery();
+
+        if (auth()->user()->is_admin) {
+            return $query->withoutGlobalScopes();
+        }
+
+        return $query;
     }
 
 }
