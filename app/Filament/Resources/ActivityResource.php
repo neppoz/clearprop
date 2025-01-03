@@ -324,7 +324,8 @@ class ActivityResource extends Resource
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visible(fn() => auth()->user()->is_admin),
 
                 Tables\Columns\TextColumn::make('created_by.name')
                     ->sortable()
@@ -376,7 +377,8 @@ class ActivityResource extends Resource
                     ->label('PIC')
                     ->relationship('user', 'name')
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->visible(fn() => auth()->user()->is_admin),
 
                 Tables\Filters\SelectFilter::make('instructor.name')
                     ->label('Instructor')

@@ -119,7 +119,8 @@ class IncomeResource extends Resource
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visible(fn() => auth()->user()->is_admin),
             ])
             ->defaultSort('entry_date', 'desc')
             ->persistSortInSession()
@@ -215,10 +216,12 @@ class IncomeResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->ofDefaultDepositCategory()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        $query = parent::getEloquentQuery();
+
+        if (auth()->user()->is_admin) {
+            return $query->withoutGlobalScopes();
+        }
+
+        return $query;
     }
 }
