@@ -48,6 +48,7 @@ class StatisticsService
             ->select(['id', 'minutes', 'status']);
     }
 
+    // ToDo: Cleanup this method
     public function getActivityStatisticsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Activity|Builder
     {
         return Activity::where('status', ActivityStatus::Approved)
@@ -76,6 +77,7 @@ class StatisticsService
         return $totalDeposits - $totalActivities;
     }
 
+    // ToDo: Cleanup this method
     public function getPaymentsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
     {
         return Income::whereHas('income_category', function ($q) {

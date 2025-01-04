@@ -10,7 +10,7 @@ use Throwable;
 
 class AssetsService
 {
-    public function calculateAssetsRunningHours($plane_id)
+    public function calculateAssetsRunningHours($plane_id): void
     {
         try {
             $activeAssetsByPlane = Asset::where('plane_id', $plane_id)->where('status_id', 1)->get();

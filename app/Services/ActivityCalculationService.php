@@ -63,12 +63,6 @@ class ActivityCalculationService
 
         if ($this->requiresCounters($plane->id)) {
             return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
-//            if ($plane->counter_type === '100') {
-//                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
-//            } elseif ($plane->counter_type === '060') {
-//                return (int)round(max(0, ($inputs['counter_stop'] - $inputs['counter_start']) * 60));
-//            }
-
         }
 
         return 0;
