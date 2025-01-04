@@ -61,7 +61,7 @@ class PlaneResource extends Resource
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('default_price_per_minute')
-                    ->label('Default Price per Minute')
+                    ->label('Base price')
                     ->numeric()
                     ->required()
                     ->step(0.01)
@@ -69,7 +69,7 @@ class PlaneResource extends Resource
                     ->suffix(' €'),
 
                 Forms\Components\TextInput::make('instructor_price_per_minute')
-                    ->label('Default Instructor Price per Minute')
+                    ->label('Instructor price')
                     ->numeric()
                     ->required()
                     ->step(0.01)
@@ -110,11 +110,15 @@ class PlaneResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('default_price_per_minute')
+                    ->label('Base price')
                     ->searchable()
+                    ->suffix(' €')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('instructor_price_per_minute')
+                    ->label('Instructor price')
                     ->searchable()
+                    ->suffix(' €')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('counter_type')
