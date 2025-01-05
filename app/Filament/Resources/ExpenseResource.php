@@ -91,7 +91,7 @@ class ExpenseResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\Filter::make('last_6_months')
-                    ->label('Current Year')
+                    ->label(__('panel.last_6_months'))
                     ->query(fn(Builder $query) => $query->whereYear('entry_date', now()->year)
                     )
                     ->default(true), // Setzt den Filter standardmäßig aktiv
