@@ -221,7 +221,7 @@ class ActivityResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('plane.callsign')
-                    ->label(__('activities.airplane'))
+                    ->label(__('activities.aircraft'))
                     ->sortable()
                     ->searchable(),
 
