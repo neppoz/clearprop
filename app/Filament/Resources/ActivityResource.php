@@ -41,13 +41,13 @@ class ActivityResource extends Resource
                 ->completedIcon('heroicon-m-hand-thumb-up')
                 ->schema([
                     Forms\Components\DatePicker::make('event')
-                        ->label('Date')
+                        ->label(__('activities.date'))
                         ->native(true)
                         ->reactive()
                         ->required(),
 
                     Forms\Components\Select::make('plane_id')
-                        ->label('Aircraft')
+                        ->label(__('activities.aircraft'))
                         ->preload()
                         ->native(true)
                         ->reactive()
@@ -55,7 +55,7 @@ class ActivityResource extends Resource
                         ->required(),
 
                     Forms\Components\Select::make('user_id')
-                        ->label('PIC')
+                        ->label(__('activities.pic'))
                         ->searchable()
                         ->preload()
                         ->native(true)
@@ -67,7 +67,7 @@ class ActivityResource extends Resource
                         ->required(),
 
                     Forms\Components\Select::make('instructor_id')
-                        ->label('Instructor')
+                        ->label(__('activities.instructor'))
                         ->preload()
                         ->native(true)
                         ->reactive()
@@ -81,11 +81,11 @@ class ActivityResource extends Resource
                 ->completedIcon('heroicon-m-hand-thumb-up')
                 ->schema([
                     Forms\Components\TextInput::make('departure')
-                        ->label('Departure')
+                        ->label(__('activities.departure'))
                         ->maxLength(255),
 
                     Forms\Components\TimePicker::make('event_start')
-                        ->label('Engine On')
+                        ->label(__('activities.engine_on'))
                         ->seconds(false)
                         ->live(onBlur: true)
                         ->native(true)
@@ -93,11 +93,11 @@ class ActivityResource extends Resource
                         ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredEventTime($get)),
 
                     Forms\Components\TextInput::make('arrival')
-                        ->label('Arrival')
+                        ->label(__('activities.arrival'))
                         ->maxLength(255),
 
                     Forms\Components\TimePicker::make('event_stop')
-                        ->label('Engine Off')
+                        ->label(__('activities.engine_off'))
                         ->seconds(false)
                         ->native(true)
                         ->reactive()
@@ -115,14 +115,14 @@ class ActivityResource extends Resource
                 ->completedIcon('heroicon-m-hand-thumb-up')
                 ->schema([
                     Forms\Components\TextInput::make('counter_start')
-                        ->label('Counter Start')
+                        ->label(__('activities.counter_start'))
                         ->numeric(2, ',', '.')
                         ->inputMode('decimal')
                         ->minValue(1)
                         ->required(fn(Get $get): bool => (new ActivityResource)->setRequiredCounter($get)),
 
                     Forms\Components\TextInput::make('counter_stop')
-                        ->label('Counter Stop')
+                        ->label(__('activities.counter_stop'))
                         ->numeric(2, ',', '.')
                         ->inputMode('decimal')
                         ->minValue(fn(Get $get) => $get('counter_start'))
@@ -134,14 +134,14 @@ class ActivityResource extends Resource
             Forms\Components\Wizard\Step::make('Remarks')
                 ->schema([
                     Forms\Components\Textarea::make('description')
-                        ->label('Remarks')
+                        ->label(__('activities.remarks'))
                         ->autosize()
                         ->rows(5)->columnSpan(2),
 
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\Placeholder::make('minutes')
-                                ->label('Minutes')
+                                ->label(__('activities.minutes'))
                                 ->inlineLabel()
                                 ->content(fn(Get $get) => $get('minutes') .
                                     ($get('minutes') >= 60
@@ -151,24 +151,24 @@ class ActivityResource extends Resource
                                 ),
 
                             Forms\Components\Placeholder::make('amount')
-                                ->label('Total Price')
+                                ->label(__('activities.total_price'))
                                 ->inlineLabel()
                                 ->content(fn(Get $get) => number_format((float)($get('amount') ?? 0), 2, ',', '.') . ' €'),
 
                             Forms\Components\Placeholder::make('pricing_logic')
-                                ->label('Pricelist')
+                                ->label(__('activities.pricing_logic'))
                                 ->inlineLabel()
                                 ->content(fn(Get $get) => $get('pricing_logic') ?? 'N/A'),
 
 
                             Forms\Components\Placeholder::make('package_name')
-                                ->label('Package Name')
+                                ->label(__('activities.package_name'))
                                 ->inlineLabel()
                                 ->content(fn(Get $get) => $get('package_name') ?? 'N/A')
                                 ->hidden(fn(Get $get) => $get('package_used') == false),
 
                             Forms\Components\Placeholder::make('remaining_time')
-                                ->label('Remaining minutes')
+                                ->label(__('activities.remaining_minutes'))
                                 ->inlineLabel()
                                 ->content(fn(Get $get) => $get('remaining_minutes') .
                                     ($get('remaining_minutes') >= 60
@@ -215,53 +215,53 @@ class ActivityResource extends Resource
             ->paginationPageOptions(['10', '25', '50'])
             ->columns([
                 Tables\Columns\TextColumn::make('event')
-                    ->label('Date')
+                    ->label(__('activities.date'))
                     ->date('D d/m/Y')
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('plane.callsign')
-                    ->label('Airplane')
+                    ->label(__('activities.airplane'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('departure')
-                    ->label('Departure')
+                    ->label(__('activities.departure'))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('event_start')
-                    ->label('OffBlock')
+                    ->label(__('activities.off_block'))
                     ->dateTime('H:i')
                     ->toggleable(isToggledHiddenByDefault: false),
 
                 Tables\Columns\TextColumn::make('arrival')
-                    ->label('Arrival')
+                    ->label(__('activities.arrival'))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('event_stop')
-                    ->label('OnBlock')
+                    ->label(__('activities.on_block'))
                     ->dateTime('H:i')
                     ->toggleable(isToggledHiddenByDefault: false),
 
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('PIC')
+                    ->label(__('activities.pic'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('copilot.name')
-                    ->label('CoPilot')
+                    ->label(__('activities.copilot'))
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('instructor.name')
-                    ->label('Instructor')
+                    ->label(__('activities.instructor'))
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('full_counter')
-                    ->label('Counter')
+                    ->label(__('activities.counter'))
                     ->numeric(2, ',', '.')
                     ->searchable([
                         'counter_start', 'counter_stop'])
@@ -274,24 +274,24 @@ class ActivityResource extends Resource
                     ->badge(),
 
                 Tables\Columns\TextColumn::make('minutes')
-                    ->label('Duration')
+                    ->label(__('activities.duration'))
                     ->numeric(decimalPlaces: 0)
                     ->suffix(' min.')
                     ->alignEnd()
                     ->summarize([
                         CustomSummarizerMinutes::make()
-                            ->label('Total Duration'),
+                            ->label(__('activities.summarizer_duration')),
                     ])
                     ->toggleable(isToggledHiddenByDefault: false),
 
                 Tables\Columns\TextColumn::make('package_used')
-                    ->label('Package Used')
+                    ->label(__('activities.package_used'))
                     ->getStateUsing(fn(Model $record) => $record->package_id ? 'Yes' : 'No') // Display 'Yes' if a package was used
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('remaining_minutes')
-                    ->label('Remaining Minutes')
+                    ->label(__('activities.remaining_minutes'))
                     ->getStateUsing(fn(Model $record) => $record->remaining_package_minutes > 0
                         ? $record->remaining_package_minutes . ' min'
                         : 'N/A') // Show remaining minutes or 'N/A'
@@ -299,12 +299,12 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('amount')
-                    ->label('Amount')
+                    ->label(__('activities.amount'))
                     ->numeric(2, ',', '.')
                     ->alignEnd()
                     ->summarize([
                         Tables\Columns\Summarizers\Sum::make()
-                            ->label('')
+                            ->label(__('activities.summarizer_amount'))
                             ->numeric('2', ',', '.')
                             ->suffix(' €')
                     ])
@@ -312,22 +312,26 @@ class ActivityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false),
 
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('activities.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('activities.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label(__('activities.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->visible(fn() => auth()->user()->is_admin),
 
                 Tables\Columns\TextColumn::make('created_by.name')
+                    ->label(__('activities.created_by'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
@@ -368,20 +372,20 @@ class ActivityResource extends Resource
                         return $indicators;
                     }),
                 Tables\Filters\SelectFilter::make('plane.callsign')
-                    ->label('Aircraft')
+                    ->label(__('activities.aircraft'))
                     ->relationship('plane', 'callsign')
                     ->searchable()
                     ->preload(),
 
                 Tables\Filters\SelectFilter::make('user.name')
-                    ->label('PIC')
+                    ->label(__('activities.pic'))
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
                     ->visible(fn() => auth()->user()->is_admin),
 
                 Tables\Filters\SelectFilter::make('instructor.name')
-                    ->label('Instructor')
+                    ->label(__('activities.instructor'))
                     ->relationship('instructor', 'name')
                     ->searchable()
                     ->preload(),
@@ -389,7 +393,7 @@ class ActivityResource extends Resource
                 Tables\Filters\TrashedFilter::make()
                     ->visible(fn() => auth()->user()->is_admin),
                 Tables\Filters\Filter::make('last_6_months')
-                    ->label('last 6 months')
+                    ->label(__('panel.last_6_months'))
                     ->query(fn(Builder $query) => $query->where('event', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
                     ->default(true),
             ])
@@ -401,11 +405,11 @@ class ActivityResource extends Resource
             ])
             ->groups([
                 Tables\Grouping\Group::make('event')
-                    ->label('Date')
+                    ->label(__('activities.date'))
                     ->date('D d/m/Y')
                     ->collapsible(),
                 Tables\Grouping\Group::make('status')
-                    ->label('Status')
+                    ->label(__('activities.status'))
                     ->collapsible(),
             ]);
     }
