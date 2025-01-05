@@ -26,6 +26,7 @@ return [
     'counter' => 'Contatore',
     'duration' => 'Durata',
     'summarizer_duration' => 'Durata Totale',
+    'pricing_logic' => 'Calcolo a',
     'package_used' => 'Pacchetto Usato',
     'amount' => 'Importo',
     'summarizer_amount' => 'Importo Totale',

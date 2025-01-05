@@ -26,6 +26,7 @@ return [
     'counter' => 'Counter',
     'duration' => 'Duration',
     'summarizer_duration' => 'Total duration',
+    'pricing_logic' => 'Pricing Logic',
     'package_used' => 'Package Used',
     'amount' => 'Amount',
     'summarizer_amount' => 'Total amount',
