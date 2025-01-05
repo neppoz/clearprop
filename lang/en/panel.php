@@ -16,5 +16,6 @@ return [
     'avgDuration' => 'Avg. per Mission',
     'loggedMissions' => 'Logged Missions',
     'depositTotal' => 'Deposit Total',
+    'last_6_months' => 'last 6 Months',
 
 ];

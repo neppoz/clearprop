@@ -228,7 +228,7 @@ class ReservationResource extends Resource
                 Tables\Filters\TrashedFilter::make()
                     ->visible(fn() => auth()->user()->is_admin),
                 Tables\Filters\Filter::make('last_6_months')
-                    ->label('last 6 months')
+                    ->label(__('panel.last_6_months'))
                     ->query(fn(Builder $query) => $query->where('reservation_start', '>=', Carbon::now()->subMonthsNoOverflow(6)->startOfMonth()))
                     ->default(true),
             ])
