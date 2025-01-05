@@ -4,6 +4,8 @@ namespace App\Providers\Filament;
 
 use App\Filament\Resources\ActivityResource\Widgets\ActivitiesAircraftChart;
 use App\Filament\Resources\ReservationResource\Widgets\ReservationTypeChart;
+use App\Http\Middleware\SaveUserLanguage;
+use App\Http\Middleware\SetUserLanguage;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -73,6 +75,7 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                SetUserLanguage::class
             ])
             ->authMiddleware([
                 Authenticate::class,

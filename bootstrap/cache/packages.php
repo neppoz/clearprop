@@ -17,6 +17,13 @@
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
   ),
+    'bezhansalleh/filament-language-switch' =>
+        array(
+            'providers' =>
+                array(
+                    0 => 'BezhanSalleh\\FilamentLanguageSwitch\\FilamentLanguageSwitchServiceProvider',
+                ),
+        ),
     'bezhansalleh/filament-shield' =>
         array(
             'providers' =>

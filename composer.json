@@ -9,6 +9,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.2",
+    "bezhansalleh/filament-language-switch": "^3.1",
     "bezhansalleh/filament-shield": "^3.3",
     "doctrine/dbal": "^3.8",
     "fakerphp/faker": "^1.21",
