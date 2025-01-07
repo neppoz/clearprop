@@ -19,8 +19,10 @@ class PaymentOverview extends BaseWidget
         $getBalanceOverview = (new StatisticsService())->getPaymentsAndCostsOverview();
 
         $sumDeposits = $getBalanceOverview['sumDeposits'] ?? 0;
+
         $sumActivities = $getBalanceOverview['sumActivities'] ?? 0;
-        $total = $sumDeposits - $sumActivities;
+
+        $total = $sumDeposits - abs($sumActivities);
 
         if ($total >= 0) {
             $color = 'success';

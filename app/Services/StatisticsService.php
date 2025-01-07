@@ -74,7 +74,7 @@ class StatisticsService
 
         $totalActivities = Activity::where('user_id', $user->id)->sum('amount');
 
-        return $totalDeposits - $totalActivities;
+        return $totalDeposits - abs($totalActivities);
     }
 
     // ToDo: Cleanup this method
