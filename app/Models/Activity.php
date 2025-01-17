@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Enums\ActivityStatus;
 use App\Scopes\RolesScope;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Activity extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     const SPLIT_COST_RADIO = [
         '0' => 'No split',

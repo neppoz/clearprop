@@ -10,5 +10,14 @@ class DemoDataSeeder extends Seeder
     {
         // Call the UserSeeder from the DemoData namespace
         $this->call(\Database\Seeders\DemoData\UserSeeder::class);
+
+        // Call the PlaneSeeder from the DemoData namespace
+        $this->call(\Database\Seeders\DemoData\PlaneSeeder::class);
+
+        // Call the ReservationSeeder from the DemoData namespace
+        $this->call(\Database\Seeders\DemoData\ReservationSeeder::class);
+
+        // Call the ActivitySeeder from the DemoData namespace
+        $this->call(\Database\Seeders\DemoData\ActivitySeeder::class);
     }
 }

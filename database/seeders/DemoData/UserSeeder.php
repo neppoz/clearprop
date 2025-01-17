@@ -13,6 +13,6 @@ class UserSeeder extends Seeder
         User::factory()->instructor()->create();
 
         // Create 50 members
-        User::factory()->member()->count(50)->create();
+        User::factory()->member()->count(8)->create();
     }
 }

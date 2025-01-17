@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Scopes\RolesScope;
 use Carbon\Carbon;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Reservation extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     const STATUS_RADIO = [
         '0' => 'pending',
