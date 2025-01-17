@@ -73,18 +73,23 @@ Follow these steps to set up ClearProp on your local environment.
    ```
    Update `.env` with your database credentials and other configurations.
 
-4. **Migrate the Database**
+4. **Generate the app key**
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Migrate the Database**
    ```bash
    php artisan migrate --seed
    ```
    Please note: On migration you can set the admin user and the password.
 
-5. **Link Storage**
+6. **Link Storage**
    ```bash
    php artisan storage:link
    ```
 
-6. **Start the Local Server**
+7. **Start the Local Server**
    ```bash
    php artisan serve
    ```
