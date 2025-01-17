@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -21,6 +22,9 @@ class UsersTableSeeder extends Seeder
             return;
         }
 
+        // Create or find the admin role
+        $adminRole = Role::firstOrCreate(['name' => 'Admin']);
+
         $users = [
             [
                 'id' => 1,
@@ -35,7 +39,17 @@ class UsersTableSeeder extends Seeder
 
         \App\Models\User::insertOrIgnore($users);
 
-        $this->command->info("Admin user successfully created with email: $email");
+        // Find the newly created user
+        $user = \App\Models\User::where('email', $email)->first();
+
+        if ($user) {
+            // Assign the "Admin" role to the user
+            $user->assignRole($adminRole);
+
+            $this->command->info("Admin user successfully created with email: $email and assigned role: Admin");
+        } else {
+            $this->command->error("Failed to create admin user.");
+        }
     }
 }
 
