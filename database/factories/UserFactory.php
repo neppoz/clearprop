@@ -23,7 +23,6 @@ class UserFactory extends Factory
             'phone_2' => $this->faker->optional()->phoneNumber,
             'address' => $this->faker->address,
             'city' => $this->faker->city,
-            'factor_id' => $this->faker->optional()->randomNumber(),
             'license' => $this->faker->optional()->bothify('??####'),
             'medical_due' => $this->faker->optional()->date(),
             'params' => null, // Placeholder for optional additional parameters
