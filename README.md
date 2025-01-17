@@ -54,7 +54,7 @@ Follow these steps to set up ClearProp on your local environment.
    ```bash
    git clone https://github.com/neppoz/clearprop.git
    cd clearprop
-   git checkout v2
+   git checkout main
    ```
 
 2. **Install Dependencies**
