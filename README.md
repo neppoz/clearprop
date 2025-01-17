@@ -84,7 +84,12 @@ Follow these steps to set up ClearProp on your local environment.
    php artisan storage:link
    ```
 
-6. **Start the Local Server**
+6. **Link Storage**
+   ```bash
+   php artisan key:generate
+   ```
+
+7. **Start the Local Server**
    ```bash
    php artisan serve
    ```
