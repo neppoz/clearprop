@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Resources\IncomeResource;
+use App\Filament\Pages\Widgets\FilterWidget;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Gate;
 
@@ -24,18 +24,18 @@ class ReportDashboard extends Page
         return Gate::allows('viewReports');
     }
 
-    public static function getWidgets(): array
+    public function getHeaderWidgets(): array
     {
         return [
-            \App\Filament\Resources\IncomeResource\Widgets\BalanceOverview::class,
-            IncomeResource\Widgets\BalanceOverview::class,
+            FilterWidget::class,
+            Widgets\PaymentOverview::class,
+            Widgets\BalanceOverview::class,
         ];
     }
 
-//    public static function getColumns(): int
-//    {
-//        return 2; // Anzahl der Spalten für Widgets
-//    }
-
+    public function getHeaderWidgetsColumns(): int
+    {
+        return 2;
+    }
 
 }

@@ -48,19 +48,18 @@ class StatisticsService
             ->select(['id', 'minutes', 'status']);
     }
 
-    // ToDo: Cleanup this method
-    public function getActivityStatisticsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Activity|Builder
+    public function getPaymentsAndCostsOverview(?string $startDate = null, ?string $endDate = null): array
     {
-        return Activity::where('status', ActivityStatus::Approved)
-            ->whereBetween('event', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
-            ->select(['id', 'minutes', 'status']);
-    }
+        $queryDeposits = Income::ofDefaultDepositCategory();
+        $queryActivities = Activity::query();
 
-    public function getPaymentsAndCostsOverview(): array
-    {
-        $totalDeposits = Income::ofDefaultDepositCategory()->sum('amount');
+        if ($startDate && $endDate) {
+            $queryDeposits->whereBetween('created_at', [$startDate, $endDate]);
+            $queryActivities->whereBetween('created_at', [$startDate, $endDate]);
+        }
 
-        $totalActivities = Activity::sum('amount');
+        $totalDeposits = $queryDeposits->sum('amount');
+        $totalActivities = $queryActivities->sum('amount');
 
         return [
             'sumDeposits' => $totalDeposits,
@@ -75,15 +74,6 @@ class StatisticsService
         $totalActivities = Activity::where('user_id', $user->id)->sum('amount');
 
         return $totalDeposits - abs($totalActivities);
-    }
-
-    // ToDo: Cleanup this method
-    public function getPaymentsCurrentYear(): \Illuminate\Database\Eloquent\Builder|Income|Builder
-    {
-        return Income::whereHas('income_category', function ($q) {
-            $q->where('deposit', '=', 1);
-        })
-            ->whereBetween('entry_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
     }
 
     public function getReservationsByType(): array
@@ -163,16 +153,23 @@ class StatisticsService
         ];
     }
 
-    public function getActivitiesByUsers(): array
+    public function getActivitiesByUsers($startDate = null, $endDate = null): array
     {
-        $topPilots = Activity::join('users', 'activities.user_id', '=', 'users.id')
-            ->selectRaw('users.name, ROUND(SUM(activities.minutes) / 60, 2) as hours') // Minuten direkt in Stunden umrechnen und runden
+        $query = Activity::join('users', 'activities.user_id', '=', 'users.id')
+            ->selectRaw('users.name, ROUND(SUM(activities.minutes) / 60, 2) as hours')
             ->whereYear('activities.event', Carbon::now()->year)
             ->groupBy('users.id', 'users.name')
             ->orderByDesc('hours')
-            ->limit(10)
-            ->get()
-            ->toArray();
+            ->limit(10);
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('activities.event', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay(),
+            ]);
+        }
+
+        $topPilots = $query->get()->toArray();
 
         $names = array_column($topPilots, 'name');
         $hours = array_column($topPilots, 'hours');
@@ -208,5 +205,39 @@ class StatisticsService
             'labels' => $labels,
         ];
     }
+
+    public function UserBalance(string $startDate, string $endDate): \Illuminate\Database\Eloquent\Builder
+    {
+        return User::query()
+            ->select('users.id', 'users.name')
+            ->leftJoinSub(
+                \DB::table('activities')
+                    ->select('user_id', \DB::raw('SUM(amount) AS sumact'))
+                    ->whereBetween('event', [$startDate, $endDate])
+                    ->where('status', ActivityStatus::Approved)
+                    ->whereNull('deleted_at')
+                    ->groupBy('user_id'),
+                'a',
+                'users.id',
+                '=',
+                'a.user_id'
+            )
+            ->leftJoinSub(
+                \DB::table('incomes')
+                    ->select('user_id', \DB::raw('SUM(amount) AS suminc'))
+                    ->whereBetween('entry_date', [$startDate, $endDate])
+                    ->where('income_category_id', 1)
+                    ->whereNull('deleted_at')
+                    ->groupBy('user_id'),
+                'i',
+                'users.id',
+                '=',
+                'i.user_id'
+            )
+            ->selectRaw('COALESCE(i.suminc, 0) AS suminc, COALESCE(a.sumact, 0) AS sumact, COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) AS total');
+
+    }
+
+
 
 }

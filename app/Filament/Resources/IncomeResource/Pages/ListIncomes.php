@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\IncomeResource\Pages;
 
 use App\Filament\Resources\IncomeResource;
-use App\Filament\Resources\IncomeResource\Widgets\PaymentOverview;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 

@@ -2,13 +2,10 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Pages\Widgets\PaymentOverview;
 use App\Filament\Resources\IncomeResource\Pages;
-use App\Filament\Resources\IncomeResource\Widgets\BalanceOverview;
-use App\Filament\Resources\IncomeResource\Widgets\PaymentOverview;
-use App\Filament\Widgets\App\LatestReservations;
 use App\Models\Income;
 use App\Models\IncomeCategory;
-use App\Models\User;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -16,8 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class IncomeResource extends Resource
@@ -199,19 +194,7 @@ class IncomeResource extends Resource
 
     public static function getWidgets(): array
     {
-        return [
-            PaymentOverview::class,
-        ];
-//        if (Auth::check() && Auth::user()->is_admin) {
-//            return [
-//                PaymentOverview::class,
-////                BalanceOverview::class
-//            ];
-//        } else {
-//            return [
-////                PaymentOverview::class,
-//            ];
-//        }
+        return [];
     }
 
     public static function getEloquentQuery(): Builder

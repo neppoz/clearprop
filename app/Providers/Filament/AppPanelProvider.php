@@ -48,7 +48,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                ActivitiesAircraftChart::class
+                ActivitiesAircraftChart::class,
             ])
             ->plugins([
                 FilamentFullCalendarPlugin::make()
@@ -58,9 +58,8 @@ class AppPanelProvider extends PanelProvider
                     ->timezone(config('app.timezone'))
                     ->locale(app()->getLocale())
                     ->plugins(['resourceTimeline', 'timeline'], true),
-                    FilamentApexChartsPlugin::make()
-                ]
-            )
+                FilamentApexChartsPlugin::make()
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

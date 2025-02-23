@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\IncomeResource\Widgets;
+namespace App\Filament\Pages\Widgets;
 
 use App\Services\StatisticsService;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -12,11 +12,17 @@ class PaymentOverview extends BaseWidget
     protected static ?string $pollingInterval = null;
     protected static ?int $sort = 1;
 
+    public ?string $startDate = null;
+    public ?string $endDate = null;
+
     protected function getStats(): array
     {
         $user = Auth::user();
 
-        $getBalanceOverview = (new StatisticsService())->getPaymentsAndCostsOverview();
+        $startDate = $this->startDate ?? now()->startOfYear()->toDateString();
+        $endDate = $this->endDate ?? now()->endOfYear()->toDateString();
+
+        $getBalanceOverview = (new StatisticsService())->getPaymentsAndCostsOverview($startDate, $endDate);
 
         $sumDeposits = $getBalanceOverview['sumDeposits'] ?? 0;
 
@@ -33,7 +39,8 @@ class PaymentOverview extends BaseWidget
         $stats = [
             Stat::make(trans('panel.depositTotal'), number_format($total, 2, ',', '.') . ' €')
                 ->color($color)
-                ->chart([0, 0]),
+                ->chart([0, 0])
+
         ];
 
         if ($user && $user->is_admin) {
@@ -43,4 +50,22 @@ class PaymentOverview extends BaseWidget
 
         return $stats;
     }
+
+    protected function getListeners(): array
+    {
+        return [
+            'filterUpdated' => 'updateFilter',
+            'refreshStats' => '$refresh',
+        ];
+    }
+
+
+    public function updateFilter(?string $startDate = null, ?string $endDate = null): void
+    {
+        $this->startDate = $startDate ?? now()->startOfYear()->toDateString();
+        $this->endDate = $endDate ?? now()->endOfYear()->toDateString();
+
+        $this->dispatch('refreshStats');
+    }
+
 }
