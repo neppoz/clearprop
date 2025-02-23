@@ -103,7 +103,7 @@
                         return O
                     }, b.prototype._encodeByte = function (v) {
                         var y = v;
-                        return y += 65, y += 25 - v >>> 8 & 0 - 65 - 26 + 97, y += 51 - v >>> 8 & 26 - 97 - 52 + 48, y += 61 - v >>> 8 & 52 - 48 - 62 + 43, y += 62 - v >>> 8 & 62 - 43 - 63 + 47, String.fromCharCode(y)
+                        return y += 65, y += 25 - v >>> 8 & 6, y += 51 - v >>> 8 & -75, y += 61 - v >>> 8 & -15, y += 62 - v >>> 8 & 3, String.fromCharCode(y)
                     }, b.prototype._decodeChar = function (v) {
                         var y = s;
                         return y += (42 - v & v - 44) >>> 8 & -s + v - 43 + 62, y += (46 - v & v - 48) >>> 8 & -s + v - 47 + 63, y += (47 - v & v - 58) >>> 8 & -s + v - 48 + 52, y += (64 - v & v - 91) >>> 8 & -s + v - 65 + 0, y += (96 - v & v - 123) >>> 8 & -s + v - 97 + 26, y
@@ -139,7 +139,7 @@
 
                     return v.prototype._encodeByte = function (y) {
                         var w = y;
-                        return w += 65, w += 25 - y >>> 8 & 0 - 65 - 26 + 97, w += 51 - y >>> 8 & 26 - 97 - 52 + 48, w += 61 - y >>> 8 & 52 - 48 - 62 + 45, w += 62 - y >>> 8 & 62 - 45 - 63 + 95, String.fromCharCode(w)
+                        return w += 65, w += 25 - y >>> 8 & 6, w += 51 - y >>> 8 & -75, w += 61 - y >>> 8 & -13, w += 62 - y >>> 8 & 49, String.fromCharCode(w)
                     }, v.prototype._decodeChar = function (y) {
                         var w = s;
                         return w += (44 - y & y - 46) >>> 8 & -s + y - 45 + 62, w += (94 - y & y - 96) >>> 8 & -s + y - 95 + 63, w += (47 - y & y - 58) >>> 8 & -s + y - 48 + 52, w += (64 - y & y - 91) >>> 8 & -s + y - 65 + 0, w += (96 - y & y - 123) >>> 8 & -s + y - 97 + 26, w

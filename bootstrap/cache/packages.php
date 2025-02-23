@@ -8,14 +8,14 @@
   ),
     'barryvdh/laravel-debugbar' =>
   array (
-      'providers' =>
-    array (
-      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    ),
       'aliases' =>
     array (
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
+      'providers' =>
+          array(
+              0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+          ),
   ),
     'bezhansalleh/filament-language-switch' =>
         array(
@@ -26,13 +26,13 @@
         ),
     'bezhansalleh/filament-shield' =>
         array(
-            'providers' =>
-                array(
-                    0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
-                ),
             'aliases' =>
                 array(
                     'FilamentShield' => 'BezhanSalleh\\FilamentShield\\Facades\\FilamentShield',
+                ),
+            'providers' =>
+                array(
+                    0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
                 ),
         ),
     'blade-ui-kit/blade-heroicons' =>
@@ -146,13 +146,13 @@
   ),
     'leandrocfe/filament-apex-charts' =>
         array(
-            'providers' =>
-                array(
-                    0 => 'Leandrocfe\\FilamentApexCharts\\FilamentApexChartsServiceProvider',
-                ),
             'aliases' =>
                 array(
                     'FilamentApexCharts' => 'Leandrocfe\\FilamentApexCharts\\Facades\\FilamentApexCharts',
+                ),
+            'providers' =>
+                array(
+                    0 => 'Leandrocfe\\FilamentApexCharts\\FilamentApexChartsServiceProvider',
                 ),
         ),
     'livewire/livewire' =>
@@ -258,14 +258,14 @@
         ),
     'spatie/laravel-signal-aware-command' =>
   array (
-      'providers' =>
-    array (
-      0 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-    ),
       'aliases' =>
     array (
       'Signal' => 'Spatie\\SignalAwareCommand\\Facades\\Signal',
     ),
+      'providers' =>
+          array(
+              0 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
+          ),
   ),
     'spatie/laravel-web-tinker' =>
   array (
