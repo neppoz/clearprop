@@ -25,20 +25,21 @@ class EditProfile extends Page implements HasForms
     {
 //        $this->fillForms();
     }
-
-    public function changePassword(Form $form): Form
-    {
-        //
-
-        //->statePath('passwordData');
-    }
-
-    public function changeProfile(Form $form): Form
-    {
-        //
-
-        //->statePath('profileData');
-    }
+//
+//    public function changePassword(Form $form): Form
+//    {
+//        //
+//
+//        //->statePath('passwordData');
+//
+//    }
+//
+//    public function changeProfile(Form $form): Form
+//    {
+//        //
+//
+//        //->statePath('profileData');
+//    }
 
     public function getHeaderWidgets(): array
     {
