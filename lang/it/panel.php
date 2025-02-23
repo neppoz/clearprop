@@ -15,7 +15,7 @@ return [
     'totalAirtime' => 'Tempo di volo totale',
     'avgDuration' => 'Media per missione',
     'loggedMissions' => 'Missioni registrate',
-    'depositTotal' => 'Totale acc.voli',
+    'depositTotal' => 'Saldo acc. voli',
     'last_6_months' => 'ultimi 6 mesi',
 
 ];
