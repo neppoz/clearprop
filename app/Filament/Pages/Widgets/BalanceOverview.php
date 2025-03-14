@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Filament\Pages\Widgets;
 
+use App\Models\Income;
 use App\Services\StatisticsService;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -20,8 +20,9 @@ class BalanceOverview extends BaseWidget
 
     public function mount(): void
     {
-        $this->startDate = now()->startOfYear()->toDateString();
-        $this->endDate = now()->endOfYear()->toDateString();
+        $this->startDate = Income::min('entry_date') ?? '2001-01-01';
+
+        $this->endDate = now()->toDateString();
     }
 
     public function table(Table $table): Table
@@ -33,33 +34,35 @@ class BalanceOverview extends BaseWidget
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('suminc')
                     ->label('Payments')
                     ->numeric()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
+
                 Tables\Columns\TextColumn::make('sumact')
                     ->label('Activity spending')
                     ->numeric()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
+
                 Tables\Columns\TextColumn::make('total')
                     ->label('Balance')
                     ->numeric()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
-            ])->filters([
+            ])
+            ->filters([
                 Filter::make('Negative Balance')
                     ->query(fn(Builder $query): Builder => $query->whereRaw('COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) < 0')
                     ),
-
-
             ]);
     }
 
-    public function updateFilter(string $startDate, string $endDate): void
+    public function updateFilter(?string $startDate = null, ?string $endDate = null): void
     {
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->startDate = $startDate ?? Income::min('entry_date') ?? '2001-01-01';
+        $this->endDate = $endDate ?? now()->toDateString();
 
-        $this->resetTable();
+        $this->dispatch('$refresh');
     }
 
     protected function getListeners(): array

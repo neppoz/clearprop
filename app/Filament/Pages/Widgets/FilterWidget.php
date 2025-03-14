@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages\Widgets;
 
+use App\Models\Activity;
+use App\Models\Income;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -20,8 +22,9 @@ class FilterWidget extends Widget implements HasForms
 
     public function mount(): void
     {
-        $this->startDate = now()->startOfYear()->toDateString();
-        $this->endDate = now()->endOfYear()->toDateString();
+        $this->startDate = Income::min('entry_date') ?? '2000-01-01';
+
+        $this->endDate = now()->toDateString();
 
         $this->form->fill([
             'startDate' => $this->startDate,
@@ -36,13 +39,13 @@ class FilterWidget extends Widget implements HasForms
                 ->schema([
                     DatePicker::make('startDate')
                         ->label('Start Date')
-                        ->default(now()->startOfYear()->toDateString())
+                        ->default(fn() => $this->startDate)
                         ->reactive()
                         ->afterStateUpdated(fn() => $this->updatedFilter()),
 
                     DatePicker::make('endDate')
                         ->label('End Date')
-                        ->default(now()->endOfYear()->toDateString())
+                        ->default(fn() => $this->endDate)
                         ->reactive()
                         ->afterStateUpdated(fn() => $this->updatedFilter()),
                 ]),
