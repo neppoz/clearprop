@@ -4,8 +4,10 @@ namespace App\Filament\Pages\Widgets;
 
 use App\Services\StatisticsService;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
+use Illuminate\Database\Eloquent\Builder;
 
 class BalanceOverview extends BaseWidget
 {
@@ -26,25 +28,29 @@ class BalanceOverview extends BaseWidget
     {
         return $table
             ->query(fn() => app(StatisticsService::class)->UserBalance($this->startDate, $this->endDate))
-            ->defaultSort('total', 'asc')
-            ->paginationPageOptions([5, 10, 15])
+            ->paginationPageOptions([5, 10, 15, 50])
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Name'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('suminc')
                     ->label('Payments')
                     ->numeric()
-                    ->sortable()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
                 Tables\Columns\TextColumn::make('sumact')
                     ->label('Activity spending')
                     ->numeric()
-                    ->sortable()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
                 Tables\Columns\TextColumn::make('total')
                     ->label('Balance')
                     ->numeric()
-                    ->sortable()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
+            ])->filters([
+                Filter::make('Negative Balance')
+                    ->query(fn(Builder $query): Builder => $query->whereRaw('COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) < 0')
+                    ),
+
+
             ]);
     }
 

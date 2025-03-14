@@ -234,8 +234,8 @@ class StatisticsService
                 '=',
                 'i.user_id'
             )
-            ->selectRaw('COALESCE(i.suminc, 0) AS suminc, COALESCE(a.sumact, 0) AS sumact, COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) AS total');
-
+            ->selectRaw('COALESCE(i.suminc, 0) AS suminc, COALESCE(a.sumact, 0) AS sumact, COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) AS total')
+            ->orderByRaw('COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) ASC');
     }
 
 }
