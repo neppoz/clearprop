@@ -12,10 +12,9 @@ return [
     |
     */
 
-    'totalAirtime' => 'Total Airtime',
-    'avgDuration' => 'Avg. per Mission',
-    'loggedMissions' => 'Logged Missions',
+    'totalAirtime' => 'Total Airtime (6 months)',
+    'avgDuration' => 'avg. per mission',
+    'loggedMissions' => 'Logged Missions (6 months)',
     'depositTotal' => 'Balance',
-    'last_6_months' => 'last 6 Months',
 
 ];
