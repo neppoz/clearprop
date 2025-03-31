@@ -90,6 +90,6 @@ class LatestReservations extends BaseWidget
     {
         $startDate = Carbon::now()->subMonthsNoOverflow(6)->startOfMonth();
 
-        return Reservation::query()->where('reservation_start', '>=', $startDate);
+        return Reservation::with('mode')->where('reservation_start', '>=', $startDate);
     }
 }
