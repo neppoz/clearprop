@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,118 +34,145 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make()
+                        Forms\Components\Section::make(__('user.sections.profile'))
                             ->schema([
                                 Forms\Components\TextInput::make('name')
+                                    ->label(__('user.fields.name'))
                                     ->required()
                                     ->maxLength(255)
                                     ->columnSpanFull(),
+
                                 Forms\Components\DatePicker::make('medical_due')
-                                    ->label('Due date medical')
-                                    ->native(true)
+                                    ->label(__('user.fields.medical_due'))
+                                    ->native()
                                     ->reactive()
                                     ->date('d/m/Y'),
+
                                 Forms\Components\TextInput::make('license')
+                                    ->label(__('user.fields.license'))
                                     ->maxLength(255),
                             ])
                             ->columns(2),
-                        Forms\Components\Section::make('Login')
+
+                        Forms\Components\Section::make(__('user.sections.login'))
                             ->schema([
                                 Forms\Components\TextInput::make('email')
-                                    ->label('Email address')
-                                    ->helperText('This is also the User login email address')
+                                    ->label(__('user.fields.email'))
+                                    ->helperText(__('user.helper.email'))
                                     ->required()
-                                    ->maxLength(255)
                                     ->email()
-                                    ->unique(User::class, 'email', ignoreRecord: true),
+                                    ->disabled(fn($context) => $context === 'edit')
+                                    ->dehydrated(fn($context) => $context === 'create')
+                                    ->rule(fn($record) => [
+                                        'required',
+                                        'email',
+                                        'max:255',
+                                        'unique:users,email,' . ($record?->id ?? 'null'),
+                                    ]),
+
                                 Forms\Components\TextInput::make('password')
+                                    ->label(__('user.fields.password'))
                                     ->password()
+                                    ->revealable()
                                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                                     ->dehydrated(fn($state) => filled($state))
-                                    ->required(fn(string $context): bool => $context === 'create')
-                                    ->revealable(),
+                                    ->required(fn(string $context): bool => $context === 'create'),
                             ])
-                            ->compact()
                             ->columns(2),
-                        Forms\Components\Section::make('Contact details')
+
+                        Forms\Components\Section::make(__('user.sections.contact'))
                             ->schema([
                                 Forms\Components\TextInput::make('phone_1')
+                                    ->label(__('user.fields.phone_1'))
                                     ->tel()
                                     ->maxLength(255),
+
                                 Forms\Components\TextInput::make('phone_2')
+                                    ->label(__('user.fields.phone_2'))
                                     ->tel()
                                     ->maxLength(255),
+
                                 Forms\Components\TextInput::make('address')
+                                    ->label(__('user.fields.address'))
                                     ->maxLength(255),
+
                                 Forms\Components\TextInput::make('city')
+                                    ->label(__('user.fields.city'))
                                     ->maxLength(255),
+
                                 Forms\Components\TextInput::make('taxno')
-                                    ->label('VAT Number')
+                                    ->label(__('user.fields.taxno'))
                                     ->maxLength(255),
                             ])
-                            ->compact()
                             ->columns(2),
                     ])
                     ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make()
+                        Forms\Components\Section::make(__('user.sections.access'))
                             ->schema([
                                 Forms\Components\Radio::make('role')
-                                    ->label('Access level')
+                                    ->label(__('user.fields.role'))
                                     ->options(
                                         Role::whereIn('name', ['Admin', 'Manager', 'Instructor', 'Mechanic', 'Member'])
                                             ->pluck('name', 'name')
                                             ->toArray()
                                     )
-                                    ->helperText('Select which roles you would like to assign to this user')
+                                    ->helperText(__('user.helper.role'))
                                     ->afterStateHydrated(function ($set, $record) {
                                         if ($record && $record->roles->isNotEmpty()) {
-                                            $set('role', $record->roles->first()->name); // Setze die erste Rolle
+                                            $set('role', $record->roles->first()->name);
                                         }
                                     })
                                     ->required(),
                             ])
                             ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
-                        Forms\Components\Section::make()
+
+                        Forms\Components\Section::make(__('user.sections.verification'))
                             ->schema([
                                 Forms\Components\Toggle::make('email_verified_at')
-                                    ->label('Email Verified')
-                                    ->helperText('Toggle this to mark the email as verified.')
+                                    ->label(__('user.fields.email_verified_at'))
+                                    ->helperText(__('user.helper.email_verified_at'))
                                     ->reactive()
                                     ->dehydrateStateUsing(fn($state) => $state ? now() : null)
                                     ->afterStateUpdated(function ($state, $record) {
                                         $record->email_verified_at = $state ? now() : null;
                                         $record->save();
-                                    })
-
-
+                                    }),
                             ])
                             ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
-                        Forms\Components\Section::make()
+
+                        Forms\Components\Section::make(__('user.sections.timestamps'))
                             ->schema([
                                 Forms\Components\Placeholder::make('created_at')
-                                    ->label('Created at')
+                                    ->label(__('user.fields.created_at'))
                                     ->content(fn(User $record): ?string => $record->created_at?->diffForHumans()),
-                                Forms\Components\Placeholder::make('updated_at')
-                                    ->label('Last modified at')
-                                    ->content(fn(User $record): ?string => $record->updated_at?->diffForHumans()),
-                                Forms\Components\Placeholder::make('email_verified_at')
-                                    ->label('Email verified')
-                                    ->content(fn(User $record): ?string => $record->email_verified_at ? \Illuminate\Support\Carbon::parse($record->email_verified_at)->diffForHumans() : null),
-                                Forms\Components\Placeholder::make('privacy_confirmed_at')
-                                    ->label('Privacy confirmed')
-                                    ->content(fn(User $record): ?string => $record->privacy_confirmed_at ? \Illuminate\Support\Carbon::parse($record->email_verified_at)->diffForHumans() : null),
-                            ])
-                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2])
-                            ->hidden(fn(?User $record) => $record === null),
-                    ])
-                    ->columnSpan(['lg' => 1])
 
+                                Forms\Components\Placeholder::make('updated_at')
+                                    ->label(__('user.fields.updated_at'))
+                                    ->content(fn(User $record): ?string => $record->updated_at?->diffForHumans()),
+
+                                Forms\Components\Placeholder::make('email_verified_at')
+                                    ->label(__('user.fields.email_verified_at'))
+                                    ->content(fn(User $record): ?string => $record->email_verified_at
+                                        ? \Illuminate\Support\Carbon::parse($record->email_verified_at)->diffForHumans()
+                                        : null),
+
+                                Forms\Components\Placeholder::make('privacy_confirmed_at')
+                                    ->label(__('user.fields.privacy_confirmed_at'))
+                                    ->content(fn(User $record): ?string => $record->privacy_confirmed_at
+                                        ? \Illuminate\Support\Carbon::parse($record->privacy_confirmed_at)->diffForHumans()
+                                        : null),
+                            ])
+                            ->hidden(fn(?User $record) => $record === null)
+                            ->columnSpan(['lg' => fn(?User $record) => $record === null ? 3 : 2]),
+                    ])
+                    ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
     }
+
 
     public static function table(Table $table): Table
     {
@@ -156,30 +182,35 @@ class UserResource extends Resource
                 Tables\Columns\Layout\Split::make([
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
+                            ->label(__('profile.fields.name'))
                             ->searchable()
                             ->sortable()
                             ->weight('medium')
                             ->alignLeft(),
+
                         Tables\Columns\TextColumn::make('email')
-                            ->label('Email address')
+                            ->label(__('user.table.email'))
                             ->searchable()
                             ->sortable()
                             ->color('gray')
                             ->alignLeft(),
                     ])->space(),
+
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('phone_1')
                             ->icon('heroicon-m-device-phone-mobile')
-                            ->label('Mobile')
+                            ->label(__('user.table.mobile'))
                             ->alignLeft(),
+
                         Tables\Columns\TextColumn::make('phone_2')
                             ->icon('heroicon-m-phone')
-                            ->label('Office')
+                            ->label(__('user.table.office'))
                             ->alignLeft(),
                     ])->space(2),
+
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('roles')
-                            ->label('Roles')
+                            ->label(__('user.table.roles'))
                             ->formatStateUsing(function ($record) {
                                 $roles = $record->roles->pluck('name');
                                 return $roles->implode('<br>');
@@ -203,6 +234,7 @@ class UserResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {
