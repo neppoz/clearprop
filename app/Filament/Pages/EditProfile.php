@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\User;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
@@ -166,9 +167,12 @@ class EditProfile extends Page implements HasForms
     }
 
 
-    protected function getUser(): \Illuminate\Contracts\Auth\Authenticatable
+    protected function getUser(): User
     {
-        return Filament::auth()->user();
+        /** @var User $user */
+        $user = Filament::auth()->user();
+
+        return $user;
     }
 
     public function getHeaderWidgets(): array
