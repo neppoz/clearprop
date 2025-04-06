@@ -24,6 +24,7 @@ class EditProfile extends Page implements HasForms
     protected static bool $shouldRegisterNavigation = false;
 
     public ?array $profileData = [];
+    private \Filament\Forms\Form $form;
 
     public function mount(): void
     {
