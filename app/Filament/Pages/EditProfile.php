@@ -2,13 +2,10 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Pages\Widgets\UserBalance;
 use Filament\Facades\Filament;
-use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Filament\Forms\Components\TextInput;
@@ -111,7 +108,7 @@ class EditProfile extends Page implements HasForms
     public function getHeaderWidgets(): array
     {
         return [
-            UserBalance::class,
+            Widgets\UserBalance::class,
         ];
     }
 }

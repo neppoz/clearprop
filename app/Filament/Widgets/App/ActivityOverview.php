@@ -10,7 +10,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class ActivityOverview extends BaseWidget
 {
     protected static ?string $pollingInterval = null;
-    protected static ?int $sort = 1;
+    protected int|string|array $columnSpan = 1;
+    protected static ?int $sort = 3;
 
     protected function getStats(): array
     {
@@ -47,5 +48,10 @@ class ActivityOverview extends BaseWidget
                 ->color('success'),
             Stat::make(trans('panel.loggedMissions'), $loggedMissions),
         ];
+    }
+
+    protected function getColumns(): int
+    {
+        return 2;
     }
 }
