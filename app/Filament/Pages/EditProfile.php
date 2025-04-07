@@ -9,9 +9,9 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -24,7 +24,6 @@ class EditProfile extends Page implements HasForms
     protected static bool $shouldRegisterNavigation = false;
 
     public ?array $profileData = [];
-    private \Filament\Forms\Form $form;
 
     public function mount(): void
     {
@@ -86,8 +85,7 @@ class EditProfile extends Page implements HasForms
                             TextInput::make('taxno')
                                 ->label(__('user.fields.taxno'))
                                 ->maxLength(255),
-                        ])
-                        ->columns(2),
+                        ]),
 
                     Section::make(__('user.sections.password'))
                         ->description(__('user.sections.password_description'))
