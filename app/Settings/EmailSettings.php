@@ -13,6 +13,7 @@ class EmailSettings extends Settings
     public string $smtp_password;
     public string $from_address;
     public string $from_name;
+    public bool $allow_self_signed = false;
 
     public static function group(): string
     {

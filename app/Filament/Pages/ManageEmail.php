@@ -41,15 +41,11 @@ class ManageEmail extends SettingsPage
                 ->helperText('Enter a valid hostname, e.g., smtp.example.com')
                 ->required(),
 
-            Forms\Components\Radio::make('smtp_port')
+            Forms\Components\TextInput::make('smtp_port')
                 ->label('SMTP Port')
-                ->options([
-                    587 => 'Port 587 (TLS)',
-                    2525 => 'Port 2525 (TLS)',
-                ])
-                ->default(587)
+                ->numeric()
                 ->required()
-                ->helperText('Select the SMTP port to use'),
+                ->helperText('E.g. 587 (TLS), 465 (SSL), or 25 (none)'),
 
             Forms\Components\TextInput::make('smtp_username')
                 ->label('SMTP Username')
@@ -69,6 +65,12 @@ class ManageEmail extends SettingsPage
             Forms\Components\TextInput::make('from_name')
                 ->label('From Name')
                 ->required(),
+
+            Forms\Components\Toggle::make('allow_self_signed')
+                ->label('Allow insecure connection')
+                ->helperText('Disable certificate verification. Use only if you experience TLS/SSL errors.')
+                ->default(false),
+
 
         ];
     }
@@ -159,14 +161,21 @@ class ManageEmail extends SettingsPage
         $settings = app(\App\Settings\EmailSettings::class);
 
         $settings->smtp_host = $data['smtp_host'];
-        $settings->smtp_port = (int)$data['smtp_port'];
-        $settings->smtp_encryption = 'tls';
+        $port = (int)$data['smtp_port'];
+        $encryption = match ($port) {
+            465 => 'ssl',
+            587, 2525 => 'tls',
+            default => null,
+        };
+        $settings->smtp_encryption = $encryption;
         $settings->smtp_username = $data['smtp_username'];
         $settings->smtp_password = encrypt($data['smtp_password']);
         $settings->from_address = $data['from_address'];
         $settings->from_name = $data['from_name'];
+        $settings->allow_self_signed = $data['allow_self_signed'] ?? false;
+
         $settings->save();
-        // Konfiguration neu laden
+
         $this->refreshMailConfig();
     }
 
@@ -175,13 +184,17 @@ class ManageEmail extends SettingsPage
         $settings = app(\App\Settings\EmailSettings::class);
 
         Config::set('mail.default', 'smtp');
-        Config::set('mail.mailers.smtp.stream', [
-            'ssl' => [
-                'allow_self_signed' => true,
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ],
-        ]);
+        if ($settings->smtp_encryption === 'ssl' || $settings->allow_self_signed) {
+            Config::set('mail.mailers.smtp.stream', [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ]);
+        } else {
+            Config::set('mail.mailers.smtp.stream', null);
+        }
         Config::set('mail.mailers.smtp.host', $settings->smtp_host);
         Config::set('mail.mailers.smtp.port', $settings->smtp_port);
         Config::set('mail.mailers.smtp.encryption', $settings->smtp_encryption);

@@ -22,7 +22,7 @@ return [
         ],
     ],
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example App'),
+        'address' => env('MAIL_FROM_ADDRESS', 'no-reply@clearprop.aero'),
+        'name' => env('MAIL_FROM_NAME', 'ClearProp'),
     ],
 ];
