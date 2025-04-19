@@ -339,6 +339,12 @@ class ActivityResource extends Resource
             ->defaultSort('event', 'desc')
             ->persistSortInSession()
             ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options(ActivityStatus::class)
+                    ->label(__('activities.status'))
+                    ->searchable()
+                    ->preload(),
+
                 Tables\Filters\Filter::make('event')
                     ->form([
                         Forms\Components\DatePicker::make('event_from')
