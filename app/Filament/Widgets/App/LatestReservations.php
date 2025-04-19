@@ -92,4 +92,10 @@ class LatestReservations extends BaseWidget
 
         return Reservation::with('mode')->where('reservation_start', '>=', $startDate);
     }
+
+    public function getTableHeading(): ?string
+    {
+        return __('panel.latest_reservations');
+    }
+
 }

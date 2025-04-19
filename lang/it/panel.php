@@ -16,5 +16,7 @@ return [
     'avgDuration' => 'Media per missione',
     'loggedMissions' => 'Missioni registrate (6 mesi)',
     'depositTotal' => 'Saldo acc. voli',
-
+    'last_6_months' => 'Ultimi 6 mesi',
+    'totalHoursByMonth' => 'Totale ore per mese',
+    'latest_reservations' => 'Ultime prenotazioni',
 ];

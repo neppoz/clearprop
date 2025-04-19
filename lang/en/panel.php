@@ -16,5 +16,7 @@ return [
     'avgDuration' => 'avg. per mission',
     'loggedMissions' => 'Logged Missions (6 months)',
     'depositTotal' => 'Balance',
-
+    'last_6_months' => 'Last 6 months',
+    'totalHoursByMonth' => 'Total Hours by Month',
+    'latest_reservations' => 'Latest Reservations',
 ];

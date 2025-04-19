@@ -15,13 +15,6 @@ class ActivitiesAircraftChart extends ApexChartWidget
     protected static ?string $chartId = 'activitiesAircraftChart';
 
     /**
-     * Widget Title
-     *
-     * @var string|null
-     */
-    protected static ?string $heading = 'Total hours by month';
-
-    /**
      * Sort
      */
     protected static ?int $sort = 2;
@@ -121,4 +114,11 @@ class ActivitiesAircraftChart extends ApexChartWidget
             ],
         ];
     }
+
+    public function getHeading(): ?string
+    {
+        return __('panel.totalHoursByMonth');
+    }
+
+
 }
