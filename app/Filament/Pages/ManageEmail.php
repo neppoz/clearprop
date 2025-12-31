@@ -14,13 +14,29 @@ use Symfony\Component\Mailer\Exception\TransportException;
 
 class ManageEmail extends SettingsPage
 {
-    protected static ?string $label = 'Email Settings';
-    protected static ?string $title = 'Email Settings';
     protected static ?string $navigationIcon = 'heroicon-o-envelope';
     protected static string $settings = EmailSettings::class;
-    protected static ?string $navigationGroup = 'Settings';
-    protected static ?string $navigationLabel = 'Email Settings';
     protected static ?int $navigationSort = 200;
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('settings.email.navigation_group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('settings.email.navigation_label');
+    }
+
+    public static function getLabel(): string
+    {
+        return __('settings.email.title');
+    }
+
+    public function getTitle(): string
+    {
+        return __('settings.email.title');
+    }
 
     public static function shouldRegisterNavigation(): bool
     {
@@ -36,39 +52,39 @@ class ManageEmail extends SettingsPage
     {
         return [
             Forms\Components\TextInput::make('smtp_host')
-                ->label('SMTP Host')
+                ->label(__('settings.email.fields.smtp_host'))
                 ->rule('regex:/^([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\\.)+[a-zA-Z]{2,}$/')
-                ->helperText('Enter a valid hostname, e.g., smtp.example.com')
+                ->helperText(__('settings.email.fields.smtp_host_helper'))
                 ->required(),
 
             Forms\Components\TextInput::make('smtp_port')
-                ->label('SMTP Port')
+                ->label(__('settings.email.fields.smtp_port'))
                 ->numeric()
                 ->required()
-                ->helperText('E.g. 587 (TLS), 465 (SSL), or 25 (none)'),
+                ->helperText(__('settings.email.fields.smtp_port_helper')),
 
             Forms\Components\TextInput::make('smtp_username')
-                ->label('SMTP Username')
+                ->label(__('settings.email.fields.smtp_username'))
                 ->required(),
 
             Forms\Components\TextInput::make('smtp_password')
-                ->label('SMTP Password')
+                ->label(__('settings.email.fields.smtp_password'))
                 ->password()
                 ->revealable()
                 ->required(),
 
             Forms\Components\TextInput::make('from_address')
-                ->label('From Address')
+                ->label(__('settings.email.fields.from_address'))
                 ->email()
                 ->required(),
 
             Forms\Components\TextInput::make('from_name')
-                ->label('From Name')
+                ->label(__('settings.email.fields.from_name'))
                 ->required(),
 
             Forms\Components\Toggle::make('allow_self_signed')
-                ->label('Allow insecure connection')
-                ->helperText('Disable certificate verification. Use only if you experience TLS/SSL errors.')
+                ->label(__('settings.email.fields.allow_self_signed'))
+                ->helperText(__('settings.email.fields.allow_self_signed_helper'))
                 ->default(false),
 
 
@@ -79,14 +95,14 @@ class ManageEmail extends SettingsPage
     {
         return [
             Action::make('save')
-                ->label('Save')
+                ->label(__('settings.email.actions.save'))
                 ->action(function (array $data) {
                     $data = $this->form->getState();
                     $this->saveSettings($data);
 
-                    \Filament\Notifications\Notification::make()
-                        ->title('Settings Saved')
-                        ->body('The email settings have been saved successfully.')
+                    Notification::make()
+                        ->title(__('settings.email.notifications.saved_title'))
+                        ->body(__('settings.email.notifications.saved_body'))
                         ->success()
                         ->send();
                 })
@@ -95,14 +111,14 @@ class ManageEmail extends SettingsPage
 
             // Save & Test Action
             Action::make('save_and_test')
-                ->label('Save & Test')
+                ->label(__('settings.email.actions.save_and_test'))
                 ->action(function (array $data) {
                     $recipient = $data['test_email'];
 
                     if (!filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
-                        \Filament\Notifications\Notification::make()
-                            ->title('Invalid Email Address')
-                            ->body('Please enter a valid email address.')
+                        Notification::make()
+                            ->title(__('settings.email.notifications.invalid_email_title'))
+                            ->body(__('settings.email.notifications.invalid_email_body'))
                             ->danger()
                             ->send();
 
@@ -123,20 +139,20 @@ class ManageEmail extends SettingsPage
                         });
 
                         Notification::make()
-                            ->title('Test email sent!')
-                            ->body('The email has sent successfully!')
+                            ->title(__('settings.email.notifications.test_sent_title'))
+                            ->body(__('settings.email.notifications.test_sent_body'))
                             ->success()
                             ->send();
                     } catch (TransportException $e) {
-                        \Filament\Notifications\Notification::make()
-                            ->title('SMTP Connection Error')
-                            ->body('Failed to connect to the mail server. Please check your SMTP settings: ' . $e->getMessage())
+                        Notification::make()
+                            ->title(__('settings.email.notifications.smtp_error_title'))
+                            ->body(__('settings.email.notifications.smtp_error_body', ['message' => $e->getMessage()]))
                             ->danger()
                             ->send();
                     } catch (\Exception $e) {
                         Notification::make()
-                            ->title('Error')
-                            ->body('Failed to send the test email: ' . $e->getMessage())
+                            ->title(__('settings.email.notifications.generic_error_title'))
+                            ->body(__('settings.email.notifications.generic_error_body', ['message' => $e->getMessage()]))
                             ->danger()
                             ->send();
                     }
@@ -144,12 +160,12 @@ class ManageEmail extends SettingsPage
                 ->icon('heroicon-o-paper-airplane')
                 ->color('primary')
                 ->outlined()
-                ->modalHeading('Enter Test Email Address')
-                ->modalSubmitActionLabel('Send Test Email')
+                ->modalHeading(__('settings.email.actions.modal_heading'))
+                ->modalSubmitActionLabel(__('settings.email.actions.modal_submit'))
                 ->form([
                     Forms\Components\TextInput::make('test_email')
-                        ->label('Recipient Email')
-                        ->placeholder('Enter a valid email address')
+                        ->label(__('settings.email.fields.test_recipient'))
+                        ->placeholder(__('settings.email.fields.test_recipient_placeholder'))
                         ->required()
                         ->email(),
                 ]),

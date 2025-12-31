@@ -18,10 +18,28 @@ class PlaneResource extends Resource
 {
     protected static ?string $model = Plane::class;
     protected static ?int $navigationSort = 98;
-    protected static ?string $recordTitleAttribute = 'Aircrafts';
-    protected static ?string $navigationLabel = 'Aircrafts';
-    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $recordTitleAttribute = 'callsign';
     protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
+
+    public static function getLabel(): string
+    {
+        return __('planes.navigation.singular');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('planes.navigation.plural');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('planes.navigation_group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('planes.labels.plural');
+    }
 
     public static function canViewAny(): bool
     {
@@ -30,12 +48,12 @@ class PlaneResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Aircraft';
+        return __('planes.labels.singular');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'Aircrafts';
+        return __('planes.labels.plural');
     }
 
     public static function form(Form $form): Form
@@ -43,25 +61,26 @@ class PlaneResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('callsign')
+                    ->label(__('planes.fields.callsign'))
                     ->autocapitalize('words')
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('vendor')
-                    ->label('Vendor')
+                    ->label(__('planes.fields.vendor'))
                     ->required()
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('model')
-                    ->label('Model')
+                    ->label(__('planes.fields.model'))
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('prodno')
-                    ->label('Production Number')
+                    ->label(__('planes.fields.production_number'))
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('default_price_per_minute')
-                    ->label('Base price')
+                    ->label(__('planes.fields.base_price'))
                     ->numeric()
                     ->required()
                     ->step(0.01)
@@ -69,7 +88,7 @@ class PlaneResource extends Resource
                     ->suffix(' €'),
 
                 Forms\Components\TextInput::make('instructor_price_per_minute')
-                    ->label('Instructor price')
+                    ->label(__('planes.fields.instructor_price'))
                     ->numeric()
                     ->required()
                     ->step(0.01)
@@ -77,12 +96,12 @@ class PlaneResource extends Resource
                     ->suffix(' €'),
 
                 Forms\Components\Select::make('counter_type')
-                    ->label('Counter Type')
+                    ->label(__('planes.fields.counter_type'))
                     ->options(Plane::COUNTER_TYPE_SELECT)
                     ->required(),
 
                 Forms\Components\Toggle::make('active')
-                    ->label('Active')
+                    ->label(__('planes.fields.active'))
                     ->default(true)
 
             ]);
@@ -93,58 +112,65 @@ class PlaneResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('callsign')
+                    ->label(__('planes.fields.callsign'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('vendor')
+                    ->label(__('planes.fields.vendor'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('model')
+                    ->label(__('planes.fields.model'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('prodno')
+                    ->label(__('planes.fields.production_number'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('default_price_per_minute')
-                    ->label('Base price')
+                    ->label(__('planes.fields.base_price'))
                     ->searchable()
                     ->suffix(' €')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('instructor_price_per_minute')
-                    ->label('Instructor price')
+                    ->label(__('planes.fields.instructor_price'))
                     ->searchable()
                     ->suffix(' €')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('counter_type')
+                    ->label(__('planes.fields.counter_type'))
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\IconColumn::make('pilot_paying_warmup')
-                    ->label('Pilot Paying Warmup')
+                    ->label(__('planes.fields.pilot_paying_warmup'))
                     ->boolean()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('warmup_minutes')
-                    ->label('Warmup Minutes')
+                    ->label(__('planes.fields.warmup_minutes'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->numeric(),
 
                 Tables\Columns\IconColumn::make('active')
-                    ->label('Active')
+                    ->label(__('planes.fields.active'))
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('planes.fields.created_at'))
                     ->dateTime()
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('planes.fields.updated_at'))
                     ->dateTime()
                     ->searchable()
                     ->sortable()

@@ -29,6 +29,21 @@ class ActivityResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
 
+    public static function getLabel(): string
+    {
+        return __('activities.navigation.singular');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('activities.navigation.plural');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('activities.navigation.plural');
+    }
+
     public static function canViewAny(): bool
     {
         return Gate::allows('viewActivities');
@@ -348,10 +363,12 @@ class ActivityResource extends Resource
                 Tables\Filters\Filter::make('event')
                     ->form([
                         Forms\Components\DatePicker::make('event_from')
+                            ->label(__('activities.filters.event_from'))
                             ->native(true)
                             ->reactive(),
 
                         Forms\Components\DatePicker::make('event_until')
+                            ->label(__('activities.filters.event_until'))
                             ->native(true)
                             ->reactive(),
                     ])
@@ -369,10 +386,14 @@ class ActivityResource extends Resource
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if ($data['event_from'] ?? null) {
-                            $indicators['event_from'] = 'Event from ' . \Illuminate\Support\Carbon::parse($data['event_from'])->toFormattedDateString();
+                            $indicators['event_from'] = __('activities.filters.event_from_indicator', [
+                                'date' => \Illuminate\Support\Carbon::parse($data['event_from'])->toFormattedDateString(),
+                            ]);
                         }
                         if ($data['event_until'] ?? null) {
-                            $indicators['event_until'] = 'Event until ' . Carbon::parse($data['event_until'])->toFormattedDateString();
+                            $indicators['event_until'] = __('activities.filters.event_until_indicator', [
+                                'date' => Carbon::parse($data['event_until'])->toFormattedDateString(),
+                            ]);
                         }
 
                         return $indicators;

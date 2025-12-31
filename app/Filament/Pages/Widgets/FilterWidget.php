@@ -38,13 +38,13 @@ class FilterWidget extends Widget implements HasForms
             Grid::make(2)
                 ->schema([
                     DatePicker::make('startDate')
-                        ->label('Start Date')
+                        ->label(__('finance.filters.start_date'))
                         ->default(fn() => $this->startDate)
                         ->reactive()
                         ->afterStateUpdated(fn() => $this->updatedFilter()),
 
                     DatePicker::make('endDate')
-                        ->label('End Date')
+                        ->label(__('finance.filters.end_date'))
                         ->default(fn() => $this->endDate)
                         ->reactive()
                         ->afterStateUpdated(fn() => $this->updatedFilter()),

@@ -40,8 +40,8 @@ class PaymentOverview extends BaseWidget
         ];
 
         if ($user && $user->is_admin) {
-            $stats[] = Stat::make('Deposit', number_format($sumDeposits, 2, ',', '.') . ' €');
-            $stats[] = Stat::make('Activity spending', number_format($sumActivities, 2, ',', '.') . ' €');
+            $stats[] = Stat::make(__('finance.stats.deposit'), number_format($sumDeposits, 2, ',', '.') . ' €');
+            $stats[] = Stat::make(__('finance.stats.activity_spending'), number_format($sumActivities, 2, ',', '.') . ' €');
         }
 
         return $stats;

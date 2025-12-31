@@ -24,10 +24,10 @@ class IncomeCategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Production Number')
+                    ->label(__('finance.income_categories.fields.name'))
                     ->maxLength(255),
                 Forms\Components\Select::make('deposit')
-                    ->label('Activity deposit')
+                    ->label(__('finance.income_categories.fields.deposit'))
                     ->options(IncomeCategory::DEPOSIT_RADIO)
                     ->required(),
             ]);
@@ -38,10 +38,10 @@ class IncomeCategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('finance.income_categories.fields.name'))
                     ->searchable(),
                 Tables\Columns\IconColumn::make('deposit')
-                    ->label('Activity deposit')
+                    ->label(__('finance.income_categories.fields.deposit'))
                     ->boolean()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

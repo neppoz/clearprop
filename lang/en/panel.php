@@ -19,4 +19,5 @@ return [
     'last_6_months' => 'Last 6 months',
     'totalHoursByMonth' => 'Total Hours by Month',
     'latest_reservations' => 'Latest Reservations',
+    'new_reservation_action' => 'New Reservation',
 ];

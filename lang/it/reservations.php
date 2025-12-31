@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'navigation' => [
+        'singular' => 'Prenotazione',
+        'plural' => 'Prenotazioni',
+    ],
     'aircraft' => 'Aeromobile',
     'date_and_time' => 'Data e ora',
     'date' => 'Date',
@@ -18,7 +22,17 @@ return [
     'select_type' => 'Seleziona tipo',
     'leave_message' => 'Lascia qui il tuo messaggio.',
     'created_by' => 'Creato da',
+    'created_at' => 'Creato il',
+    'updated_at' => 'Aggiornato il',
+    'deleted_at' => 'Eliminato il',
     'from' => 'Da',
     'to' => 'A',
     'remarks_placeholder' => 'Scrivi qui eventuali osservazioni...',
+    'remarks_description' => 'Lascia qui il tuo messaggio.',
+    'notifications' => [
+        'airworthiness_expired_title' => 'Aeronavigabilità per :callsign scaduta',
+        'airworthiness_expired_body' => 'Seleziona un altro aeromobile o contatta l\'amministratore.',
+        'overlap_title' => 'Prenotazione sovrapposta per :callsign',
+        'overlap_body' => 'Seleziona un periodo differente o contatta l\'amministratore.',
+    ],
 ];

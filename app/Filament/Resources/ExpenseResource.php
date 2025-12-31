@@ -25,31 +25,32 @@ class ExpenseResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('entry_date')
-                    ->label('Date')
+                    ->label(__('finance.expense.fields.date'))
                     ->date('d/m/Y')
                     ->required(),
                 Forms\Components\Select::make('expense_category_id')
-                    ->label('Category')
+                    ->label(__('finance.expense.fields.category'))
                     ->relationship('expense_category', 'name')
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name')
-                            ->label('Name')
+                            ->label(__('finance.expense.fields.name'))
                             ->maxLength(255)
                             ->required(),
                     ])
                     ->editOptionForm([
                         Forms\Components\TextInput::make('name')
-                            ->label('Name')
+                            ->label(__('finance.expense.fields.name'))
                             ->maxLength(255)
                             ->required(),
                     ])
                     ->required(),
                 Forms\Components\TextInput::make('amount')
-                    ->label('Amount')
+                    ->label(__('finance.expense.fields.amount'))
                     ->numeric(2, ',', '.')
                     ->suffix('€')
                     ->required(),
                 Forms\Components\TextInput::make('description')
+                    ->label(__('finance.expense.fields.description'))
                     ->maxLength(255),
             ]);
     }
@@ -59,17 +60,17 @@ class ExpenseResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('entry_date')
-                    ->label('Date')
+                    ->label(__('finance.expense.fields.date'))
                     ->date('d/m/Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Description')
+                    ->label(__('finance.expense.fields.description'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('expense_category.name')
-                    ->label('Category')
+                    ->label(__('finance.expense.fields.category'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->label('Amount')
+                    ->label(__('finance.expense.fields.amount'))
                     ->numeric(2, ',', '.')
                     ->sortable()
                     ->suffix(' €')

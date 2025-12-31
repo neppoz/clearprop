@@ -18,5 +18,6 @@ return [
     'depositTotal' => 'Saldo acc. voli',
     'last_6_months' => 'Ultimi 6 mesi',
     'totalHoursByMonth' => 'Totale ore per mese',
-    'latest_reservations' => 'Ultime prenotazioni',
+    'latest_reservations' => 'Prenotazioni recenti',
+    'new_reservation_action' => 'Nuova prenotazione',
 ];

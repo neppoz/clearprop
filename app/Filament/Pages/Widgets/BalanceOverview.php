@@ -13,10 +13,15 @@ class BalanceOverview extends BaseWidget
 {
     protected static ?int $sort = 4;
     protected static ?string $pollingInterval = null;
-    protected static ?string $heading = 'Balance by Member';
+    protected static ?string $heading = null;
     public ?string $startDate = null;
     public ?string $endDate = null;
     protected int|string|array $columnSpan = 'full';
+
+    public function getHeading(): string
+    {
+        return __('finance.balance.heading');
+    }
 
     public function mount(): void
     {
@@ -32,26 +37,27 @@ class BalanceOverview extends BaseWidget
             ->paginationPageOptions([5, 10, 15, 50])
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('finance.balance.columns.name'))
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('suminc')
-                    ->label('Payments')
+                    ->label(__('finance.balance.columns.payments'))
                     ->numeric()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
 
                 Tables\Columns\TextColumn::make('sumact')
-                    ->label('Activity spending')
+                    ->label(__('finance.balance.columns.spending'))
                     ->numeric()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
 
                 Tables\Columns\TextColumn::make('total')
-                    ->label('Balance')
+                    ->label(__('finance.balance.columns.balance'))
                     ->numeric()
                     ->formatStateUsing(fn($state) => number_format($state, 2, ',', '.') . ' €'),
             ])
             ->filters([
                 Filter::make('Negative Balance')
+                    ->label(__('finance.balance.filters.negative'))
                     ->query(fn(Builder $query): Builder => $query->whereRaw('COALESCE(i.suminc, 0) - COALESCE(a.sumact, 0) < 0')
                     ),
             ]);

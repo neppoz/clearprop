@@ -20,9 +20,9 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Create'),
+                ->label(__('user.actions.create')),
             Actions\Action::make('inviteUser')
-                ->label('Send invitation')
+                ->label(__('user.actions.send_invitation'))
                 ->icon('heroicon-m-envelope')
                 ->outlined()
                 ->form([
@@ -42,8 +42,8 @@ class ListUsers extends ListRecords
                         empty($settings->from_address)
                     ) {
                         Notification::make()
-                            ->title('Email settings missing')
-                            ->body('Please configure the email settings in the settings page.')
+                            ->title(__('user.notifications.email_settings_missing_title'))
+                            ->body(__('user.notifications.email_settings_missing_body'))
                             ->danger()
                             ->send();
 
@@ -58,11 +58,11 @@ class ListUsers extends ListRecords
 
                     if ($existingUser) {
                         $message = $existingUser->trashed()
-                            ? 'A user with this email already exists but has been deleted.'
-                            : 'A user with this email already exists.';
+                            ? __('user.notifications.invitation_existing_deleted')
+                            : __('user.notifications.invitation_existing');
 
                         Notification::make()
-                            ->title('Invitation Error')
+                            ->title(__('user.notifications.invitation_error_title'))
                             ->body($message)
                             ->danger()
                             ->send();
@@ -88,21 +88,22 @@ class ListUsers extends ListRecords
 
                         // Show success notification
                         Notification::make('invitedSuccess')
-                            ->body('User invited successfully!')
+                            ->title(__('user.notifications.invited_success_title'))
+                            ->body(__('user.notifications.invited_success_body'))
                             ->success()
                             ->send();
                     } catch (\Symfony\Component\Mailer\Exception\TransportExceptionInterface $e) {
                         // Handle email sending failure
                         Notification::make()
-                            ->title('Email sending failed')
-                            ->body('There was an error sending the email. Please check your email configuration.')
+                            ->title(__('user.notifications.email_sending_failed_title'))
+                            ->body(__('user.notifications.email_sending_failed_body'))
                             ->danger()
                             ->send();
                     } catch (\Exception $e) {
                         // Handle unexpected errors
                         Notification::make()
-                            ->title('Unexpected error')
-                            ->body('An unexpected error occurred while sending the email. Please try again later.')
+                            ->title(__('user.notifications.unexpected_error_title'))
+                            ->body(__('user.notifications.unexpected_error_body'))
                             ->danger()
                             ->send();
                     }

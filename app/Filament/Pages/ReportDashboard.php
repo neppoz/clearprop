@@ -14,6 +14,21 @@ class ReportDashboard extends Page
 
     protected static string $view = 'filament.pages.report-dashboard';
 
+    public static function getLabel(): string
+    {
+        return __('reports.navigation.singular');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('reports.navigation.singular');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('reports.navigation.plural');
+    }
+
     public static function shouldRegisterNavigation(): bool
     {
         return Gate::allows('viewReports');

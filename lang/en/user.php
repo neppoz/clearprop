@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'navigation' => [
+        'singular' => 'User',
+        'plural' => 'Users',
+    ],
+    'navigation_group' => 'Management',
 
     'sections' => [
         'profile' => 'Profile Information',
@@ -44,11 +49,24 @@ return [
     'notifications' => [
         'profile_updated' => 'Profile updated successfully.',
         'password_updated' => 'Password updated successfully.',
+        'email_settings_missing_title' => 'Email settings missing',
+        'email_settings_missing_body' => 'Please configure the email settings in the settings page.',
+        'invitation_error_title' => 'Invitation Error',
+        'invitation_existing' => 'A user with this email already exists.',
+        'invitation_existing_deleted' => 'A user with this email already exists but has been deleted.',
+        'invited_success_title' => 'Invitation sent',
+        'invited_success_body' => 'User invited successfully!',
+        'email_sending_failed_title' => 'Email sending failed',
+        'email_sending_failed_body' => 'There was an error sending the email. Please check your email configuration.',
+        'unexpected_error_title' => 'Unexpected error',
+        'unexpected_error_body' => 'An unexpected error occurred while sending the email. Please try again later.',
     ],
 
     'actions' => [
         'save_profile' => 'Save Profile',
         'save_password' => 'Update Password',
+        'create' => 'Create user',
+        'send_invitation' => 'Send invitation',
     ],
 
     'table' => [

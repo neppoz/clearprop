@@ -36,6 +36,21 @@ class ReservationResource extends Resource
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
+    public static function getLabel(): string
+    {
+        return __('reservations.navigation.singular');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('reservations.navigation.plural');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('reservations.navigation.plural');
+    }
+
     public static function canViewAny(): bool
     {
         return Gate::allows('viewReservations');
@@ -112,8 +127,7 @@ class ReservationResource extends Resource
                         ->required(),
                 ])
                 ->columns(4),
-            Section::make('Crew')
-                ->description('')
+            Section::make(__('reservations.crew'))
                 ->schema([
                     Select::make('user_id')
                         ->label(__('reservations.pic'))
@@ -150,7 +164,7 @@ class ReservationResource extends Resource
                 ->compact()
                 ->collapsed(fn() => Auth::user()->is_member)
                 ->columns(2),
-            Section::make('Remarks')
+            Section::make(__('reservations.remarks'))
                 ->description(__('reservations.remarks_description'))
                 ->schema([
                     Textarea::make('description')
@@ -207,18 +221,21 @@ class ReservationResource extends Resource
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_by.name')
-                    ->label('Created by')
+                    ->label(__('reservations.created_by'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('reservations.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('reservations.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label(__('reservations.deleted_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -269,8 +286,10 @@ class ReservationResource extends Resource
 
                 if (!$airWorthiness) {
                     Notification::make()
-                        ->title("Airworthiness for {$selectedAircraft->callsign} expired")
-                        ->body('Please select a different aircraft or contact administrator.')
+                        ->title(__('reservations.notifications.airworthiness_expired_title', [
+                            'callsign' => $selectedAircraft->callsign,
+                        ]))
+                        ->body(__('reservations.notifications.airworthiness_expired_body'))
                         ->danger()
                         ->send();
 
@@ -284,8 +303,10 @@ class ReservationResource extends Resource
 
             if ($overlapExists) {
                 Notification::make()
-                    ->title("Overlapping reservation for {$selectedAircraft->callsign}")
-                    ->body('Please select a different period or contact administrator.')
+                    ->title(__('reservations.notifications.overlap_title', [
+                        'callsign' => $selectedAircraft->callsign,
+                    ]))
+                    ->body(__('reservations.notifications.overlap_body'))
                     ->danger()
                     ->send();
 

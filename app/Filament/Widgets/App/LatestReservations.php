@@ -25,7 +25,7 @@ class LatestReservations extends BaseWidget
             ->defaultSort('reservation_start', 'desc')
             ->headerActions([
                 Tables\Actions\Action::make('create')
-                    ->label('Reservations')
+                    ->label(__('panel.new_reservation_action'))
                     ->icon('heroicon-m-sparkles')
                     ->outlined()
                     ->url(ReservationResource::getUrl()),
@@ -34,7 +34,7 @@ class LatestReservations extends BaseWidget
                 Split::make([
                     Stack::make([
                         Tables\Columns\TextColumn::make('plane.callsign')
-                            ->label('Aircraft')
+                            ->label(__('reservations.aircraft'))
                             ->searchable()
                             ->sortable()
                             ->badge()
@@ -50,20 +50,20 @@ class LatestReservations extends BaseWidget
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('bookingUsers.name')
-                            ->label('PIC')
+                            ->label(__('reservations.pic'))
                             ->sortable()
                             ->searchable(),
                         Tables\Columns\TextColumn::make('bookingInstructors.name')
-                            ->label('Instructor')
+                            ->label(__('reservations.instructor'))
                             ->sortable()
                             ->searchable(),
                         Tables\Columns\TextColumn::make('description')
-                            ->label('Remarks')
+                            ->label(__('reservations.remarks'))
                             ->color('gray'),
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('reservation_start')
-                            ->label('From')
+                            ->label(__('reservations.from'))
                             ->searchable()
                             ->dateTime('D d/m/y'),
                         Tables\Columns\TextColumn::make('reservation_start')
@@ -73,7 +73,7 @@ class LatestReservations extends BaseWidget
                     ]),
                     Stack::make([
                         Tables\Columns\TextColumn::make('reservation_stop')
-                            ->label('To')
+                            ->label(__('reservations.to'))
                             ->searchable()
                             ->dateTime('D d/m/y'),
                         Tables\Columns\TextColumn::make('reservation_stop')

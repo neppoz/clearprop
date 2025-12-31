@@ -1,0 +1,5 @@
+integrations:
+  forge:
+    demo.clearprop.aero:
+      server-id: 822733
+      site-id: 2404649

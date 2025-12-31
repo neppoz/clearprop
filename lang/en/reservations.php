@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'navigation' => [
+        'singular' => 'Reservation',
+        'plural' => 'Reservations',
+    ],
     'aircraft' => 'Aircraft',
     'date_and_time' => 'Date & Time',
     'date' => 'Date',
@@ -18,7 +22,17 @@ return [
     'select_type' => 'Select type',
     'leave_message' => 'Leave your message here.',
     'created_by' => 'Created by',
+    'created_at' => 'Created at',
+    'updated_at' => 'Updated at',
+    'deleted_at' => 'Deleted at',
     'from' => 'From',
     'to' => 'To',
     'remarks_placeholder' => 'Write any remarks here...',
+    'remarks_description' => 'Leave your message here.',
+    'notifications' => [
+        'airworthiness_expired_title' => 'Airworthiness for :callsign expired',
+        'airworthiness_expired_body' => 'Please select a different aircraft or contact administrator.',
+        'overlap_title' => 'Overlapping reservation for :callsign',
+        'overlap_body' => 'Please select a different period or contact administrator.',
+    ],
 ];

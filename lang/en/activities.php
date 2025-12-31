@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'navigation' => [
+        'singular' => 'Activity',
+        'plural' => 'Activities',
+    ],
     'date' => 'Date',
     'aircraft' => 'Aircraft',
     'pic' => 'PIC',
@@ -34,4 +38,10 @@ return [
     'updated_at' => 'Updated At',
     'deleted_at' => 'Deleted At',
     'created_by' => 'Created By',
+    'filters' => [
+        'event_from' => 'Event from',
+        'event_until' => 'Event until',
+        'event_from_indicator' => 'Event from :date',
+        'event_until_indicator' => 'Event until :date',
+    ],
 ];

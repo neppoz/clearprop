@@ -15,25 +15,35 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PlanesRelationManager extends RelationManager
 {
-    protected static ?string $label = 'Individual prices';
-    protected static ?string $recordTitleAttribute = 'Individual prices';
+    protected static ?string $label = null;
+    protected static ?string $recordTitleAttribute = 'callsign';
     protected static string $relationship = 'planes';
+
+    public static function getLabel(): ?string
+    {
+        return __('planes.relation.individual_prices');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('planes.relation.individual_prices');
+    }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('callsign')
-                    ->label('Callsign')
+                    ->label(__('planes.fields.callsign'))
                     ->disabled(),
 
                 Forms\Components\TextInput::make('base_price_per_minute')
-                    ->label('Base price')
+                    ->label(__('planes.fields.base_price'))
                     ->numeric(2, ',', '.')
                     ->required(),
 
                 Forms\Components\TextInput::make('instructor_price_per_minute')
-                    ->label('Instructor price')
+                    ->label(__('planes.fields.instructor_price'))
                     ->numeric(2, ',', '.')
                     ->required(),
             ]);
@@ -43,11 +53,14 @@ class PlanesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('callsign')
-            ->heading('Individual prices')
+            ->heading(__('planes.relation.individual_prices'))
             ->columns([
-                Tables\Columns\TextColumn::make('callsign'),
-                Tables\Columns\TextColumn::make('base_price_per_minute'),
-                Tables\Columns\TextColumn::make('instructor_price_per_minute'),
+                Tables\Columns\TextColumn::make('callsign')
+                    ->label(__('planes.fields.callsign')),
+                Tables\Columns\TextColumn::make('base_price_per_minute')
+                    ->label(__('planes.fields.base_price')),
+                Tables\Columns\TextColumn::make('instructor_price_per_minute')
+                    ->label(__('planes.fields.instructor_price')),
             ])
             ->filters([
                 //
@@ -57,11 +70,11 @@ class PlanesRelationManager extends RelationManager
                     ->form(fn(AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\TextInput::make('base_price_per_minute')
-                            ->label('Base price')
+                            ->label(__('planes.fields.base_price'))
                             ->numeric(2, ',', '.')
                             ->required(),
                         Forms\Components\TextInput::make('instructor_price_per_minute')
-                            ->label('Instructor price')
+                            ->label(__('planes.fields.instructor_price'))
                             ->numeric(2, ',', '.')
                             ->required(),
                     ])

@@ -34,7 +34,11 @@ class ActivitiesAircraftChart extends ApexChartWidget
         $statistics = (new StatisticsService())->getActivitiesByAircraft(6);
 
         $categories = collect($statistics['categories'])->map(function ($monthNumber) {
-            return \Carbon\Carbon::createFromFormat('m', str_pad($monthNumber, 2, '0', STR_PAD_LEFT))->shortMonthName;
+            return Carbon::createFromDate(
+                Carbon::now()->year,
+                (int) $monthNumber,
+                1
+            )->shortMonthName;
         })->toArray();
 
         $tailwindBlues = [

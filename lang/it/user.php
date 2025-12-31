@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'navigation' => [
+        'singular' => 'Utente',
+        'plural' => 'Utenti',
+    ],
+    'navigation_group' => 'Gestione',
 
     'sections' => [
         'profile' => 'Informazioni personali',
@@ -44,11 +49,24 @@ return [
     'notifications' => [
         'profile_updated' => 'Profilo aggiornato con successo.',
         'password_updated' => 'Password aggiornata con successo.',
+        'email_settings_missing_title' => 'Impostazioni email mancanti',
+        'email_settings_missing_body' => 'Configura le impostazioni email nella pagina dedicata.',
+        'invitation_error_title' => 'Errore invito',
+        'invitation_existing' => 'Esiste già un utente con questa email.',
+        'invitation_existing_deleted' => 'Esiste già un utente con questa email ma è stato eliminato.',
+        'invited_success_title' => 'Invito inviato',
+        'invited_success_body' => 'Utente invitato con successo!',
+        'email_sending_failed_title' => 'Invio email fallito',
+        'email_sending_failed_body' => 'Errore nell\'invio dell\'email. Controlla la configurazione email.',
+        'unexpected_error_title' => 'Errore imprevisto',
+        'unexpected_error_body' => 'Si è verificato un errore imprevisto durante l\'invio. Riprova più tardi.',
     ],
 
     'actions' => [
         'save_profile' => 'Salva profilo',
         'save_password' => 'Aggiorna password',
+        'create' => 'Crea utente',
+        'send_invitation' => 'Invia invito',
     ],
 
     'table' => [

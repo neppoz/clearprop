@@ -24,7 +24,7 @@ class ExpenseCategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label(__('finance.expense_categories.fields.name'))
                     ->maxLength(255)
                     ->required(),
             ]);
@@ -35,7 +35,7 @@ class ExpenseCategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('finance.expense_categories.fields.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
