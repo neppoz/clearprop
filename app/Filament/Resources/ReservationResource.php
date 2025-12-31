@@ -54,7 +54,7 @@ class ReservationResource extends Resource
             Fieldset::make('Aircraft')
                 ->schema([
                     Select::make('plane_id')
-                        ->label('')
+                        ->label(__('reservations.aircraft'))
                         ->preload()
                         ->native(true)
                         ->relationship('plane', 'callsign', fn($query) => $query->where('active', true))
@@ -77,7 +77,7 @@ class ReservationResource extends Resource
             Fieldset::make('Date & Time')
                 ->schema([
                     DatePicker::make('reservation_start_date')
-                        ->label('Date from')
+                        ->label(__('reservations.date_from'))
                         ->firstDayOfWeek(1)
                         ->minDate(Carbon::now()->setTimezone(config('app.timezone'))->format('Y-m-d'))
                         ->native(true)
@@ -85,13 +85,13 @@ class ReservationResource extends Resource
                         ->displayFormat(config('panel.date_format'))
                         ->required(),
                     TimePicker::make('reservation_start_time')
-                        ->label('Start time')
+                        ->label(__('reservations.start_time'))
                         ->seconds(false)
                         ->native(true)
                         ->reactive()
                         ->required(),
                     DatePicker::make('reservation_stop_date')
-                        ->label('Date to')
+                        ->label(__('reservations.date_to'))
                         ->firstDayOfWeek(1)
                         ->native(true)
                         ->live(onBlur: true)
@@ -105,7 +105,7 @@ class ReservationResource extends Resource
                         ->minDate(fn(Get $get) => $get('reservation_start_date'))
                         ->required(),
                     TimePicker::make('reservation_stop_time')
-                        ->label('End time')
+                        ->label(__('reservations.end_time'))
                         ->seconds(false)
                         ->native(true)
                         ->reactive()
@@ -116,7 +116,7 @@ class ReservationResource extends Resource
                 ->description('')
                 ->schema([
                     Select::make('user_id')
-                        ->label('PIC')
+                        ->label(__('reservations.pic'))
                         ->searchable()
                         ->preload()
                         ->native(true)
@@ -127,7 +127,7 @@ class ReservationResource extends Resource
                         ->required(fn(Get $get): bool => $get('mode_id') != Reservation::IS_MAINTENANCE),
 
                     Select::make('instructor_id')
-                        ->label('Instructor')
+                        ->label(__('reservations.instructor'))
                         ->searchable()
                         ->preload()
                         ->native(true)
@@ -143,7 +143,7 @@ class ReservationResource extends Resource
                         ->default(Reservation::IS_CHARTER)
                         ->disableOptionWhen(fn(string $value): bool => Auth::user()->is_member)
                         ->inline()
-                        ->label('Select type')
+                        ->label(__('reservations.select_type'))
                         ->reactive()
                         ->required(),
                 ])
@@ -151,10 +151,10 @@ class ReservationResource extends Resource
                 ->collapsed(fn() => Auth::user()->is_member)
                 ->columns(2),
             Section::make('Remarks')
-                ->description('Leave your message here.')
+                ->description(__('reservations.remarks_description'))
                 ->schema([
                     Textarea::make('description')
-                        ->label('')
+                        ->label(__('reservations.remarks'))
                         ->rows(3)
                 ])
                 ->compact()
@@ -169,7 +169,7 @@ class ReservationResource extends Resource
             ->defaultSort('reservation_start', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('plane.callsign')
-                    ->label('Aircraft')
+                    ->label(__('reservations.aircraft'))
                     ->searchable()
                     ->sortable()
                     ->badge()
@@ -183,26 +183,26 @@ class ReservationResource extends Resource
                     })
                     ->formatStateUsing(fn(?string $state, $record): string => $state),
                 Tables\Columns\TextColumn::make('bookingUsers.name')
-                    ->label('PIC')
+                    ->label(__('reservations.pic'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bookingInstructors.name')
-                    ->label('Instructor')
+                    ->label(__('reservations.instructor'))
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('reservation_start')
-                    ->label('From')
+                    ->label(__('reservations.date_from'))
                     ->searchable()
                     ->sortable()
                     ->dateTime('D d/m - H:i'),
                 Tables\Columns\TextColumn::make('reservation_stop')
-                    ->label('To')
+                    ->label(__('reservations.date_to'))
                     ->searchable()
                     ->sortable()
                     ->dateTime('D d/m - H:i'),
                 Tables\Columns\TextColumn::make('description')
-                    ->label('Remarks')
+                    ->label(__('reservations.remarks'))
                     ->color('gray')
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -242,7 +242,7 @@ class ReservationResource extends Resource
             ])
             ->groups([
                 Tables\Grouping\Group::make('reservation_start')
-                    ->label('Date')
+                    ->label(__('reservations.date'))
                     ->date('D d/m/Y')
                     ->collapsible(),
             ]);

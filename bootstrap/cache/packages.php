@@ -1,275 +1,300 @@
 <?php return array (
-    'anourvalar/eloquent-serialize' =>
+  'anourvalar/eloquent-serialize' => 
   array (
-      'aliases' =>
+    'aliases' => 
     array (
       'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
     ),
   ),
-    'barryvdh/laravel-debugbar' =>
+  'barryvdh/laravel-debugbar' => 
   array (
-      'aliases' =>
+    'aliases' => 
     array (
       'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
     ),
-      'providers' =>
-          array(
-              0 => 'Barryvdh\\Debugbar\\ServiceProvider',
-          ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
   ),
-    'bezhansalleh/filament-language-switch' =>
-        array(
-            'providers' =>
-                array(
-                    0 => 'BezhanSalleh\\FilamentLanguageSwitch\\FilamentLanguageSwitchServiceProvider',
-                ),
-        ),
-    'bezhansalleh/filament-shield' =>
-        array(
-            'aliases' =>
-                array(
-                    'FilamentShield' => 'BezhanSalleh\\FilamentShield\\Facades\\FilamentShield',
-                ),
-            'providers' =>
-                array(
-                    0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
-                ),
-        ),
-    'blade-ui-kit/blade-heroicons' =>
+  'bezhansalleh/filament-language-switch' => 
   array (
-      'providers' =>
+    'providers' => 
+    array (
+      0 => 'BezhanSalleh\\FilamentLanguageSwitch\\FilamentLanguageSwitchServiceProvider',
+    ),
+  ),
+  'bezhansalleh/filament-shield' => 
+  array (
+    'aliases' => 
+    array (
+      'FilamentShield' => 'BezhanSalleh\\FilamentShield\\Facades\\FilamentShield',
+    ),
+    'providers' => 
+    array (
+      0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
+    ),
+  ),
+  'blade-ui-kit/blade-heroicons' => 
+  array (
+    'providers' => 
     array (
       0 => 'BladeUI\\Heroicons\\BladeHeroiconsServiceProvider',
     ),
   ),
-    'blade-ui-kit/blade-icons' =>
+  'blade-ui-kit/blade-icons' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
     ),
   ),
-    'filament/actions' =>
+  'filament/actions' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\Actions\\ActionsServiceProvider',
     ),
   ),
-    'filament/filament' =>
+  'filament/filament' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\FilamentServiceProvider',
     ),
   ),
-    'filament/forms' =>
+  'filament/forms' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\Forms\\FormsServiceProvider',
     ),
   ),
-    'filament/infolists' =>
+  'filament/infolists' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\Infolists\\InfolistsServiceProvider',
     ),
   ),
-    'filament/notifications' =>
+  'filament/notifications' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\Notifications\\NotificationsServiceProvider',
     ),
   ),
-    'filament/spatie-laravel-settings-plugin' =>
-        array(
-            'providers' =>
-                array(
-                    0 => 'Filament\\SpatieLaravelSettingsPluginServiceProvider',
-                ),
-        ),
-    'filament/support' =>
+  'filament/spatie-laravel-settings-plugin' => 
   array (
-      'providers' =>
+    'providers' => 
+    array (
+      0 => 'Filament\\SpatieLaravelSettingsPluginServiceProvider',
+    ),
+  ),
+  'filament/support' => 
+  array (
+    'providers' => 
     array (
       0 => 'Filament\\Support\\SupportServiceProvider',
     ),
   ),
-    'filament/tables' =>
+  'filament/tables' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\Tables\\TablesServiceProvider',
     ),
   ),
-    'filament/widgets' =>
+  'filament/widgets' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Filament\\Widgets\\WidgetsServiceProvider',
     ),
   ),
-    'kirschbaum-development/eloquent-power-joins' =>
+  'kirschbaum-development/eloquent-power-joins' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Kirschbaum\\PowerJoins\\PowerJoinsServiceProvider',
     ),
   ),
-    'laravel/horizon' =>
+  'laravel/boost' => 
   array (
-      'aliases' =>
+    'providers' => 
+    array (
+      0 => 'Laravel\\Boost\\BoostServiceProvider',
+    ),
+  ),
+  'laravel/horizon' => 
+  array (
+    'aliases' => 
     array (
       'Horizon' => 'Laravel\\Horizon\\Horizon',
     ),
-      'providers' =>
-          array(
-              0 => 'Laravel\\Horizon\\HorizonServiceProvider',
-          ),
+    'providers' => 
+    array (
+      0 => 'Laravel\\Horizon\\HorizonServiceProvider',
+    ),
   ),
-    'laravel/tinker' =>
+  'laravel/mcp' => 
   array (
-      'providers' =>
+    'aliases' => 
+    array (
+      'Mcp' => 'Laravel\\Mcp\\Server\\Facades\\Mcp',
+    ),
+    'providers' => 
+    array (
+      0 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
+    ),
+  ),
+  'laravel/roster' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Roster\\RosterServiceProvider',
+    ),
+  ),
+  'laravel/tinker' => 
+  array (
+    'providers' => 
     array (
       0 => 'Laravel\\Tinker\\TinkerServiceProvider',
     ),
   ),
-    'laravel/ui' =>
+  'laravel/ui' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Laravel\\Ui\\UiServiceProvider',
     ),
   ),
-    'leandrocfe/filament-apex-charts' =>
-        array(
-            'aliases' =>
-                array(
-                    'FilamentApexCharts' => 'Leandrocfe\\FilamentApexCharts\\Facades\\FilamentApexCharts',
-                ),
-            'providers' =>
-                array(
-                    0 => 'Leandrocfe\\FilamentApexCharts\\FilamentApexChartsServiceProvider',
-                ),
-        ),
-    'livewire/livewire' =>
+  'leandrocfe/filament-apex-charts' => 
   array (
-      'aliases' =>
-          array(
-              'Livewire' => 'Livewire\\Livewire',
-          ),
-      'providers' =>
+    'aliases' => 
+    array (
+      'FilamentApexCharts' => 'Leandrocfe\\FilamentApexCharts\\Facades\\FilamentApexCharts',
+    ),
+    'providers' => 
+    array (
+      0 => 'Leandrocfe\\FilamentApexCharts\\FilamentApexChartsServiceProvider',
+    ),
+  ),
+  'livewire/livewire' => 
+  array (
+    'aliases' => 
+    array (
+      'Livewire' => 'Livewire\\Livewire',
+    ),
+    'providers' => 
     array (
       0 => 'Livewire\\LivewireServiceProvider',
     ),
   ),
-    'nesbot/carbon' =>
+  'nesbot/carbon' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
-    'nunomaduro/collision' =>
+  'nunomaduro/collision' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     ),
   ),
-    'nunomaduro/termwind' =>
+  'nunomaduro/termwind' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
-    'phpsa/filament-password-reveal' =>
-        array(
-            'providers' =>
-                array(
-                    0 => 'Phpsa\\FilamentPasswordReveal\\FilamentPasswordRevealProvider',
-                ),
-        ),
-    'ryangjchandler/blade-capture-directive' =>
+  'phpsa/filament-password-reveal' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
-      0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
+      0 => 'Phpsa\\FilamentPasswordReveal\\FilamentPasswordRevealProvider',
     ),
-      'aliases' =>
+  ),
+  'ryangjchandler/blade-capture-directive' => 
+  array (
+    'aliases' => 
     array (
       'BladeCaptureDirective' => 'RyanChandler\\BladeCaptureDirective\\Facades\\BladeCaptureDirective',
     ),
+    'providers' => 
+    array (
+      0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
+    ),
   ),
-    'saade/filament-fullcalendar' =>
+  'saade/filament-fullcalendar' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Saade\\FilamentFullCalendar\\FilamentFullCalendarServiceProvider',
     ),
   ),
-    'sentry/sentry-laravel' =>
-        array(
-            'aliases' =>
-                array(
-                    'Sentry' => 'Sentry\\Laravel\\Facade',
-                ),
-            'providers' =>
-                array(
-                    0 => 'Sentry\\Laravel\\ServiceProvider',
-                    1 => 'Sentry\\Laravel\\Tracing\\ServiceProvider',
-                ),
-        ),
-    'spatie/laravel-backup' =>
+  'sentry/sentry-laravel' => 
   array (
-      'providers' =>
+    'aliases' => 
+    array (
+      'Sentry' => 'Sentry\\Laravel\\Facade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Sentry\\Laravel\\ServiceProvider',
+      1 => 'Sentry\\Laravel\\Tracing\\ServiceProvider',
+    ),
+  ),
+  'spatie/laravel-backup' => 
+  array (
+    'providers' => 
     array (
       0 => 'Spatie\\Backup\\BackupServiceProvider',
     ),
   ),
-    'spatie/laravel-ignition' =>
+  'spatie/laravel-ignition' => 
   array (
-      'aliases' =>
+    'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
     ),
-      'providers' =>
-          array(
-              0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-          ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+    ),
   ),
-    'spatie/laravel-permission' =>
-        array(
-            'providers' =>
-                array(
-                    0 => 'Spatie\\Permission\\PermissionServiceProvider',
-                ),
-        ),
-    'spatie/laravel-settings' =>
-        array(
-            'providers' =>
-                array(
-                    0 => 'Spatie\\LaravelSettings\\LaravelSettingsServiceProvider',
-                ),
-        ),
-    'spatie/laravel-signal-aware-command' =>
+  'spatie/laravel-permission' => 
   array (
-      'aliases' =>
+    'providers' => 
+    array (
+      0 => 'Spatie\\Permission\\PermissionServiceProvider',
+    ),
+  ),
+  'spatie/laravel-settings' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelSettings\\LaravelSettingsServiceProvider',
+    ),
+  ),
+  'spatie/laravel-signal-aware-command' => 
+  array (
+    'aliases' => 
     array (
       'Signal' => 'Spatie\\SignalAwareCommand\\Facades\\Signal',
     ),
-      'providers' =>
-          array(
-              0 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-          ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
+    ),
   ),
-    'spatie/laravel-web-tinker' =>
+  'spatie/laravel-web-tinker' => 
   array (
-      'providers' =>
+    'providers' => 
     array (
       0 => 'Spatie\\WebTinker\\WebTinkerServiceProvider',
     ),
