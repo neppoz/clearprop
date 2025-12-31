@@ -48,6 +48,26 @@ class StatisticsService
             ->select(['id', 'minutes', 'status']);
     }
 
+    public function getInstructorActivityStatistics(User $user, int $months = 6): array
+    {
+        $startDate = Carbon::now()->subMonthsNoOverflow($months)->startOfMonth();
+
+        $getActivityData = Activity::withoutGlobalScopes()
+            ->where('status', ActivityStatus::Approved)
+            ->where('event', '>=', $startDate)
+            ->where('instructor_id', $user->id)
+            ->select(['id', 'minutes', 'status'])
+            ->get();
+
+        return [
+            'id' => 'instructor',
+            'name' => trans('cruds.dashboard.statistics.personal'),
+            'sum' => $getActivityData->sum('minutes') ?? 0,
+            'avg' => $getActivityData->avg('minutes') ?? 0,
+            'count' => $getActivityData->count() ?? 0,
+        ];
+    }
+
     public function getPaymentsAndCostsOverview(?string $startDate = null, ?string $endDate = null): array
     {
         $queryDeposits = Income::ofDefaultDepositCategory();
@@ -150,6 +170,53 @@ class StatisticsService
         return [
             'series' => $series,
             'categories' => $allMonths->values(),
+        ];
+    }
+
+    public function getInstructorMonthlyActivityHours(User $user, int $months): array
+    {
+        $startDate = Carbon::now()->subMonthsNoOverflow($months)->startOfMonth();
+
+        $allMonths = collect(range(0, $months - 1))->map(function ($i) {
+            return Carbon::now()->subMonthsNoOverflow($i)->format('m');
+        })->reverse()->values();
+
+        $personalMinutesByMonth = Activity::withoutGlobalScopes()
+            ->selectRaw('DATE_FORMAT(event, "%m") as month, SUM(minutes) as total_minutes')
+            ->where('status', ActivityStatus::Approved)
+            ->where('event', '>=', $startDate)
+            ->where('user_id', $user->id)
+            ->groupBy('month')
+            ->pluck('total_minutes', 'month');
+
+        $instructorMinutesByMonth = Activity::withoutGlobalScopes()
+            ->selectRaw('DATE_FORMAT(event, "%m") as month, SUM(minutes) as total_minutes')
+            ->where('status', ActivityStatus::Approved)
+            ->where('event', '>=', $startDate)
+            ->where('instructor_id', $user->id)
+            ->groupBy('month')
+            ->pluck('total_minutes', 'month');
+
+        $personalHours = [];
+        $instructorHours = [];
+
+        foreach ($allMonths as $month) {
+            $personalHours[] = round(($personalMinutesByMonth[$month] ?? 0) / 60, 0);
+            $instructorHours[] = round(($instructorMinutesByMonth[$month] ?? 0) / 60, 0);
+        }
+
+        return [
+            'series' => [
+                [
+                    'name' => __('activities.stats.personal_hours'),
+                    'data' => $personalHours,
+                ],
+                [
+                    'name' => __('activities.stats.instructor_hours'),
+                    'data' => $instructorHours,
+                ],
+            ],
+            'categories' => $allMonths,
         ];
     }
 

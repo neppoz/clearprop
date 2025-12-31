@@ -16,14 +16,20 @@ class ActivityOverview extends BaseWidget
     protected function getStats(): array
     {
         $collectionActivityStatistics = new \Illuminate\Support\Collection();
-        if (\Auth::user()->is_admin) {
-            $getGlobalActivityStatistics = (new StatisticsService())->getGlobalActivityStatistics();
-            $collectionActivityStatistics->push($getGlobalActivityStatistics);
-        }
+        $user = \Auth::user();
+        $statisticsService = new StatisticsService();
+        $personalStats = null;
+        $instructorStats = null;
 
-        if (\Auth::user()->is_member || \Auth::user()->is_instructor) {
-            $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
-            $collectionActivityStatistics->push($getPersonalActivityStatistics);
+        if ($user->is_admin) {
+            $collectionActivityStatistics->push($statisticsService->getGlobalActivityStatistics());
+        } elseif ($user->is_instructor) {
+            $personalStats = $statisticsService->getPersonalActivityStatistics();
+            $instructorStats = $statisticsService->getInstructorActivityStatistics($user);
+            $collectionActivityStatistics->push($personalStats);
+            $collectionActivityStatistics->push($instructorStats);
+        } elseif ($user->is_member) {
+            $collectionActivityStatistics->push($statisticsService->getPersonalActivityStatistics());
         }
 
         $totalAirTime = 'inop';
@@ -42,16 +48,43 @@ class ActivityOverview extends BaseWidget
             }
         }
 
+        $totalDescription = $avgDurationPerMission . ' ' . __('panel.avgDuration');
+        $missionsDescription = null;
+
+        if ($user->is_instructor && $personalStats && $instructorStats) {
+            $personalHours = $this->formatMinutes((int) ($personalStats['sum'] ?? 0));
+            $instructorHours = $this->formatMinutes((int) ($instructorStats['sum'] ?? 0));
+            $totalMinutes = (int) ($personalStats['sum'] ?? 0) + (int) ($instructorStats['sum'] ?? 0);
+            $totalCount = (int) ($personalStats['count'] ?? 0) + (int) ($instructorStats['count'] ?? 0);
+
+            $totalAirTime = $this->formatMinutes($totalMinutes);
+            $loggedMissions = $totalCount > 0 ? $totalCount : 'inop';
+            $avgDurationPerMission = $totalCount > 0
+                ? $this->formatMinutes((int) round($totalMinutes / $totalCount))
+                : 'inop';
+
+            $totalDescription = __('activities.stats.personal_hours') . ': ' . $personalHours
+                . ' · ' . __('activities.stats.instructor_hours') . ': ' . $instructorHours;
+            $missionsDescription = __('activities.stats.personal_hours') . ': ' . ($personalStats['count'] ?? 0)
+                . ' · ' . __('activities.stats.instructor_hours') . ': ' . ($instructorStats['count'] ?? 0);
+        }
+
         return [
             Stat::make(__('panel.totalAirtime'), $totalAirTime)
-                ->description($avgDurationPerMission . ' ' . __('panel.avgDuration'))
+                ->description($totalDescription)
                 ->color('success'),
-            Stat::make(trans('panel.loggedMissions'), $loggedMissions),
+            Stat::make(trans('panel.loggedMissions'), $loggedMissions)
+                ->description($missionsDescription),
         ];
     }
 
     protected function getColumns(): int
     {
         return 2;
+    }
+
+    protected function formatMinutes(int $minutes): string
+    {
+        return sprintf('%02d', intval($minutes / 60)) . 'h : ' . sprintf('%02d', $minutes % 60) . 'm';
     }
 }

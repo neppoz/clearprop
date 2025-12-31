@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ActivityResource\Widgets;
 
 use App\Services\StatisticsService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
 class ActivitiesAircraftChart extends ApexChartWidget
@@ -31,7 +32,15 @@ class ActivitiesAircraftChart extends ApexChartWidget
      */
     protected function getOptions(): array
     {
-        $statistics = (new StatisticsService())->getActivitiesByAircraft(6);
+        $user = Auth::user();
+        $stacked = false;
+
+        if ($user && $user->is_instructor && !$user->is_admin && !$user->is_manager) {
+            $statistics = (new StatisticsService())->getInstructorMonthlyActivityHours($user, 6);
+            $stacked = true;
+        } else {
+            $statistics = (new StatisticsService())->getActivitiesByAircraft(6);
+        }
 
         $categories = collect($statistics['categories'])->map(function ($monthNumber) {
             return Carbon::createFromDate(
@@ -68,7 +77,7 @@ class ActivitiesAircraftChart extends ApexChartWidget
                 'type' => 'bar',
                 'height' => 240,
                 'parentHeightOffset' => 2,
-                'stacked' => false,
+                'stacked' => $stacked,
                 'toolbar' => [
                     'show' => false,
                 ],

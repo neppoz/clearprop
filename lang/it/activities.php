@@ -44,4 +44,8 @@ return [
         'event_from_indicator' => 'Evento dal :date',
         'event_until_indicator' => 'Evento fino al :date',
     ],
+    'stats' => [
+        'personal_hours' => 'Ore personali',
+        'instructor_hours' => 'Ore da istruttore',
+    ],
 ];
