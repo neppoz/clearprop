@@ -21,7 +21,7 @@ class ActivityOverview extends BaseWidget
             $collectionActivityStatistics->push($getGlobalActivityStatistics);
         }
 
-        if (\Auth::user()->is_member) {
+        if (\Auth::user()->is_member || \Auth::user()->is_instructor) {
             $getPersonalActivityStatistics = (new StatisticsService())->getPersonalActivityStatistics();
             $collectionActivityStatistics->push($getPersonalActivityStatistics);
         }
@@ -37,7 +37,7 @@ class ActivityOverview extends BaseWidget
             if (!empty($activityStatistics['count'])) {
                 $loggedMissions = $activityStatistics['count'];
             }
-            if (!empty($avgDurationPerMission)) {
+            if (!empty($activityStatistics['avg'])) {
                 $avgDurationPerMission = sprintf("%02d", intval($activityStatistics['avg'] / 60)) . 'h : ' . sprintf("%02d", intval($activityStatistics['avg']) % 60) . 'm';
             }
         }

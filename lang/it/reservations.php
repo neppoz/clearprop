@@ -5,6 +5,7 @@ return [
         'singular' => 'Prenotazione',
         'plural' => 'Prenotazioni',
     ],
+    'new' => 'Nuova',
     'aircraft' => 'Aeromobile',
     'date_and_time' => 'Data e ora',
     'date' => 'Date',

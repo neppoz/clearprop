@@ -24,6 +24,16 @@ class ReservationPolicy
             return true;
         }
 
+        if ($user->is_instructor) {
+            $settings = app(GeneralSettings::class);
+
+            if ($settings->check_medical && !ReservationValidator::validateMedical($user)) {
+                return false;
+            }
+
+            return true;
+        }
+
         if ($user->is_member) {
             $settings = app(GeneralSettings::class);
 
@@ -70,7 +80,7 @@ class ReservationPolicy
      */
     public function update(User $user, Reservation $reservation): bool
     {
-        if ($user->is_admin) {
+        if ($user->is_admin || $user->is_manager) {
             return true;
         }
 
