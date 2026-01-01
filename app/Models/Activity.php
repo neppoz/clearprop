@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use App\Enums\ActivityStatus;
+use App\Observers\ActivityObserver;
 use App\Scopes\RolesScope;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
+#[ObservedBy([ActivityObserver::class])]
 class Activity extends Model
 {
     use HasFactory, SoftDeletes;

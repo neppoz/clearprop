@@ -3,9 +3,9 @@
 
 namespace App\Services;
 
-use App\Activity;
-use App\Asset;
-use Carbon\Carbon;
+use App\Enums\AssetStatus;
+use App\Models\Activity;
+use App\Models\Asset;
 use Throwable;
 
 class AssetsService
@@ -13,16 +13,19 @@ class AssetsService
     public function calculateAssetsRunningHours($plane_id): void
     {
         try {
-            $activeAssetsByPlane = Asset::where('plane_id', $plane_id)->where('status_id', 1)->get();
+            $activeAssetsByPlane = Asset::where('plane_id', $plane_id)->where('status', AssetStatus::Active)->get();
 
             foreach ($activeAssetsByPlane as $asset) {
+                if (!$asset->start_date || !$asset->end_date) {
+                    continue;
+                }
+
                 $runningHoursByAsset = Activity::where('plane_id', $asset->plane_id)
                     ->whereBetween('event', [
-                        Carbon::createFromFormat(config('panel.date_format'), $asset->start_date)->format('Y-m-d'),
-                        Carbon::createFromFormat(config('panel.date_format'), $asset->end_date)->format('Y-m-d')
+                        $asset->start_date->format('Y-m-d'),
+                        $asset->end_date->format('Y-m-d')
                     ])->sum('minutes');
                 $asset->current_running_hours = round(($runningHoursByAsset / 60));
-                //debug('Asset ID: ' . $asset->id . ' RunningHH: ' . $asset->current_running_hours);
                 $asset->save();
             }
 

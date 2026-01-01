@@ -31,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('viewPayments', [\App\Policies\NavigationPolicy::class, 'viewPayments']);
         Gate::define('viewUsers', [\App\Policies\NavigationPolicy::class, 'viewUsers']);
         Gate::define('viewAircrafts', [\App\Policies\NavigationPolicy::class, 'viewAircrafts']);
+        Gate::define('viewAssets', [\App\Policies\NavigationPolicy::class, 'viewAssets']);
         Gate::define('viewPackages', [\App\Policies\NavigationPolicy::class, 'viewPackages']);
         Gate::define('viewSettings', [\App\Policies\NavigationPolicy::class, 'viewSettings']);
         Gate::define('viewReports', [\App\Policies\NavigationPolicy::class, 'viewReports']);

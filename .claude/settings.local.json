@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(git -C /Users/neppoz/Herd/active/clearprop log --oneline asset_mgmt --all)",
+      "Bash(git -C /Users/neppoz/Herd/active/clearprop show --name-status HEAD)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "laravel-boost",
+    "herd"
+  ]
+}

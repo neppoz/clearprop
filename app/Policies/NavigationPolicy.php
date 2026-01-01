@@ -31,6 +31,11 @@ class NavigationPolicy
         return $user->is_admin;
     }
 
+    public function viewAssets(User $user): bool
+    {
+        return $user->is_admin;
+    }
+
     public function viewPackages(User $user): bool
     {
         return $user->is_admin;
