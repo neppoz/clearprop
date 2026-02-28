@@ -24,7 +24,8 @@ class UserInfo extends Widget
 
     public static function canView(): bool
     {
-        return Auth::check() && Auth::user()->is_member;
+        $user = Auth::user();
+        return Auth::check() && ($user->is_member || $user->is_instructor || $user->is_mechanic);
     }
 
     public function mount(): void
