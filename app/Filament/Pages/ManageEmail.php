@@ -178,6 +178,7 @@ class ManageEmail extends SettingsPage
 
         $settings->smtp_host = $data['smtp_host'];
         $port = (int)$data['smtp_port'];
+        $settings->smtp_port = $port;
         $encryption = match ($port) {
             465 => 'ssl',
             587, 2525 => 'tls',
