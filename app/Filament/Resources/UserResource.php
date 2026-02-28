@@ -157,6 +157,9 @@ class UserResource extends Resource
                                     ->reactive()
                                     ->dehydrateStateUsing(fn($state) => $state ? now() : null)
                                     ->afterStateUpdated(function ($state, $record) {
+                                        if ($record === null) {
+                                            return;
+                                        }
                                         $record->email_verified_at = $state ? now() : null;
                                         $record->save();
                                     }),
