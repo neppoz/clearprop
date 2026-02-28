@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+uses(DatabaseTransactions::class);
+
 use App\Filament\Pages\ManageEmail;
 use App\Models\User;
 use App\Settings\EmailSettings;
