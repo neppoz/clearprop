@@ -26,6 +26,18 @@ class EmailSettingsServiceProvider extends ServiceProvider
                 Config::set('mail.mailers.smtp.password', isset($settings->smtp_password) ? decrypt($settings->smtp_password) : Config::get('mail.mailers.smtp.password'));
                 Config::set('mail.from.address', $settings->from_address ?? Config::get('mail.from.address'));
                 Config::set('mail.from.name', $settings->from_name ?? Config::get('mail.from.name'));
+
+                if ($settings->smtp_encryption === 'ssl' || $settings->allow_self_signed) {
+                    Config::set('mail.mailers.smtp.stream', [
+                        'ssl' => [
+                            'allow_self_signed' => true,
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                        ],
+                    ]);
+                } else {
+                    Config::set('mail.mailers.smtp.stream', null);
+                }
             } catch (\Exception $e) {
                 \Log::error('Failed to load email settings from database: ' . $e->getMessage());
             }
