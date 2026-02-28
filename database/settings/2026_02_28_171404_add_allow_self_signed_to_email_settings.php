@@ -5,6 +5,6 @@ use Spatie\LaravelSettings\Migrations\SettingsMigration;
 return new class extends SettingsMigration {
     public function up(): void
     {
-        $this->migrator->add('email.allow_self_signed', false);
+        $this->migrator->addIfMissing('email.allow_self_signed', false);
     }
 };
