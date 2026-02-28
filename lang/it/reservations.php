@@ -35,5 +35,7 @@ return [
         'airworthiness_expired_body' => 'Seleziona un altro aeromobile o contatta l\'amministratore.',
         'overlap_title' => 'Prenotazione sovrapposta per :callsign',
         'overlap_body' => 'Seleziona un periodo differente o contatta l\'amministratore.',
+        'balance_exceeded_title' => 'Saldo insufficiente',
+        'balance_exceeded_body' => 'Il saldo del tuo account è troppo basso per effettuare questa prenotazione. Contatta l\'amministratore.',
     ],
 ];

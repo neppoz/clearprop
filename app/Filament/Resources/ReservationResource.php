@@ -134,8 +134,8 @@ class ReservationResource extends Resource
                         ->searchable()
                         ->preload()
                         ->native(true)
-                        ->default(fn() => Auth::user()->is_member ? Auth::id() : null)
-                        ->disabled(fn(): bool => Auth::user()->is_member)
+                        ->default(fn() => (Auth::user()->is_member || Auth::user()->is_mechanic) ? Auth::id() : null)
+                        ->disabled(fn(): bool => Auth::user()->is_member || Auth::user()->is_mechanic)
                         ->saveRelationshipsWhenDisabled(true)
                         ->relationship(name: 'bookingUsers', titleAttribute: 'name')
                         ->required(fn(Get $get): bool => $get('mode_id') != Reservation::IS_MAINTENANCE),
@@ -155,7 +155,7 @@ class ReservationResource extends Resource
                             Reservation::IS_MAINTENANCE => 'Maintenance'
                         ])
                         ->default(Reservation::IS_CHARTER)
-                        ->disableOptionWhen(fn(string $value): bool => Auth::user()->is_member)
+                        ->disableOptionWhen(fn(string $value): bool => Auth::user()->is_member || (Auth::user()->is_mechanic && (int) $value === Reservation::IS_SCHOOL))
                         ->inline()
                         ->label(__('reservations.select_type'))
                         ->reactive()
@@ -313,6 +313,56 @@ class ReservationResource extends Resource
                 return false;
             }
 
+        }
+
+        // Checks for mechanics
+        if ($user->is_mechanic) {
+            $isMaintenance = (int) $data['mode_id'] === Reservation::IS_MAINTENANCE;
+
+            if (!$isMaintenance) {
+                // Balance check — same as member for non-maintenance reservations
+                if ($settings->check_balance && !(new ReservationValidator())->validateBalance($user)) {
+                    Notification::make()
+                        ->title(__('reservations.notifications.balance_exceeded_title'))
+                        ->body(__('reservations.notifications.balance_exceeded_body'))
+                        ->danger()
+                        ->send();
+
+                    return false;
+                }
+
+                // Airworthiness check — same as member for non-maintenance reservations
+                if ($settings->check_activities) {
+                    $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
+
+                    if (!$airWorthiness) {
+                        Notification::make()
+                            ->title(__('reservations.notifications.airworthiness_expired_title', [
+                                'callsign' => $selectedAircraft->callsign,
+                            ]))
+                            ->body(__('reservations.notifications.airworthiness_expired_body'))
+                            ->danger()
+                            ->send();
+
+                        return false;
+                    }
+                }
+            }
+
+            // Overlap check always applies for mechanics
+            $overlapExists = (new ReservationValidator())->validateOverlappingReservation($selectedAircraft, $reservationStartTime, $reservationStopTime, $bookingId);
+
+            if ($overlapExists) {
+                Notification::make()
+                    ->title(__('reservations.notifications.overlap_title', [
+                        'callsign' => $selectedAircraft->callsign,
+                    ]))
+                    ->body(__('reservations.notifications.overlap_body'))
+                    ->danger()
+                    ->send();
+
+                return false;
+            }
         }
 
         return true;

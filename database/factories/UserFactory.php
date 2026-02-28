@@ -63,4 +63,14 @@ class UserFactory extends Factory
             $user->assignRole(User::IS_MEMBER); // Assign the Member role
         });
     }
+
+    /**
+     * State for creating a Mechanic user.
+     */
+    public function mechanic(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(User::IS_MECHANIC);
+        });
+    }
 }

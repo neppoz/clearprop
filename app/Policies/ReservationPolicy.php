@@ -24,7 +24,7 @@ class ReservationPolicy
             return true;
         }
 
-        if ($user->is_instructor) {
+        if ($user->is_instructor || $user->is_mechanic) {
             $settings = app(GeneralSettings::class);
 
             if ($settings->check_medical && !ReservationValidator::validateMedical($user)) {
@@ -85,7 +85,7 @@ class ReservationPolicy
         }
 
         // Check if the user is associated with the reservation
-        if ($user->is_member) {
+        if ($user->is_member || $user->is_mechanic) {
             return $this->isUserAssociatedWithReservation($user, $reservation, 'bookingUsers');
         }
 

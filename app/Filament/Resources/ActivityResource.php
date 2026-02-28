@@ -75,8 +75,8 @@ class ActivityResource extends Resource
                         ->preload()
                         ->native(true)
                         ->reactive()
-                        ->default(fn() => Auth::user()->is_member ? Auth::id() : null)
-                        ->disabled(fn(): bool => Auth::user()->is_member)
+                        ->default(fn() => (Auth::user()->is_member || Auth::user()->is_mechanic) ? Auth::id() : null)
+                        ->disabled(fn(): bool => Auth::user()->is_member || Auth::user()->is_mechanic)
                         ->saveRelationshipsWhenDisabled(true)
                         ->relationship(name: 'user', titleAttribute: 'name')
                         ->required(),
@@ -216,7 +216,7 @@ class ActivityResource extends Resource
                                     ActivityStatus::Approved->value => 'Approved'
                                 ])
                                 ->default(ActivityStatus::New->value)
-                                ->disableOptionWhen(fn(string $value): bool => Auth::user()->is_member)
+                                ->disableOptionWhen(fn(string $value): bool => Auth::user()->is_member || Auth::user()->is_mechanic)
                                 ->required(),
                         ])
                 ])

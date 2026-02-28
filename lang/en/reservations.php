@@ -34,5 +34,7 @@ return [
         'airworthiness_expired_body' => 'Please select a different aircraft or contact administrator.',
         'overlap_title' => 'Overlapping reservation for :callsign',
         'overlap_body' => 'Please select a different period or contact administrator.',
+        'balance_exceeded_title' => 'Insufficient balance',
+        'balance_exceeded_body' => 'Your account balance is too low to make this reservation. Please contact administrator.',
     ],
 ];

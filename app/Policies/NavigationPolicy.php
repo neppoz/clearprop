@@ -8,17 +8,17 @@ class NavigationPolicy
 {
     public function viewReservations(User $user): bool
     {
-        return $user->is_admin || $user->is_member || $user->is_instructor;
+        return $user->is_admin || $user->is_member || $user->is_instructor || $user->is_mechanic;
     }
 
     public function viewActivities(User $user): bool
     {
-        return $user->is_admin || $user->is_member || $user->is_instructor;
+        return $user->is_admin || $user->is_member || $user->is_instructor || $user->is_mechanic;
     }
 
     public function viewPayments(User $user): bool
     {
-        return $user->is_admin || $user->is_member || $user->is_instructor;
+        return $user->is_admin || $user->is_member || $user->is_instructor || $user->is_mechanic;
     }
 
     public function viewUsers(User $user): bool
