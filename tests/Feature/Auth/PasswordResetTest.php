@@ -27,6 +27,7 @@ it('generates a reset URL pointing to the filament panel route', function () {
     Notification::assertSentTo($user, ResetPassword::class, function (ResetPassword $notification) use ($user) {
         $url = $notification->toMail($user)->actionUrl;
 
-        return str_contains($url, '/panel/password-reset/reset');
+        return str_contains($url, '/panel/password-reset/reset')
+            && str_contains($url, 'signature=');
     });
 });
