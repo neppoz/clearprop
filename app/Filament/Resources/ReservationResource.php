@@ -282,18 +282,22 @@ class ReservationResource extends Resource
 
             if ($settings->check_activities) {
 
-                $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
+                $hasInstructor = !empty($data['instructor_id']);
 
-                if (!$airWorthiness) {
-                    Notification::make()
-                        ->title(__('reservations.notifications.airworthiness_expired_title', [
-                            'callsign' => $selectedAircraft->callsign,
-                        ]))
-                        ->body(__('reservations.notifications.airworthiness_expired_body'))
-                        ->danger()
-                        ->send();
+                if (!$hasInstructor) {
+                    $airWorthiness = (new ReservationValidator())->validateAirworthiness($reservationStartDate, $selectedAircraft, $user);
 
-                    return false;
+                    if (!$airWorthiness) {
+                        Notification::make()
+                            ->title(__('reservations.notifications.airworthiness_expired_title', [
+                                'callsign' => $selectedAircraft->callsign,
+                            ]))
+                            ->body(__('reservations.notifications.airworthiness_expired_body'))
+                            ->danger()
+                            ->send();
+
+                        return false;
+                    }
                 }
 
             }
