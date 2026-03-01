@@ -61,7 +61,6 @@ class AppPanelProvider extends PanelProvider
                     ->selectable(false)
                     ->editable(false)
                     ->timezone(config('app.timezone'))
-                    ->locale(app()->getLocale())
                     ->plugins(['resourceTimeline', 'timeline'], true),
                 FilamentApexChartsPlugin::make()
             ])
