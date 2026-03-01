@@ -20,4 +20,6 @@ return [
     'totalHoursByMonth' => 'Totale ore per mese',
     'latest_reservations' => 'Prenotazioni recenti',
     'new_reservation_action' => 'Nuova prenotazione',
+    'calendar_button_day' => 'Giorno',
+    'calendar_button_month' => 'Mese',
 ];

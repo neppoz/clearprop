@@ -35,7 +35,7 @@ class BookingsCalendar extends FullCalendarWidget
             'views' => [
                 'resourceTimelineDay' => [
                     'type' => 'resourceTimeline',
-                    'buttonText' => 'day',
+                    'buttonText' => __('panel.calendar_button_day'),
                     'slotDuration' => '02:00', // Slots of 1 hour
                 ],
                 'resourceTimelineTenDay' => [
@@ -47,7 +47,7 @@ class BookingsCalendar extends FullCalendarWidget
                 'resourceTimelineMonth' => [
                     'type' => 'resourceTimeline',
                     'duration' => ['days' => 30], // 30-day duration
-                    'buttonText' => 'Month',
+                    'buttonText' => __('panel.calendar_button_month'),
                     'slotDuration' => '12:00', // Slots of 4 hours
                 ],
             ],

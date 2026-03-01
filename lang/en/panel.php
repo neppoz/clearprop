@@ -20,4 +20,6 @@ return [
     'totalHoursByMonth' => 'Total Hours by Month',
     'latest_reservations' => 'Latest Reservations',
     'new_reservation_action' => 'New Reservation',
+    'calendar_button_day' => 'Day',
+    'calendar_button_month' => 'Month',
 ];
