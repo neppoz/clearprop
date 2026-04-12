@@ -24,3 +24,5 @@ yarn-error.log
 /.DS_Store
 /bootstrap/cache
 herd.yml
+.claude/settings.local.json
+.claude/worktrees/
